@@ -1,0 +1,40 @@
+.container-menu {
+    margin-top: 0px;
+    width: 200px;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    background-color: #11930a;
+}
+.menu {
+    margin-top: 0;
+    list-style: none;
+    padding: 20px;
+    font-size: 16px;
+    color: white;
+    /*border: 2px solid black;*/
+  }
+.menu ul {
+  width: 200px;
+}
+  .menu li {
+    padding: 22px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-top: none; /* Borde superior */
+    border-bottom: 1px solid #ccc; /* Borde inferior */
+    border-left: none; /* Elimina el borde izquierdo */
+    border-right: none; /* Elimina el borde derecho */
+  }
+  
+  .menu li:hover {
+    background-color: #0b7a05; /* Azul al pasar el mouse */
+    color: white;
+  }
+  
+  .menu li.active {
+    background-color: #145A32; /* Verde para la opción activa */
+    color: white;
+    font-weight: bold;
+  }
+  
