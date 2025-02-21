@@ -6,7 +6,7 @@ body{
 .main-container {
     display: grid;
     grid-template-areas: 'app-header  app-header' 
-                         'app-menu    app-interactive-screen';
+                         'app-menu    dinamic-contain';
     height: 100vh; /* Ocupa toda la altura de la ventana */
     grid-template-rows: 80px 1fr; /* 80px para el header, 1fr para el resto */
     grid-template-columns: auto 1fr; /* Ancho automático para el menú, 1fr para el interactive-screen */
