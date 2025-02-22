@@ -1,0 +1,18 @@
+<div class="wrapper">
+    <div class = "body">
+        <form (formGroup)="loginForm">
+          <h1>Crecex</h1>
+            <img class= 'logo' src="logo.jpg" alt="Logo">
+            <h1>Iniciar Sesión</h1>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" placeholder="Administrador" formControlName="email">
+              </div>
+              <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña"formControlName="password">
+              </div>
+              <div class="d-grid gap-2">
+                <button type="button" (click)="redirectToHome()" >IniciarSesion</button>
+              </div>
+        </form>
+    </div>
+</div>
