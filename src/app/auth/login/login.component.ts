@@ -18,6 +18,6 @@ export class LoginComponent {
   }
 
   redirectToHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/app/home']);
   }
 }

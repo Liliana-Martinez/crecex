@@ -1,28 +1,101 @@
-<form>
-    <h4>Datos personales del cliente</h4>
-    <label>Nombre</label>
-    <input type="text" id="name" name="name" required>
-    <label>Apellido paterno</label>
-    <input type="text" id="paternalLn" name="paternalLn" required> <!--paternalLn=paternalLastName -->
-    <label>Apellido materno</label>
-    <input type="text" id="maternalLn" name="maternalLn" required> <!--maternalLn=maternalLastName -->
-    <label>Edad</label>
-    <input type="number" id="age" name="age" min="18" max="60" required>
-    <label>Domicilio</label>
-    <input type="text" id="adress" name="adress" required>
-    <label>Colonia</label>
-    <input type="text" id="colonia" name="colonia" required>
-    <label>Ciudad</label>
-    <input type="text" id="city" name="city" required>
-    <label>Telefóno</label>
-    <input type="tel" id="phone" name="phone" required>
-    <label>Clasificación</label>
-    <input type="text" id="group" name="group" required> <!--group=grupo de clasificacion-->
-    <h4>Garantias</h4>
-    <label>Garantia 1</label>
-    <input type="text" id="garantiaUno" name="garantiaUno" required>
-    <label>Garantia 2</label>
-    <input type="text" id="garantiaDos" name="garantiaDos" required>
-    <label>Garantia 3</label>
-    <input type="text" id="garantiaTres" name="garantiaTres" required>
-</form>
+<div class="container-form">
+    <form>
+        <h4>Datos personales del cliente</h4>
+            <div class="row">
+                <div class="data">
+                    <label>Nombre</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="data">
+                    <label>Apellido paterno</label>
+                    <input type="text" id="paternalLn" name="paternalLn" required> <!--paternalLn=paternalLastName -->
+                </div>
+                <div class="data">
+                    <label>Apellido materno</label>
+                    <input type="text" id="maternalLn" name="maternalLn" required> <!--maternalLn=maternalLastName -->
+                </div>  
+            </div>
+            <div class="row">
+                <div class="data">
+                    <label>Edad</label>
+                    <input type="number" id="age" name="age" min="18" max="60" required>
+                </div>
+                <div class="data">
+                    <label>Domicilio</label>
+                    <input type="text" id="adress" name="adress" required>
+                </div>
+                <div class="data">
+                    <label>Colonia</label>
+                    <input type="text" id="colonia" name="colonia" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="data">
+                    <label>Ciudad</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="data">
+                    <label>Telefóno</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="data">
+                    <label>Clasificación</label>
+                    <input type="text" id="group" name="group" required> <!--group=grupo de clasificacion-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="data">
+                    <label>Zona</label>
+                    <input type="text" id="zone" name="zone" required>
+                </div>
+            </div> 
+        <h4>Datos del trabajo del cliente</h4>
+        <div class="row">
+            <div class="data">
+                <label>Nombre</label>
+                <input type="text" id="nameJob" name="nameJob" required>
+            </div>
+            <div class="data">
+                <label>Domicilio</label>
+                <input type="text" id="adressjob" name="adressjob" required>
+            </div>
+            <div class="data">
+                <label>Telefóno</label>
+                <input type="tel" id="phoneJob" name="phoneJob" required>
+            </div>
+        </div>
+        
+        <h4>Referencia del cliente</h4>
+        <div class="row">
+            <div class="data">
+                <label>Nombre completo</label>
+                <input type="text" id="nameReference" name="nameReference" required>
+            </div>
+            <div class="data">
+                <label>Domicilio</label>
+                <input type="text" id="adressReference" name="adressReference" required>
+            </div>
+            <div class="data">
+                <label>Telefóno</label>
+                <input type="tel" id="phoneReference" name="phoneReference" required>
+            </div>
+        </div>
+        
+        <h4>Garantias</h4>
+        <div class="row">
+            <div class="data">
+                <label>Garantia 1</label>
+                <input type="text" id="garantiaUno" name="garantiaUno" required>
+            </div>
+            <div class="data">
+                <label>Garantia 2</label>
+                <input type="text" id="garantiaDos" name="garantiaDos" required>
+            </div>
+            <div class="data">
+                <label>Garantia 3</label>
+                <input type="text" id="garantiaTres" name="garantiaTres" required>
+            </div>        
+        </div>  
+    </form>
+</div>
+

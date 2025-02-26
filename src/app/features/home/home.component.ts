@@ -4,10 +4,11 @@ import { HeaderComponent } from '../../shared/componentes/header/header.componen
 import { MenuComponent } from '../../shared/componentes/menu/menu.component';
 
 
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, MenuComponent],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
