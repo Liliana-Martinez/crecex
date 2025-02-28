@@ -3,7 +3,6 @@ import { HomeComponent } from './features/home/home.component';
 import { LoginComponent } from './auth/login/login.component';
 import { InteractiveScreenComponent } from './shared/componentes/interactive-screen/interactive-screen.component';
 import { ClientsGuarantorsComponent } from './features/clients-guarantors/clients-guarantors.component';
-
 import { ConsultComponent } from './features/clients-guarantors/pages/consult/consult.component';
 import { ModifyComponent } from './features/clients-guarantors/pages/modify/modify.component';
 import { AddComponent } from './features/clients-guarantors/pages/add/add.component';

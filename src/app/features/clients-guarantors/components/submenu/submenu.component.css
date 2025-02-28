@@ -21,7 +21,7 @@
 }
 
 .submenu li:hover {
-    background-color: #0e5ea0da; /* Cambia el color de fondo al pasar el mouse */
+    background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
     color: rgb(255, 255, 255);
 }
 
@@ -31,7 +31,7 @@
 }
 
 .submenu li a.active {
-    background-color: #0803aeda; 
+    background-color: #0056b3; 
     color: white;
     font-weight: bold;
     text-decoration: none;

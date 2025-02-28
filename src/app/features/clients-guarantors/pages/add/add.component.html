@@ -3,6 +3,7 @@
     <option value="client">Datos del cliente</option>
     <option value="guarantorp">Datos del aval principal</option>
     <option value="guarantors">Datos del aval secundario</option>
+<<<<<<< HEAD
 </select>  
 
 
@@ -10,3 +11,10 @@
     <app-guarantor-form *ngIf="selectedForm === 'guarantorp'"></app-guarantor-form>
     <app-guarantor-form *ngIf="selectedForm === 'guarantors'"></app-guarantor-form>
 
+=======
+</select>
+<app-client-form *ngIf="selectedForm === 'client'"></app-client-form>
+<app-guarantor-form *ngIf="selectedForm === 'guarantorp'"></app-guarantor-form>
+<app-guarantor-form *ngIf="selectedForm === 'guarantors'"></app-guarantor-form>
+<app-save-button></app-save-button>
+>>>>>>> 0938181 (Actualizacion en consultar cliente)
