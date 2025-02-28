@@ -5,15 +5,6 @@ body {
     padding: 20px;
 }
 
-.table-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    margin: 0 auto;
-}
-
 h1, h2 {
     color: #333;
     text-align: center;

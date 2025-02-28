@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { SubmenuuComponent } from './componentss/submenuu/submenuu.component';
-import { TableComponent } from './componentss/table/table.component';
-import { FormCreditComponent } from './componentss/form-credit/form-credit.component';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-credits',
-  imports: [SubmenuuComponent, TableComponent, FormCreditComponent],
+  imports: [RouterModule],
   templateUrl: './credits.component.html',
   styleUrl: './credits.component.css'
 })
 export class CreditsComponent {  
 
 }
-  
+   

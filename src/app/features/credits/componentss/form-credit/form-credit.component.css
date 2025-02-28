@@ -1,51 +1,44 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;  /* Alinea el formulario a la izquierda */
+    align-items: flex-start; 
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding-left: 70px;  
 }
-
-.form-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    margin: 0 auto;
-}
-
-h1, h2 {
-    color: #333;
-    text-align: center;
-}
-
 form {
     display: flex;
     flex-direction: column;
 }
 
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.data {
+    display: flex;
+    flex-direction: row;   /* Alinea label y input en una fila */
+    justify-content: flex-start;
+    align-items: center;
+    width: 48%;  /* Controla el ancho de cada input */
+}
+
 label {
-    margin-bottom: 5px;
     font-weight: bold;
+    font-size: 16px;
+    width: 150px;  
+    margin-right: 10px;  
 }
 
 input {
-    margin-bottom: 15px;
+    width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button[type="button"] {
-    background-color: #007bff;
+    box-sizing: border-box;
 }
