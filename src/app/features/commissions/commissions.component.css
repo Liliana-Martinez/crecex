@@ -1,0 +1,33 @@
+.commissions {
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 1px solid #ccc; /* Borde sutil */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
+}
+
+.demo-table {
+    width: 100%;
+  }
+  
+  .mat-column-demo-position {
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+  }
+  
+  .mat-column-demo-name {
+    padding-left: 16px;
+    font-size: 20px;
+  }
+  
+  .mat-column-demo-weight {
+    font-style: italic;
+  }
+  
+  .mat-column-demo-symbol {
+    width: 32px;
+    text-align: center;
+    font-weight: bold;
+  }
+  

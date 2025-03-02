@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SubmenuComponent } from '../../components/submenu/submenu.component';
-import { SearchBarComponent } from '../../../../shared/componentes/search-bar/search-bar.component';
+import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
 import { MatTableModule } from '@angular/material/table'
 
 export interface CurrentCredit {
