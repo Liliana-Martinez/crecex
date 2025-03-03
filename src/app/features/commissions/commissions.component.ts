@@ -11,11 +11,6 @@ export interface commissionsData {
 
 const COMMISSIONS_DATA: commissionsData[] = [
   {collection: 120, collectionRate: 1.0079, numberCredits: 10, totalAmount: 300},
-  {collection: 220, collectionRate: 4.0026, numberCredits: 10, totalAmount: 300},
-  {collection: 200, collectionRate: 6.941, numberCredits: 10, totalAmount: 200},
-  {collection: 200, collectionRate: 6.941, numberCredits: 10, totalAmount: 420 },
-  {collection: 200, collectionRate: 6.941, numberCredits: 10, totalAmount: 250},
-  {collection: 300, collectionRate: 9.0122, numberCredits: 10, totalAmount: 350},
 ];
 
 /**

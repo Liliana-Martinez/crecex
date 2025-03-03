@@ -5,6 +5,7 @@ import { WeeklyReportListComponent } from '../../components/weekly-reportCash-li
 import { MonthlyReportListComponent } from '../../components/monthly-reportCash-list/monthly-report-list.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 
 @Component({
   selector: 'app-cash',
@@ -13,7 +14,8 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     DailyReportListComponent, 
     WeeklyReportListComponent,
-    MonthlyReportListComponent],
+    MonthlyReportListComponent,
+    SaveButtonComponent],
   templateUrl: './cash.component.html',
   styleUrl: './cash.component.css'
 })
