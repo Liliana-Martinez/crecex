@@ -21,12 +21,12 @@ import { StatisticsComponent } from './features/statistics/statistics.component'
 import { CashComponent } from './features/statistics/pagesss/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pagesss/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pagesss/total-payments/total-payments.component';
+import { AgregarComponent } from './features/credit-bureau/agregar/agregar.component';
 
 
 export const routes: Routes = [
     { path: '', component: LoginComponent }, // Muestra el login al iniciar
-  { 
-    path: 'app', component: InteractiveScreenComponent, // Estructura con header y menú
+    { path: 'app', component: InteractiveScreenComponent, // Estructura con header y menú
     children: [
       { path: 'home', component: HomeComponent }, // Aquí se cargará dentro del <router-outlet>
       { path: 'clients-guarantors',
@@ -56,9 +56,12 @@ export const routes: Routes = [
           { path:'total-payments', component: TotalPaymentsComponent },
         ]
       },
-      { path: 'credit-bureau', component: CreditBureauComponent},
-
-    ] 
+      { path: 'credit-bureau', component: CreditBureauComponent,
+        children: [
+        {path: 'agregar', component: AgregarComponent}
+        ] 
+      },
+    ]
   }
 
     /*{ path: '', component: LoginComponent},

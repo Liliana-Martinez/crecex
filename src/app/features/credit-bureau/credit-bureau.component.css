@@ -1,0 +1,76 @@
+
+button {
+    margin-top: 50px;
+    float: inline-end;
+    margin: 40px;
+    background-color: #0b089f;/*#007bff; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold;
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+button:hover {
+    background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
+}table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px auto 0 auto;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+.input {
+    width: 90%;
+    padding: 5px;
+    text-align: center;
+}
+form h4 {
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.row {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 200px; 
+    display: flex;
+    flex-direction: row;
+} 
+
+.data {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.data label {
+    width: 130px;
+    display: block;
+}
+
+.data input {
+    width: 250px;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.data input:focus {
+    background-color: rgba(220, 220, 220, 0.799);
+    outline: none;
+    border-radius: 5px;
+    border-bottom: 2px solid gray;
+}

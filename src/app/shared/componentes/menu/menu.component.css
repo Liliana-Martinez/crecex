@@ -5,7 +5,7 @@
     display: flex;
     /*flex-direction: column;*/
     flex-direction: row; /* Por defecto, los elementos están en fila */
-    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    min-height: 85vh; /* Ocupa toda la altura de la pantalla */
     background-color: #11930a; /*#11930a*/
 }
 

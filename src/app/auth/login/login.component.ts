@@ -8,12 +8,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  loginForm: FormGroup; 
   
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: [''],
-      password: ['']
+      password: [''] 
     });
   }
 

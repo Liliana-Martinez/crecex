@@ -1,38 +1,28 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: flex-start;  /* Alinea el formulario a la izquierda */
-    align-items: flex-start; 
-    height: 100vh;
-    background-color: #f4f4f4;
-    padding-left: 70px;  
-}
 form {
     display: flex;
     flex-direction: column;
 }
 
 .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 25px;
+
+        display: flex;
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center;     /* Centra verticalmente */
+        margin-bottom: 25px;
+  
+    
 }
 
 .data {
     display: flex;
-    flex-direction: row;   /* Alinea label y input en una fila */
+    flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    width: 48%;  /* Controla el ancho de cada input */
+    width: 30%;
 }
-.hi {
-    display: flex;
-    flex-direction: row;   /* Alinea label y input en una fila */
-    justify-content: flex-start;
-    align-items: center;
-    width: 48%;  /* Controla el ancho de cada input */
+
+.data > * {
+    margin-right: 50px;  /* Añade espacio entre los elementos */
 }
 label {
     font-weight: bold;
@@ -42,9 +32,10 @@ label {
 }
 
 input {
-    width: 100%;
+    width: 100%; 
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    margin-top: 30px;
 }

@@ -1,1 +1,33 @@
-<p>credit-bureau works!</p>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr> 
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Claudia</td>
+                <td>02 Mayo del 2024</td>
+                <td>4000</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="data">
+        <label>Nombre</label>
+        <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <div class="data">
+        <label>Telefono</label>
+        <input type="tel" id="telefono" name="telefono" required> 
+    </div>
+    <div class="data">
+        <label>Domicilio</label>
+        <input type="text" id="domicilio" name="domicilio" required>
+    </div>  
+</div>
+<button type="button" (click)="redirectagregar()" >Agregar</button>
