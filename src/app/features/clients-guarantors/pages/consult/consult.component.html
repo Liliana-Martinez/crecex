@@ -1,36 +1,88 @@
 <app-submenu></app-submenu>
 <app-search-bar></app-search-bar>
 <div class="current-credit">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <h3>Crédito actual</h3>
+    <table mat-table [dataSource]="dataCurrentCredit" class="mat-elevation-z8">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
       
-        <!-- Position Column -->
+        <!-- Número de préstamo -->
         <ng-container matColumnDef="creditNumber">
           <th mat-header-cell *matHeaderCellDef> No. Préstamo</th>
           <td mat-cell *matCellDef="let element"> {{element.creditNumber}} </td>
         </ng-container>
       
-        <!-- Name Column -->
+        <!-- Nombre del cliente -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
       
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef> Weight </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        <!-- Monto del préstamo -->
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef> Préstamo </th>
+          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
         </ng-container>
       
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef> Symbol </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        <!-- Fecha que se dió el préstamo -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
         </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Número de la semana del pago -->
+        <ng-container matColumnDef="weekNumber">
+            <th mat-header-cell *matHeaderCellDef> Semana </th>
+            <td mat-cell *matCellDef="let element"> {{element.weekNumber}} </td>
+        </ng-container>
+
+        <!-- Cantidad del pago semanal -->
+        <ng-container matColumnDef="weeklyAmount">
+            <th mat-header-cell *matHeaderCellDef> Monto semanal </th>
+            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount}} </td>
+        </ng-container>
+
+        <!-- Estado de pago -->
+        <ng-container matColumnDef="paymentStatus">
+            <th mat-header-cell *matHeaderCellDef> Cumplimiento </th>
+            <td mat-cell *matCellDef="let element"> {{element.paymentStatus}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="currentCreditCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: currentCreditCol;"></tr>
+      </table>
+</div>
+
+<div class="credit-history">
+    <h3>Historial crediticio</h3>
+    <table mat-table [dataSource]="dataCreditHistory" class="mat-elevation-z8">
+
+        <!--Numero de credito-->
+        <ng-container matColumnDef="creditNumHistory">
+            <th mat-header-cell *matHeaderCellDef> Crédito</th>
+            <td mat-cell *matCellDef="let element"> {{element.creditNumHistory}} </td>
+        </ng-container>
+
+        <!--Monto del crédito-->
+        <ng-container matColumnDef="amountHistory">
+            <th mat-header-cell *matHeaderCellDef> Monto</th>
+            <td mat-cell *matCellDef="let element"> {{element.amountHistory}} </td>
+        </ng-container>
+
+        <!--Fecha del préstamo-->
+        <ng-container matColumnDef="dateHistory">
+            <th mat-header-cell *matHeaderCellDef> Fecha</th>
+            <td mat-cell *matCellDef="let element"> {{element.dateHistory}} </td>
+        </ng-container>
+
+        <!--Cumplimiento-->
+        <ng-container matColumnDef="statusHistory">
+            <th mat-header-cell *matHeaderCellDef> Cumplimiento</th>
+            <td mat-cell *matCellDef="let element"> {{element.statusHistory}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="creditHistoryCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: creditHistoryCol;"></tr>
       </table>
 </div>

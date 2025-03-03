@@ -1,6 +1,6 @@
 button {
     margin-top: 50px;
-    float: right;
+    float: inline-end;
     margin: 40px;
     background-color: #0b089f;/*#007bff; /* Color de fondo */
     color: white; /* Color del texto */
