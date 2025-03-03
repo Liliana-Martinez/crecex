@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { SubmenuuuComponent } from '../../componentsss/submenuuu/submenuuu.component';
-import { CommonModule } from '@angular/common';
+import { SubmenuStatisticsComponent } from '../../components/submenu-statistics/submenu-statistics.component';
 
 @Component({
   selector: 'app-total-payments',
-  imports: [SubmenuuuComponent, CommonModule],
+  imports: [SubmenuStatisticsComponent],
   templateUrl: './total-payments.component.html',
   styleUrl: './total-payments.component.css'
 })
 export class TotalPaymentsComponent {
-  
 
 }

@@ -1,9 +1,9 @@
-.submenuu {
+.submenu {
     display: flex; /* Activa Flexbox */
     flex-direction: row; /* Distribuye los elementos en horizontal */
     list-style: none; /* Elimina los estilos de lista */
     width: 100%;
-    height: 40px;
+    height: 35px;
     padding: 0; /* Elimina el padding predeterminado */
     margin: 0; /* Elimina el margen predeterminado */
     background-color: #0b089f;
@@ -11,7 +11,7 @@
     color: white;
 }
 
-.submenuu li {
+.submenu li {
     flex-grow: 1;
     text-align: center;
     padding: 8px 0;
@@ -20,18 +20,18 @@
     border-right: 1px solid #ffffff;
 }
 
-.submenuu li:hover {
-    background-color: #0e5ea0da; /* Cambia el color de fondo al pasar el mouse */
+.submenu li:hover {
+    background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
     color: rgb(255, 255, 255);
 }
 
-.submenuu li a {
+.submenu li a {
     color: inherit;
     text-decoration: none;
 }
 
-.submenuu li a.active {
-    background-color: #0803aeda; 
+.submenu li a.active {
+    background-color: #0056b3; 
     color: white;
     font-weight: bold;
     text-decoration: none;

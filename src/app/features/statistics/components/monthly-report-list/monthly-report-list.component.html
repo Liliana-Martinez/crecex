@@ -1,0 +1,50 @@
+<div class="container-list">
+    <table mat-table [dataSource]="dataMonthlyRep" class="mat-elevation-z8">
+        <!-- Fecha -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+      
+        <!-- Ingresos de pagos -->
+        <ng-container matColumnDef="income">
+          <th mat-header-cell *matHeaderCellDef> Ingresos de pagos</th>
+          <td mat-cell *matCellDef="let element"> {{element.income}} </td>
+        </ng-container>
+      
+        <!-- Ingresos extra -->
+        <ng-container matColumnDef="extraIncome">
+          <th mat-header-cell *matHeaderCellDef> Ingresos extra </th>
+          <td mat-cell *matCellDef="let element"> {{element.extraIncome}} </td>
+        </ng-container>
+      
+        <!-- Total de ingresos -->
+        <ng-container matColumnDef="totalIncome">
+          <th mat-header-cell *matHeaderCellDef> Total </th>
+          <td mat-cell *matCellDef="let element"> {{element.totalIncome}} </td>
+        </ng-container>
+
+        <!-- Egresos -->
+        <ng-container matColumnDef="expenses">
+            <th mat-header-cell *matHeaderCellDef> Egresos de créditos </th>
+            <td mat-cell *matCellDef="let element"> {{element.expenses}} </td>
+        </ng-container>
+
+        <!-- Egresos extra -->
+        <ng-container matColumnDef="extraExpenses">
+            <th mat-header-cell *matHeaderCellDef> Egresos extra </th>
+            <td mat-cell *matCellDef="let element"> {{element.extraExpenses}} </td>
+        </ng-container>
+
+        <!-- Total de egresos -->
+        <ng-container matColumnDef="totalExpenses">
+            <th mat-header-cell *matHeaderCellDef> Total </th>
+            <td mat-cell *matCellDef="let element"> {{element.totalExpenses}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="monthlyListCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: monthlyListCol;"></tr>
+    </table>
+</div>
+
+

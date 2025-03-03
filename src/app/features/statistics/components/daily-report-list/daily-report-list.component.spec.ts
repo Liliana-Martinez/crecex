@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubmenuuuComponent } from './submenuuu.component';
+import { DailyReportListComponent } from './daily-report-list.component';
 
-describe('SubmenuuuComponent', () => {
-  let component: SubmenuuuComponent;
-  let fixture: ComponentFixture<SubmenuuuComponent>;
+describe('DailyReportListComponent', () => {
+  let component: DailyReportListComponent;
+  let fixture: ComponentFixture<DailyReportListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SubmenuuuComponent]
+      imports: [DailyReportListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SubmenuuuComponent);
+    fixture = TestBed.createComponent(DailyReportListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
