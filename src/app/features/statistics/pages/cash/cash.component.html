@@ -1,0 +1,49 @@
+<app-submenu-statistics></app-submenu-statistics>
+<div class="container-form">
+    <form>
+        <p>Date</p>
+        <div class="row">
+            <div class="data">
+                <label>Ingresos de pagos</label>
+                <input type="number" id="income" name="income" min="18" max="60" required>
+            </div>
+            <div class="data">
+                <label>Ingresos extra</label>
+                <input type="number" id="extraIncome" name="extraIncome" required>
+            </div>
+            <div class="data">
+                <label>Total</label>
+                <input type="number" id="totalIncome" name="totalIncome" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="data">
+                <label>Egresos de créditos</label>
+                <input type="number" id="expenses" name="expenses" required>
+            </div>
+            <div class="data">
+                <label>Egresos extra</label>
+                <input type="number" id="extraExpenses" name="extraExpenses" required>
+            </div>
+            <div class="data">
+                <label>Total</label>
+                <input type="number" id="totalExpenses" name="totalExpenses" required> <!--group=grupo de clasificacion-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="data">
+                <label>Total en caja</label>
+                <input type="number" id="totalCash" name="totalCash" required>
+            </div>  
+        </div>
+    </form>
+</div>
+<select id="listSelect" [(ngModel)]="selectedList">
+    <option value="dailyReport">Consulta del día</option>
+    <option value="weeklyReport">Consulta de la semana</option>
+    <option value="monthlyReport">Consulta del mes</option>
+</select>  
+
+<app-daily-report-list *ngIf="selectedList === 'dailyReport'"></app-daily-report-list>
+<app-weekly-report-list *ngIf="selectedList === 'weeklyReport'"></app-weekly-report-list>
+<app-monthly-report-list *ngIf="selectedList === 'monthlyReport'"></app-monthly-report-list>

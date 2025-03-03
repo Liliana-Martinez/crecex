@@ -1,0 +1,50 @@
+<app-submenu-statistics></app-submenu-statistics>
+<app-search-bar-zone></app-search-bar-zone>
+<div class="container-list">
+    <table mat-table [dataSource]="dataTotalCredits" class="mat-elevation-z8">
+        <!-- Numero de credito -->
+        <ng-container matColumnDef="creditNumber">
+          <th mat-header-cell *matHeaderCellDef> Número de crédito </th>
+          <td mat-cell *matCellDef="let element"> {{element.creditNumber}} </td>
+        </ng-container>
+      
+        <!-- Monto del crédito -->
+        <ng-container matColumnDef="creditAmount">
+          <th mat-header-cell *matHeaderCellDef> Monto del crédito</th>
+          <td mat-cell *matCellDef="let element"> {{element.creditAmount}} </td>
+        </ng-container>
+      
+        <!-- Fecha -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+
+        <!-- Monto semanal -->
+        <ng-container matColumnDef="weeklyAmount">
+            <th mat-header-cell *matHeaderCellDef> Monto semanal </th>
+            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount}} </td>
+          </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="totalCreditsCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: totalCreditsCol;"></tr>
+    </table>
+</div>
+<div class="container-form">
+    <form>
+        <div class="row">
+            <div class="data">
+                <label>Total de semana</label>
+                <input type="text" id="total" name="total" required>
+            </div>
+            <div class="data">
+                <label>Recibido</label>
+                <input type="text" id="received" name="received" required> <!--paternalLn=paternalLastName -->
+            </div>
+            <div class="data">
+                <label>Porcentaje de cobranza</label>
+                <input type="text" id="porcent" name="porcent" required> <!--maternalLn=maternalLastName -->
+            </div>  
+        </div>
+    </form>
+</div>

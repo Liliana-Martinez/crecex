@@ -18,10 +18,15 @@ import { CollectorsComponent } from './features/collectors/collectors.component'
 import { CreditBureauComponent } from './features/credit-bureau/credit-bureau.component';
 import { CommissionsComponent } from './features/commissions/commissions.component';
 import { StatisticsComponent } from './features/statistics/statistics.component';
+
 import { CashComponent } from './features/statistics/pagesss/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pagesss/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pagesss/total-payments/total-payments.component';
 import { AgregarComponent } from './features/credit-bureau/agregar/agregar.component';
+
+import { CashComponent } from './features/statistics/pages/cash/cash.component';
+import { TotalCreditsComponent } from './features/statistics/pages/total-credits/total-credits.component';
+import { TotalPaymentsComponent } from './features/statistics/pages/total-payments/total-payments.component';
 
 
 export const routes: Routes = [
@@ -51,7 +56,7 @@ export const routes: Routes = [
       { path: 'statistics', component: StatisticsComponent,
         children:[
           { path:'', redirectTo: 'cash', pathMatch: 'full' },
-          { path:'cash', component: CashComponent },
+          { path:'cash', component: CashComponent},
           { path:'total-credits', component: TotalCreditsComponent },
           { path:'total-payments', component: TotalPaymentsComponent },
         ]
