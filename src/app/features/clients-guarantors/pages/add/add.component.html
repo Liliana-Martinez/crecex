@@ -5,12 +5,12 @@
     <option value="guarantors">Datos del aval secundario</option>
 </select>  
 
-<select>
+
     <app-client-form *ngIf="selectedForm === 'client'"></app-client-form>
     <app-guarantor-form *ngIf="selectedForm === 'guarantorp'"></app-guarantor-form>
     <app-guarantor-form *ngIf="selectedForm === 'guarantors'"></app-guarantor-form>
-</select>
-</select>  
+
+
 <app-client-form *ngIf="selectedForm === 'client'"></app-client-form>
 <app-guarantor-form *ngIf="selectedForm === 'guarantorp'"></app-guarantor-form>
 <app-guarantor-form *ngIf="selectedForm === 'guarantors'"></app-guarantor-form>

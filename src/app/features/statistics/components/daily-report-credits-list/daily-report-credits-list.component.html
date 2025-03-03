@@ -1,0 +1,28 @@
+<div class="container-list">
+    <table mat-table [dataSource]="dataDailyRep" class="mat-elevation-z8">
+        <!-- Numero de credito -->
+        <ng-container matColumnDef="creditNumber">
+          <th mat-header-cell *matHeaderCellDef> Número de crédito </th>
+          <td mat-cell *matCellDef="let element"> {{element.creditNumber}} </td>
+        </ng-container>
+      
+        <!-- Monto del crédito -->
+        <ng-container matColumnDef="creditAmount">
+          <th mat-header-cell *matHeaderCellDef> Monto del crédito</th>
+          <td mat-cell *matCellDef="let element"> {{element.creditAmount}} </td>
+        </ng-container>
+      
+        <!-- Fecha -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="dailyListCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: dailyListCol;"></tr>
+    </table>
+</div>
+
+  
+  
+
