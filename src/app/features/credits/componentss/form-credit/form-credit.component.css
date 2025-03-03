@@ -27,7 +27,13 @@ form {
     align-items: center;
     width: 48%;  /* Controla el ancho de cada input */
 }
-
+.hi {
+    display: flex;
+    flex-direction: row;   /* Alinea label y input en una fila */
+    justify-content: flex-start;
+    align-items: center;
+    width: 48%;  /* Controla el ancho de cada input */
+}
 label {
     font-weight: bold;
     font-size: 16px;
