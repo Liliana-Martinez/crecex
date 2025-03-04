@@ -24,10 +24,12 @@ import { CashComponent } from './features/statistics/pages/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pages/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pages/total-payments/total-payments.component';
 import { AgregarComponent } from './features/credit-bureau/agregar/agregar.component';
+import { SingInComponent } from './auth/sing-in/sing-in.component';
 
 
 export const routes: Routes = [
     { path: '', component: LoginComponent }, // Muestra el login al iniciar
+    { path: 'sing-in', component: SingInComponent},
     { path: 'app', component: InteractiveScreenComponent, // Estructura con header y menú
     children: [
       { path: 'home', component: HomeComponent }, // Aquí se cargará dentro del <router-outlet>
