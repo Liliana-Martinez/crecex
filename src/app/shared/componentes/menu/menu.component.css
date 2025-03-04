@@ -1,11 +1,11 @@
 .container-menu {
     margin-top: 0px;
     width: 200px;
-    min-height: calc(100vh - 80px); /*Calcula la altura del menu de los 80px del header hasta el tamaño de la pantalla*/
+    min-height: calc(100vh); /*Calcula la altura del menu de los 80px del header hasta el tamaño de la pantalla*/
     display: flex;
     /*flex-direction: column;*/
     flex-direction: row; /* Por defecto, los elementos están en fila */
-    min-height: 85vh; /* Ocupa toda la altura de la pantalla */
+    /*min-height: 85vh;  Ocupa toda la altura de la pantalla */
     background-color: #11930a; /*#11930a*/
 }
 

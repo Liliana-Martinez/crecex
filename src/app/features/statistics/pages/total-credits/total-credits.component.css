@@ -35,3 +35,23 @@ select:disabled {
     cursor: not-allowed; /* Cambia el cursor */
     opacity: 0.7; /* Reduce la opacidad */
 }
+
+.total {
+    position: fixed; /* Fija el elemento en la pantalla */
+    bottom: 20px;    /* Lo coloca a 20px desde la parte inferior */
+    right: 20px;     /* Lo coloca a 20px desde la parte derecha */
+    background-color: #f0f0f0; /* Fondo gris claro */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    font-family: Arial, sans-serif; /* Fuente */
+    font-size: 16px; /* Tamaño de fuente */
+    color: #333; /* Color del texto */
+    display: flex; /* Para alinear los labels horizontalmente */
+    gap: 10px; /* Espacio entre los labels */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+
+.total label {
+    margin: 0; /* Elimina el margen por defecto de los labels */
+}
