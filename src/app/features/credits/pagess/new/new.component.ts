@@ -13,7 +13,7 @@ export interface NewCredit {
   classification: string;
 }
 const NEW_CREDIT_DATA: NewCredit[] = [
-  {name: 'Hydrogen', address: '1.0079', phone: 'H', classification: 'A'},
+  {name: 'Claudia Yaneth Rafael', address: 'Manuel Avila # 22', phone: '3418780498', classification: 'A'},
 ];
 
 /**

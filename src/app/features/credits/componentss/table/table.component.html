@@ -21,34 +21,34 @@
         <!-- Clasificacion -->
         <ng-container matColumnDef="classification">
           <th mat-header-cell *matHeaderCellDef> Clasificación </th>
-          <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+          <td mat-cell *matCellDef="let element"> {{element.classification}}</td>
         </ng-container>
 
         <!-- N° Prestamos -->
         <ng-container matColumnDef="loans">
             <th mat-header-cell *matHeaderCellDef> No Prestamos </th>
-            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+            <td mat-cell *matCellDef="let element"> {{element.loans}}</td>
           </ng-container>
 
         <!-- Fecha -->
         <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef> Fecha </th>
-            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+            <td mat-cell *matCellDef="let element"> {{element.date}}</td>
           </ng-container>
         <!-- Semana-->
         <ng-container matColumnDef="week">
             <th mat-header-cell *matHeaderCellDef> Semana </th>
-            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+            <td mat-cell *matCellDef="let element"> {{element.week}}</td>
           </ng-container> 
         <!-- Monto Semanal -->
         <ng-container matColumnDef="weeklyAmount">
             <th mat-header-cell *matHeaderCellDef> Monto Semanal </th>
-            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount}}</td>
           </ng-container> 
         <!-- Cumplimiento-->
         <ng-container matColumnDef="compliance">
             <th mat-header-cell *matHeaderCellDef> Cumplimiento </th>
-            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+            <td mat-cell *matCellDef="let element"> {{element.compliance}}</td>
           </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="RenewCreditCol"></tr>
