@@ -1,30 +1,57 @@
-<div class="table-container">
-    <table>
-        <thead>
-            <tr> 
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Domicilio</th>
-                <th>Clasificación</th>
-                <th>N° Prestamos</th>
-                <th>Fecha</th>
-                <th>Semana</th>
-                <th>Monto Semanal</th>
-                <th>Cumplimiento</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container-table">
+    <table mat-table [dataSource]="dataRenewCredit" class="mat-elevation-z8">
+        <!-- Nombre --> 
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+      
+        <!-- Direccion -->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Dirección </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+      
+        <!-- Telefono -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef> Telefóno </th>
+          <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+      
+        <!-- Clasificacion -->
+        <ng-container matColumnDef="classification">
+          <th mat-header-cell *matHeaderCellDef> Clasificación </th>
+          <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+        </ng-container>
+
+        <!-- N° Prestamos -->
+        <ng-container matColumnDef="loans">
+            <th mat-header-cell *matHeaderCellDef> No Prestamos </th>
+            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+          </ng-container>
+
+        <!-- Fecha -->
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+          </ng-container>
+        <!-- Semana-->
+        <ng-container matColumnDef="week">
+            <th mat-header-cell *matHeaderCellDef> Semana </th>
+            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+          </ng-container> 
+        <!-- Monto Semanal -->
+        <ng-container matColumnDef="weeklyAmount">
+            <th mat-header-cell *matHeaderCellDef> Monto Semanal </th>
+            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+          </ng-container> 
+        <!-- Cumplimiento-->
+        <ng-container matColumnDef="compliance">
+            <th mat-header-cell *matHeaderCellDef> Cumplimiento </th>
+            <td mat-cell *matCellDef="let element"> {{element.classification}}td>
+          </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="RenewCreditCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: RenewCreditCol;"></tr>
+      </table>          
 </div>

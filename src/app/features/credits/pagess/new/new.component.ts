@@ -6,17 +6,14 @@ import { SearchBarComponent } from '../../../../shared/componentes/search-bar-cl
 import { SaveButtonComponent } from "../../../../shared/componentes/save-button/save-button.component";
 import { PrintButtonComponent } from "../../../../shared/componentes/print-button/print-button.component";
 import { MatTableModule } from '@angular/material/table';
-
-export interface NewCredit {
+export interface NewCredit { 
   name: string;
   address: string;
   phone: string;
   classification: string;
 }
-
 const NEW_CREDIT_DATA: NewCredit[] = [
   {name: 'Hydrogen', address: '1.0079', phone: 'H', classification: 'A'},
-  
 ];
 
 /**

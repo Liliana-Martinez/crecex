@@ -1,13 +1,11 @@
 table {
-    width: 95%;
-    border-collapse: collapse;
-    margin: 0 auto;
-}
-
-th, td {
-    padding: 20px;
-    border: 2px solid #ddd;
-    text-align: left;
-}
-
+    width: 100%;
+  }
+  
+.container-table {
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid #ccc; /* Borde sutil */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
+}   
  

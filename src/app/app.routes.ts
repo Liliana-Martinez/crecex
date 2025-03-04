@@ -19,7 +19,7 @@ import { CreditBureauComponent } from './features/credit-bureau/credit-bureau.co
 import { CommissionsComponent } from './features/commissions/commissions.component';
 import { StatisticsComponent } from './features/statistics/statistics.component';
 
-import { AgregarComponent } from './features/credit-bureau/agregar/agregar.component';
+
 import { CashComponent } from './features/statistics/pages/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pages/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pages/total-payments/total-payments.component';

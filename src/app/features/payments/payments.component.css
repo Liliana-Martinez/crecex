@@ -1,21 +1,10 @@
 table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
-th {
-    background-color: #f8f9fa;
-}
-
-.input {
-    width: 90%;
-    padding: 5px;
-    text-align: center;
-}
+  }
+  
+.container-table {
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid #ccc; /* Borde sutil */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
+} 
