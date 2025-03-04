@@ -20,8 +20,8 @@ export interface RenewCredit {
   paymentType: string;
 }
 const PAYMENT_DATA: RenewCredit[] = [
-  {clients: '1', name: 'Claudia Yaneth Rafael',loans:'2', classification: 'A',compliance:'regular', 
-   deliveryDate:'28/07/2001', dueDate:'25 Enero',week:'10',weeklyAmount: '200', latePayment: '',
+  {clients: '1', name: 'Claudia Yaneth Rafael',loans:'2', classification: 'A',compliance:'Regular', 
+   deliveryDate:'28/07/2024', dueDate:'25/01/2025',week:'10',weeklyAmount: '300', latePayment: '0',
   earlyPayment: '200',lateFees:'1', payment: '500', paymentType: 'Transferencia'},
   
 ];

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-
 export interface RenewCredit { 
   name: string;
   address: string;
@@ -12,10 +11,9 @@ export interface RenewCredit {
   weeklyAmount: string;
   compliance: string;
 }
-
 const RENEW_CREDIT_DATA: RenewCredit[] = [
-  {name: 'Claudia Yaneth Rafael', address: 'Avila #22', phone: '3418780498', classification: 'A',loans:'2',date:'25 Enero',week:'10',weeklyAmount: '200', compliance:'regular'},
-  
+  {name: 'Claudia Yaneth Rafael', address: 'Avila Camacho #22', phone: '3418780498', classification: 'A', 
+    loans:'2',date:'25 Enero',week:'10',weeklyAmount: '200', compliance:'Regular'}, 
 ];
 
 /**
