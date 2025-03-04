@@ -24,8 +24,6 @@ export interface CreditHistory {
 const CURRENT_CREDIT: CurrentCredit[] = [
   {creditNumber: 1, name: 'Hydrogen', amount: 1.0079, date: new Date("2025-01-15"), weekNumber: 11, weeklyAmount: 150, paymentStatus: 'Excelente'},
   {creditNumber: 2, name: 'Helium', amount: 4.0026, date: new Date("2025-01-15"), weekNumber: 10, weeklyAmount: 250, paymentStatus: 'Bueno'},
-  {creditNumber: 3, name: 'Lithium', amount: 6.941, date: new Date("2025-01-15"), weekNumber: 9, weeklyAmount: 300, paymentStatus: 'Regular'},
-  {creditNumber: 4, name: 'Beryllium', amount: 9.0122, date: new Date("2025-01-15"), weekNumber: 2, weeklyAmount: 450, paymentStatus: 'Malo'},
 ];
 
 const CREDIT_HISTORY: CreditHistory[] = [

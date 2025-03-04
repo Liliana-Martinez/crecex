@@ -1,41 +1,47 @@
-form {
-    display: flex;
-    flex-direction: column;
+.form-container {
+    margin-top: 30px;
+    margin-left: 20px;
 }
-
 .row {
-
-        display: flex;
-        justify-content: center; /* Centra horizontalmente */
-        align-items: center;     /* Centra verticalmente */
-        margin-bottom: 25px;
-  
-    
-}
-
-.data {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 5px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    width: 30%;
+} 
+
+.data {
+    flex: 1;
+    padding-right: 20px;
 }
 
-.data > * {
-    margin-right: 50px;  /* Añade espacio entre los elementos */
-}
-label {
-    font-weight: bold;
-    font-size: 16px;
-    width: 150px;  
-    margin-right: 10px;  
+.data label {
+    width: 130px;
+    display: block;
 }
 
-input {
-    width: 100%; 
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 30px;
+.data input {
+    width: 250px;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid black;
 }
+
+.data input:focus {
+    background-color: rgba(220, 220, 220, 0.799);
+    outline: none;
+    border-radius: 5px;
+    border-bottom: 2px solid gray;
+}
+
+@media screen and (max-width: 768px) {
+    .row {
+        flex-direction: column; /* Apila los elementos en columna */
+        gap: 5px; /* Reduce el espacio entre elementos */
+    }
+
+    .data {
+        width: 100%; /* Ocupa todo el ancho disponible */
+    }
+}
+  
