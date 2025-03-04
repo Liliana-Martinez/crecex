@@ -1,2 +1,40 @@
-<app-search-bar-zone></app-search-bar-zone>
-<app-print-button></app-print-button>
+<app-search-bar></app-search-bar>
+<div class="container-table">
+    <table mat-table [dataSource]="dataCollector" class="mat-elevation-z8">
+        <!-- Nombre --> 
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+      
+        <!-- Direccion -->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Dirección </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+      
+        <!-- Telefono -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef> Telefóno </th>
+          <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+ 
+        <!-- Aval principal -->
+        <ng-container matColumnDef="guarantorp">
+            <th mat-header-cell *matHeaderCellDef> Aval principal </th>
+            <td mat-cell *matCellDef="let element"> {{element.guarantorp}}td>
+          </ng-container>
+
+        <!-- Aval secundario-->
+        <ng-container matColumnDef="guarantors">
+            <th mat-header-cell *matHeaderCellDef> Aval secundario </th>
+            <td mat-cell *matCellDef="let element"> {{element.guarantors}}td>
+          </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="collectorCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: collectorCol;"></tr>
+      </table>
+</div>
+<div class="container-button">
+    <app-print-button></app-print-button>
+</div>

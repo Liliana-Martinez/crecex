@@ -1,11 +1,5 @@
-/*.container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}*/
-
 select {
-    margin-top: 3px;
+    margin-top: 20px;
     margin-left: 20px;
     width: 250px; 
     padding: 4px; 

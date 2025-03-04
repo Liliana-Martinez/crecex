@@ -5,7 +5,6 @@ header{
     padding: 10px;
     background-color: #11930a;
     color: white;
-    /*height: 80px;*/
 }
 
 .logo-container {
@@ -27,26 +26,32 @@ header{
     padding-left: 20px;
 }
 
-/*h1{
-    font-size: 40px;
-    margin-left: 20px;
-    margin: 0 20px;
+.logout-button {
+    background: none;;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 }
 
-.logo {
-    width: 60px;
-    margin-left: 0;
-}*/
-
+.logout-button img {
+    width: 40px;
+    height: auto;
+    background-color: white;
+    padding: 2px;
+    border-radius: 50px;
+    border: 3px solid #1556be
+}
+/*
 .image-container {
-    background-color: #ffff; /* Fondo amarillo */
-    padding: 5px; /* Espacio alrededor de la imagen */
-    display: inline-block; /* Ajusta el tamaño al contenido */
+    background-color: #ffff; /Fondo amarillo 
+    padding: 5px;  Espacio alrededor de la imagen 
+    display: inline-block; Ajusta el tamaño al contenido 
     border-radius: 50px;
     border: 3px solid #1556be;
 }
 
 .image-container img {
     width: 40px;
-    display: block; /*Elimina el espacio inferior de la imagen */
+    display: block; Elimina el espacio inferior de la imagen 
 }
+*/

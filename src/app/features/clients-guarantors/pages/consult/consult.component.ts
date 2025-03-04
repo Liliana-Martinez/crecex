@@ -8,8 +8,9 @@ export interface CurrentCredit {
   creditNumber: number;
   amount: number;
   date: Date;
-  weekNumber: number;
+  numberWeeks: number;
   weeklyAmount: number;
+  paymentWeek: number;
   paymentStatus: string;
   //creditNumHistory: string;
 }
@@ -18,19 +19,20 @@ export interface CreditHistory {
   creditNumHistory: number;
   amountHistory: number;
   dateHistory: Date;
+  numWeeksHistory: number;
   statusHistory: string;
 }
 
 const CURRENT_CREDIT: CurrentCredit[] = [
-  {creditNumber: 1, name: 'Hydrogen', amount: 1.0079, date: new Date("2025-01-15"), weekNumber: 11, weeklyAmount: 150, paymentStatus: 'Excelente'},
-  {creditNumber: 2, name: 'Helium', amount: 4.0026, date: new Date("2025-01-15"), weekNumber: 10, weeklyAmount: 250, paymentStatus: 'Bueno'},
+  {creditNumber: 1, name: 'Laura Gonzalez', amount: 2500, date: new Date("2025-01-15"), numberWeeks: 11, weeklyAmount: 150, paymentWeek: 5, paymentStatus: 'Excelente'},
+  {creditNumber: 2, name: 'Julio Chavez', amount: 5000, date: new Date("2025-01-15"), numberWeeks: 10, weeklyAmount: 250, paymentWeek: 4, paymentStatus: 'Bueno'},
 ];
 
 const CREDIT_HISTORY: CreditHistory[] = [
-  {creditNumHistory: 1, amountHistory: 1.0079, dateHistory: new Date("2025-01-15"), statusHistory: 'Excelente'},
-  {creditNumHistory: 2, amountHistory: 4.0026, dateHistory: new Date("2025-01-15"), statusHistory: 'Bueno'},
-  {creditNumHistory: 3, amountHistory: 6.941, dateHistory: new Date("2025-01-15"), statusHistory: 'Regular'},
-  {creditNumHistory: 4, amountHistory: 9.0122, dateHistory: new Date("2025-01-15"), statusHistory: 'Malo'},
+  {creditNumHistory: 1, amountHistory: 6000, dateHistory: new Date("2025-01-15"), numWeeksHistory: 16, statusHistory: 'Excelente'},
+  {creditNumHistory: 2, amountHistory: 4500, dateHistory: new Date("2025-01-15"), numWeeksHistory: 12, statusHistory: 'Bueno'},
+  {creditNumHistory: 3, amountHistory: 3000, dateHistory: new Date("2025-01-15"), numWeeksHistory: 16, statusHistory: 'Regular'},
+  {creditNumHistory: 4, amountHistory: 2500, dateHistory: new Date("2025-01-15"), numWeeksHistory: 16, statusHistory: 'Malo'},
 ];
 /**
  * @title Basic use of `<table mat-table>`
@@ -44,8 +46,8 @@ const CREDIT_HISTORY: CreditHistory[] = [
 })
 export class ConsultComponent {
   //currentCreditColumns
-  currentCreditCol: string[] = ['creditNumber', 'name', 'amount', 'date', 'weekNumber', 'weeklyAmount', 'paymentStatus'];
-  creditHistoryCol: string[] = ['creditNumHistory', 'amountHistory', 'dateHistory', 'statusHistory'];
+  currentCreditCol: string[] = ['creditNumber', 'name', 'amount', 'numberWeeks', 'date', 'weeklyAmount', 'paymentWeek', 'paymentStatus'];
+  creditHistoryCol: string[] = ['creditNumHistory', 'amountHistory', 'dateHistory', 'numWeeksHistory', 'statusHistory'];
   
   dataCurrentCredit = CURRENT_CREDIT;
   dataCreditHistory = CREDIT_HISTORY;

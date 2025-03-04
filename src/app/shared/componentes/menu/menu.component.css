@@ -1,11 +1,11 @@
 .container-menu {
     margin-top: 0px;
     width: 200px;
+    height: 100%;
     min-height: calc(100vh); /*Calcula la altura del menu de los 80px del header hasta el tamaño de la pantalla*/
     display: flex;
-    /*flex-direction: column;*/
-    flex-direction: row; /* Por defecto, los elementos están en fila */
-    /*min-height: 85vh;  Ocupa toda la altura de la pantalla */
+    flex-direction: column;
+    /*flex-direction: row;  Por defecto, los elementos están en fila */
     background-color: #11930a; /*#11930a*/
 }
 
@@ -53,5 +53,6 @@
 @media screen and (max-width: 768px) {
   .container-menu {
       flex-direction: column; /* Apila los elementos en columna */
+      background-color: #11930a;
   }
 }

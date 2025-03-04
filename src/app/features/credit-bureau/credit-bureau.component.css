@@ -1,76 +1,104 @@
-
-button {
-    margin-top: 50px;
-    float: inline-end;
-    margin: 40px;
-    background-color: #0b089f;/*#007bff; /* Color de fondo */
-    color: white; /* Color del texto */
-    padding: 10px 20px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de la fuente */
-    font-weight: bold;
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    transition: background-color 0.3s ease; /* Transición suave */
-}
-
-button:hover {
-    background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
-}table {
-    width: 80%;
-    border-collapse: collapse;
-    margin: 20px auto 0 auto;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-}
-
-th {
-    background-color: #f8f9fa;
-}
-
-.input {
-    width: 90%;
-    padding: 5px;
-    text-align: center;
-}
-form h4 {
+h3 {
     margin-left: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.row {
+select {
     margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 200px; 
+    margin-bottom: 60px;
+    width: 250px; 
+    padding: 4px; 
+    font-size: 15px; 
+    color: black;
+    border: 1px solid #000000; 
+    border-radius: 4px; 
+    appearance: none; 
+    cursor: pointer; 
+}
+
+select:focus {
+    border-color: gray; 
+    outline: none; 
+    box-shadow: 0 0 5px rgba(87, 93, 96, 0.5); 
+}
+
+select {
+    /*background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); Flecha personalizada */
+    background-image: url('/flecha.png');
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Posición de la flecha */
+    background-size: 10px; /* Tamaño de la flecha */
+}
+
+/* Estilo para el hover */
+select:hover {
+    border-color: gray; /* Cambia el color del borde al pasar el mouse */
+}
+
+/* Estilo para deshabilitado */
+select:disabled {
+    background-color: #f0f0f0; /* Color de fondo deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor */
+    opacity: 0.7; /* Reduce la opacidad */
+}
+
+.container-form .row {
+    margin-left: 20px;
+    margin-right: 5px;
     display: flex;
     flex-direction: row;
-} 
+}
 
-.data {
+.container-form .data {
     flex: 1;
     padding-right: 20px;
 }
 
-.data label {
+.container-form .data label {
     width: 130px;
+    margin-bottom: 10px;
     display: block;
 }
 
-.data input {
+.container-form .data input {
     width: 250px;
     padding: 5px;
     border: none;
     border-bottom: 1px solid black;
 }
 
-.data input:focus {
+.container-form .data input:focus {
     background-color: rgba(220, 220, 220, 0.799);
     outline: none;
     border-radius: 5px;
     border-bottom: 2px solid gray;
+}
+
+@media screen and (max-width: 768px) {
+    .container-form .row {
+        flex-direction: column; /* Apila los elementos en columna */
+        gap: 5px; /* Reduce el espacio entre elementos */
+    }
+
+    .container-form .data {
+        width: 100%; /* Ocupa todo el ancho disponible */
+    }
+}
+
+.container-table {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc; /* Borde sutil */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
+}
+
+table {
+    width: 100%;
+}
+
+.container-button {
+    margin-top: 200px;
 }

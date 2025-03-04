@@ -5,7 +5,7 @@
     <table mat-table [dataSource]="dataCurrentCredit" class="mat-elevation-z8">
         <!-- Número de préstamo -->
         <ng-container matColumnDef="creditNumber">
-          <th mat-header-cell *matHeaderCellDef> No. Préstamo</th>
+          <th mat-header-cell *matHeaderCellDef> No. Crédito</th>
           <td mat-cell *matCellDef="let element"> {{element.creditNumber}} </td>
         </ng-container>
       
@@ -20,6 +20,12 @@
           <th mat-header-cell *matHeaderCellDef> Monto </th>
           <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
         </ng-container>
+
+        <!-- Numero de semanas del credito -->
+        <ng-container matColumnDef="numberWeeks">
+          <th mat-header-cell *matHeaderCellDef> Semanas del crédito </th>
+          <td mat-cell *matCellDef="let element"> {{element.numberWeeks}} </td>
+        </ng-container>
       
         <!-- Fecha que se dió el préstamo -->
         <ng-container matColumnDef="date">
@@ -27,10 +33,10 @@
           <td mat-cell *matCellDef="let element"> {{element.date}} </td>
         </ng-container>
 
-        <!-- Número de la semana del pago -->
-        <ng-container matColumnDef="weekNumber">
-            <th mat-header-cell *matHeaderCellDef> Semana </th>
-            <td mat-cell *matCellDef="let element"> {{element.weekNumber}} </td>
+        <!-- Número de la semana actual del pago -->
+        <ng-container matColumnDef="paymentWeek">
+            <th mat-header-cell *matHeaderCellDef> Semana de pago </th>
+            <td mat-cell *matCellDef="let element"> {{element.paymentWeek}} </td>
         </ng-container>
 
         <!-- Cantidad del pago semanal -->
@@ -56,7 +62,7 @@
 
         <!--Numero de credito-->
         <ng-container matColumnDef="creditNumHistory">
-            <th mat-header-cell *matHeaderCellDef> No. Préstamo</th>
+            <th mat-header-cell *matHeaderCellDef> No. Crédito</th>
             <td mat-cell *matCellDef="let element"> {{element.creditNumHistory}} </td>
         </ng-container>
 
@@ -71,6 +77,12 @@
             <th mat-header-cell *matHeaderCellDef> Fecha</th>
             <td mat-cell *matCellDef="let element"> {{element.dateHistory}} </td>
         </ng-container>
+
+        <!--Numero de semanas del crédito-->
+        <ng-container matColumnDef="numWeeksHistory">
+          <th mat-header-cell *matHeaderCellDef> Semanas del crédito</th>
+          <td mat-cell *matCellDef="let element"> {{element.numWeeksHistory}} </td>
+      </ng-container>
 
         <!--Cumplimiento-->
         <ng-container matColumnDef="statusHistory">

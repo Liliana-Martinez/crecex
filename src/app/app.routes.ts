@@ -23,7 +23,6 @@ import { StatisticsComponent } from './features/statistics/statistics.component'
 import { CashComponent } from './features/statistics/pages/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pages/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pages/total-payments/total-payments.component';
-import { AgregarComponent } from './features/credit-bureau/agregar/agregar.component';
 
 
 export const routes: Routes = [
@@ -58,11 +57,7 @@ export const routes: Routes = [
           { path:'total-payments', component: TotalPaymentsComponent },
         ]
       },
-      { path: 'credit-bureau', component: CreditBureauComponent,
-        children: [
-        {path: 'agregar', component: AgregarComponent}
-        ] 
-      },
+      { path: 'credit-bureau', component: CreditBureauComponent },
     ]
   }
 
