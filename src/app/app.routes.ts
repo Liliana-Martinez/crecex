@@ -24,7 +24,7 @@ import { CashComponent } from './features/statistics/pages/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pages/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pages/total-payments/total-payments.component';
 import { AgregarComponent } from './features/credit-bureau/agregar/agregar.component';
-import { SingInComponent } from './auth/sing-in/sing-in.component';
+import { SingInComponent} from './auth/sing-in/sing-in.component';
 
 
 export const routes: Routes = [

@@ -11,13 +11,13 @@
                 <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña"formControlName="password">
               </div>
               <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Repita la Contraseña"formControlName="Password">
+                <input type="password" class="form-control" id="repitPassword" placeholder="Repita la Contraseña"formControlName="Password">
               </div>
               <div class="d-grid gap-2">
-                <button type="button" >Registrate</button>
+                <button type="button"  (click)="redirectToLogin()" >Registrate</button>
               </div>
               <div>
-                <p class="mt-3">¿Ya tengo cuenta?<a routerLink="" >Iniciar Sesión </a></p>
+                <p class="mt-3">¿Ya tengo cuenta? <a routerLink="/" > Iniciar Sesión </a></p>
               </div>
         </form>
     </div>
