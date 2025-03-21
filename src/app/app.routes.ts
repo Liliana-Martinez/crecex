@@ -26,7 +26,8 @@ import { SingInComponent } from './auth/sing-in/sing-in.component';
 
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent }, // Muestra el login al iniciar
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent }, // Muestra el login al iniciar
     { path: 'sing-in', component: SingInComponent},
     { path: 'app', component: InteractiveScreenComponent, // Estructura con header y menú
     children: [

@@ -1,17 +1,17 @@
 <div class="wrapper">
     <div class = "body">
-        <form (formGroup)="loginForm">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
           <h1>Crecex</h1>
             <img class= 'logo' src="logo.jpg" alt="Logo">
             <h1>Iniciar sesión</h1>
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="Administrador" formControlName="email">
+                <input type="text" class="form-control" placeholder="Usuario" formControlName="user">
               </div>
               <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña"formControlName="password">
+                <input type="password" class="form-control" placeholder="Contraseña" formControlName="password">
               </div>
               <div class="d-grid gap-2">
-                <button type="button" (click)="redirectToHome()" >Iniciar sesión</button>
+                <button type="submit" [disabled]="auth.invalid">Iniciar sesión</button>
               </div>
               <div>
                 <p class="mt-3">¿No tienes cuenta? <a routerLink="/sing-in">Registrate</a></p>
