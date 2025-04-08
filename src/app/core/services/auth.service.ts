@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Auth } from '../../models/auth';
+import { Auth } from '../../models/Auth';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from '../constants/api-routes';
 
