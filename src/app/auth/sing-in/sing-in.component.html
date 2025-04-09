@@ -1,23 +1,38 @@
 <div class="wrapper">
     <div class = "body">
-        <form >
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
           <h1>Crecex</h1>
             <img class= 'logo' src="logo.jpg" alt="Logo">
-            <h1>Unete a crecex</h1>
+            <h1>Únete a crecex</h1>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Usuario" formControlName="user">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Usuario" formControlName="user"
+                required>
+                <div *ngIf="registerForm.get('user')?.invalid && registerForm.get('user')?.touched" class="error">El usuario es obligatorio.</div>
+              </div>
+
+              <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" formControlName="password" required>
+                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">La contraseña es obligatoria.</div>
               </div>
               <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña"formControlName="password">
+                <input type="password" class="form-control" id="repitPassword" placeholder="Repita la Contraseña" formControlName="repeatPassword" required>
+                <div *ngIf="registerForm.get('repeatPassword')?.invalid && registerForm.get('repeatPassword')?.touched" class="error">
+                  Debe confirmar la contraseña.
+                </div>
               </div>
-              <div class="form-floating">
-                <input type="password" class="form-control" id="repitPassword" placeholder="Repita la Contraseña"formControlName="Password">
+              <!--Mensaje de exito-->
+              <div *ngIf="successMessage" class="success">
+                {{ successMessage }}
               </div>
+              <!--Mensaje de error general-->
+              <div *ngIf="errorMessage" class="error">
+                {{ errorMessage }}
+              </div><br>
               <div class="d-grid gap-2">
-                <button type="button"  (click)="redirectToLogin()" >Registrate</button>
+                <button type="submit" >Registrate</button>
               </div>
               <div>
-                <p class="mt-3">¿Ya tengo cuenta? <a routerLink="/" > Iniciar Sesión </a></p>
+                <p class="mt-3">¿Ya tengo cuenta? <a routerLink="/" > Iniciar sesión </a></p>
               </div>
         </form>
     </div>

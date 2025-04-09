@@ -16,10 +16,6 @@ export class LoginComponent implements OnInit {
   //Se crea el formGroup de tipo Auth
   loginForm!: FormGroup;
   errorMessage: string = '';
-  /*loginForm = new FormGroup ({
-    user: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required])
-  });*/
 
   constructor(private authService: AuthService, private router: Router) {}
   
@@ -46,7 +42,7 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error en el login', err);
-          this.errorMessage = 'Credenciales incorrectas. Intente de nuevo';
+          this.errorMessage = 'Error: usuario o contraseña incorrectos.';
         }
       });
     }
