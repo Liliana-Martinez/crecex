@@ -13,8 +13,10 @@ export const API_ROUTES = {
         MODIFY: `${API_URL}/clients-guarantors/modify`
     },
     CREDITS:  {
-        NEW: `${API_URL}/credits/request`,
-        
+        NEW: {
+            REQUEST: `${API_URL}/credits/request`,
+            NEW_CREDIT: `${API_URL}/credits/newCredit`
+        },
         RENEW: `${API_URL}/credits/renew`,
         ADDITIONAL: `${API_URL}/credits/additional`
     },

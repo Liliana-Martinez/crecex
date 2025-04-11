@@ -19,7 +19,7 @@ export class CreditsService {
    * @returns Observable con los datos del cliente o error
    */
   buscarCliente(nombreCompleto: string): Observable<Cliente> {
-    return this.http.post<Cliente>(this.apiUrl.NEW, { nombreCompleto });
+    return this.http.post<Cliente>(this.apiUrl.NEW.REQUEST, { nombreCompleto });
   }
 
   /**
@@ -28,6 +28,6 @@ export class CreditsService {
    * @returns Observable con la respuesta del servidor
    */
   registrarCredito(data: NewCredit): Observable<any> {
-    return this.http.post<any>(this.apiUrl.RENEW, data);
+    return this.http.post<any>(this.apiUrl.NEW.NEW_CREDIT, data);
   }
 }
