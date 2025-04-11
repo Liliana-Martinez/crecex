@@ -3,7 +3,7 @@ export interface Cliente {
     nombre: string;
     apellidoPaterno: string;
     apellidoMaterno: string;
-    direccion: string;
+    domicilio: string;
     telefono: string;
     clasificacion: string;
     tipoCliente: string; // Si tienes esta propiedad en la base de datos
@@ -24,4 +24,3 @@ export interface Cliente {
     credito: Credito;
     pagos: Pago[];
   }
-  
