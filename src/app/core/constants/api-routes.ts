@@ -14,6 +14,7 @@ export const API_ROUTES = {
     },
     CREDITS:  {
         NEW: `${API_URL}/credits/request`,
+        
         RENEW: `${API_URL}/credits/renew`,
         ADDITIONAL: `${API_URL}/credits/additional`
     },
