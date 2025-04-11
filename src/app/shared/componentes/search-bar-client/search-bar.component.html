@@ -1,5 +1,5 @@
-<div class="container-search-bar"></div>
-<form class="example-form">
+<div class="container-search-bar">
+  <form class="example-form">
     <mat-form-field class="example-full-width">
       <mat-label>Ingrese el nombre del cliente</mat-label>
       <mat-icon matPrefix>search</mat-icon>
@@ -7,12 +7,14 @@
              aria-label="Number"
              matInput
              [formControl]="myControl"
-             [matAutocomplete]="auto">
+             [matAutocomplete]="auto"
+             (keydown.enter)="onSearchChange($event)">
       <mat-autocomplete #auto="matAutocomplete">
-        @for (option of filteredOptions | async; track option) {
-          <mat-option [value]="option">{{option}}</mat-option>
-        }
+        <!-- Usamos *ngFor para iterar sobre las opciones -->
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option }}
+        </mat-option>
       </mat-autocomplete>
     </mat-form-field>
   </form>
-  
+</div>

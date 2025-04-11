@@ -1,33 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CreditsService } from '../../../../core/services/credits.service';
 import { SubmenuuComponent } from '../../componentss/submenuu/submenuu.component';
 import { FormCreditComponent } from '../../componentss/form-credit/form-credit.component';
-import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
-import { SaveButtonComponent } from "../../../../shared/componentes/save-button/save-button.component";
-import { PrintButtonComponent } from "../../../../shared/componentes/print-button/print-button.component";
+import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
+import { PrintButtonComponent } from '../../../../shared/componentes/print-button/print-button.component';
 import { MatTableModule } from '@angular/material/table';
-export interface NewCredit { 
+import { CommonModule } from '@angular/common';
+
+export interface NewCredit {
   name: string;
   address: string;
   phone: string;
   classification: string;
 }
-const NEW_CREDIT_DATA: NewCredit[] = [
-  {name: 'Claudia Yaneth Rafael', address: 'Manuel Avila # 22', phone: '3418780498', classification: 'A'},
-];
-
-/**
- * @title Basic use of `<table mat-table>`
- */
 
 @Component({
   selector: 'app-new',
-  imports: [SubmenuuComponent, FormCreditComponent, CommonModule, SearchBarComponent, SaveButtonComponent, PrintButtonComponent, MatTableModule],
   templateUrl: './new.component.html',
-  styleUrl: './new.component.css'
+  styleUrls: ['./new.component.css'],
+  standalone: true,
+  imports: [
+    SubmenuuComponent,
+    SearchBarComponent,
+    FormCreditComponent,
+    SaveButtonComponent,
+    PrintButtonComponent,
+    CommonModule,
+    MatTableModule
+  ]
 })
-export class NewComponent {
+export class NewComponent implements OnInit {
   newCreditCol: string[] = ['name', 'address', 'phone', 'classification'];
-  dataNewCredit = NEW_CREDIT_DATA; 
+  dataNewCredit: NewCredit[] = [];
+  notFoundMessage = '';
+
+  constructor(private creditsService: CreditsService) {}
+
+  ngOnInit(): void {}
+
+  onSearch(nombreCompleto: string): void {
+    console.log('Buscando cliente con nombre:', nombreCompleto); // Verificar si el nombre es correcto
+    this.creditsService.buscarCliente(nombreCompleto).subscribe({
+      next: (data: any) => {
+        // Lógica de manejo de respuesta
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.dataNewCredit = [];
+          this.notFoundMessage = 'Cliente no encontrado';
+        } else {
+          this.notFoundMessage = 'Error al consultar el cliente';
+        }
+      }
+    });
+  }
 }
- 
+
