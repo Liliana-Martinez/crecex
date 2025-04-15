@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Auth } from '../../models/Auth';
+import { Auth } from '../../models/auth';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from '../constants/api-routes';
 import { RegisterRequest } from '../../models/RegisterRequest';
@@ -13,7 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   //Iniciar sesion
-  login(credentials: Auth): Observable<Auth> {
+  login(credentials: Auth): Observable<Auth> { 
     return this.http.post<Auth>(API_ROUTES.AUTH.LOGIN, credentials);
   }
 

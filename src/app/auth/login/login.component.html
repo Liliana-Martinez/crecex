@@ -11,7 +11,7 @@
                 </div>
               </div>
 
-              <div class="form-floating">
+              <div class="form-floating"> 
                 <input type="password" class="form-control" placeholder="Contraseña" formControlName="password" required>
                 <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
                   La contraseña es obligatoria.

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CreditsService } from '../../../../core/services/credits.service';
 import { SubmenuuComponent } from '../../componentss/submenuu/submenuu.component';
 import { FormCreditComponent } from '../../componentss/form-credit/form-credit.component';
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
@@ -7,6 +6,7 @@ import { SaveButtonComponent } from '../../../../shared/componentes/save-button/
 import { PrintButtonComponent } from '../../../../shared/componentes/print-button/print-button.component';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import { TableComponent } from '../../componentss/table/table.component';
 
 export interface NewCredit {
   name: string;
@@ -27,33 +27,14 @@ export interface NewCredit {
     SaveButtonComponent,
     PrintButtonComponent,
     CommonModule,
-    MatTableModule
+    MatTableModule, 
+    TableComponent
   ]
 })
-export class NewComponent implements OnInit {
+export class NewComponent {
   newCreditCol: string[] = ['name', 'address', 'phone', 'classification'];
   dataNewCredit: NewCredit[] = [];
   notFoundMessage = '';
 
-  constructor(private creditsService: CreditsService) {}
-
-  ngOnInit(): void {}
-
-  onSearch(nombreCompleto: string): void {
-    console.log('Buscando cliente con nombre:', nombreCompleto); // Verificar si el nombre es correcto
-    this.creditsService.buscarCliente(nombreCompleto).subscribe({
-      next: (data: any) => {
-        // Lógica de manejo de respuesta
-      },
-      error: (err) => {
-        if (err.status === 404) {
-          this.dataNewCredit = [];
-          this.notFoundMessage = 'Cliente no encontrado';
-        } else {
-          this.notFoundMessage = 'Error al consultar el cliente';
-        }
-      }
-    });
-  }
 }
 

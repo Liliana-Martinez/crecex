@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { RenewComponent } from './renew.component';
+import { FormCreditComponent } from '../../componentss/form-credit/form-credit.component';
 
 describe('RenewComponent', () => {
   let component: RenewComponent;
@@ -8,7 +8,7 @@ describe('RenewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RenewComponent]
+      imports: [RenewComponent, FormCreditComponent]
     })
     .compileComponents();
 
