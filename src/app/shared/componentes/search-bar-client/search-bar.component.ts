@@ -1,47 +1,31 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { MatAutocompleteModule } from '@angular/material/autocomplete'; 
+import { Component } from '@angular/core';
+import { CreditsService } from '../../../core/services/credits.service';
+import { MatFormField } from '@angular/material/form-field'; // Esto sigue aquí si es necesario, aunque no es obligatorio en la mayoría de casos
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-bar',
-  standalone: true, // Si no estás utilizando NgModules, usa standalone en Angular 15+
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, ReactiveFormsModule, MatIconModule, CommonModule],
+  imports: [MatInputModule, MatFormField, FormsModule],
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css']
 })
-export class SearchBarComponent implements OnInit {
-  @Output() search = new EventEmitter<string>();  // Emite el nombre completo al componente padre
+export class SearchBarComponent {
 
-  myControl = new FormControl('');
-  filteredOptions: Observable<string[]> | undefined;
+  nombre: string = '';
+  apellidoPaterno: string = '';
+  apellidoMaterno: string = '';
 
-  // Opciones estáticas (puedes eliminar esto si quieres consultar desde el backend)
-  options: string[] = ['Julio', 'Fatima', 'Erika', 'Ulises'];
+  constructor(private creditsService: CreditsService) {}
 
-  ngOnInit(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-  }
+  onSearchSubmit(): void {
+    console.log('Buscando:', this.nombre, this.apellidoPaterno, this.apellidoMaterno);
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option =>
-      option.toLowerCase().includes(filterValue));
-  }
-
-  // Este método se llama cuando se presiona Enter
-  onSearchChange(event: any): void {
-    const value = event.target.value;
-    if (value) {
-      this.search.emit(value);  // Emitimos el valor del input para que el padre lo maneje
-    }
+    this.creditsService
+      .obtenerDatosCliente(this.nombre, this.apellidoPaterno, this.apellidoMaterno)
+      .subscribe(cliente => {
+        console.log('Cliente encontrado:', cliente);
+        // Aquí puedes emitir el cliente a form-credit o cargarlo en un formulario
+      });
   }
 }
