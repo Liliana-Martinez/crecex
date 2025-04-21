@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
       //Llamar al servicio de autenticacion
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          console.log('Login exitoso: ', response);
-          this.authService.saveToken(response.token);
+          console.log('Respuesta del backend: ', response);
+          this.authService.saveToken(response.succesfull);
           this.router.navigate(['/app/home']);
         },
         error: (err) => {

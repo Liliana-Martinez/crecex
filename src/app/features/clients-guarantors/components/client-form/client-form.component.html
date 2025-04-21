@@ -1,67 +1,76 @@
 <div class="container-form">
-    <form>
+    <form [formGroup]="clientForm" (ngSubmit)="addClient()">
         <h4>Datos personales del cliente</h4>
             <div class="row">
                 <div class="data">
                     <label>Nombre</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" formControlName="name" required>
                 </div>
                 <div class="data">
                     <label>Apellido paterno</label>
-                    <input type="text" id="paternalLn" name="paternalLn" required> <!--paternalLn=paternalLastName -->
+                    <input type="text" formControlName="paternalLn" required> <!--paternalLn=paternalLastName -->
                 </div>
                 <div class="data">
                     <label>Apellido materno</label>
-                    <input type="text" id="maternalLn" name="maternalLn" required> <!--maternalLn=maternalLastName -->
+                    <input type="text" formControlName="maternalLn" required> <!--maternalLn=maternalLastName -->
                 </div>  
             </div>
             <div class="row">
                 <div class="data">
                     <label>Edad</label>
-                    <input type="number" id="age" name="age" min="18" max="60" required>
+                    <input type="number" formControlName="age" min="18" max="60" required>
                 </div>
                 <div class="data">
                     <label>Domicilio</label>
-                    <input type="text" id="adress" name="adress" required>
+                    <input type="text" formControlName="address" required>
                 </div>
                 <div class="data">
                     <label>Colonia</label>
-                    <input type="text" id="colonia" name="colonia" required>
+                    <input type="text" formControlName="colonia" required>
                 </div>
             </div>
             <div class="row">
                 <div class="data">
                     <label>Ciudad</label>
-                    <input type="text" id="city" name="city" required>
+                    <input type="text" formControlName="city" required>
                 </div>
                 <div class="data">
                     <label>Telefóno</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <input type="tel" formControlName="phone" required>
                 </div>
                 <div class="data">
                     <label>Clasificación</label>
-                    <input type="text" id="group" name="group" required> <!--group=grupo de clasificacion-->
+                    <input type="text" formControlName="classification" required> <!--group=grupo de clasificacion-->
                 </div>
             </div>
             <div class="row">
                 <div class="data">
                     <label>Zona</label>
-                    <input type="text" id="zone" name="zone" required>
+                    <input type="text" 
+                            matInput
+                            placeholder="Ejem. 1-A"
+                            formControlName="zone"
+                            [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onZoneSelected($event.option.value)">
+                        <mat-option *ngFor="let zona of filteredZones$ | async" [value]="zona.codigoZona">
+                            {{ zona.codigoZona }}
+                        </mat-option>
+                    </mat-autocomplete>  
                 </div>
             </div> 
         <h4>Datos del trabajo del cliente</h4>
         <div class="row">
             <div class="data">
                 <label>Nombre</label>
-                <input type="text" id="nameJob" name="nameJob" required>
+                <input type="text" formControlName="nameJob" required>
             </div>
             <div class="data">
                 <label>Domicilio</label>
-                <input type="text" id="adressjob" name="adressjob" required>
+                <input type="text" formControlName="addressJob" required>
             </div>
             <div class="data">
                 <label>Telefóno</label>
-                <input type="tel" id="phoneJob" name="phoneJob" required>
+                <input type="tel" formControlName="phoneJob" required>
             </div>
         </div>
         
@@ -69,33 +78,38 @@
         <div class="row">
             <div class="data">
                 <label>Nombre completo</label>
-                <input type="text" id="nameReference" name="nameReference" required>
+                <input type="text" formControlName="nameReference" required>
             </div>
             <div class="data">
                 <label>Domicilio</label>
-                <input type="text" id="adressReference" name="adressReference" required>
+                <input type="text" formControlName="addressReference" required>
             </div>
             <div class="data">
                 <label>Telefóno</label>
-                <input type="tel" id="phoneReference" name="phoneReference" required>
+                <input type="tel" formControlName="phoneReference" required>
             </div>
         </div>
-        
+
         <h4>Garantias</h4>
-        <div class="row">
+        <div formGroupName="garantias" class="row">
             <div class="data">
                 <label>Garantia 1</label>
-                <input type="text" id="garantiaUno" name="garantiaUno" required>
+                <input type="text" formControlName="garantiaUno" required>
             </div>
             <div class="data">
                 <label>Garantia 2</label>
-                <input type="text" id="garantiaDos" name="garantiaDos" required>
+                <input type="text" formControlName="garantiaDos" required>
             </div>
             <div class="data">
                 <label>Garantia 3</label>
-                <input type="text" id="garantiaTres" name="garantiaTres" required>
+                <input type="text" formControlName="garantiaTres" required>
             </div>        
         </div> 
+        <!--Mensaje de error si el formulario es invalido-->
+        <div *ngIf="errorMessage" class="error">
+            {{ errorMessage }}
+        </div><br>
+        <app-save-button [label]="'Guardar'"></app-save-button>
     </form>
 </div>
  
