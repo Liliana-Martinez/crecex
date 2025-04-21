@@ -1,43 +1,31 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { MatAutocompleteModule } from '@angular/material/autocomplete'; 
+import { Component } from '@angular/core';
+import { CreditsService } from '../../../core/services/credits.service';
+import { MatFormField } from '@angular/material/form-field'; // Esto sigue aquí si es necesario, aunque no es obligatorio en la mayoría de casos
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [FormsModule, 
-    MatFormFieldModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    MatIconModule, 
-    AsyncPipe
-  ],
+  imports: [MatInputModule, MatFormField, FormsModule],
   templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.css'
+  styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent {
-  myControl = new FormControl('');
-  options: string[] = ['Julio', 'Fatima', 'Erika', 'Ulises'];
-  filteredOptions: Observable<string[]> | undefined;
 
-  ngOnInit(){
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-  }
+  nombre: string = '';
+  apellidoPaterno: string = '';
+  apellidoMaterno: string = '';
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  constructor(private creditsService: CreditsService) {}
 
-    return this.options.filter(option =>
-      option.toLowerCase().includes(filterValue));
+  onSearchSubmit(): void {
+    console.log('Buscando:', this.nombre, this.apellidoPaterno, this.apellidoMaterno);
+
+    this.creditsService
+      .obtenerDatosCliente(this.nombre, this.apellidoPaterno, this.apellidoMaterno)
+      .subscribe(cliente => {
+        console.log('Cliente encontrado:', cliente);
+        // Aquí puedes emitir el cliente a form-credit o cargarlo en un formulario
+      });
   }
 }
-

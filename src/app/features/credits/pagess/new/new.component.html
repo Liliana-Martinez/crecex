@@ -1,38 +1,9 @@
 <app-submenuu></app-submenuu>
 <div>
-    <app-search-bar></app-search-bar>
-    <div class="container-table">
-        <table mat-table [dataSource]="dataNewCredit" class="mat-elevation-z8">
-            <!-- Nombre -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-          
-            <!-- Direccion -->
-            <ng-container matColumnDef="address">
-              <th mat-header-cell *matHeaderCellDef> Dirección </th>
-              <td mat-cell *matCellDef="let element"> {{element.address}} </td>
-            </ng-container>
-          
-            <!-- Telefono -->
-            <ng-container matColumnDef="phone">
-              <th mat-header-cell *matHeaderCellDef> Telefóno </th>
-              <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
-            </ng-container>
-          
-            <!-- Clasificacion -->
-            <ng-container matColumnDef="classification">
-              <th mat-header-cell *matHeaderCellDef> Clasificación </th>
-              <td mat-cell *matCellDef="let element"> {{element.classification}}</td>
-            </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="newCreditCol"></tr>
-            <tr mat-row *matRowDef="let row; columns: newCreditCol;"></tr>
-          </table>          
-    </div>
+  <app-search-bar></app-search-bar>
+  <app-table></app-table>
+  <app-form-credit></app-form-credit> 
+  <app-save-button></app-save-button>
+  <app-print-button></app-print-button>
 
-    <app-form-credit></app-form-credit> 
-    <app-save-button></app-save-button>
-    <app-print-button></app-print-button>
 </div>
