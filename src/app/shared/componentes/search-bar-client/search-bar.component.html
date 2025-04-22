@@ -1,20 +1,14 @@
 <div class="container-search-bar">
-  <form class="example-form" (ngSubmit)="onSearchSubmit()">
+  <form class="example-form">
     <mat-form-field class="example-full-width">
-      <mat-label>Nombre</mat-label>
-      <input matInput placeholder="Nombre" [(ngModel)]="nombre" name="nombre">
+      <mat-label>Nombre Completo</mat-label>
+      <input 
+        matInput 
+        placeholder="Nombre Completo" 
+        [(ngModel)]="nombreCompleto" 
+        name="nombreCompleto"
+        (keydown.enter)="buscarCliente()"
+      >
     </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <mat-label>Apellido Paterno</mat-label>
-      <input matInput placeholder="Apellido Paterno" [(ngModel)]="apellidoPaterno" name="apellidoPaterno">
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <mat-label>Apellido Materno</mat-label>
-      <input matInput placeholder="Apellido Materno" [(ngModel)]="apellidoMaterno" name="apellidoMaterno">
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit">Buscar Cliente</button>
   </form>
 </div>

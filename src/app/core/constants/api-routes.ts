@@ -10,12 +10,14 @@ export const API_ROUTES = {
     CLIGRS: {
         ADD: `${API_URL}/clients-guarantors/add`,
         CONSULT: `${API_URL}/clients-guarantors/consult`,
-        MODIFY: `${API_URL}/clients-guarantors/modify`
+        MODIFY: `${API_URL}/clients-guarantors/modify`,
+        BUSCAR_CLIENTE: `${API_URL}/credits/buscar-cliente`
     },
     CREDITS:  {
         NEW: `${API_URL}/credits/new`,
         RENEW: `${API_URL}/credits/renew`,
-        ADDITIONAL: `${API_URL}/credits/additional`
+        ADDITIONAL: `${API_URL}/credits/additional`,
+        BUSCAR_CLIENTE: `${API_URL}/credits/buscar-cliente`
     },
     PAYMENTS: `${API_URL}/payments`,
     COLLECTORS: `${API_URL}/collectors`,
