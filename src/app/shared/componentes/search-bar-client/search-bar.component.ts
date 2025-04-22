@@ -13,23 +13,45 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CommonModule,
     FormsModule,  
     MatInputModule,  
-    MatFormFieldModule 
+    MatFormFieldModule,  
   ],
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent {
   nombreCompleto: string = '';  
+  mensajeError: string = '';
 
   constructor(private creditsService: CreditsService) {}
 
   buscarCliente(): void {
+    this.mensajeError = '';
+
+    if (!this.nombreCompleto.trim()) {
+      this.mensajeError = 'El nombre completo es obligatorio';
+      return;
+    }
+
     console.log('Buscando cliente:', this.nombreCompleto);
+    
     this.creditsService.obtenerDatosCliente(this.nombreCompleto)
-      .subscribe((response) => {
-        console.log('Cliente encontrado:', response.cliente);
-        console.log('Datos de crédito:', response.credito);
-        console.log('Pagos realizados:', response.pagos);
+      .subscribe({
+        next: (response) => {
+          console.log('Cliente encontrado:', response.cliente);
+          console.log('Datos de crédito:', response.credito);
+          console.log('Pagos realizados:', response.pagos);
+          this.mensajeError = ''; 
+        },
+        error: (err) => {
+          if (err.status === 404) {
+            this.mensajeError = 'Cliente no encontrado';
+          } else {
+            this.mensajeError = 'Ocurrió un error inesperado';
+          }
+        }
       });
   }
 }
+
+
+
 

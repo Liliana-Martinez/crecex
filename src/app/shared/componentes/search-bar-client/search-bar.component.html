@@ -9,6 +9,10 @@
         name="nombreCompleto"
         (keydown.enter)="buscarCliente()"
       >
+      <div *ngIf="mensajeError" class="error" style="color: red;font-size: 12px;">
+        {{ mensajeError }}
+      </div>
     </mat-form-field>
   </form>
 </div>
+ 

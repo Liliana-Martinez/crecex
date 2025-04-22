@@ -4,7 +4,7 @@
           <h1>Crecex</h1>
             <img class= 'logo' src="logo.jpg" alt="Logo">
             <h1>Iniciar sesión</h1>
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3"> 
                 <input type="text" class="form-control" placeholder="Usuario" formControlName="user" required>
                 <div *ngIf="loginForm.get('user')?.invalid && loginForm.get('user')?.touched" class="error">
                   El usuario es obligatorio.
