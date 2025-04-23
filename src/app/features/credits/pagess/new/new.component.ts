@@ -40,7 +40,6 @@ export class NewComponent {
   cliente: any = null;
 
   mostrarClienteEnTabla(cliente: any) {
-    console.log('Cliente recibido en new.component:', cliente);
    this.cliente = cliente;
 }
 }

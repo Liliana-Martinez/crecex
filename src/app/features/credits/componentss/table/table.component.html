@@ -1,7 +1,4 @@
 <div class="container-table">
-  <div *ngIf="dataRenewCredit.length === 0">No hay datos que mostrar.</div>
-  <div *ngIf="dataRenewCredit.length > 0">Datos encontrados 🎉</div>
-
     <table mat-table [dataSource]="dataRenewCredit" class="mat-elevation-z8">
         <!-- Nombre --> 
         <ng-container matColumnDef="name">

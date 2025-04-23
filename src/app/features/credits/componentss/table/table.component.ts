@@ -37,22 +37,22 @@ export class TableComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['clienteData'] && this.clienteData) {
-      console.log('Datos recibidos en tabla:', this.clienteData);
-      const cliente = this.clienteData.cliente || {};
-    const credito = this.clienteData.credito || {};
-    const pagos = this.clienteData.pagos || [];
-      this.dataRenewCredit = [{
+        console.log('Datos recibidos en tabla:', this.clienteData);
+        const cliente = this.clienteData.cliente || {};
+        const credito = this.clienteData.credito || {};
+        const pagos = this.clienteData.pagos || [];
+        this.dataRenewCredit = [{
         name: `${cliente.nombre} ${cliente.apellidoPaterno} ${cliente.apellidoMaterno}`,
         address: cliente.domicilio || '',
         phone: cliente.telefono || '',
         classification: cliente.clasificacion || '',
         loans: credito.monto?.toString() || '',
-        date: credito.fechaEntrega?.split('T')[0] || '', // 👈 formato fecha
-        week: pagos[0]?.numeroSemana?.toString() || '',  // 👈 primer pago
+        date: credito.fechaEntrega?.split('T')[0] || '', 
+        week: pagos[0]?.numeroSemana?.toString() || '',  
         weeklyAmount: pagos[0]?.cantidad?.toString() || '', 
-        compliance: '' // Puedes calcularlo si quieres
+        compliance: '' 
       }];
-      this.cdRef.detectChanges(); // 👈 Forzamos detección de cambios
+      this.cdRef.detectChanges(); 
     }
   }
 }

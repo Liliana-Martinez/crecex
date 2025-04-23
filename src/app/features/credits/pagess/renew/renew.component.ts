@@ -8,11 +8,16 @@ import { PrintButtonComponent } from "../../../../shared/componentes/print-butto
 import { FormCreditComponent } from "../../componentss/form-credit/form-credit.component";
 @Component({
   selector: 'app-renew',
-  imports: [SubmenuuComponent, TableComponent, CommonModule, SearchBarComponent, SaveButtonComponent, PrintButtonComponent, FormCreditComponent],
+  imports: [SubmenuuComponent, 
+    TableComponent, CommonModule, 
+    SearchBarComponent, 
+    SaveButtonComponent, 
+    PrintButtonComponent, 
+    FormCreditComponent],
   templateUrl: './renew.component.html',
   styleUrl: './renew.component.css'
 })
 export class RenewComponent {
   modulo: string = 'renew';
 }
- 
+  
