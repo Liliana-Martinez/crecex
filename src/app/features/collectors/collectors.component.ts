@@ -22,6 +22,7 @@ const COLLECTOR_DATA: Collector[] = [
   styleUrl: './collectors.component.css'
 })
 export class CollectorsComponent {
+  modulo: string = 'additional';
   collectorCol: string[] = ['name', 'address', 'phone', 'guarantorp', 'guarantors'];
   dataCollector = COLLECTOR_DATA;
 }

@@ -5,7 +5,7 @@
         <option value="guarantorp">Datos del aval principal</option>
         <option value="guarantors">Datos del aval secundario</option>
     </select>  
-    <app-search-bar></app-search-bar>
+    <app-search-bar [modulo]="modulo"></app-search-bar>
 </div>
 
 <app-client-form *ngIf="selected === 'client'"></app-client-form>

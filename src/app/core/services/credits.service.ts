@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from '../constants/api-routes'; 
@@ -9,8 +9,10 @@ import { API_ROUTES } from '../constants/api-routes';
 export class CreditsService {
   constructor(private http: HttpClient) {}
 
-  obtenerDatosCliente(nombreCompleto: string): Observable<any> {
-    return this.http.post<any>(API_ROUTES.CREDITS.BUSCAR_CLIENTE, { nombreCompleto });
+  obtenerDatosCliente(nombreCompleto: string, modulo: string): Observable<any> {
+    return this.http.post<any>(API_ROUTES.CREDITS.BUSCAR_CLIENTE, {
+      nombreCompleto,
+      modulo
+    });
   }
 }
-

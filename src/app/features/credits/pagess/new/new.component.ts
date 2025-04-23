@@ -35,6 +35,6 @@ export class NewComponent {
   newCreditCol: string[] = ['name', 'address', 'phone', 'classification'];
   dataNewCredit: NewCredit[] = [];
   notFoundMessage = '';
-
+  modulo: string = 'new';
 }
 

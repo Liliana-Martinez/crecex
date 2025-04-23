@@ -13,6 +13,6 @@ import { FormCreditComponent } from "../../componentss/form-credit/form-credit.c
   styleUrl: './renew.component.css'
 })
 export class RenewComponent {
-
+  modulo: string = 'renew';
 }
  

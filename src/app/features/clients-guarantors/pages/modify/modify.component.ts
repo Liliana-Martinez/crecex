@@ -15,6 +15,7 @@ import { SaveButtonComponent } from '../../../../shared/componentes/save-button/
   styleUrl: './modify.component.css'
 })
 export class ModifyComponent {
+  modulo: string = 'modify';
   selected: string = 'client';
 
   changeForm(event: any) {

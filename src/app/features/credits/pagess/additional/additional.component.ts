@@ -14,5 +14,6 @@ import { PrintButtonComponent } from "../../../../shared/componentes/print-butto
   styleUrl: './additional.component.css'
 })
 export class AdditionalComponent {
-
+  modulo: string = 'additional';
 }
+ 

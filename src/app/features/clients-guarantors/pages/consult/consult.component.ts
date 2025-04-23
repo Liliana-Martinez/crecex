@@ -45,6 +45,7 @@ const CREDIT_HISTORY: CreditHistory[] = [
   styleUrl: './consult.component.css'
 })
 export class ConsultComponent {
+  modulo: string = 'consult';
   //currentCreditColumns
   currentCreditCol: string[] = ['creditNumber', 'name', 'amount', 'numberWeeks', 'date', 'weeklyAmount', 'paymentWeek', 'paymentStatus'];
   creditHistoryCol: string[] = ['creditNumHistory', 'amountHistory', 'dateHistory', 'numWeeksHistory', 'statusHistory'];

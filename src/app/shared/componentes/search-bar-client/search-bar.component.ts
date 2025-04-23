@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CreditsService } from '../../../core/services/credits.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent {
+  @Input() modulo: string = '';
   nombreCompleto: string = '';  
   mensajeError: string = '';
 
@@ -33,7 +34,7 @@ export class SearchBarComponent {
 
     console.log('Buscando cliente:', this.nombreCompleto);
     
-    this.creditsService.obtenerDatosCliente(this.nombreCompleto)
+    this.creditsService.obtenerDatosCliente(this.nombreCompleto, this.modulo)
       .subscribe({
         next: (response) => {
           console.log('Cliente encontrado:', response.cliente);
@@ -51,7 +52,3 @@ export class SearchBarComponent {
       });
   }
 }
-
-
-
-
