@@ -9,13 +9,6 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../componentss/table/table.component';
 
 
-export interface NewCredit {
-  name: string;
-  address: string;
-  phone: string;
-  classification: string;
-}
-
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
@@ -33,12 +26,8 @@ export interface NewCredit {
   ]
 })
 export class NewComponent {
-  newCreditCol: string[] = ['name', 'address', 'phone', 'classification'];
-  dataNewCredit: NewCredit[] = [];
-  notFoundMessage = '';
   modulo: string = 'new';
   cliente: any = null;
-
   mostrarClienteEnTabla(cliente: any) {
    this.cliente = cliente;
 }
