@@ -5,42 +5,69 @@
                 <div class="data">
                     <label>Nombre</label>
                     <input type="text" formControlName="name" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('name')?.invalid && clientForm.get('name')?.touched">
+                        Nombre vacío o no es válido.
+                    </div>
                 </div>
                 <div class="data">
                     <label>Apellido paterno</label>
-                    <input type="text" formControlName="paternalLn" required> <!--paternalLn=paternalLastName -->
+                    <input type="text" formControlName="paternalLn" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('paternalLn')?.invalid && clientForm.get('paternalLn')?.touched">
+                        Apellido vacío o no es válido.
+                    </div><!--paternalLn=paternalLastName -->
                 </div>
                 <div class="data">
                     <label>Apellido materno</label>
-                    <input type="text" formControlName="maternalLn" required> <!--maternalLn=maternalLastName -->
+                    <input type="text" formControlName="maternalLn" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('maternalLn')?.invalid && clientForm.get('maternalLn')?.touched">
+                        Apellido vacío o no es válido.
+                    </div> <!--maternalLn=maternalLastName -->
                 </div>  
             </div>
             <div class="row">
                 <div class="data">
                     <label>Edad</label>
                     <input type="number" formControlName="age" min="18" max="60" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('age')?.invalid && clientForm.get('age')?.touched">
+                        Edad vacía o no es válido.
+                    </div>
                 </div>
                 <div class="data">
                     <label>Domicilio</label>
                     <input type="text" formControlName="address" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('address')?.invalid && clientForm.get('address')?.touched">
+                        Domicilio vacío o no es válido.
+                    </div>
                 </div>
                 <div class="data">
                     <label>Colonia</label>
                     <input type="text" formControlName="colonia" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('colonia')?.invalid && clientForm.get('colonia')?.touched">
+                        Colonia vacío o no es válido.
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="data">
                     <label>Ciudad</label>
                     <input type="text" formControlName="city" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('city')?.invalid && clientForm.get('city')?.touched">
+                        Ciudad vacío o no es válido.
+                    </div>
                 </div>
                 <div class="data">
                     <label>Telefóno</label>
                     <input type="tel" formControlName="phone" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('phone')?.invalid && clientForm.get('phone')?.touched">
+                        Telefóno vacío o no es válido.
+                    </div>
                 </div>
                 <div class="data">
                     <label>Clasificación</label>
-                    <input type="text" formControlName="classification" required> <!--group=grupo de clasificacion-->
+                    <input type="text" formControlName="classification" required>
+                    <div class="mensaje-error" *ngIf="clientForm.get('classification')?.invalid && clientForm.get('classification')?.touched">
+                        Clasificación vacío o no es válido.
+                    </div> <!--group=grupo de clasificacion-->
                 </div>
             </div>
             <div class="row">
@@ -63,14 +90,23 @@
             <div class="data">
                 <label>Nombre</label>
                 <input type="text" formControlName="nameJob" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('nameJob')?.invalid && clientForm.get('nameJob')?.touched">
+                    Nombre de trabajo vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Domicilio</label>
                 <input type="text" formControlName="addressJob" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('addressJob')?.invalid && clientForm.get('addressJob')?.touched">
+                    Domicilio de trabajo vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Telefóno</label>
                 <input type="tel" formControlName="phoneJob" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('phoneJob')?.invalid && clientForm.get('phoneJob')?.touched">
+                    Telefóno de trabajo vacío o no es válido.
+                </div>
             </div>
         </div>
         
@@ -79,14 +115,23 @@
             <div class="data">
                 <label>Nombre completo</label>
                 <input type="text" formControlName="nameReference" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('nameReference')?.invalid && clientForm.get('nameReference')?.touched">
+                    Nombre de referencia vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Domicilio</label>
                 <input type="text" formControlName="addressReference" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('addressReference')?.invalid && clientForm.get('addressReference')?.touched">
+                    Domicilio de referencia vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Telefóno</label>
                 <input type="tel" formControlName="phoneReference" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('phoneReference')?.invalid && clientForm.get('phoneReference')?.touched">
+                    Telefóno de referencia vacío o no es válido.
+                </div>
             </div>
         </div>
 
@@ -95,14 +140,23 @@
             <div class="data">
                 <label>Garantia 1</label>
                 <input type="text" formControlName="garantiaUno" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('garantias.garantiaUno')?.invalid && clientForm.get('garantias.garantiaUno')?.touched">
+                    Garantia vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Garantia 2</label>
                 <input type="text" formControlName="garantiaDos" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('garantias.garantiaDos')?.invalid && clientForm.get('garantias.garantiaDos')?.touched">
+                    Garantia vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Garantia 3</label>
                 <input type="text" formControlName="garantiaTres" required>
+                <div class="mensaje-error" *ngIf="clientForm.get('garantias.garantiaTres')?.invalid && clientForm.get('garantias.garantiaTres')?.touched">
+                    Garantia vacío o no es válido.
+                </div>
             </div>        
         </div> 
         <!--Mensaje de error si el formulario es invalido-->

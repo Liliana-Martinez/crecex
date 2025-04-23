@@ -5,12 +5,12 @@ import { ClientFormComponent } from '../../components/client-form/client-form.co
 import { GuarantorFormComponent } from '../../components/guarantor-form/guarantor-form.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
+
 
 @Component({
   selector: 'app-modify',
   imports:
-   [SubmenuComponent, SearchBarComponent, ClientFormComponent, GuarantorFormComponent, FormsModule, CommonModule, SaveButtonComponent],
+   [SubmenuComponent, SearchBarComponent, ClientFormComponent, GuarantorFormComponent, FormsModule, CommonModule],
   templateUrl: './modify.component.html',
   styleUrl: './modify.component.css'
 })
