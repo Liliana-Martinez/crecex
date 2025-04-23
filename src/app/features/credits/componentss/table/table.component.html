@@ -1,4 +1,7 @@
 <div class="container-table">
+  <div *ngIf="dataRenewCredit.length === 0">No hay datos que mostrar.</div>
+  <div *ngIf="dataRenewCredit.length > 0">Datos encontrados 🎉</div>
+
     <table mat-table [dataSource]="dataRenewCredit" class="mat-elevation-z8">
         <!-- Nombre --> 
         <ng-container matColumnDef="name">
@@ -26,7 +29,7 @@
 
         <!-- N° Prestamos -->
         <ng-container matColumnDef="loans">
-            <th mat-header-cell *matHeaderCellDef> No Prestamos </th>
+            <th mat-header-cell *matHeaderCellDef> Prestamo </th>
             <td mat-cell *matCellDef="let element"> {{element.loans}}</td>
           </ng-container>
 

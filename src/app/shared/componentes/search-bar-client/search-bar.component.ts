@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CreditsService } from '../../../core/services/credits.service';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  
 import { MatInputModule } from '@angular/material/input';  
@@ -19,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class SearchBarComponent {
   @Input() modulo: string = '';
+  @Output() clienteEncontrado = new EventEmitter<any>();
   nombreCompleto: string = '';  
   mensajeError: string = '';
 
@@ -30,25 +30,18 @@ export class SearchBarComponent {
     if (!this.nombreCompleto.trim()) {
       this.mensajeError = 'El nombre completo es obligatorio';
       return;
-    }
-
-    console.log('Buscando cliente:', this.nombreCompleto);
-    
+    }     
     this.creditsService.obtenerDatosCliente(this.nombreCompleto, this.modulo)
-      .subscribe({
-        next: (response) => {
-          console.log('Cliente encontrado:', response.cliente);
-          console.log('Datos de crédito:', response.credito);
-          console.log('Pagos realizados:', response.pagos);
-          this.mensajeError = ''; 
-        },
-        error: (err) => {
-          if (err.status === 404) {
-            this.mensajeError = 'Cliente no encontrado';
-          } else {
-            this.mensajeError = 'Ocurrió un error inesperado';
+        .subscribe({
+          next: (response) => {
+            console.log('Respuesta del backend:', response);
+            if (response && response.cliente) {
+              this.clienteEncontrado.emit(response); 
+            }
+          },
+          error: (err) => {
+            this.mensajeError = err.status === 404 ? 'Cliente no encontrado' : 'Ocurrió un error inesperado';
           }
-        }
-      });
+        }); 
   }
 }

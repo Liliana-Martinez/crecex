@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../componentss/table/table.component';
 
+
 export interface NewCredit {
   name: string;
   address: string;
@@ -36,5 +37,11 @@ export class NewComponent {
   dataNewCredit: NewCredit[] = [];
   notFoundMessage = '';
   modulo: string = 'new';
+  cliente: any = null;
+
+  mostrarClienteEnTabla(cliente: any) {
+    console.log('Cliente recibido en new.component:', cliente);
+   this.cliente = cliente;
+}
 }
 
