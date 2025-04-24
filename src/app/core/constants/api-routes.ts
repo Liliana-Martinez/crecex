@@ -12,7 +12,7 @@ export const API_ROUTES = {
         CONSULT: `${API_URL}/clients-guarantors/consult`,
         MODIFY: `${API_URL}/clients-guarantors/modify`,
         BUSCAR_CLIENTE: `${API_URL}/credits/buscar-cliente`
-    },
+    }, 
     CREDITS:  {
         NEW: `${API_URL}/credits/new`,
         RENEW: `${API_URL}/credits/renew`,

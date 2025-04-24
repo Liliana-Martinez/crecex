@@ -16,7 +16,7 @@ export class ClientService {
     return this.http.post<Client>(API_ROUTES.CLIGRS.ADD, credentials);
   }
 
-  getZones(): Observable<Zone[]> {
+  getZones(): Observable<Zone[]> { 
     return this.http.get<Zone[]>(API_ROUTES.ZONES.GETALL);
   }
 }

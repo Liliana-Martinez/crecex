@@ -1,18 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_ROUTES } from '../constants/api-routes'; 
-
+import { API_ROUTES } from '../constants/api-routes';
+import { BuscarCliente } from '../../models/BuscarCliente';
 @Injectable({
   providedIn: 'root'
 })
 export class CreditsService {
   constructor(private http: HttpClient) {}
 
-  obtenerDatosCliente(nombreCompleto: string, modulo: string): Observable<any> {
-    return this.http.post<any>(API_ROUTES.CREDITS.BUSCAR_CLIENTE, {
-      nombreCompleto,
-      modulo
-    });
+  // Método para obtener los datos del cliente
+  obtenerDatosCliente(credentials: BuscarCliente): Observable<any> {
+    return this.http.post<any>(API_ROUTES.CREDITS.BUSCAR_CLIENTE, credentials);
+  }
+  enviarFormulario(modulo: string, payload: any): Observable<any> {
+    let url = '';
+    switch (modulo) {
+      case 'new':
+        url = API_ROUTES.CREDITS.NEW;
+        break;
+      case 'renew':
+        url = API_ROUTES.CREDITS.RENEW;
+        break;
+      case 'additional':
+        url = API_ROUTES.CREDITS.ADDITIONAL;
+        break;
+      default:
+        url = API_ROUTES.CREDITS.NEW;
+    }
+
+    return this.http.post<any>(url, payload);
   }
 }
+ 
