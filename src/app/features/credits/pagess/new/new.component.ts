@@ -32,33 +32,9 @@ export class NewComponent {
 
   constructor(private creditsService: CreditsService) {}
 
-  // Recibe al cliente desde search-bar
-  mostrarClienteEnTabla(cliente: any): void {
+  mostrarClienteEnTabla(cliente: any) {
+    console.log('Cliente recibido en new.component:', cliente);
     this.cliente = cliente;
-  }
-
-  // Recibe los datos del formulario desde form-credit
-  guardarFormulario(formulario: any): void {
-    this.formulario = formulario;
-    console.log('Formulario recibido:', this.formulario);
-  }
-
-  // Enviar al backend
-  enviarFormulario(): void {
-    if (!this.formulario) {
-      console.error('No hay formulario para enviar');
-      return;
-    }
-
-    this.creditsService.enviarFormulario(this.modulo, this.formulario).subscribe({
-      next: (response) => {
-        console.log('Formulario enviado con éxito:', response);
-        // Aquí podrías limpiar los datos o mostrar una notificación
-      },
-      error: (error) => {
-        console.error('Error al enviar el formulario:', error);
-      }
-    });
-  }
+}
 }
 

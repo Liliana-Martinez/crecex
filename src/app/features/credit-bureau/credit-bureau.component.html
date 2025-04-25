@@ -7,7 +7,7 @@
 
 <!--Div que contiene el formulario de la opcion agregar-->
 <div class="container-form" *ngIf="selectedAction === 'add'">
-    <form>
+    <form [formGroup]>
         <div class="row">
             <div class="data">
                 <label>Nombre completo</label>

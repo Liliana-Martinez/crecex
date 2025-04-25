@@ -1,5 +1,5 @@
 import { Component, NgModule} from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { SaveButtonComponent } from '../../shared/componentes/save-button/save-button.component';
@@ -21,7 +21,10 @@ const CREDIT_BUREAU_DATA: CreditBureau[] = [
 
 @Component({
   selector: 'app-credit-bureau',
-  imports: [RouterModule, FormsModule, MatTableModule, SaveButtonComponent, CommonModule],
+  imports: [RouterModule,
+            CommonModule,
+            ReactiveFormsModule,
+            MatTableModule, SaveButtonComponent],
   templateUrl: './credit-bureau.component.html',
   styleUrl: './credit-bureau.component.css'
 })
