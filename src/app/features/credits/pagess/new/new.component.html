@@ -2,9 +2,10 @@
 <div>
   <app-search-bar [modulo]="modulo" (clienteEncontrado)="mostrarClienteEnTabla($event)"></app-search-bar>
   <app-table [clienteData]="cliente" ></app-table>
-  <app-form-credit (formularioCompleto)="guardarFormulario($event)"></app-form-credit> 
-  <app-save-button (save)="enviarFormulario()" ></app-save-button>
+  <div *ngIf="errorMessage" class="error-message" style="color: red; margin-top: 8px; font-size: 15px; text-align: center;"> {{ errorMessage }} </div>
+  <app-form-credit  #formCredit (formularioCompleto)="guardarFormulario($event)" ></app-form-credit> 
+  <!-- <app-save-button></app-save-button> -->
   <app-print-button></app-print-button>
 
 </div>
- 
+   
