@@ -24,7 +24,7 @@ const CREDIT_BUREAU_DATA: CreditBureau[] = [
   imports: [RouterModule,
             CommonModule,
             ReactiveFormsModule,
-            MatTableModule, SaveButtonComponent],
+            MatTableModule, SaveButtonComponent, FormsModule],
   templateUrl: './credit-bureau.component.html',
   styleUrl: './credit-bureau.component.css'
 })
