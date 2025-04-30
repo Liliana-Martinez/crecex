@@ -8,7 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../componentss/table/table.component';
 import { CreditsService } from '../../../../core/services/credits.service';
-
+import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
@@ -45,10 +45,10 @@ export class NewComponent {
     this.errorMessage = '';
     const payload = {
       ...data, 
-      idCliente: this.cliente.id,  
+      idCliente: this.cliente.idCliente,  
       modulo: this.modulo, 
     };
-    
+    console.log('Payload a enviar:', payload);
     this.creditsService.enviarFormulario('new', payload).subscribe(
       (response) => {
         console.log('Crédito guardado exitosamente:', response);

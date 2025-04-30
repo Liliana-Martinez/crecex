@@ -12,13 +12,13 @@ export class FormCreditComponent {
   @Output() formularioCompleto = new EventEmitter<any>();
 
   formulario: any = {
-    monto: 0,
+    monto: '',
     semanas: '',
     horarioEntrega: '',
     atrasos: '',
-    recargos: 0
+    recargos: ''
   };
   submitFormulario(): void {
     this.formularioCompleto.emit(this.formulario);
   } 
-} 
+}  
