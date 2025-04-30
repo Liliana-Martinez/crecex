@@ -7,50 +7,71 @@
 
 <!--Div que contiene el formulario de la opcion agregar-->
 <div class="container-form" *ngIf="selectedAction === 'add'">
-    <form [formGroup]>
+    <form [formGroup]="creditBureauForm" (ngSubmit)="addToCreditBureau()">
         <div class="row">
             <div class="data">
                 <label>Nombre completo</label>
-                <input type="text" [(ngModel)]="nameBc" name="nameBc"><!--nameBc=nombreBuroCredito-->
+                <input type="text" formControlName="nameBc" required><!--nameBc=nombreBuroCredito-->
+                <div class="mensaje-error" *ngIf="creditBureauForm.get('nameBc')?.invalid && creditBureauForm.get('nameBc')?.touched">
+                    Nombre vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Domicilio</label>
-                <input type="text" [(ngModel)]="addressBc" name="addressBc"><!--addressBc=domicilioBuroCredito-->
+                <input type="text" formControlName="addressBc" required><!--addressBc=domicilioBuroCredito-->
+                <div class="mensaje-error" *ngIf="creditBureauForm.get('addressBc')?.invalid && creditBureauForm.get('addressBc')?.touched">
+                    Domicilio vacío o no es válido.
+                </div>
             </div>
             <div class="data">
                 <label>Telefóno</label>
-                <input type="text" [(ngModel)]="phoneBc" name="phoneBc"><!--phoneBc=phoneBuroCredito-->
+                <input type="tel" formControlName="phoneBc" required><!--phoneBc=phoneBuroCredito-->
+                <div class="mensaje-error" *ngIf="creditBureauForm.get('phoneBc')?.invalid && creditBureauForm.get('phoneBc')?.touched">
+                    Telefóno vacío o no es válido.
+                </div>
             </div>
         </div>
+        <!--Mensaje de error si el formulario es invalido-->
+        <div *ngIf="errorMessage" class="error">
+            {{ errorMessage }}
+        </div><br>
         <div class="container-button">
-            <app-save-button></app-save-button>
+            <app-save-button [label]="'Guardar'"></app-save-button>
         </div>
     </form>
 </div>
 
-<!--Div que contiene la tabla de la opcion consultar-->
-<div class="container-table" *ngIf="selectedAction === 'consult'">
-    <table mat-table [dataSource]="dataListBureau" class="mat-elevation-z8">
-    
-        <!-- Nombre -->
-        <ng-container matColumnDef="nameBcList"><!--nameBcList=nombreBuroCreditoList-->
-          <th mat-header-cell *matHeaderCellDef> Nombre </th>
-          <td mat-cell *matCellDef="let element"> {{element.nameBcList}} </td>
-        </ng-container>
-      
-        <!-- Domicilio -->
-        <ng-container matColumnDef="addressBcList"><!--addressBcList=domicilioBuroCreditoList-->
-          <th mat-header-cell *matHeaderCellDef> Domicilio </th>
-          <td mat-cell *matCellDef="let element"> {{element.addressBcList}} </td>
-        </ng-container>
-      
-        <!-- Telefono -->
-        <ng-container matColumnDef="phoneBcList"><!--phoneBcList=phoneBuroCreditoList-->
-          <th mat-header-cell *matHeaderCellDef> Telefóno </th>
-          <td mat-cell *matCellDef="let element"> {{element.phoneBcList}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="listBureauCol"></tr>
-        <tr mat-row *matRowDef="let row; columns: listBureauCol;"></tr>
-      </table>      
+<div class="consult-option" *ngIf="selectedAction === 'consult'">
+    <div class="container-search">
+        <!--buscador para clientes en buro de credito -->
+        <mat-form-field class="example-full-width">
+            <mat-label>Ingrese el nombre completo</mat-label>
+            <input matInput [(ngModel)]="searchText" (ngModelChange)="searchInCreditBureau()">
+        </mat-form-field>
+    </div>
+
+    <div class="container-table">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <!-- Nombre -->
+            <ng-container matColumnDef="name"><!--nameBcList=nombreBuroCreditoList-->
+              <th mat-header-cell *matHeaderCellDef> Nombre </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+          
+            <!-- Domicilio -->
+            <ng-container matColumnDef="address"><!--addressBcList=domicilioBuroCreditoList-->
+              <th mat-header-cell *matHeaderCellDef> Domicilio </th>
+              <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+            </ng-container>
+          
+            <!-- Telefono -->
+            <ng-container matColumnDef="phone"><!--phoneBcList=phoneBuroCreditoList-->
+              <th mat-header-cell *matHeaderCellDef> Telefóno </th>
+              <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="listBureauCol"></tr>
+            <tr mat-row *matRowDef="let row; columns: listBureauCol;"></tr>
+          </table>      
+    </div>
 </div>

@@ -8,7 +8,10 @@ export const API_ROUTES = {
     HOME: `${API_URL}/home`,
     //CLIGRS = CLIENTESGUARANTORS
     CLIGRS: {
-        ADD: `${API_URL}/clients-guarantors/add`,
+        ADD: {
+           CLIENT: `${API_URL}/clients-guarantors/add/client`,
+           GUARANTOR: `${API_URL}/clients-guarantors/add/guarantor`
+        },
         CONSULT: `${API_URL}/clients-guarantors/consult`,
         MODIFY: `${API_URL}/clients-guarantors/modify`,
         BUSCAR_CLIENTE: `${API_URL}/credits/buscar-cliente`
@@ -29,7 +32,10 @@ export const API_ROUTES = {
         //TOTPAYM = TOTALPAYMENTS
         TOTPAYM: `${API_URL}/statistics/total-payments`
     },
-    BUREAU: `${API_URL}/credit-bureau`,
+    BUREAU: {
+        ADD: `${API_URL}/credit-bureau/add`,
+        CONSULT: `${API_URL}/credit-bureau/consult`
+    },
     ZONES: {
         GETALL: `${API_URL}/zones/getAllZones`
     }

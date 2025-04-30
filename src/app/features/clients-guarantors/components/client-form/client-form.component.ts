@@ -42,7 +42,7 @@ export class ClientFormComponent implements OnInit {
       city: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
       phone: new FormControl('', [Validators.required, Validators.pattern(/^\d{10}$/)]),
       classification: new FormControl('', [Validators.required, Validators.pattern(/^[A-Da-d]$/)]),
-      zone: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z]-\d+$/)]),
+      zone: new FormControl('', [Validators.required/*, Validators.pattern(/^[A-Za-z]-\d+$/)*/]),
       zoneId: new FormControl(''),
       nameJob: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
       addressJob: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)]),
@@ -69,8 +69,12 @@ export class ClientFormComponent implements OnInit {
     const zoneCode = this.clientForm.get('zone')?.value;
     this.onZoneSelected(zoneCode); //Se envía ejemplo A-3
     
+    console.log('¿Formulario aval válido?: ', this.clientForm.valid);
+    console.log('Errores: ', this.clientForm.errors);
+    console.log('Valor del formulario: ', this.clientForm.value);
+
     if (this.clientForm.invalid) {
-      this.errorMessage = 'Bebe completar todos los campos.';
+      this.errorMessage = 'Debe completar todos los campos.';
       return;
     }
 
@@ -78,6 +82,10 @@ export class ClientFormComponent implements OnInit {
     this.clientService.addClient(clientData).subscribe({
       next: (response) => {
         console.log('Respuesta del backend', response);
+        //Guardar el id del cliente para agregar sus avales
+        const clientId = response.clientId;
+        this.clientService.setClientId(clientId);
+        console.log('Id del usuario recien agregado: ', clientId);
         this.errorMessage = 'Cliente y garantias agregados correctamente.';
       },
       error: (err) => {
