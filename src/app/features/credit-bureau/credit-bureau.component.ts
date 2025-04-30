@@ -1,7 +1,7 @@
 import { Component, NgModule, OnInit} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SaveButtonComponent } from '../../shared/componentes/save-button/save-button.component';
 import { CommonModule } from '@angular/common';
 import { CreditBureauService } from '../../core/services/credit-bureau.service';
@@ -14,11 +14,7 @@ import { CreditBureau } from '../../models/credit-bureau';
   imports: [RouterModule,
             CommonModule,
             ReactiveFormsModule,
-            MatTableModule,
-            MatFormFieldModule,
-            MatInputModule,
-            SaveButtonComponent,
-            FormsModule],
+            MatTableModule, SaveButtonComponent, FormsModule],
   templateUrl: './credit-bureau.component.html',
   styleUrl: './credit-bureau.component.css'
 })

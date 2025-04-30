@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { BuscarCliente } from '../../../models/BuscarCliente';
 @Component({
-  selector: 'app-search-bar',
+  selector: 'app-search-bar', 
   templateUrl: './search-bar.component.html',
   imports: [
     CommonModule,
