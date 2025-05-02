@@ -36,17 +36,15 @@ export class SearchBarComponent {
       modulo: this.modulo
     };
 
-    this.creditsService.obtenerDatosCliente(datosCliente)
-      .subscribe({
-        next: (response) => {
-          console.log('Respuesta del backend:', response);
-          if (response && response.cliente) {
-            this.clienteEncontrado.emit(response); 
-          }
-        },
-        error: (err) => {
-          this.mensajeError = err.status === 404 ? 'Cliente no encontrado' : 'Ocurrió un error inesperado';
-        }
-      }); 
+    this.creditsService.obtenerDatosCliente(datosCliente).subscribe({
+      next: (response) => {
+        console.log('Respuesta del backend:', response);
+        this.clienteEncontrado.emit(response);  // Si el cliente fue encontrado, se emiten los datos
+      },
+      error: (err) => {
+        // Aquí solo se maneja el error generado por el servicio
+        this.mensajeError = err.message;  // El mensaje es el que viene del error lanzado en el servicio
+      }
+    });
   }
 }

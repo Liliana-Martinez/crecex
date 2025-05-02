@@ -14,7 +14,7 @@ import { CreditBureau } from '../../models/credit-bureau';
   imports: [RouterModule,
             CommonModule,
             ReactiveFormsModule,
-            MatTableModule, SaveButtonComponent, FormsModule],
+            MatTableModule, SaveButtonComponent, FormsModule, MatFormFieldModule,],
   templateUrl: './credit-bureau.component.html',
   styleUrl: './credit-bureau.component.css'
 })
