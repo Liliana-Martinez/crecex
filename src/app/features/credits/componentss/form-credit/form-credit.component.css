@@ -44,4 +44,21 @@
         width: 100%; /* Ocupa todo el ancho disponible */
     }
 }
-  
+button {
+    margin-top: 70px;
+    float: right;
+    margin: 20px;
+    background-color: #0b089f;/*#007bff; /* Color de fondo */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de la fuente */
+    font-weight: bold;
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+button:hover {
+    background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
+} 

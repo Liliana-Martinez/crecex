@@ -1,5 +1,5 @@
 import { Component, NgModule} from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { SaveButtonComponent } from '../../shared/componentes/save-button/save-button.component';
