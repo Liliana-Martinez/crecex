@@ -4,11 +4,10 @@ import { ClientFormComponent } from '../../components/client-form/client-form.co
 import { FormsModule } from '@angular/forms';
 import { GuarantorFormComponent } from '../../components/guarantor-form/guarantor-form.component';
 import { CommonModule } from '@angular/common';
-/*import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';*/
 
 @Component({
   selector: 'app-add',
-  imports: [SubmenuComponent, ClientFormComponent, /*SaveButtonComponent,*/ FormsModule, GuarantorFormComponent, CommonModule],
+  imports: [SubmenuComponent, ClientFormComponent, FormsModule, GuarantorFormComponent, CommonModule],
   templateUrl: './add.component.html',
   styleUrl: './add.component.css'
 })

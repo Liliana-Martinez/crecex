@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { BuscarCliente } from '../../../models/BuscarCliente';
 @Component({
-  selector: 'app-search-bar',
+  selector: 'app-search-bar', 
   templateUrl: './search-bar.component.html',
   imports: [
     CommonModule,
@@ -36,17 +36,15 @@ export class SearchBarComponent {
       modulo: this.modulo
     };
 
-    this.creditsService.obtenerDatosCliente(datosCliente)
-      .subscribe({
-        next: (response) => {
-          console.log('Respuesta del backend:', response);
-          if (response && response.cliente) {
-            this.clienteEncontrado.emit(response); 
-          }
-        },
-        error: (err) => {
-          this.mensajeError = err.status === 404 ? 'Cliente no encontrado' : 'Ocurrió un error inesperado';
-        }
-      }); 
+    this.creditsService.obtenerDatosCliente(datosCliente).subscribe({
+      next: (response) => {
+        console.log('Respuesta del backend:', response);
+        this.clienteEncontrado.emit(response);  // Si el cliente fue encontrado, se emiten los datos
+      },
+      error: (err) => {
+        // Aquí solo se maneja el error generado por el servicio
+        this.mensajeError = err.message;  // El mensaje es el que viene del error lanzado en el servicio
+      }
+    });
   }
 }
