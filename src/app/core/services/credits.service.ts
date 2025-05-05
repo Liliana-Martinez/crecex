@@ -5,7 +5,7 @@ import { API_ROUTES } from '../constants/api-routes';
 import { BuscarCliente } from '../../models/BuscarCliente';
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class CreditsService {
   constructor(private http: HttpClient) {}
 
