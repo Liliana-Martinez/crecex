@@ -9,10 +9,11 @@ import { BuscarCliente } from '../../models/BuscarCliente';
 export class CreditsService {
   constructor(private http: HttpClient) {}
 
-  // Método para obtener los datos del cliente
+  // Método para obtener los datos del cente
   obtenerDatosCliente(credentials: BuscarCliente): Observable<any> {
     return this.http.post<any>(API_ROUTES.CREDITS.BUSCAR_CLIENTE, credentials);
   }
+ 
   enviarFormulario(modulo: string, payload: any): Observable<any> {
     let url = '';
     switch (modulo) {
@@ -32,4 +33,4 @@ export class CreditsService {
     return this.http.post<any>(url, payload);
   }
 }
- 
+  

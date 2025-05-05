@@ -15,9 +15,8 @@ import { PrintButtonComponent } from "../../../../shared/componentes/print-butto
 })
 export class AdditionalComponent {
   modulo: string = 'additional';
-  cliente: any = null;
-  mostrarClienteEnTabla(cliente: any) {
-   this.cliente = cliente;
-}
+
+  
+
 }
  

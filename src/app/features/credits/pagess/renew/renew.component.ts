@@ -20,8 +20,6 @@ import { FormCreditComponent } from "../../componentss/form-credit/form-credit.c
 export class RenewComponent {
   modulo: string = 'renew';
   cliente: any = null;
-  mostrarClienteEnTabla(cliente: any) {
-   this.cliente = cliente;
-}
+ 
 }
   

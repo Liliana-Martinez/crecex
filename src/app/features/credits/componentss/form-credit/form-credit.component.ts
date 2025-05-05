@@ -1,6 +1,7 @@
 import { MatTableModule } from '@angular/material/table';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
+import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 
 @Component({
   selector: 'app-form-credit',
@@ -9,16 +10,5 @@ import { FormsModule, NgModel } from '@angular/forms';
   styleUrl: './form-credit.component.css'
 })
 export class FormCreditComponent {
-  @Output() formularioCompleto = new EventEmitter<any>();
-
-  formulario: any = {
-    monto: '',
-    semanas: '',
-    horarioEntrega: '',
-    atrasos: '',
-    recargos: ''
-  };
-  submitFormulario(): void {
-    this.formularioCompleto.emit(this.formulario);
-  } 
-}  
+ @Input() cliente:ClienteConDatos | null = null
+}   

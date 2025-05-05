@@ -26,38 +26,19 @@ import { ClienteConDatos } from '../../../../models/ClienteConDatos';
   ] 
 })
 export class NewComponent {
-  modulo: string = 'new';
+  modulo: string = 'new'; 
   cliente: any = null;
   formulario: any = null;
   errorMessage: string = '';
 
   constructor(private creditsService: CreditsService) {}
 
-  mostrarClienteEnTabla(cliente: any) {
-    console.log('Cliente recibido en new.component:', cliente);
+  clienteEncontrado(cliente: ClienteConDatos) {
+    console.log('Cliente encontrado', cliente);
     this.cliente = cliente;
   }
-  guardarFormulario(data: any): void { 
-    if (!this.cliente) {
-      this.errorMessage = 'Seleccione un cliente antes de continuar.';
-      return;
-    }
-    this.errorMessage = '';
-    const payload = {
-      ...data, 
-      idCliente: this.cliente.idCliente,  
-      modulo: this.modulo, 
-    };
-    console.log('Payload a enviar:', payload);
-    this.creditsService.enviarFormulario('new', payload).subscribe(
-      (response) => {
-        console.log('Crédito guardado exitosamente:', response);
-      },
-      (error) => {
-        console.error('Error al guardar el crédito', error);
-      }
-    );
-  }
+  
+  
   
 }
 

@@ -1,41 +1,41 @@
-<form (ngSubmit)="submitFormulario()" #form="ngForm">
+<form >
     <div class="row">
       <div class="data">
         <label for="monto">Monto del crédito</label>
-        <input type="number" id="monto" name="monto" required [(ngModel)]="formulario.monto">
+        <input type="number" id="monto" name="monto">
       </div>
       <div class="data">
         <label for="semanas">Semanas</label>
-        <input type="number" id="semanas" name="semanas" required [(ngModel)]="formulario.semanas">
+        <input type="number" id="semanas" name="semanas" >
       </div>         
     </div>
     
     <div class="row">
       <div class="data">
         <label for="horario">Horario</label>
-        <input type="text" id="horario" name="horario" required [(ngModel)]="formulario.horarioEntrega">
+        <input type="text" id="horario" name="horario" >
       </div>
       <div class="data">
         <label for="atrasos">Atrasos</label>
-        <input type="number" id="atrasos" name="atrasos" required [(ngModel)]="formulario.atrasos">
+        <input type="number" id="atrasos" name="atrasos" >
       </div>
     </div>
   
     <div class="row">
       <div class="data">
         <label for="recargos">Recargos</label>
-        <input type="number" id="recargos" name="recargos" required [(ngModel)]="formulario.recargos">
+        <input type="number" id="recargos" name="recargos" >
       </div>
       <div class="data">
         <label for="abonoSemanal">Abono semanal</label>
-        <input type="number" id="abonoSemanal" name="abonoSemanal" required [(ngModel)]="formulario.abonoSemanal">
+        <input type="number" id="abonoSemanal" name="abonoSemanal" >
       </div>
     </div>
   
     <div class="row">
       <div class="data">
         <label for="efectivo">Efectivo</label>
-        <input type="number" id="efectivo" name="efectivo" required [(ngModel)]="formulario.efectivo">
+        <input type="number" id="efectivo" name="efectivo" >
       </div>
     </div>
   
