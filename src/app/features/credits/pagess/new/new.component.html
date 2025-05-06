@@ -3,7 +3,7 @@
   <app-search-bar [modulo]="modulo" (clienteEncontrado)="clienteEncontrado($event)"></app-search-bar>
   <app-table  [cliente] = "cliente"></app-table>
   <div *ngIf="errorMessage" class="error-message" style="color: red; margin-top: 8px; font-size: 15px; text-align: center;"> {{ errorMessage }} </div>
-  <app-form-credit   ></app-form-credit> 
+  <app-form-credit  [cliente]="cliente" ></app-form-credit> 
   <!-- <app-save-button></app-save-button> -->
   <app-print-button></app-print-button>
 

@@ -25,10 +25,9 @@ import { ClienteConDatos } from '../../../../models/ClienteConDatos';
     TableComponent
   ] 
 })
-export class NewComponent {
+export class NewComponent { 
   modulo: string = 'new'; 
   cliente: any = null;
-  formulario: any = null;
   errorMessage: string = '';
 
   constructor(private creditsService: CreditsService) {}

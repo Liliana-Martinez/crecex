@@ -28,7 +28,7 @@ export class TableComponent  {
         week: this.cliente.pagos?.[0]?.numeroSemana,
         weeklyAmount: this.cliente.pagos?.[0]?.cantidad,
         compliance: ''
-      }];
+      }]; 
 
     }  
   }
