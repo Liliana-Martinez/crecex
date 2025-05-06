@@ -1,16 +1,8 @@
-export interface Cliente {
+export interface NewCredito {
   idCliente: number;
-}
-
-export interface Credito {
   monto: number;
   semanas: number;
-  horario: string;
-  atrazos: string;
-  recargos: number;
-}
-
-export interface CreditFormPayload {
-  cliente: Cliente;
-  credito: Credito;
+  horarioEntrega: string;
+  atrasos?: number;
+  recargos?: number;
 }
