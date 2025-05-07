@@ -1,3 +1,10 @@
+<div *ngIf="errorMensaje" style="
+  color: #ee0a1d;
+  padding: 10px;
+  text-align: center;
+">
+  {{ errorMensaje }}
+</div>
 <form [formGroup]="FormCredit" (ngSubmit)="addCredit ()">
   <div class="row">
     <div class="data">
@@ -35,12 +42,12 @@
   <div class="row">
     <div class="data">
       <label for="efectivo">Efectivo</label>
-      <input type="number" id="efectivo" formControlName="efectivo" />
+      <input type="number" id="efectivo" formControlName="efectivo"  />
     </div>
   </div>
 
   <div class="row">
-    <button type="submit" [disabled]="FormCredit.invalid">Guardar</button>
+    <button type="submit" >Guardar</button>
   </div>
 </form>
 
