@@ -43,8 +43,7 @@ export class SearchBarComponent {
         this.clienteEncontrado.emit(response);  // Si el cliente fue encontrado, se emiten los datos
       },
       error: (err) => {
-        // Aquí solo se maneja el error generado por el servicio
-        this.mensajeError = err.message;  // El mensaje es el que viene del error lanzado en el servicio
+        this.mensajeError = err.message;  
       }
     });
   }

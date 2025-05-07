@@ -34,7 +34,7 @@ export class NewComponent {
 
   clienteEncontrado(cliente: ClienteConDatos) {
     console.log('Cliente encontrado', cliente);
-    this.cliente = cliente;
+    this.cliente = cliente; 
   }
   
   
