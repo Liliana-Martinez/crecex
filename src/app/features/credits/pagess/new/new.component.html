@@ -2,8 +2,12 @@
 <div>
   <app-search-bar [modulo]="modulo" (clienteEncontrado)="clienteEncontrado($event)"></app-search-bar>
   <app-table  [cliente] = "cliente"></app-table>
+<<<<<<< HEAD
   <div *ngIf="errorMessage" class="error-message" style="color: red; margin-top: 8px; font-size: 15px; text-align: center;"> {{ errorMessage }} </div>
   <app-form-credit  [cliente]="cliente" ></app-form-credit> 
+=======
+  <app-form-credit></app-form-credit> 
+>>>>>>> a593fddcd33b6c8be0e6e98ef4302a2d5258d69b
   <app-print-button></app-print-button>
 </div>
     
