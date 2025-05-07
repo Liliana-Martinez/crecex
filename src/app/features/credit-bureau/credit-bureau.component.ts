@@ -14,7 +14,11 @@ import { CreditBureau } from '../../models/credit-bureau';
   imports: [RouterModule,
             CommonModule,
             ReactiveFormsModule,
-            MatTableModule, SaveButtonComponent, FormsModule, MatFormFieldModule,],
+            MatTableModule,
+            MatInputModule,
+            SaveButtonComponent,
+            FormsModule,
+            MatFormFieldModule],
   templateUrl: './credit-bureau.component.html',
   styleUrl: './credit-bureau.component.css'
 })
@@ -50,7 +54,7 @@ export class CreditBureauComponent implements OnInit {
     this.creditBureauService.addToCreditBureau(this.creditBureauForm.value).subscribe({
       next: (response) => {
         console.log('Respuesta del back', response);
-        console.log('Cliente agregado a buró de crédito correctamente.')
+        this.errorMessage = 'Cliente agregado a buró de crédito correctamente.';
       },
       error: (err) => {
         console.error('Error al agregar el cliente a buró de crédito', err);
@@ -64,12 +68,24 @@ export class CreditBureauComponent implements OnInit {
     console.log('Nombre a enviar al back', this.searchText);
     if (this.searchText.trim().length >= 3) {
       this.creditBureauService.searchByName(this.searchText).subscribe({
-        next: (data: CreditBureau[]) => {
-          this.dataSource.data = data;
-          console.log('Datos recibidos: ', data);
+        next: (data: any[]) => {
+          const mappedData: CreditBureau[] = data.map(item => ({
+            name: item.nombre,
+            address: item.domicilio,
+            phone: item.telefono
+          }));
+          this.dataSource.data = mappedData;
+  
+          if (mappedData.length === 0) {
+            this.errorMessage = 'El cliente no se encuentra en el buró de crédito.';
+          } else {
+            this.errorMessage = ''; // Limpiar mensaje anterior si todo salió bien
+          }
         },
         error: (error) => {
           console.error('Error al buscar', error);
+          this.errorMessage = 'Ocurrió un error al buscar los datos. Intente de nuevo.';
+          this.dataSource.data = [];
         }
       });
     } else {
