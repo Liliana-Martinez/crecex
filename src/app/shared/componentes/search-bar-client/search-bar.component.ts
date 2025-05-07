@@ -20,6 +20,7 @@ import { ClienteConDatos } from '../../../models/ClienteConDatos';
 export class SearchBarComponent {
   @Input() modulo: string = '';
   @Output() clienteEncontrado = new EventEmitter<ClienteConDatos>();
+   
   nombreCompleto: string = '';  
   mensajeError: string = '';
 
@@ -40,7 +41,7 @@ export class SearchBarComponent {
     this.creditsService.obtenerDatosCliente(datosCliente).subscribe({
       next: (response) => {
         console.log('Respuesta del backend:', response);
-        this.clienteEncontrado.emit(response);  // Si el cliente fue encontrado, se emiten los datos
+        this.clienteEncontrado.emit(response);
       },
       error: (err) => {
         this.mensajeError = err.message;  
