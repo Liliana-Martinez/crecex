@@ -67,8 +67,14 @@ export class FormCreditComponent {
         this.FormCredit.get('efectivo')?.setValue(response.efectivo);
       },
       error => {
-        this.errorMensaje = 'Hubo un error al enviar el formulario.';
-        console.error('Error al enviar el formulario:', error);
+        console.error('Error desde el Backendd: ', error);
+        if(error.error && error.error.message){
+          this.errorMensaje = error.error.message;
+        }
+        else{
+          this.errorMensaje = 'Ocurrio un error inesperado'
+        }
+
       }
     );
   }
