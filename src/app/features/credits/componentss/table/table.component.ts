@@ -1,20 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatRowDef } from '@angular/material/table';
-
-
-export interface RenewCredit { 
-  name: string;
-  address: string;
-  phone: string;
-  classification: string;
-  loans: string;
-  date: string;
-  week: string;
-  weeklyAmount: string;
-  compliance: string;
-}
+import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 
 @Component({
   selector: 'app-table',
@@ -23,36 +11,25 @@ export interface RenewCredit {
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
-export class TableComponent implements OnChanges {
-  @Input() clienteData: any;
+export class TableComponent  {
+  @Input() cliente:ClienteConDatos | null = null
+  dataSource = new MatTableDataSource < any >([]);
+  creditTableColums: string [] = ['name', 'address', 'phone', 'classification', 'loans','date','week','weeklyAmount', 'compliance'];
+  ngOnChanges(changes: SimpleChanges){
+    console.log('datos recibidos en tabla', this.cliente);
+    if(changes['cliente'] && this.cliente){
+      this.dataSource.data = [{
+        name: this.cliente.cliente.nombre,
+        address: this.cliente.cliente.domicilio,
+        phone: this.cliente.cliente.telefono,
+        classification: this.cliente.cliente.clasificacion,
+        loans:this.cliente.credito?.monto ,
+        date: this.cliente.credito?.fechaEntrega,
+        week: this.cliente.pagos?.[0]?.numeroSemana,
+        weeklyAmount: this.cliente.pagos?.[0]?.cantidad,
+        compliance: ''
+      }]; 
 
-  RenewCreditCol: string[] = [
-    'name', 'address', 'phone', 'classification', 
-    'loans', 'date', 'week', 'weeklyAmount', 'compliance'
-  ];
-  
-  dataRenewCredit: RenewCredit[] = [];
-
-  constructor(private cdRef: ChangeDetectorRef) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['clienteData'] && this.clienteData) {
-        console.log('Datos recibidos en tabla:', this.clienteData);
-        const cliente = this.clienteData.cliente || {};
-        const credito = this.clienteData.credito || {};
-        const pagos = this.clienteData.pagos || [];
-        this.dataRenewCredit = [{
-        name: `${cliente.nombre} ${cliente.apellidoPaterno} ${cliente.apellidoMaterno}`,
-        address: cliente.domicilio || '',
-        phone: cliente.telefono || '',
-        classification: cliente.clasificacion || '',
-        loans: credito.monto?.toString() || '',
-        date: credito.fechaEntrega?.split('T')[0] || '', 
-        week: pagos[0]?.numeroSemana?.toString() || '',  
-        weeklyAmount: pagos[0]?.cantidad?.toString() || '', 
-        compliance: '' 
-      }];
-      this.cdRef.detectChanges(); 
-    }
+    }  
   }
 }

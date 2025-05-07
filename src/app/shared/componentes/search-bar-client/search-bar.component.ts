@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';  
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { BuscarCliente } from '../../../models/BuscarCliente';
+import { ClienteConDatos } from '../../../models/ClienteConDatos';
 @Component({
   selector: 'app-search-bar', 
   templateUrl: './search-bar.component.html',
@@ -18,7 +19,7 @@ import { BuscarCliente } from '../../../models/BuscarCliente';
 })
 export class SearchBarComponent {
   @Input() modulo: string = '';
-  @Output() clienteEncontrado = new EventEmitter<any>();
+  @Output() clienteEncontrado = new EventEmitter<ClienteConDatos>();
   nombreCompleto: string = '';  
   mensajeError: string = '';
 

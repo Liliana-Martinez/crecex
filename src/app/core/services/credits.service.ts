@@ -5,15 +5,16 @@ import { API_ROUTES } from '../constants/api-routes';
 import { BuscarCliente } from '../../models/BuscarCliente';
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class CreditsService {
   constructor(private http: HttpClient) {}
 
-  // Método para obtener los datos del cliente
+  // Método para obtener los datos del cente
   obtenerDatosCliente(credentials: BuscarCliente): Observable<any> {
     return this.http.post<any>(API_ROUTES.CREDITS.BUSCAR_CLIENTE, credentials);
   }
-  enviarFormulario(modulo: string, payload: any): Observable<any> {
+ 
+  enviarFormulario(modulo: string, formData: any ): Observable<any> {
     let url = '';
     switch (modulo) {
       case 'new':
@@ -29,7 +30,7 @@ export class CreditsService {
         url = API_ROUTES.CREDITS.NEW;
     }
 
-    return this.http.post<any>(url, payload);
+    return this.http.post<any>(url, formData);
   }
 }
- 
+  
