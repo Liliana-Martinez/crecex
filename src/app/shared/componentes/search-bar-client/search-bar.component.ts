@@ -33,7 +33,7 @@ export class SearchBarComponent {
       return;
     }     
     const datosCliente: BuscarCliente = {
-      nombreCompleto: this.nombreCompleto,
+      nombreCompleto: this.nombreCompleto, 
       modulo: this.modulo
     };
 
@@ -47,4 +47,4 @@ export class SearchBarComponent {
       }
     });
   }
-}
+} 

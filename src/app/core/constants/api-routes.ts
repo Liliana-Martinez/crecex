@@ -19,8 +19,7 @@ export const API_ROUTES = {
     CREDITS:  {
         NEW: `${API_URL}/credits/new`,
         RENEW: `${API_URL}/credits/renew`,
-        ADDITIONAL: `${API_URL}/credits/additional`,
-        BUSCAR_CLIENTE: `${API_URL}/credits/buscar-cliente`
+        ADDITIONAL: `${API_URL}/credits/additional`
     },
     PAYMENTS: `${API_URL}/payments`,
     COLLECTORS: `${API_URL}/collectors`,
@@ -38,5 +37,8 @@ export const API_ROUTES = {
     },
     ZONES: {
         GETALL: `${API_URL}/zones/getAllZones`
+    },
+    SEARCHBARCLIENTE:{
+        SEARCH : `${API_URL}/search/cliente`
     }
 };

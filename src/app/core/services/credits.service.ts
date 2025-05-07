@@ -11,7 +11,7 @@ export class CreditsService {
 
   // Método para obtener los datos del cente
   obtenerDatosCliente(credentials: BuscarCliente): Observable<any> {
-    return this.http.post<any>(API_ROUTES.CREDITS.BUSCAR_CLIENTE, credentials);
+    return this.http.post<any>(API_ROUTES.SEARCHBARCLIENTE.SEARCH, credentials);
   }
  
   enviarFormulario(modulo: string, formData: any ): Observable<any> {
