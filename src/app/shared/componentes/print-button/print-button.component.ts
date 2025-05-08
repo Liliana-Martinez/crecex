@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input , Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-print-button',
@@ -9,9 +9,9 @@ import { Component, Input } from '@angular/core';
 export class PrintButtonComponent {
   @Input() label: string = 'Imprimir';
   @Input() disabled: boolean = false;
-
-  onPrint() {
-    window.print();
+  @Output() onPrint = new EventEmitter<void>();
+  imprimir() {
+    this.onPrint.emit();
   }
 }
   
