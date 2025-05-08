@@ -11,7 +11,7 @@ export interface Cliente {
   clasificacion: string;
   tipoCliente: string;
   puntos: number;
-  trabajo: string;
+  trabajo: string; 
   domicilioTrabajo: string;
   telefonoTrabajo: string;
   nombreReferencia: string;

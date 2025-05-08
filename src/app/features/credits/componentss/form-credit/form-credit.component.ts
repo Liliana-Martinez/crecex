@@ -5,10 +5,11 @@ import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Vali
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { CreditsService } from '../../../../core/services/credits.service';
 import { CommonModule } from '@angular/common';
+import { SaveButtonComponent } from "../../../../shared/componentes/save-button/save-button.component";
 
 @Component({
   selector: 'app-form-credit',
-  imports: [MatTableModule, FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [MatTableModule, FormsModule, ReactiveFormsModule, CommonModule, SaveButtonComponent],
   templateUrl: './form-credit.component.html',
   styleUrl: './form-credit.component.css' 
 })

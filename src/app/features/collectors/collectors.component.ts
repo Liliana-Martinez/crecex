@@ -3,7 +3,6 @@ import { PrintButtonComponent } from "../../shared/componentes/print-button/prin
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SearchBarComponent } from '../../shared/componentes/search-bar-client/search-bar.component';
 import { ClienteCollector } from '../../models/ClienteCollector';
-
 export interface Collector {
   name: string;
   address: string;
@@ -21,16 +20,18 @@ export interface Collector {
 })
 export class CollectorsComponent {
   modulo: string = 'collectors';
-  datosCliente!: ClienteCollector;
-  dataCollector = new MatTableDataSource<any>();
-<<<<<<< HEAD
+  dataCollector = new MatTableDataSource<any>()
   collectorCol: string [] = ['name', 'address', 'phone', 'guarantorp', 'guarantors'];
-=======
-  collectorCol: string[] = ['name', 'address', 'phone', 'guarantorp', 'guarantors'];
->>>>>>> e5bb78def75ed5555162b3ad5fa9bf66c72fc2f2
-  asignarDatos(respuesta: ClienteCollector) {
-    this.datosCliente = respuesta;
-    console.log('Informacion que llega el Collectors', respuesta);
+
+  asignarDatos(respuesta: any) {
+    console.log('En ell front', respuesta);
+  const collector: Collector = {
+    name: respuesta.cliente.nombre + ' ' + respuesta.cliente.apellidoPaterno + ' ' + respuesta.cliente.apellidoMaterno,
+    address: respuesta.cliente.domicilio,
+    phone: respuesta.cliente.telefono,
+    guarantorp: respuesta.avales?.[0]?.nombre + ' ' + respuesta.avales?.[0]?.apellidoPaterno + ' ' + respuesta.avales?.[0]?.apellidoMaterno,
+    guarantors: respuesta.avales?.[1] ? `${respuesta.avales[1].nombre} ${respuesta.avales[1].apellidoPaterno} ${respuesta.avales[1].apellidoMaterno}`: ''
+  };
+  this.dataCollector.data = [collector]; 
   }
-  
-}
+} 

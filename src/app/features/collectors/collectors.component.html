@@ -1,4 +1,4 @@
-<app-search-bar [modulo]="modulo"></app-search-bar>
+<app-search-bar [modulo]="modulo" (clienteEncontrado)="asignarDatos ($event)" ></app-search-bar>
 <div class="container-table">
     <table mat-table [dataSource]="dataCollector" class="mat-elevation-z8">
         <!-- Nombre --> 
@@ -19,17 +19,18 @@
           <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
         </ng-container>
  
-        <!-- Aval principal -->
+        <!-- Aval principal --> 
         <ng-container matColumnDef="guarantorp">
-            <th mat-header-cell *matHeaderCellDef> Aval principal </th>
-            <td mat-cell *matCellDef="let element"> {{element.guarantorp}}td>
-          </ng-container>
+          <th mat-header-cell *matHeaderCellDef> Aval principal </th>
+          <td mat-cell *matCellDef="let element"> {{element.guarantorp}} </td>
+        </ng-container>
 
         <!-- Aval secundario-->
         <ng-container matColumnDef="guarantors">
-            <th mat-header-cell *matHeaderCellDef> Aval secundario </th>
-            <td mat-cell *matCellDef="let element"> {{element.guarantors}}td>
-          </ng-container>
+          <th mat-header-cell *matHeaderCellDef> Aval secundario </th>
+          <td mat-cell *matCellDef="let element"> {{element.guarantors}} </td>
+        </ng-container>
+
 
         <tr mat-header-row *matHeaderRowDef="collectorCol"></tr>
         <tr mat-row *matRowDef="let row; columns: collectorCol;"></tr>

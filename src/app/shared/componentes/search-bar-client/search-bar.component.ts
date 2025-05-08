@@ -20,6 +20,7 @@ import { ClienteConDatos } from '../../../models/ClienteConDatos';
 export class SearchBarComponent {
   @Input() modulo: string = '';
   @Output() clienteEncontrado = new EventEmitter<ClienteConDatos>();
+
    
   nombreCompleto: string = '';  
   mensajeError: string = '';

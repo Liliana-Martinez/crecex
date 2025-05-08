@@ -19,7 +19,7 @@ export class TableComponent  {
     console.log('datos recibidos en tabla', this.cliente);
     if(changes['cliente'] && this.cliente){
       this.dataSource.data = [{
-        name: this.cliente.cliente.nombre,
+        name: this.cliente.cliente.nombre + ' ' + this.cliente.cliente.apellidoPaterno + ' ' + this.cliente.cliente.apellidoMaterno, 
         address: this.cliente.cliente.domicilio,
         phone: this.cliente.cliente.telefono,
         classification: this.cliente.cliente.clasificacion,
@@ -33,3 +33,4 @@ export class TableComponent  {
     }  
   }
 }
+ 
