@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PrintButtonComponent } from "../../shared/componentes/print-button/print-button.component";
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SearchBarComponent } from '../../shared/componentes/search-bar-client/search-bar.component';
 import { ClienteCollector } from '../../models/ClienteCollector';
 
@@ -22,6 +22,8 @@ export interface Collector {
 export class CollectorsComponent {
   modulo: string = 'collectors';
   datosCliente!: ClienteCollector;
+  dataCollector = new MatTableDataSource<any>();
+  collectorCol: string[] = ['name', 'address', 'phone', 'guarantorp', 'guarantors'];
   asignarDatos(respuesta: ClienteCollector) {
     this.datosCliente = respuesta;
     console.log('Informacion que llega el Collectors', respuesta);
