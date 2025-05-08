@@ -23,7 +23,11 @@ export class CollectorsComponent {
   modulo: string = 'collectors';
   datosCliente!: ClienteCollector;
   dataCollector = new MatTableDataSource<any>();
+<<<<<<< HEAD
   collectorCol: string [] = ['name', 'address', 'phone', 'guarantorp', 'guarantors'];
+=======
+  collectorCol: string[] = ['name', 'address', 'phone', 'guarantorp', 'guarantors'];
+>>>>>>> e5bb78def75ed5555162b3ad5fa9bf66c72fc2f2
   asignarDatos(respuesta: ClienteCollector) {
     this.datosCliente = respuesta;
     console.log('Informacion que llega el Collectors', respuesta);
