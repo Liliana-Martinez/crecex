@@ -33,16 +33,16 @@
           <td mat-cell *matCellDef="let element"> {{element.date}} </td>
         </ng-container>
 
+        <!-- Cantidad del pago semanal -->
+        <ng-container matColumnDef="weeklyAmount">
+            <th mat-header-cell *matHeaderCellDef> Monto semanal </th>
+            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount | currency:'MXN':'symbol':'1.2-2'}} </td>
+        </ng-container>
+
         <!-- Número de la semana actual del pago -->
         <ng-container matColumnDef="paymentWeek">
             <th mat-header-cell *matHeaderCellDef> Semana de pago </th>
             <td mat-cell *matCellDef="let element"> {{element.paymentWeek}} </td>
-        </ng-container>
-
-        <!-- Cantidad del pago semanal -->
-        <ng-container matColumnDef="weeklyAmount">
-            <th mat-header-cell *matHeaderCellDef> Monto semanal </th>
-            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount}} </td>
         </ng-container>
 
         <!-- Estado de pago -->

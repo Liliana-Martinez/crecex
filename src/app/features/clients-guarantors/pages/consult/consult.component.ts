@@ -5,11 +5,12 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { CreditHistory } from '../../../../models/credit-history';
 import dayjs from 'dayjs';
 import { CurrentCredit } from '../../../../models/current-credit';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-consult',
-  imports: [SubmenuComponent, SearchBarComponent, MatTableModule],
+  imports: [CommonModule, SubmenuComponent, SearchBarComponent, MatTableModule],
   templateUrl: './consult.component.html',
   styleUrl: './consult.component.css'
 })
@@ -39,18 +40,18 @@ export class ConsultComponent {
     this.creditHistory = response.creditHistory;
 
     //Armar el objeto para la tabla "Credito Actual"
-    if (this.currentCredit) {
-      const currentCreditRows: CurrentCredit = {
-        creditNum: 1,
-        name: this.client.nombreCompleto,
-        amount: this.currentCredit.monto,
-        weeks: this.currentCredit.semanas,
-        date: dayjs(this.currentCredit.fechaEntrega).format('DD/MM/YYYY'),
-        weeklyAmount: this.currentCredit.abonoSemanal,
-        paymentWeek: this.currentCredit.numeroSemana,
-        status: this.currentCredit.cumplimiento
-      };
-      this.dataCurrentCredit.data = [currentCreditRows];
+    if (this.currentCredit && this.currentCredit.length > 0) {
+      const currentCreditRows: CurrentCredit[] = this.currentCredit.map((credit: any, i: number) => ({
+        creditNum: i + 1,
+        name: this.client.nombre,
+        amount: credit.monto,
+        weeks: credit.semanas,
+        date: dayjs(credit.fechaEntrega).format('DD/MM/YYYY'),
+        weeklyAmount: credit.abonoSemanal,
+        paymentWeek: credit.numeroSemana,
+        status: credit.cumplimiento
+      }));
+      this.dataCurrentCredit.data = currentCreditRows;
     } else {
       this.dataCurrentCredit.data = [];
     }
