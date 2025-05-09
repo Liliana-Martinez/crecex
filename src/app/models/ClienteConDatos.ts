@@ -18,7 +18,7 @@ export interface Cliente {
 export interface Credito {
   fechaEntrega: string;
   idCredito: string;
-  monto: string;
+  monto: string; 
 }
  
 export interface Pagos {

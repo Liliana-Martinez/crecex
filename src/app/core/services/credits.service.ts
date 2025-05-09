@@ -19,7 +19,7 @@ export class CreditsService {
     switch (modulo) {
       case 'new':
         url = API_ROUTES.CREDITS.NEW;
-        break;
+        break; 
       case 'renew':
         url = API_ROUTES.CREDITS.RENEW;
         break;
