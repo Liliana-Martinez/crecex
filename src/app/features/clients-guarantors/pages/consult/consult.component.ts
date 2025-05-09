@@ -43,7 +43,7 @@ export class ConsultComponent {
     if (this.currentCredit && this.currentCredit.length > 0) {
       const currentCreditRows: CurrentCredit[] = this.currentCredit.map((credit: any, i: number) => ({
         creditNum: i + 1,
-        name: this.client.nombre,
+        name: this.client.nombreCompleto,
         amount: credit.monto,
         weeks: credit.semanas,
         date: dayjs(credit.fechaEntrega).format('DD/MM/YYYY'),
