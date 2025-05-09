@@ -4,9 +4,9 @@
     <h3>Crédito actual</h3>
     <table mat-table [dataSource]="dataCurrentCredit" class="mat-elevation-z8">
         <!-- Número de préstamo -->
-        <ng-container matColumnDef="creditNumber">
+        <ng-container matColumnDef="creditNum">
           <th mat-header-cell *matHeaderCellDef> No. Crédito</th>
-          <td mat-cell *matCellDef="let element"> {{element.creditNumber}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.creditNum}} </td>
         </ng-container>
       
         <!-- Nombre del cliente -->
@@ -22,9 +22,9 @@
         </ng-container>
 
         <!-- Numero de semanas del credito -->
-        <ng-container matColumnDef="numberWeeks">
+        <ng-container matColumnDef="weeks">
           <th mat-header-cell *matHeaderCellDef> Semanas del crédito </th>
-          <td mat-cell *matCellDef="let element"> {{element.numberWeeks}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.weeks}} </td>
         </ng-container>
       
         <!-- Fecha que se dió el préstamo -->
@@ -46,9 +46,9 @@
         </ng-container>
 
         <!-- Estado de pago -->
-        <ng-container matColumnDef="paymentStatus">
+        <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef> Cumplimiento </th>
-            <td mat-cell *matCellDef="let element"> {{element.paymentStatus}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="currentCreditCol"></tr>
