@@ -3,6 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatRowDef } from '@angular/material/table';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-table',
@@ -24,7 +25,7 @@ export class TableComponent  {
         phone: this.cliente.cliente.telefono,
         classification: this.cliente.cliente.clasificacion,
         loans:this.cliente.credito?.monto ,
-        date: this.cliente.credito?.fechaEntrega,
+        date: dayjs(this.cliente.credito?.fechaEntrega).format('DD/MM/YYYY'),
         week: this.cliente.pagos?.[0]?.numeroSemana,
         weeklyAmount: this.cliente.pagos?.[0]?.cantidad,
         compliance: ''
