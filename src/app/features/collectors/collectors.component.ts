@@ -59,30 +59,31 @@ imprimirCliente() {
     doc.addImage(logo, 'JPEG', 10, 10, 20, 20);
     doc.setFontSize(16);
     doc.text('Recopiladores', 105, 15, { align: 'center' });
+
     doc.setFontSize(10);
     doc.text(`Fecha: ${fecha}`, 200, 10, { align: 'right' });
+
+    const cliente = c.cliente;
+    const zonaInfo = `Zona: ${cliente.codigoZona}        Promotora: ${cliente.promotora}`;
+    doc.text(zonaInfo, 105, 22, { align: 'center' });
 
     let y = 35;
     const lh = 6;
 
     const seccion = (titulo: string) => {
-      doc.setFillColor(220, 220, 220);  // Color gris
+      doc.setFillColor(220, 220, 220);
       doc.rect(10, y, 190, 8, 'F');
       doc.setTextColor(0);
       doc.setFontSize(12);
       doc.text(titulo, 12, y + 6);
       y += 10;
-
-      // Línea horizontal sutil bajo el título
       doc.setDrawColor(180);
       doc.line(10, y - 2, 200, y - 2);
-
-      y += 2; // Espacio adicional bajo línea
+      y += 2;
     };
 
     // === DATOS CLIENTE ===
     seccion('Datos del Cliente');
-    const cliente = c.cliente;
 
     const fila1 = [
       `Nombre: ${cliente.nombre} ${cliente.apellidoPaterno} ${cliente.apellidoMaterno}`,
@@ -122,10 +123,9 @@ imprimirCliente() {
 
     // === GARANTÍAS CLIENTE ===
     seccion('Garantías del Cliente');
-
     if (c.garantiasCliente.length > 0) {
       c.garantiasCliente.forEach(g => {
-        doc.setFontSize(10);  // Aseguramos que el tamaño sea igual al de la información
+        doc.setFontSize(10);
         doc.text(`• ${g.descripcion}`, 15, y);
         y += lh;
       });
@@ -138,13 +138,11 @@ imprimirCliente() {
 
     // === AVALES ===
     seccion('Avales');
-
     const avales = c.avales;
     const avalesPorColumna = 2;
-    const columnaX = [15, 105]; // Columnas para los avales
-    let yAvales = y; // Guardamos y inicial
+    const columnaX = [15, 105];
+    let yAvales = y;
 
-    // Si hay un solo aval
     if (avales.length === 1) {
       const aval = avales[0];
       doc.setFontSize(11);
@@ -166,15 +164,13 @@ imprimirCliente() {
         yAvales += lh;
       });
 
-      // === GARANTÍAS DEL AVAL ===
       doc.setFontSize(12);
-      doc.setFillColor(220, 220, 220);  // Color gris para el título
+      doc.setFillColor(220, 220, 220);
       doc.rect(10, yAvales, 190, 8, 'F');
       doc.setTextColor(0);
       doc.text('Garantías del Aval:', 12, yAvales + 6);
       yAvales += 10;
 
-      // Línea horizontal sutil bajo el título
       doc.setDrawColor(180);
       doc.line(10, yAvales - 2, 200, yAvales - 2);
       yAvales += 2;
@@ -190,15 +186,14 @@ imprimirCliente() {
         yAvales += lh;
       }
 
-      y = yAvales + 4; // Actualizamos la posición para la siguiente sección
+      y = yAvales + 4;
 
     } else {
-      // Si hay más de un aval, distribuir en dos columnas
       let maxY = yAvales;
 
       for (let i = 0; i < Math.min(avalesPorColumna, avales.length); i++) {
         const aval = avales[i];
-        let x = columnaX[i]; // X variable para las dos columnas
+        let x = columnaX[i];
         let yCol = yAvales;
 
         doc.setFontSize(11);
@@ -216,19 +211,17 @@ imprimirCliente() {
 
         datosAval.forEach(line => {
           doc.setFontSize(10);
-          doc.text(line, x + 5, yCol); // Ajustar el margen a la derecha
+          doc.text(line, x + 5, yCol);
           yCol += lh;
         });
 
-        // === GARANTÍAS DEL AVAL ===
         doc.setFontSize(12);
-        doc.setFillColor(220, 220, 220);  // Color gris para el título
+        doc.setFillColor(220, 220, 220);
         doc.rect(x, yCol, 90, 8, 'F');
         doc.setTextColor(0);
         doc.text('Garantías del Aval:', x + 5, yCol + 6);
         yCol += 10;
 
-        // Línea horizontal sutil bajo el título
         doc.setDrawColor(180);
         doc.line(x, yCol - 2, x + 90, yCol - 2);
         yCol += 2;
@@ -244,13 +237,55 @@ imprimirCliente() {
           yCol += lh;
         }
 
-        maxY = Math.max(maxY, yCol); // Actualizamos la altura máxima para asegurar que no se desborde
+        maxY = Math.max(maxY, yCol);
       }
 
-      y = maxY + 4; // Espacio final después de los avales
+      y = maxY + 4;
     }
 
+    // === TABLA DE PAGOS ===
+    seccion('Historial de Pagos');
+    const credito = c.credito;
+    const pagos = c.pagos;
+
+    doc.setFontSize(11);
+    doc.text(`Monto: $${credito.monto}`, 15, y);
+    doc.text(`Abono semanal: $${credito.abonoSemanal}`, 80, y);
+    y += lh + 2;
+
+    const columnasPorFila = 6;
+    const anchoColumna = 180 / columnasPorFila;
+    const totalPagos = pagos.length;
+    const filasNecesarias = Math.ceil(totalPagos / columnasPorFila);
+
+    for (let fila = 0; fila < filasNecesarias; fila++) {
+      const inicio = fila * columnasPorFila;
+      const fin = Math.min(inicio + columnasPorFila, totalPagos);
+      const pagosFila = pagos.slice(inicio, fin);
+
+      pagosFila.forEach((pago, index) => {
+        const x = 15 + index * anchoColumna;
+        const fecha = new Date(pago.fechaEsperada).toLocaleDateString();
+        doc.setFontSize(10);
+        doc.text(fecha, x + 2, y);
+      });
+
+      y += lh;
+
+      pagosFila.forEach((_, index) => {
+        const x = 15 + index * anchoColumna;
+        doc.setDrawColor(180);
+        doc.rect(x, y - 5, anchoColumna - 2, lh);
+      });
+
+      y += lh + 4;
+    }
+
+    // Guardar PDF
     doc.save(`${cliente.nombre}.pdf`);
   };
 }
+
+
+
 } 

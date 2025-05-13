@@ -17,6 +17,8 @@ export interface Cliente {
   nombreReferencia: string;
   domicilioReferencia: string;
   telefonoReferencia: string;
+  codigoZona: string;
+  promotora: string;
 }
 
 export interface Aval {
@@ -44,10 +46,20 @@ export interface GarantiaAval {
   idAval: number;
   descripcion: string;
 }
+export interface credito{
+  abonoSemanal: number;
+  idCredito: number;
+  monto: number;
+}
+export interface pagos{
+  fechaEsperada: Date;
+}
 
 export interface ClienteCollector{
   cliente: Cliente;
   avales: Aval[];
   garantiasCliente: GarantiaCliente[];
   garantiasAval: GarantiaAval[];
+  credito: credito;
+  pagos: pagos[];
 }

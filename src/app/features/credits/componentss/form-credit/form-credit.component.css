@@ -44,21 +44,27 @@
         width: 100%; /* Ocupa todo el ancho disponible */
     }
 }
-button {
-    margin-top: 70px;
-    float: right;
-    margin: 20px;
-    background-color: #0b089f;/*#007bff; /* Color de fondo */
-    color: white; /* Color del texto */
-    padding: 10px 20px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de la fuente */
-    font-weight: bold;
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    transition: background-color 0.3s ease; /* Transición suave */
+.custom-select-wrapper {
+  position: relative;
 }
 
-button:hover {
-    background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
-} 
+.custom-select {
+  width: 46%;
+  padding: 7px 1px;
+  border: 2px solid #ccc;
+  border-radius: 5px; 
+  background-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s;
+}
+
+
+.custom-select:focus {
+  border-color: #098013;
+}
+

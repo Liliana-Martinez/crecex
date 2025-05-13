@@ -5,22 +5,28 @@
 ">
   {{ errorMensaje }}
 </div>
-<form [formGroup]="FormCredit" (ngSubmit)="addCredit ()">
+<form [formGroup]="FormCredit" (ngSubmit)="abrirConfirmacion()">
   <div class="row">
     <div class="data">
       <label for="monto">Monto del crédito</label>
       <input type="number" id="monto" formControlName="monto" />
     </div>
-    <div class="data">
+    <div class="data custom-select-wrapper">
       <label for="semanas">Semanas</label>
-      <input type="number" id="semanas" formControlName="semanas" />
+      <select id="semanas" formControlName="semanas"  class="custom-select">
+      <option [value]="12">12</option>
+      <option [value]="16">16</option>
+    </select>
     </div>
   </div>
 
   <div class="row">
-    <div class="data">
+    <div class="data custom-select-wrapper">
       <label for="horario">Horario</label>
-      <input type="text" id="horario" formControlName="horarioEntrega" />
+      <select id="horario" formControlName="horarioEntrega"  class="custom-select">
+      <option value="Mañana">Mañana</option>
+      <option value="Tarde">Tarde</option>
+    </select>
     </div>
     <div class="data">
       <label for="atrasos">Atrasos</label>
@@ -32,11 +38,11 @@
     <div class="data">
       <label for="recargos">Recargos</label>
       <input type="number" id="recargos" formControlName="recargos" />
-    </div>
+    </div> 
     <div class="data">
       <label for="abonoSemanal">Abono semanal</label>
       <input type="number" id="abonoSemanal" formControlName="abonoSemanal" />
-    </div>
+    </div> 
   </div>
 
   <div class="row">
@@ -47,5 +53,38 @@
   </div>
   <app-save-button [label]="'guardar'" ></app-save-button>
 </form>
+<div class="modal-backdrop" *ngIf="modalVisible" style="
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+">
+  <div class="modal-content" style="
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  ">
+    <h3 style="margin-top: 0;">¿Confirmar creación del crédito?</h3>
+    <div *ngIf="datosParaConfirmar">
+      <p><strong>Monto:</strong> {{ datosParaConfirmar.monto }}</p>
+      <p><strong>Semanas:</strong> {{ datosParaConfirmar.semanas }}</p>
+      <p><strong>Horario:</strong> {{ datosParaConfirmar.horarioEntrega }}</p>
+      <p><strong>Atrasos:</strong> {{ datosParaConfirmar.atrasos }}</p>
+      <p><strong>Recargos:</strong> {{ datosParaConfirmar.recargos }}</p>
+      <p><strong>Efectivo:</strong> {{ datosParaConfirmar.efectivo | number:'1.2-2' }}</p>
+      <p><strong>Abono Semanal:</strong> {{ datosParaConfirmar.abonoSemanal | number:'1.2-2' }}</p>
+    </div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+      <button type="button" (click)="modalVisible = false">Cancelar</button>
+      <button type="button" (click)="confirmarEnvio()">Confirmar</button>
+    </div>
+  </div>
+</div>
 
   

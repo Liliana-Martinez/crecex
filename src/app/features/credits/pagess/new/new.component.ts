@@ -28,7 +28,7 @@ export class NewComponent {
   modulo: string = 'new'; 
   cliente: any = null;
   errorMessage: string = '';
-
+ 
   constructor(private creditsService: CreditsService) {}
 
   clienteEncontrado(cliente: ClienteConDatos) {

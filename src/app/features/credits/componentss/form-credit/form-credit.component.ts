@@ -1,6 +1,6 @@
 
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { CreditsService } from '../../../../core/services/credits.service';
@@ -14,12 +14,15 @@ import { SaveButtonComponent } from "../../../../shared/componentes/save-button/
   styleUrl: './form-credit.component.css' 
 })
 
-export class FormCreditComponent {
+export class FormCreditComponent implements OnChanges {
   @Input() cliente: ClienteConDatos | null = null;
   idCliente: number | null = null;
 
   FormCredit: FormGroup;
-  errorMensaje: string | null = null; 
+  errorMensaje: string | null = null;
+
+  modalVisible = false;
+  datosParaConfirmar: any = null;
 
   constructor(private fb: FormBuilder, private creditsService: CreditsService) {
     this.FormCredit = this.fb.group({
@@ -41,8 +44,8 @@ export class FormCreditComponent {
     }
   }
 
-  addCredit() {
-    this.errorMensaje = null; 
+  abrirConfirmacion(): void {
+    this.errorMensaje = null;
 
     if (!this.FormCredit.valid) {
       this.errorMensaje = 'Completa los campos requeridos';
@@ -54,29 +57,42 @@ export class FormCreditComponent {
       return;
     }
 
+    const valores = this.FormCredit.getRawValue();
+    const monto = Number(valores.monto);
+    const semanas = Number(valores.semanas);
+    const atrasos = Number(valores.atrasos) || 0;
+    const recargos = Number(valores.recargos) || 0;
+
+    const efectivo = Math.round(monto - atrasos - recargos);
+    const factor = semanas === 12 ? 1.5 : 1.583;
+    const abonoSemanal = Math.round((monto * factor) / semanas);
+
+    this.datosParaConfirmar = {
+      ...valores,
+      efectivo,
+      abonoSemanal
+    };
+
+    this.modalVisible = true;
+  }
+
+  confirmarEnvio(): void {
     const formData = {
       idCliente: this.idCliente,
       ...this.FormCredit.value
     };
 
-    console.log('Datos enviados al servicio:', formData);
-
     this.creditsService.enviarFormulario('new', formData).subscribe(
       response => {
         console.log('Formulario enviado correctamente:', response);
-
         this.FormCredit.get('abonoSemanal')?.setValue(response.abonoSemanal);
         this.FormCredit.get('efectivo')?.setValue(response.efectivo);
+        this.modalVisible = false;
       },
       error => {
-        console.error('Error desde el Backendd: ', error);
-        if(error.error && error.error.message){
-          this.errorMensaje = error.error.message;
-        }
-        else{
-          this.errorMensaje = 'Ocurrio un error inesperado'
-        }
-
+        console.error('Error desde el Backend: ', error);
+        this.errorMensaje = error.error?.message || 'Ocurrió un error inesperado';
+        this.modalVisible = false;
       }
     );
   }

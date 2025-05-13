@@ -1,7 +1,8 @@
 <app-submenuu></app-submenuu>
 <div>
-<app-search-bar  ></app-search-bar>
-<app-table [cliente] = "cliente"></app-table>
-<app-form-credit></app-form-credit>
-<app-save-button></app-save-button>
-<app-print-button></app-print-button>
+  <app-search-bar [modulo]="modulo" (clienteEncontrado)="clienteEncontrado($event)"></app-search-bar>
+  <app-table  [cliente] = "cliente"></app-table>
+  <app-form-credit  [cliente]="cliente" ></app-form-credit> 
+  <app-print-button></app-print-button>
+</div>
+     
