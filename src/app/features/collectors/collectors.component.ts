@@ -9,7 +9,7 @@ export interface Collector {
   name: string;
   address: string;
   phone: string;
-  guarantorp: string;
+  guarantorp: string; 
   guarantors: string;
 }
 
@@ -41,41 +41,69 @@ export class CollectorsComponent {
   this.dataCollector.data = [collector];
   }
   imprimirCliente() {
-  console.log('Cliente a imprimir', this.clienteParaImprimir);
-
-  if (!this.clienteParaImprimir) {
-    console.warn('No hay cliente para imprimir');
-    return;
+    console.log('Cliente a imprimir', this.clienteParaImprimir);
+  
+    if (!this.clienteParaImprimir) {
+      console.warn('No hay cliente para imprimir');
+      return;
+    }
+  
+    const doc = new jsPDF();
+    doc.setFontSize(12);
+    let y = 10;
+  
+    const agregarTexto = (label: string, valor: any) => {
+      const texto = `${label}: ${valor}`;
+      const lineas = doc.splitTextToSize(texto, 180);
+      doc.text(lineas, 10, y);
+      y += lineas.length * 5;
+    };
+  
+    const imprimirObjeto = (obj: any, titulo: string) => {
+      if (!obj) return;
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${titulo}`, 10, y);
+      y += 6;
+      doc.setFont('helvetica', 'normal');
+      for (const [key, value] of Object.entries(obj)) {
+        if (typeof value !== 'object') {
+          agregarTexto(key, value);
+        }
+      }
+    };
+  
+    const imprimirArray = (array: any[], titulo: string) => {
+      if (!array || array.length === 0) return;
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${titulo}`, 10, y);
+      y += 6;
+      doc.setFont('helvetica', 'normal');
+      array.forEach((item, index) => {
+        doc.text(`#${index + 1}`, 10, y);
+        y += 5;
+        const claves = Object.entries(item)
+          .filter(([_, val]) => typeof val !== 'object')
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(' | ');
+        const lineas = doc.splitTextToSize(claves, 180);
+        doc.text(lineas, 10, y);
+        y += lineas.length * 5;
+      });
+    };
+  
+    const data = this.clienteParaImprimir;
+  
+    imprimirObjeto(data.cliente, 'Cliente');
+    imprimirArray(data.avales, 'Avales');
+    imprimirArray(data.garantiasCliente, 'Garantías del Cliente');
+    imprimirArray(data.garantiasAval, 'Garantías de Avales');
+  
+    doc.save('cliente_compacto.pdf');
   }
-
-  const c = this.clienteParaImprimir;
-
-  const nombre = `${c.cliente?.nombre || ''} ${c.cliente?.apellidoPaterno || ''} ${c.cliente?.apellidoMaterno || ''}`;
-  const direccion = c.cliente?.domicilio || 'No disponible';
-  const telefono = c.cliente?.telefono || 'No disponible';
-
-  const avalPrincipal = c.avales?.[0]
-    ? `${c.avales[0].nombre} ${c.avales[0].apellidoPaterno} ${c.avales[0].apellidoMaterno}`
-    : 'No disponible';
-
-  const avalSecundario = c.avales?.[1]
-    ? `${c.avales[1].nombre} ${c.avales[1].apellidoPaterno} ${c.avales[1].apellidoMaterno}`
-    : 'No disponible';
-
-  const doc = new jsPDF();
-
-  doc.setFontSize(18);
-  doc.text('Información del Cliente', 20, 20);
-
-  doc.setFontSize(12);
-  doc.text(`Nombre: ${nombre}`, 20, 40);
-  doc.text(`Dirección: ${direccion}`, 20, 50);
-  doc.text(`Teléfono: ${telefono}`, 20, 60);
-  doc.text(`Aval Principal: ${avalPrincipal}`, 20, 70);
-  doc.text(`Aval Secundario: ${avalSecundario}`, 20, 80);
-
-  doc.save('cliente.pdf');
-}
+  
+  
+  
+  
 
 
 } 
