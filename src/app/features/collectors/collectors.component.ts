@@ -244,42 +244,52 @@ imprimirCliente() {
     }
 
     // === TABLA DE PAGOS ===
-    seccion('Historial de Pagos');
-    const credito = c.credito;
-    const pagos = c.pagos;
+    seccion('Control de Cumplimiento de Pago');
+const credito = c.credito;
+const pagos = c.pagos;
 
-    doc.setFontSize(11);
-    doc.text(`Monto: $${credito.monto}`, 15, y);
-    doc.text(`Abono semanal: $${credito.abonoSemanal}`, 80, y);
-    y += lh + 2;
+doc.setFontSize(11);
+doc.text(`Monto: $${credito.monto}`, 15, y);
+doc.text(`Abono semanal: $${credito.abonoSemanal}`, 80, y);
+y += lh + 2;
 
-    const columnasPorFila = 6;
-    const anchoColumna = 180 / columnasPorFila;
-    const totalPagos = pagos.length;
-    const filasNecesarias = Math.ceil(totalPagos / columnasPorFila);
+const columnasPorFila = 6;
+const anchoColumna = 180 / columnasPorFila;
+const altoCasilla = lh + 3;  // ← Más pequeña que antes
+const totalPagos = pagos.length;
+const filasNecesarias = Math.ceil(totalPagos / columnasPorFila);
 
-    for (let fila = 0; fila < filasNecesarias; fila++) {
-      const inicio = fila * columnasPorFila;
-      const fin = Math.min(inicio + columnasPorFila, totalPagos);
-      const pagosFila = pagos.slice(inicio, fin);
+for (let fila = 0; fila < filasNecesarias; fila++) {
+  const inicio = fila * columnasPorFila;
+  const fin = Math.min(inicio + columnasPorFila, totalPagos);
+  const pagosFila = pagos.slice(inicio, fin);
 
-      pagosFila.forEach((pago, index) => {
-        const x = 15 + index * anchoColumna;
-        const fecha = new Date(pago.fechaEsperada).toLocaleDateString();
-        doc.setFontSize(10);
-        doc.text(fecha, x + 2, y);
-      });
+  pagosFila.forEach((pago, index) => {
+    const x = 15 + index * anchoColumna;
+    const fecha = new Date(pago.fechaEsperada).toLocaleDateString();
+    doc.setFontSize(9); // Texto un poco más chico
+    doc.text(fecha, x + 2, y);
+  });
 
-      y += lh;
+  y += lh;
 
-      pagosFila.forEach((_, index) => {
-        const x = 15 + index * anchoColumna;
-        doc.setDrawColor(180);
-        doc.rect(x, y - 5, anchoColumna - 2, lh);
-      });
+  pagosFila.forEach((_, index) => {
+    const x = 15 + index * anchoColumna;
+    const yRect = y - 4;
 
-      y += lh + 4;
-    }
+    // Casilla rectangular
+    doc.setDrawColor(100);
+    doc.rect(x, yRect, anchoColumna - 2, altoCasilla);
+
+    // Línea vertical al centro
+    const xCentro = x + (anchoColumna - 2) / 2;
+    doc.line(xCentro, yRect, xCentro, yRect + altoCasilla);
+  });
+
+  y += altoCasilla + 3;
+}
+
+
 
     // Guardar PDF
     doc.save(`${cliente.nombre}.pdf`);
