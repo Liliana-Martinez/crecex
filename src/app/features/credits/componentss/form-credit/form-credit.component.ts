@@ -44,7 +44,6 @@ export class FormCreditComponent implements OnChanges {
       console.log('ID del cliente:', this.idCliente);
     }
   }
-
   abrirConfirmacion(): void {
   this.errorMensaje = null;
 
@@ -70,29 +69,50 @@ export class FormCreditComponent implements OnChanges {
   const factor = semanas === 12 ? 1.5 : 1.583;
   const abonoSemanal = Math.round((monto * factor) / semanas);
 
-  // Lógica especial si es módulo 'renew'
-  if (this.modulo === 'renew' && this.cliente?.credito && typeof this.cliente?.semanasPagadas === 'number') {
+  // Variables para las semanas restantes y el descuento
+  let semanasRestantes = 0;
+  let descuentoSemanasPendientes = 0;
+  let semanasPagadas = 0;
+
+  // Lógica especial si es módulo 'renew' (renovación)
+  if (this.modulo === 'renew' && this.cliente?.credito) {
     const semanasTotales = this.cliente.credito.semanas;
-    const semanasPagadas = this.cliente.semanasPagadas;
     const abonoSemanalAnterior = this.cliente.credito.abonoSemanal;
 
-    const semanasRestantes = semanasTotales - semanasPagadas;
+    // Obtener las semanas pagadas desde los pagos
+    const pagosRealizados = this.cliente.pagos || []; // Asegúrate de que 'pagos' contiene los pagos
+    if (pagosRealizados.length > 0) {
+      // Obtener la última semana pagada (numeroSemana más alta)
+      semanasPagadas = pagosRealizados.reduce((maxSemana, pago) => Math.max(maxSemana, pago.numeroSemana), 0);
+    }
 
+    // Calcular las semanas restantes
+    semanasRestantes = semanasTotales - semanasPagadas;
+
+    // Si hay semanas restantes, calcular el descuento
     if (semanasRestantes > 0) {
-      const descuento = semanasRestantes * abonoSemanalAnterior;
-      efectivo -= descuento;
+      descuentoSemanasPendientes = semanasRestantes * abonoSemanalAnterior;
+      // Descontar las semanas restantes al efectivo
+      efectivo -= descuentoSemanasPendientes;
     }
   }
 
+  // Guardamos todos los datos para confirmar en el modal
   this.datosParaConfirmar = {
     ...valores,
     efectivo,
-    abonoSemanal
+    abonoSemanal,
+    semanasRestantes,
+    descuentoSemanasPendientes
   };
 
+  // Mostrar el modal
   this.modalVisible = true;
 }
 
+
+
+  
 
   confirmarEnvio(): void {
     const formData = {

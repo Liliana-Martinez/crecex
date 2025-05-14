@@ -62,14 +62,7 @@
   align-items: center;
   z-index: 1000;
 ">
-  <div class="modal-content" style="
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  ">
+  <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
     <h3 style="margin-top: 0;">¿Está seguro de que los datos son correctos?</h3>
     <div *ngIf="datosParaConfirmar">
       <p><strong>Monto:</strong> {{ datosParaConfirmar.monto }}</p>
@@ -79,6 +72,14 @@
       <p><strong>Recargos:</strong> {{ datosParaConfirmar.recargos }}</p>
       <p><strong>Efectivo:</strong> {{ datosParaConfirmar.efectivo | number:'1.2-2' }}</p>
       <p><strong>Abono Semanal:</strong> {{ datosParaConfirmar.abonoSemanal | number:'1.2-2' }}</p>
+
+      <!-- Si hay semanas pendientes -->
+      <ng-container *ngIf="modulo === 'renew' && datosParaConfirmar.semanasRestantes > 0">
+        <p style="color: red; font-weight: bold;">
+          Se descontarán {{ datosParaConfirmar.semanasRestantes }} semanas pendientes
+          del crédito anterior ({{ datosParaConfirmar.descuentoSemanasPendientes | number:'1.2-2' }} MXN).
+        </p>
+      </ng-container>
     </div>
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
       <button type="button" (click)="modalVisible = false">Cancelar</button>
@@ -87,4 +88,3 @@
   </div>
 </div>
 
-  

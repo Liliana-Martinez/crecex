@@ -26,7 +26,7 @@ export interface Credito {
  
 export interface Pagos {
 
-  numeroSemana: string;
+  numeroSemana: number;
   cantidad: number;
   estado: number;
 
