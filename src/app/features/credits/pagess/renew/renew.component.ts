@@ -30,4 +30,4 @@ export class RenewComponent {
      this.cliente = cliente; 
    }
 }
-  
+   

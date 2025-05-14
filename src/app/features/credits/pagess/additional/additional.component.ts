@@ -25,7 +25,7 @@ export class AdditionalComponent {
       console.log('Cliente encontrado', cliente);
       this.cliente = cliente; 
   }
-  
+   
 
 } 
  

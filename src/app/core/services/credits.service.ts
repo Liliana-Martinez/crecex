@@ -8,7 +8,7 @@ import { BuscarCliente } from '../../models/BuscarCliente';
 }) 
 export class CreditsService {
   constructor(private http: HttpClient) {}
-
+ 
   // Método para obtener los datos del cente
   obtenerDatosCliente(credentials: BuscarCliente): Observable<any> {
     return this.http.post<any>(API_ROUTES.SEARCHBARCLIENTE.SEARCH, credentials);

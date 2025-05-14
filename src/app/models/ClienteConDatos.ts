@@ -2,6 +2,7 @@ export interface ClienteConDatos {
   cliente: Cliente;
   credito?: Credito;
   pagos?: Pagos[];
+  semanasPagadas?: number;
 }
  
 export interface Cliente {
@@ -16,9 +17,11 @@ export interface Cliente {
 }
 
 export interface Credito {
+  idCredito: number;
+  monto: number;
   fechaEntrega: string;
-  idCredito: string;
-  monto: string; 
+  semanas: number;         
+  abonoSemanal: number;  
 }
  
 export interface Pagos {

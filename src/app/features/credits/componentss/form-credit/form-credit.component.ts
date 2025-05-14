@@ -16,6 +16,8 @@ import { SaveButtonComponent } from "../../../../shared/componentes/save-button/
 
 export class FormCreditComponent implements OnChanges {
   @Input() cliente: ClienteConDatos | null = null;
+  @Input() modulo: 'new' | 'renew' | 'additional' = 'new'; // Recibe el módulo actual
+
   idCliente: number | null = null;
 
   FormCredit: FormGroup;
@@ -30,7 +32,6 @@ export class FormCreditComponent implements OnChanges {
       semanas: [null, Validators.required],
       horarioEntrega: [null, Validators.required],
       atrasos: [null],
-      modulo: 'new',
       recargos: [null],
       abonoSemanal: [{ value: null, disabled: true }],
       efectivo: [{ value: null, disabled: true }]
@@ -45,44 +46,64 @@ export class FormCreditComponent implements OnChanges {
   }
 
   abrirConfirmacion(): void {
-    this.errorMensaje = null;
+  this.errorMensaje = null;
 
-    if (!this.FormCredit.valid) {
-      this.errorMensaje = 'Completa los campos requeridos';
-      return;
-    }
-
-    if (!this.idCliente) {
-      this.errorMensaje = 'Elige un cliente antes de guardar el formulario';
-      return;
-    }
-
-    const valores = this.FormCredit.getRawValue();
-    const monto = Number(valores.monto);
-    const semanas = Number(valores.semanas);
-    const atrasos = Number(valores.atrasos) || 0;
-    const recargos = Number(valores.recargos) || 0;
-
-    const efectivo = Math.round(monto - atrasos - recargos);
-    const factor = semanas === 12 ? 1.5 : 1.583;
-    const abonoSemanal = Math.round((monto * factor) / semanas);
-
-    this.datosParaConfirmar = {
-      ...valores,
-      efectivo,
-      abonoSemanal
-    };
-
-    this.modalVisible = true;
+  if (!this.FormCredit.valid) {
+    this.errorMensaje = 'Completa los campos requeridos';
+    return;
   }
+
+  if (!this.idCliente) {
+    this.errorMensaje = 'Elige un cliente antes de guardar el formulario';
+    return;
+  }
+
+  const valores = this.FormCredit.getRawValue();
+  const monto = Number(valores.monto);
+  const semanas = Number(valores.semanas);
+  const atrasos = Number(valores.atrasos) || 0;
+  const recargos = Number(valores.recargos) || 0;
+
+  let efectivo = Math.round(monto - atrasos - recargos);
+
+  // Cálculo de abonoSemanal
+  const factor = semanas === 12 ? 1.5 : 1.583;
+  const abonoSemanal = Math.round((monto * factor) / semanas);
+
+  // Lógica especial si es módulo 'renew'
+  if (this.modulo === 'renew' && this.cliente?.credito && typeof this.cliente?.semanasPagadas === 'number') {
+    const semanasTotales = this.cliente.credito.semanas;
+    const semanasPagadas = this.cliente.semanasPagadas;
+    const abonoSemanalAnterior = this.cliente.credito.abonoSemanal;
+
+    const semanasRestantes = semanasTotales - semanasPagadas;
+
+    if (semanasRestantes > 0) {
+      const descuento = semanasRestantes * abonoSemanalAnterior;
+      efectivo -= descuento;
+    }
+  }
+
+  this.datosParaConfirmar = {
+    ...valores,
+    efectivo,
+    abonoSemanal
+  };
+
+  this.modalVisible = true;
+}
+
 
   confirmarEnvio(): void {
     const formData = {
       idCliente: this.idCliente,
-      ...this.FormCredit.value
+      ...this.FormCredit.value,
+      modulo: this.modulo // <<--- Se incluye en el body
     };
 
-    this.creditsService.enviarFormulario('new', formData).subscribe(
+    console.log('Formulario enviado al backend:', formData);
+
+    this.creditsService.enviarFormulario(this.modulo, formData).subscribe(
       response => {
         console.log('Formulario enviado correctamente:', response);
         this.FormCredit.get('abonoSemanal')?.setValue(response.abonoSemanal);
@@ -97,3 +118,5 @@ export class FormCreditComponent implements OnChanges {
     );
   }
 }
+
+
