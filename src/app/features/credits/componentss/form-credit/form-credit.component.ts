@@ -65,39 +65,30 @@ export class FormCreditComponent implements OnChanges {
 
   let efectivo = Math.round(monto - atrasos - recargos);
 
-  // Cálculo de abonoSemanal
+  
   const factor = semanas === 12 ? 1.5 : 1.583;
   const abonoSemanal = Math.round((monto * factor) / semanas);
 
-  // Variables para las semanas restantes y el descuento
   let semanasRestantes = 0;
   let descuentoSemanasPendientes = 0;
   let semanasPagadas = 0;
 
-  // Lógica especial si es módulo 'renew' (renovación)
+
   if (this.modulo === 'renew' && this.cliente?.credito) {
     const semanasTotales = this.cliente.credito.semanas;
     const abonoSemanalAnterior = this.cliente.credito.abonoSemanal;
 
     // Obtener las semanas pagadas desde los pagos
-    const pagosRealizados = this.cliente.pagos || []; // Asegúrate de que 'pagos' contiene los pagos
+    const pagosRealizados = this.cliente.pagos || []; 
     if (pagosRealizados.length > 0) {
-      // Obtener la última semana pagada (numeroSemana más alta)
       semanasPagadas = pagosRealizados.reduce((maxSemana, pago) => Math.max(maxSemana, pago.numeroSemana), 0);
     }
-
-    // Calcular las semanas restantes
     semanasRestantes = semanasTotales - semanasPagadas;
-
-    // Si hay semanas restantes, calcular el descuento
     if (semanasRestantes > 0) {
       descuentoSemanasPendientes = semanasRestantes * abonoSemanalAnterior;
-      // Descontar las semanas restantes al efectivo
       efectivo -= descuentoSemanasPendientes;
     }
   }
-
-  // Guardamos todos los datos para confirmar en el modal
   this.datosParaConfirmar = {
     ...valores,
     efectivo,
@@ -105,20 +96,13 @@ export class FormCreditComponent implements OnChanges {
     semanasRestantes,
     descuentoSemanasPendientes
   };
-
-  // Mostrar el modal
   this.modalVisible = true;
 }
-
-
-
-  
-
   confirmarEnvio(): void {
     const formData = {
       idCliente: this.idCliente,
       ...this.FormCredit.value,
-      modulo: this.modulo // <<--- Se incluye en el body
+      modulo: this.modulo 
     };
 
     console.log('Formulario enviado al backend:', formData);
