@@ -5,6 +5,7 @@ import { ClientFormComponent } from '../../components/client-form/client-form.co
 import { GuarantorFormComponent } from '../../components/guarantor-form/guarantor-form.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Client } from '../../../../models/Client';
 
 
 @Component({
@@ -17,8 +18,10 @@ import { CommonModule } from '@angular/common';
 export class ModifyComponent {
   modulo: string = 'modify';
   selected: string = 'client';
+  client?: any; //Es el cliente buscado
 
-  changeForm(event: any) {
-    console.log("Seleccionado:", this.selected);
+  onClienteEncontrado(client: any): void {
+    this.client = client;
   }
 }
+

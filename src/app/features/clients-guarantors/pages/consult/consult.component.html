@@ -18,7 +18,7 @@
         <!-- Monto del préstamo -->
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef> Monto </th>
-          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.amount | currency:'MXN':'symbol-narrow':'1.2-2' }} </td>
         </ng-container>
 
         <!-- Numero de semanas del credito -->
@@ -36,7 +36,7 @@
         <!-- Cantidad del pago semanal -->
         <ng-container matColumnDef="weeklyAmount">
             <th mat-header-cell *matHeaderCellDef> Monto semanal </th>
-            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount | currency:'MXN':'symbol':'1.2-2'}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
         </ng-container>
 
         <!-- Número de la semana actual del pago -->
@@ -69,7 +69,7 @@
         <!--Monto del crédito-->
         <ng-container matColumnDef="amountHistory">
             <th mat-header-cell *matHeaderCellDef> Monto</th>
-            <td mat-cell *matCellDef="let element"> {{element.amountHistory}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.amountHistory | currency:'MXN':'symbol-narrow':'1.2-2' }} </td>
         </ng-container>
 
         <!--Fecha del préstamo-->

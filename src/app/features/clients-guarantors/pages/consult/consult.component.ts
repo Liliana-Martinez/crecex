@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 export class ConsultComponent {
   modulo: string = 'consult';
   client: any = null;
+  creditNumber: number = 0;
   currentCredit: any = null;
   creditHistory: any = null;
   dataCurrentCredit = new MatTableDataSource<any>();
@@ -28,7 +29,8 @@ export class ConsultComponent {
   onClienteEncontrado(response: any): void {
     if (response.message === 'Cliente no encontrado') {
       this.client = null;
-      this.currentCredit = null;
+      this.creditNumber = 0;
+      this.currentCredit = [];
       this.creditHistory = [];
       this.dataCurrentCredit.data = [];
       this.dataCreditHistory.data = [];
@@ -36,13 +38,14 @@ export class ConsultComponent {
     }
 
     this.client = response.client;
+    this.creditNumber = response.totalCredits;
     this.currentCredit = response.currentCredit;
     this.creditHistory = response.creditHistory;
 
     //Armar el objeto para la tabla "Credito Actual"
     if (this.currentCredit && this.currentCredit.length > 0) {
-      const currentCreditRows: CurrentCredit[] = this.currentCredit.map((credit: any, i: number) => ({
-        creditNum: i + 1,
+        const currentCreditRows: CurrentCredit[] = this.currentCredit.map((credit: any, i: number) => ({
+        creditNum: this.creditNumber - this.currentCredit.length + 1 + i,
         name: this.client.nombreCompleto,
         amount: credit.monto,
         weeks: credit.semanas,
@@ -50,7 +53,7 @@ export class ConsultComponent {
         weeklyAmount: credit.abonoSemanal,
         paymentWeek: credit.numeroSemana,
         status: credit.cumplimiento
-      }));
+      })); 
       this.dataCurrentCredit.data = currentCreditRows;
     } else {
       this.dataCurrentCredit.data = [];
@@ -71,3 +74,4 @@ export class ConsultComponent {
     }
   }
 }
+

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule,Validators } from '@angular/forms';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 import { ClientService } from '../../../../core/services/client.service';
@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-client-form',
+  standalone: true,
   imports: [ReactiveFormsModule, 
             CommonModule, 
             SaveButtonComponent, 
@@ -21,48 +22,60 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.css'
 })
-export class ClientFormComponent implements OnInit {
 
+export class ClientFormComponent implements OnInit, OnChanges {
   clientForm!: FormGroup;
   errorMessage: string = '';
   listZones: Zone[] = [];
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
+  @Input() modo: 'agregar' | 'modificar' = 'agregar';
+  @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar
 
   constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
     //Inicializar formulario
     this.clientForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-      paternalLn: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-      maternalLn: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-      age: new FormControl('', [Validators.required, Validators.min(18), Validators.max(60)]),
-      address: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)]),
-      colonia: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-      city: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-      phone: new FormControl('', [Validators.required, Validators.pattern(/^\d{10}$/)]),
-      classification: new FormControl('', [Validators.required, Validators.pattern(/^[A-Da-d]$/)]),
-      zone: new FormControl('', [Validators.required/*, Validators.pattern(/^[A-Za-z]-\d+$/)*/]),
+      name: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      paternalLn: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      maternalLn: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      age: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
+      address: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
+      colonia: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      city: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      phone: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
+      classification: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Da-d]$/)] :[]),
+      zone: new FormControl('', this.modo === 'agregar' ? [Validators.required] :[]),
       zoneId: new FormControl(''),
-      nameJob: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-      addressJob: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)]),
-      phoneJob: new FormControl('', [Validators.required, Validators.pattern(/^\d{10}$/)]),
-      nameReference: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-      addressReference: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)]),
-      phoneReference: new FormControl('', [Validators.required, Validators.pattern(/^\d{10}$/)]),
+      nameJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+      addressJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
+      phoneJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^\d{10}$/)] :[]),
+      nameReference: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+      addressReference: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
+      phoneReference: new FormControl('', this.modo === 'agregar' ?[Validators.required, Validators.pattern(/^\d{10}$/)] :[]), 
 
       /**Formulario anidado, es decir garantiasForm dentro de ClientForm */
       garantias: new FormGroup({
-        garantiaUno: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-        garantiaDos: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
-        garantiaTres: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)])
+        garantiaUno: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+        garantiaDos: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+        garantiaTres: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[])
       })
     });
+
     this.getZones();
     this.filteredZones$ = this.clientForm.get('zone')!.valueChanges.pipe(
       startWith(''),
       map(value => value ? this.filterZones(value) : this.listZones)
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['clientData'] && this.clientData && this.modo === 'modificar') {
+      if (this.clientForm) {
+        this.clientForm.patchValue(this.clientData);
+        console.log('DAtos en form-client: ', this.clientData);
+      } 
+    }
   }
 
   addClient() {
@@ -118,4 +131,6 @@ export class ClientFormComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.listZones.filter(z => z.codigoZona.toLowerCase().includes(filterValue));
   }
+
+  updateClient() {}
 }
