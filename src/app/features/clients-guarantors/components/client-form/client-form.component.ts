@@ -9,6 +9,7 @@ import { map, Observable, of, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ZoneService } from '../../../../core/services/zone.service';
 
 @Component({
   selector: 'app-client-form',
@@ -31,7 +32,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
   @Input() modo: 'agregar' | 'modificar' = 'agregar';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar
 
-  constructor(private clientService: ClientService) {}
+  constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
   ngOnInit(): void {
     //Inicializar formulario
@@ -110,7 +111,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   //Obtener la lista de las zonas
   private getZones() {
-    this.clientService.getZones().subscribe((zones: Zone[]) => {
+    this.zonaService.getZones().subscribe((zones: Zone[]) => {
       this.listZones = zones;
     });
     this.filteredZones$ = of(this.listZones);

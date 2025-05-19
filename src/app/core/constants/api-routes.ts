@@ -36,9 +36,11 @@ export const API_ROUTES = {
         CONSULT: `${API_URL}/credit-bureau/consult`
     },
     ZONES: {
-        GETALL: `${API_URL}/zones/getAllZones`
+        GETALL: `${API_URL}/zones/getAllZones`,
+        CLIENTSZONE: `${API_URL}/zones/getClientsFromZone`
     },
     SEARCHBARCLIENTE:{
         SEARCH : `${API_URL}/search/cliente`
+
     }
 };
