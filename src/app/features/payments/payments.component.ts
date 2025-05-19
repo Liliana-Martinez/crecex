@@ -3,6 +3,7 @@ import { SearchBarZoneComponent } from '../../shared/componentes/search-bar-zone
 import { SaveButtonComponent } from "../../shared/componentes/save-button/save-button.component";
 import { PrintButtonComponent } from "../../shared/componentes/print-button/print-button.component";
 import { MatTableModule } from '@angular/material/table';
+import { Zone } from '../../models/Zone';
 export interface RenewCredit {
   clients: string; 
   name: string;
@@ -38,4 +39,8 @@ export class PaymentsComponent {
   PaymentCol: string[] = ['clients','name', 'loans','classification', 'compliance', 'deliveryDate', 
   'dueDate','week', 'weeklyAmount', 'latePayment','earlyPayment','lateFees', 'payment','paymentType'];
   dataPayment = PAYMENT_DATA;
+
+  usarZona(zona: Zone) {
+    console.log('Zona seleccionada: ', zona);
+  }
 }

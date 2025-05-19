@@ -1,16 +1,20 @@
-<form class="example-form">
+<form class="search-bar-form">
   <mat-form-field class="example-full-width">
     <mat-label>Ingrese la zona</mat-label>
     <mat-icon matPrefix>search</mat-icon>
     <input type="text"
-           aria-label="Number"
+           aria-label="Zona"
            matInput
-           [formControl]="myControl"
+           [formControl]="myControl" 
            [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      @for (option of filteredOptions | async; track option) {
-        <mat-option [value]="option">{{option}}</mat-option>
-      }
+    <!--El siguiente bloque define el autocompletado-->
+    <mat-autocomplete 
+      #auto="matAutocomplete" 
+      (optionSelected)="onSelected($event.option.value)"
+      [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option.codigoZona}}
+        </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 </form>
