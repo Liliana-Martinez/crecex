@@ -46,6 +46,7 @@ export class CollectorsComponent {
 imprimirCliente() {
   if (!this.clienteParaImprimir) {
     console.warn('No hay cliente para imprimir');
+    
     return;
   }
   const c = this.clienteParaImprimir;

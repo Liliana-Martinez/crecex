@@ -33,7 +33,8 @@ export class SearchBarComponent {
     if (!this.nombreCompleto.trim()) {
       this.mensajeError = 'El nombre completo es obligatorio';
       return;
-    }     
+    }   
+      
     const datosCliente: BuscarCliente = {
       nombreCompleto: this.nombreCompleto, 
       modulo: this.modulo
@@ -45,7 +46,7 @@ export class SearchBarComponent {
         this.clienteEncontrado.emit(response);
       },
       error: (err) => {
-        this.mensajeError = err.message;  
+        this.mensajeError = err.error?.message || 'Ocurrió un error inesperado';
       }
     });
   }
