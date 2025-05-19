@@ -27,15 +27,6 @@ export class ConsultComponent {
 
   //Método para escuchar el nombre emitido
   onClienteEncontrado(response: any): void {
-    if (response.message === 'Cliente no encontrado') {
-      this.client = null;
-      this.creditNumber = 0;
-      this.currentCredit = [];
-      this.creditHistory = [];
-      this.dataCurrentCredit.data = [];
-      this.dataCreditHistory.data = [];
-      return;
-    }
 
     this.client = response.client;
     this.creditNumber = response.totalCredits;
@@ -72,6 +63,15 @@ export class ConsultComponent {
     } else {
       this.dataCreditHistory.data = [];
     }
+  }
+
+  onClienteNoEncontrado(): void {
+    this.client = null;
+    this.creditNumber = 0;
+    this.currentCredit = [];
+    this.creditHistory = [];
+    this.dataCurrentCredit.data = [];
+    this.dataCreditHistory.data = [];
   }
 }
 

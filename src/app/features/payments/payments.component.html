@@ -1,4 +1,4 @@
-<app-search-bar-zone></app-search-bar-zone>
+<app-search-bar-zone (selectedZone)="usarZona($event)"></app-search-bar-zone>
 <div class="container-table">
     <table mat-table [dataSource]="dataPayment" class="mat-elevation-z8">
         <!-- No Cliente --> 

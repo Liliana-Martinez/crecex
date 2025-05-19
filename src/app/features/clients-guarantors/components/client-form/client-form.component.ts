@@ -73,7 +73,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
     if (changes['clientData'] && this.clientData && this.modo === 'modificar') {
       if (this.clientForm) {
         this.clientForm.patchValue(this.clientData);
-        console.log('DAtos en form-client: ', this.clientData);
+        console.log('Datos en form-client: ', this.clientData);
       } 
     }
   }
