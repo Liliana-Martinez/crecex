@@ -12,7 +12,7 @@
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
         <!-- N° Prestamos -->
-        <ng-container matColumnDef="loans">
+        <ng-container matColumnDef="loans"> 
             <th mat-header-cell *matHeaderCellDef> No Prestamos </th>
             <td mat-cell *matCellDef="let element"> {{element.loans}}</td>
         </ng-container>
@@ -71,8 +71,8 @@
             <th mat-header-cell *matHeaderCellDef> Tipo Pago </th>
             <td mat-cell *matCellDef="let element"> {{element.paymentType}}</td>
           </ng-container>
-        <tr mat-header-row *matHeaderRowDef="PaymentCol"></tr>
-        <tr mat-row *matRowDef="let row; columns: PaymentCol;"></tr>
+        <tr mat-header-row *matHeaderRowDef="paymentCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: paymentCol;"></tr>
       </table>          
 </div>
 <div class="container-button">

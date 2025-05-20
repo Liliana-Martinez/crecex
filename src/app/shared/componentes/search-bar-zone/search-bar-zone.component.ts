@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { map, Observable, of, startWith } from 'rxjs';
 import { Zone } from '../../../models/Zone';
 import { ClientService } from '../../../core/services/client.service';
+import { ZoneService } from '../../../core/services/zone.service';
 
 @Component({
   selector: 'app-search-bar-zone',
@@ -22,10 +23,10 @@ export class SearchBarZoneComponent {
 
   @Output() selectedZone = new EventEmitter<Zone>(); //Emite la zona seleccionada para usar en el componente padre
 
-  constructor(private clientService: ClientService) {}
+  constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
   ngOnInit() {
-    this.clientService.getZones().subscribe({
+    this.zonaService.getZones().subscribe({
       next: (zones: Zone[]) => {
         this.options = zones;
         this.filteredOptions = this.myControl.valueChanges.pipe(
