@@ -37,13 +37,13 @@ export class PaymentsComponent {
     this.zoneService.zoneData(this.idZona).subscribe({
       next: (response) => {
         console.log('respuesta del back: ', response);
-        this.dataPayment = response; // Asigna los datos a la tabla si hay
+        this.dataPayment = response; 
       },
       error: (err) => {
         console.error('Error:', err);
 
         if (err.status === 404) {
-          alert(err.error.message); // Mensaje amigable del backend
+          alert(err.error.message); 
           this.dataPayment = null;
         } else {
           alert('Ocurrió un error inesperado al obtener los datos.');

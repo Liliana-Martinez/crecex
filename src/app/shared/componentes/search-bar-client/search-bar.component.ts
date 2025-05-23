@@ -46,15 +46,9 @@ export class SearchBarComponent {
         this.clienteEncontrado.emit(response);
       },
       error: (err) => {
-<<<<<<< HEAD
 
         this.mensajeError = err.error?.message || 'Ocurrió un error inesperado';
-=======
-        this.mensajeError = err.error?.message || 'Ocurrió un error inesperado';
-
->>>>>>> 2895a31e383f1056b267b1235eb27978009223ef
-        console.error('Error capturado por catch', err);
-        this.mensajeError = err?.error?.error || 'Error al consultar el cliente.';
+        console.error('Error capturado por catch', err);+
         this.clienteEncontrado.emit();
       }
     });
