@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
   standalone: true,
   imports: [CommonModule, MatTableModule],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.css'
+  styleUrl: './table.component.css' 
 })
 export class TableComponent  {
   @Input() cliente:ClienteConDatos | null = null

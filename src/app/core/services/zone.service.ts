@@ -16,6 +16,6 @@ export class ZoneService {
     }
   
   zoneData(idZona: number): Observable<any>{
-  return this.http.get<any>(`${API_ROUTES.ZONES.CLIENTSZONE}?idZona=${idZona}`);
+  return this.http.get<any>(`${API_ROUTES.PAYMENTS}?idZona=${idZona}`);
   } 
 }

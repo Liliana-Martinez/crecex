@@ -17,7 +17,8 @@ import { SaveButtonComponent } from "../../../../shared/componentes/save-button/
 export class FormCreditComponent implements OnChanges {
   @Input() cliente: ClienteConDatos | null = null;
   @Input() modulo: 'new' | 'renew' | 'additional' = 'new'; // Recibe el módulo actual
-
+  selectedOptionn: string = "12"
+  selectedOption: string = "mañana"
   idCliente: number | null = null;
 
   FormCredit: FormGroup;

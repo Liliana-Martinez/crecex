@@ -5,10 +5,13 @@ import { PrintButtonComponent } from "../../shared/componentes/print-button/prin
 import { MatTableModule } from '@angular/material/table';
 import { Zone } from '../../models/Zone';
 import { ZoneService } from '../../core/services/zone.service';
+import dayjs from 'dayjs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-payments',
-  imports: [SearchBarZoneComponent, SaveButtonComponent, PrintButtonComponent, MatTableModule],
+  imports: [SearchBarZoneComponent, SaveButtonComponent, PrintButtonComponent, MatTableModule, CommonModule, FormsModule],
   templateUrl: './payments.component.html',
   styleUrl: './payments.component.css'
 })
@@ -19,13 +22,15 @@ export class PaymentsComponent {
 
   idZona: number = 0;
   dataPayment: any = null;
-
+  ClientsPayment: any[] = [];
+  mensajeError: string = '';
+  idCliente: number = 0;
+  selectedOption: string = 'efectivo';
   paymentCol: string[] = [
     'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
-    'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment',
+    'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment','default',
     'lateFees', 'payment', 'paymentType'
   ];
-
   usarZona(zona: Zone) {
     console.log('Zona seleccionada en pagos: ', zona);
     console.log('codigo zona', zona.codigoZona);
@@ -36,18 +41,50 @@ export class PaymentsComponent {
     // Servicio Zona
     this.zoneService.zoneData(this.idZona).subscribe({
       next: (response) => {
+<<<<<<< HEAD
         console.log('respuesta del back: ', response);
         this.dataPayment = response; 
+=======
+        console.log('Respuesta del back: ', response);
+        //Llenado de tabla :3
+        this.ClientsPayment= response; 
+        console.log('Lo que va a llenar la tabla: ',this.ClientsPayment);
+        if (this.ClientsPayment) {
+          this.dataPayment = this.ClientsPayment.map((item: any, index: number) => ({
+            clients: index + 1,
+            name: item.nombreCompleto,
+            loans: item.numeroCreditos,
+            classification: item.clasificacion,
+            compliance: item.cumplimiento,
+            deliveryDate: item.fechaEntrega ? dayjs(item.fechaEntrega).format('DD/MM/YYYY') : '',
+            dueDate: item.fechaVencimiento ? dayjs(item.fechaVencimiento).format('DD/MM/YYYY') : '',
+            week: item.numeroSemana ?? '',
+            weeklyAmount: item.montoSemanal ?? '',
+            latePayment: item.atraso ?? '',
+            earlyPayment: item.adelanto ?? '',
+            default: item.falla??'',
+            lateFees: item.recargos ?? '',
+            payment: '',
+            paymentType: ''
+          }));
+        } else {
+      this.dataPayment = [];
+}
+>>>>>>> 8f44ebd6ca7d5b6fba3a7614095ff6c40e57989a
       },
-      error: (err) => {
+     error: (err) => {
         console.error('Error:', err);
+        this.dataPayment = null;
 
         if (err.status === 404) {
+<<<<<<< HEAD
           alert(err.error.message); 
           this.dataPayment = null;
+=======
+          this.mensajeError = 'No hay clientes con creditos activos en esta zona';
+>>>>>>> 8f44ebd6ca7d5b6fba3a7614095ff6c40e57989a
         } else {
-          alert('Ocurrió un error inesperado al obtener los datos.');
-          this.dataPayment = null;
+          this.mensajeError = 'Ocurrió un error al obtener los datos';
         }
       }
     });
