@@ -69,20 +69,32 @@
             <td mat-cell *matCellDef="let element"> {{element.default}}</td>
           </ng-container>
         <!-- Recargos Moratorios -->
-        <ng-container matColumnDef="lateFees">
+        <ng-container matColumnDef="lateFees" >
           <th mat-header-cell *matHeaderCellDef> Recargos Moratorios </th>
-          <td mat-cell *matCellDef="let element"> {{element.lateFees}}</td>
+          <td mat-cell *matCellDef="let element"> 
+            <input type="number"[(ngModel)]= "element.lateFees" class="estilo">
+          </td>
         </ng-container>
         <!-- Pago -->
         <ng-container matColumnDef="payment">
             <th mat-header-cell *matHeaderCellDef> pago </th>
-            <td mat-cell *matCellDef="let element"> {{element.payment}}</td>
+            <td mat-cell *matCellDef="let element"> 
+            
+              <input type="number" [(ngModel)]="element.payment"  class="estilo">
+          
+            </td>
           </ng-container>
         <!-- Tipo Pago -->
         <ng-container matColumnDef="paymentType">
-            <th mat-header-cell *matHeaderCellDef> Tipo Pago </th>
-            <td mat-cell *matCellDef="let element"> {{element.paymentType}}</td>
-          </ng-container>
+          <th mat-header-cell *matHeaderCellDef> Tipo Pago </th>
+          <td mat-cell *matCellDef="let element">
+            <select id="tipoPago" [(ngModel)]="selectedOption" class="estilo">
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia</option>
+            </select>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="paymentCol"></tr>
         <tr mat-row *matRowDef="let row; columns: paymentCol;"></tr>
       </table>          

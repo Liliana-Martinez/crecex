@@ -5,12 +5,13 @@ import { PrintButtonComponent } from "../../shared/componentes/print-button/prin
 import { MatTableModule } from '@angular/material/table';
 import { Zone } from '../../models/Zone';
 import { ZoneService } from '../../core/services/zone.service';
-import { ClientsPayment } from '../../models/ClientsPayment';
 import dayjs from 'dayjs';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-payments',
-  imports: [SearchBarZoneComponent, SaveButtonComponent, PrintButtonComponent, MatTableModule, CommonModule],
+  imports: [SearchBarZoneComponent, SaveButtonComponent, PrintButtonComponent, MatTableModule, CommonModule, FormsModule],
   templateUrl: './payments.component.html',
   styleUrl: './payments.component.css'
 })
@@ -24,13 +25,12 @@ export class PaymentsComponent {
   ClientsPayment: any[] = [];
   mensajeError: string = '';
   idCliente: number = 0;
-
+  selectedOption: string = 'efectivo';
   paymentCol: string[] = [
     'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
     'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment','default',
     'lateFees', 'payment', 'paymentType'
   ];
-
   usarZona(zona: Zone) {
     console.log('Zona seleccionada en pagos: ', zona);
     console.log('codigo zona', zona.codigoZona);
@@ -44,7 +44,7 @@ export class PaymentsComponent {
         console.log('Respuesta del back: ', response);
         //Llenado de tabla :3
         this.ClientsPayment= response; 
-        console.log('Lo que se va a imprimir: ',this.ClientsPayment);
+        console.log('Lo que va a llenar la tabla: ',this.ClientsPayment);
         if (this.ClientsPayment) {
           this.dataPayment = this.ClientsPayment.map((item: any, index: number) => ({
             clients: index + 1,
@@ -58,6 +58,7 @@ export class PaymentsComponent {
             weeklyAmount: item.montoSemanal ?? '',
             latePayment: item.atraso ?? '',
             earlyPayment: item.adelanto ?? '',
+            default: item.falla??'',
             lateFees: item.recargos ?? '',
             payment: '',
             paymentType: ''
