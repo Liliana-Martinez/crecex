@@ -11,9 +11,7 @@ export interface DailyReport {
   totalExpenses: number;
 }
 
-const DAILY_DATA: DailyReport[] = [
-  {date: new Date("2025-03-01"), income: 3000, extraIncome: 2000, totalIncome: 5000, expenses: 5000, extraExpenses: 1000, totalExpenses: 6000},
-];
+const DAILY_DATA = null;
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -26,5 +24,5 @@ const DAILY_DATA: DailyReport[] = [
 })
 export class DailyReportListComponent {
   dailyListCol: string[] = ['date', 'income', 'extraIncome', 'totalIncome', 'expenses', 'extraExpenses', 'totalExpenses'];
-  dataDailyRep = DAILY_DATA;
+  dataDailyRep = null;
 }
