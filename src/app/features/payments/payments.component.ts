@@ -44,7 +44,7 @@ export class PaymentsComponent {
     this.idZona = zona.id;
     console.log('id que se va a mandar:', this.idZona);
 
-    //Colores
+   
 
     // Servicio Zona
     this.zoneService.zoneData(this.idZona).subscribe({
@@ -56,6 +56,7 @@ export class PaymentsComponent {
         console.log('Lo que va a llenar la tabla: ',this.ClientsPayment);
         if (this.ClientsPayment) {
           this.dataPayment = this.ClientsPayment.map((item: any, index: number) => ({
+            idCredito: item.idCredito,
             clients: index + 1,
             name: item.nombreCompleto,
             loans: item.numeroCreditos,
@@ -91,5 +92,21 @@ export class PaymentsComponent {
       }
     });
   }
+ guardarPagos() {
+  const pagosAEnviar = this.dataPayment.map((item: any) => ({
+    idCredito: item.idCredito, 
+    lateFees: item.lateFees,
+    payment: item.payment,
+    paymentType: item.paymentType
+  }));
+
+  console.log('Datos a enviar:', pagosAEnviar);
+
+  // Aquí puedes usar tu servicio
+  // this.paymentService.enviarPagos(pagosAEnviar).subscribe(...)
+}
+
+
+
 }
 
