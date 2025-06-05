@@ -8,6 +8,7 @@ import { ZoneService } from '../../core/services/zone.service';
 import dayjs from 'dayjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PaymentService } from '../../core/services/payment.service';
 
 @Component({
   selector: 'app-payments',
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
 
 
 export class PaymentsComponent {
-  constructor(private zoneService: ZoneService) {}
+  constructor(private zoneService: ZoneService,
+    private paymentService: PaymentService){}
   //Colores
       getClass(field: string, value: number): string {
         if (field === 'earlyPayment' && value > 0) return 'celda-verde';
@@ -92,19 +94,25 @@ export class PaymentsComponent {
       }
     });
   }
- guardarPagos() {
-  const pagosAEnviar = this.dataPayment.map((item: any) => ({
-    idCredito: item.idCredito, 
-    lateFees: item.lateFees,
-    payment: item.payment,
-    paymentType: item.paymentType
-  }));
+   guardarPagos() {
+    const pagosAEnviar = this.dataPayment.map((item: any) => ({
+      idCredito: item.idCredito,
+      lateFees: item.lateFees,
+      payment: item.payment,
+      paymentType: item.paymentType
+    }));
 
-  console.log('Datos a enviar:', pagosAEnviar);
+    console.log('Datos a enviar:', pagosAEnviar);
 
-  // Aquí puedes usar tu servicio
-  // this.paymentService.enviarPagos(pagosAEnviar).subscribe(...)
-}
+    this.paymentService.enviarPagos(pagosAEnviar).subscribe({
+      next: (response) => {
+        console.log('Respuesta del backend:', response);
+      },
+      error: (err) => {
+        console.error('Error al enviar pagos:', err);
+      }
+    });
+  }
 
 
 
