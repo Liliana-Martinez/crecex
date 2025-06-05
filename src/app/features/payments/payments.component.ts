@@ -5,6 +5,7 @@ import { PrintButtonComponent } from "../../shared/componentes/print-button/prin
 import { MatTableModule } from '@angular/material/table';
 import { Zone } from '../../models/Zone';
 import { ZoneService } from '../../core/services/zone.service';
+import { ClientsPayment } from '../../models/ClientsPayment';
 
 @Component({
   selector: 'app-payments',
@@ -19,7 +20,7 @@ export class PaymentsComponent {
 
   idZona: number = 0;
   dataPayment: any = null;
-
+  paymentResponse: ClientsPayment | null = null;
   paymentCol: string[] = [
     'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
     'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment',
@@ -36,17 +37,15 @@ export class PaymentsComponent {
     // Servicio Zona
     this.zoneService.zoneData(this.idZona).subscribe({
       next: (response) => {
-        console.log('respuesta del back: ', response);
-        this.dataPayment = response; // Asigna los datos a la tabla si hay
+        console.log('Respuesta del back: ', response);
+        this.paymentResponse= response; // Asigna los datos a la tabla si hay
       },
       error: (err) => {
         console.error('Error:', err);
 
         if (err.status === 404) {
-          alert(err.error.message); // Mensaje amigable del backend
           this.dataPayment = null;
         } else {
-          alert('Ocurrió un error inesperado al obtener los datos.');
           this.dataPayment = null;
         }
       }
