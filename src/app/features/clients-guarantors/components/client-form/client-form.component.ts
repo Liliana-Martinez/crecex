@@ -27,10 +27,11 @@ import { ZoneService } from '../../../../core/services/zone.service';
 export class ClientFormComponent implements OnInit, OnChanges {
   clientForm!: FormGroup;
   errorMessage: string = '';
+  originalClientFormData: any;
   listZones: Zone[] = [];
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
   @Input() modo: 'agregar' | 'modificar' = 'agregar';
-  @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar
+  @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
 
   constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
@@ -68,15 +69,8 @@ export class ClientFormComponent implements OnInit, OnChanges {
       startWith(''),
       map(value => value ? this.filterZones(value) : this.listZones)
     );
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['clientData'] && this.clientData && this.modo === 'modificar') {
-      if (this.clientForm) {
-        this.clientForm.patchValue(this.clientData);
-        console.log('Datos en form-client: ', this.clientData);
-      } 
-    }
+    this.setClientValues();
   }
 
   addClient() {
@@ -133,5 +127,113 @@ export class ClientFormComponent implements OnInit, OnChanges {
     return this.listZones.filter(z => z.codigoZona.toLowerCase().includes(filterValue));
   }
 
-  updateClient() {}
+  private setClientValues(): void {
+    if (this.clientForm && this.clientData && this.modo === 'modificar') {
+      const data = this.clientData.clientData; //Variable de aqui, lo del back
+      this.clientForm.patchValue({
+        name: data.name,
+        paternalLn: data.paternalLn,
+        maternalLn: data.maternalLn,
+        age: data.age,
+        address: data.address,
+        colonia: data.colonia,
+        city: data.city,
+        phone: data.phone,
+        classification: data.classification,
+        zone: data.zone,
+        nameJob: data.nameJob,
+        addressJob: data.addressJob,
+        phoneJob: data.phoneJob,
+        nameReference: data.nameReference,
+        addressReference: data.addressReference,
+        phoneReference: data.phoneReference ,
+        garantias: {
+          garantiaUno: data.garantias.garantiaUno,
+          garantiaDos: data.garantias.garantiaDos,
+          garantiaTres: data.garantias.garantiaTres,
+        }
+      }
+      );
+      this.originalClientFormData = JSON.parse(JSON.stringify(this.clientForm.getRawValue()));
+      console.log('Datos aplicados en el formulario: ', this.clientData);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['clientData']) {
+      this.setClientValues();
+    }
+  }
+
+  private fieldMap: Record<string, string | Record<string, string>> = {
+  name: 'nombre',
+  paternalLn: 'apellidoPaterno',
+  maternalLn: 'apellidoMaterno',
+  age: 'edad',
+  address: 'domicilio',
+  colonia: 'colonia',
+  city: 'ciudad',
+  phone: 'telefono',
+  classification: 'clasificacion',
+  zone: 'zona',
+  nameJob: 'trabajo',
+  addressJob: 'domicilioTrabajo',
+  phoneJob: 'telefonoTrabajo',
+  nameReference: 'nombreReferencia',
+  addressReference: 'domicilioReferencia',
+  phoneReference: 'telefonoReferencia',
+  garantias: {
+    garantiaUno: 'garantiaUno',
+     garantiaDos: 'garantiaDos',
+    garantiaTres: 'garantiaTres',
+  }
+};
+
+updateClient(): void {
+  const currentValues = this.clientForm.getRawValue();
+  const modifiedFields: any = {};
+  const id = this.clientData.idCliente;
+
+  for (const key in currentValues) {
+    const current = currentValues[key];
+    const original = this.originalClientFormData[key];
+    const mapValue = this.fieldMap[key];
+
+    if (typeof current === 'object' && current !== null) {
+      const nestedChanges: any = {};
+      const nestedFieldMap = typeof mapValue === 'object' ? mapValue : {};
+
+      for (const nestedKey in current) {
+        if (current[nestedKey] !== original[nestedKey]) {
+          const mappedNestedKey = nestedFieldMap[nestedKey] || nestedKey;
+          nestedChanges[mappedNestedKey] = current[nestedKey];
+        }
+      }
+
+      if (Object.keys(nestedChanges).length > 0) {
+        const mappedKey = typeof mapValue === 'string' ? mapValue : key;
+        modifiedFields[mappedKey] = nestedChanges;
+      }
+
+    } else if (current !== original) {
+      const mappedKey = typeof mapValue === 'string' ? mapValue : key;
+      modifiedFields[mappedKey] = current;
+    }
+  }
+
+  if (Object.keys(modifiedFields).length === 0) {
+    console.log('No se realizaron cambios.');
+    return;
+  }
+
+  const dataToSend = {
+    id: id,
+    ...modifiedFields
+  };
+
+  this.clientService.updateClient(dataToSend).subscribe({
+    next: () => console.log('Cliente actualizado exitosamente'),
+    error: (err) => console.error('Error al actualizar cliente:', err)
+  });
+}
 }

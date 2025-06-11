@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Client } from '../../models/Client';
 import { Observable } from 'rxjs';
 import { API_ROUTES } from '../constants/api-routes';
-import { Zone } from '../../models/Zone';
 import { AddClientResponse } from '../../models/add-client-response';
 
 @Injectable({
@@ -17,6 +16,10 @@ export class ClientService {
 
   addClient(credentials: Client): Observable<AddClientResponse> {
     return this.http.post<AddClientResponse>(API_ROUTES.CLIGRS.ADD.CLIENT, credentials);
+  }
+
+  updateClient(dataToSend: any): Observable<any> {
+    return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY, dataToSend);
   }
   /*
   getZones(): Observable<Zone[]> { 
@@ -35,4 +38,6 @@ export class ClientService {
   clearClientId() {
     this.clientId = null;
   }
+
+
 }
