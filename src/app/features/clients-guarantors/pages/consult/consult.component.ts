@@ -18,6 +18,7 @@ export class ConsultComponent {
   modulo: string = 'consult';
   client: any = null;
   creditNumber: number = 0;
+  currentWeek: number = 0;
   currentCredit: any = null;
   creditHistory: any = null;
   dataCurrentCredit = new MatTableDataSource<any>();
@@ -27,29 +28,35 @@ export class ConsultComponent {
 
   //Método para escuchar el nombre emitido
   onClienteEncontrado(response: any): void {
-
     this.client = response.client;
     this.creditNumber = response.totalCredits;
+    this.currentWeek = response.currentWeek;
     this.currentCredit = response.currentCredit;
     this.creditHistory = response.creditHistory;
+    
+    console.log('Cliente buscado: ', this.client);
+    console.log('Numero de creditos: ', this.creditNumber);
+    console.log('Semana actual: ', this.currentWeek);
+    console.log('Credito actual: ', this.currentCredit);
+    console.log('Historial crediticio: ', this.creditHistory);
 
     //Armar el objeto para la tabla "Credito Actual"
     if (this.currentCredit && this.currentCredit.length > 0) {
-        const currentCreditRows: CurrentCredit[] = this.currentCredit.map((credit: any, i: number) => ({
+      const currentCreditRows: CurrentCredit[] = this.currentCredit.map((credit: any, i: number) => ({
         creditNum: this.creditNumber - this.currentCredit.length + 1 + i,
         name: this.client.nombreCompleto,
         amount: credit.monto,
         weeks: credit.semanas,
         date: dayjs(credit.fechaEntrega).format('DD/MM/YYYY'),
         weeklyAmount: credit.abonoSemanal,
-        paymentWeek: credit.numeroSemana,
+        paymentWeek: this.currentWeek,
         status: credit.cumplimiento
-      })); 
+      }));
       this.dataCurrentCredit.data = currentCreditRows;
     } else {
       this.dataCurrentCredit.data = [];
     }
-
+    
     //Armar el objeto para la tabla "Historial crediticio"
     if (this.creditHistory && this.creditHistory.length > 0) {
       const historyRows: CreditHistory[] = this.creditHistory.map((credit: any, i: number) => ({
@@ -64,12 +71,9 @@ export class ConsultComponent {
       this.dataCreditHistory.data = [];
     }
   }
-
   onClienteNoEncontrado(): void {
     this.client = null;
     this.creditNumber = 0;
-    this.currentCredit = [];
-    this.creditHistory = [];
     this.dataCurrentCredit.data = [];
     this.dataCreditHistory.data = [];
   }
