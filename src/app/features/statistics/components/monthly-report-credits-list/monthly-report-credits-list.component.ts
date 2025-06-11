@@ -7,9 +7,7 @@ export interface MonthlyReport {
   date: Date;  
 }
 
-const MONTHLY_DATA: MonthlyReport[] = [
-  {creditNumber: 55, creditAmount: 2500, date: new Date("2024-11-18")},
-];
+const MONTHLY_DATA= null;
 
 /**
  * @title Basic use of `<table mat-table>`

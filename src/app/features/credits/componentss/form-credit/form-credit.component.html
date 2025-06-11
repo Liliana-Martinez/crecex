@@ -13,7 +13,7 @@
     </div>
     <div class="data custom-select-wrapper">
       <label for="semanas">Semanas</label>
-      <select id="semanas" formControlName="semanas"  class="custom-select">
+      <select id="semanas" formControlName="semanas" [(ngModel)]="selectedOptionn" class="custom-select">
       <option [value]="12">12</option>
       <option [value]="16">16</option>
     </select>
@@ -23,9 +23,9 @@
   <div class="row">
     <div class="data custom-select-wrapper">
       <label for="horario">Horario</label>
-      <select id="horario" formControlName="horarioEntrega"  class="custom-select">
-      <option value="Mañana">Mañana</option>
-      <option value="Tarde">Tarde</option>
+      <select id="horario" formControlName="horarioEntrega" [(ngModel)]="selectedOption" class="custom-select">
+      <option value="mañana">Mañana</option>
+      <option value="tarde">Tarde</option>
     </select>
     </div>
     <div class="data">

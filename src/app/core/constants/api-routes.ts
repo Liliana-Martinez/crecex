@@ -13,7 +13,7 @@ export const API_ROUTES = {
            GUARANTOR: `${API_URL}/clients-guarantors/add/guarantor`
         },
         CONSULT: `${API_URL}/clients-guarantors/consult`,
-        MODIFY: `${API_URL}/clients-guarantors/modify`,
+        MODIFY: `${API_URL}/clients-guarantors/modify/client`,// <-- deja esto así
         BUSCAR_CLIENTE: `${API_URL}/credits/buscar-cliente`
     }, 
     CREDITS:  {
@@ -36,9 +36,11 @@ export const API_ROUTES = {
         CONSULT: `${API_URL}/credit-bureau/consult`
     },
     ZONES: {
-        GETALL: `${API_URL}/zones/getAllZones`
+        GETALL: `${API_URL}/zones/getAllZones`,
+        CLIENTSZONE: `${API_URL}/zones/getClientsFromZone`
     },
     SEARCHBARCLIENTE:{
         SEARCH : `${API_URL}/search/cliente`
+
     }
 };

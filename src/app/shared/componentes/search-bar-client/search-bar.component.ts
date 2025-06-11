@@ -19,7 +19,7 @@ import { ClienteConDatos } from '../../../models/ClienteConDatos';
 })
 export class SearchBarComponent {
   @Input() modulo: string = '';
-  @Output() clienteEncontrado = new EventEmitter<ClienteConDatos>();
+  @Output() clienteEncontrado = new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
 
    
   nombreCompleto: string = '';  
@@ -33,7 +33,8 @@ export class SearchBarComponent {
     if (!this.nombreCompleto.trim()) {
       this.mensajeError = 'El nombre completo es obligatorio';
       return;
-    }     
+    }   
+      
     const datosCliente: BuscarCliente = {
       nombreCompleto: this.nombreCompleto, 
       modulo: this.modulo
@@ -45,9 +46,10 @@ export class SearchBarComponent {
         this.clienteEncontrado.emit(response);
       },
       error: (err) => {
+        this.mensajeError = err.error?.message || 'Ocurrió un error inesperado';
         console.error('Error capturado por catch', err);
         this.mensajeError = err?.error?.error || 'Error al consultar el cliente.';
-        this.clienteEncontrado.emit();
+        //this.clienteEncontrado.emit(); no es necesaria
       }
     });
   }

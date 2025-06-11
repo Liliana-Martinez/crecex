@@ -21,3 +21,4 @@ export interface Client {
         garantiaTres: string;
     };
 }
+type ModifiedClientData = Partial<Client>;
