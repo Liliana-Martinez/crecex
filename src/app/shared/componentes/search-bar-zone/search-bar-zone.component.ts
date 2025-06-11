@@ -39,10 +39,12 @@ export class SearchBarZoneComponent {
     });
   }
 
+  //Convierte el objeto zone (idZona - codigoZona) a string
   displayFn(zone: Zone): string {
     return zone && zone.codigoZona ? zone.codigoZona : '';
   }
 
+  //Filtra las zonas en base a lo que tecleo el usuario
   private _filter(value: string): Zone[] {
     const filterValue = value.toLowerCase();
     return this.options.filter(zone => 
