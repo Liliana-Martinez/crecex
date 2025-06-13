@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-print',
@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './print.component.css'
 })
 export class PrintComponent {
+  @Input() datos: any;
+  ngOnInit() {
+    console.log('Datos a imprimir:', this.datos);
+  } 
 
 }
