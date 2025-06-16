@@ -32,6 +32,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
   @Input() modo: 'agregar' | 'modificar' = 'agregar';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
+  
 
   constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
@@ -166,27 +167,27 @@ export class ClientFormComponent implements OnInit, OnChanges {
   }
 
   private fieldMap: Record<string, string | Record<string, string>> = {
-  name: 'nombre',
-  paternalLn: 'apellidoPaterno',
-  maternalLn: 'apellidoMaterno',
-  age: 'edad',
-  address: 'domicilio',
-  colonia: 'colonia',
-  city: 'ciudad',
-  phone: 'telefono',
-  classification: 'clasificacion',
-  zone: 'zona',
-  nameJob: 'trabajo',
-  addressJob: 'domicilioTrabajo',
-  phoneJob: 'telefonoTrabajo',
-  nameReference: 'nombreReferencia',
-  addressReference: 'domicilioReferencia',
-  phoneReference: 'telefonoReferencia',
-  garantias: {
-    garantiaUno: 'garantiaUno',
-     garantiaDos: 'garantiaDos',
-    garantiaTres: 'garantiaTres',
-  }
+    name: 'nombre',
+    paternalLn: 'apellidoPaterno',
+    maternalLn: 'apellidoMaterno',
+    age: 'edad',
+    address: 'domicilio',
+    colonia: 'colonia',
+    city: 'ciudad',
+    phone: 'telefono',
+    classification: 'clasificacion',
+    zone: 'zona',
+    nameJob: 'trabajo',
+    addressJob: 'domicilioTrabajo',
+    phoneJob: 'telefonoTrabajo',
+    nameReference: 'nombreReferencia',
+    addressReference: 'domicilioReferencia',
+    phoneReference: 'telefonoReferencia',
+    garantias: {
+      garantiaUno: 'garantiaUno',
+      garantiaDos: 'garantiaDos',
+      garantiaTres: 'garantiaTres',
+    }
 };
 
 updateClient(): void {

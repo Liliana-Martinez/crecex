@@ -5,16 +5,17 @@ import { ClientFormComponent } from '../../components/client-form/client-form.co
 import { GuarantorFormComponent } from '../../components/guarantor-form/guarantor-form.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Client } from '../../../../models/Client';
 
 
 @Component({
   selector: 'app-modify',
+  standalone: true,
   imports:
    [SubmenuComponent, SearchBarComponent, ClientFormComponent, GuarantorFormComponent, FormsModule, CommonModule],
   templateUrl: './modify.component.html',
   styleUrl: './modify.component.css'
 })
+
 export class ModifyComponent {
   modulo: string = 'modify';
   selected: string = 'client';
