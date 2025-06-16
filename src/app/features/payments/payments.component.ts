@@ -34,7 +34,7 @@ export class PaymentsComponent {
   mensajeError: string = '';
   idCliente: number = 0;
   selectedOption: string = 'efectivo';
-  paymentCol: string[] = [
+  paymentCol: string[] = [  
     'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
     'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment','default',
     'lateFees', 'payment', 'paymentType'

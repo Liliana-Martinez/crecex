@@ -16,6 +16,7 @@ import { SaveButtonComponent } from "../../../../shared/componentes/save-button/
 
 export class FormCreditComponent implements OnChanges {
   @Input() cliente: ClienteConDatos | null = null;
+  @Output() response= new EventEmitter<any>();
   @Input() modulo: 'new' | 'renew' | 'additional' = 'new'; // Recibe el módulo actual
   selectedOptionn: string = "12"
   selectedOption: string = "mañana"
@@ -114,6 +115,13 @@ export class FormCreditComponent implements OnChanges {
         this.FormCredit.get('abonoSemanal')?.setValue(response.abonoSemanal);
         this.FormCredit.get('efectivo')?.setValue(response.efectivo);
         this.modalVisible = false;
+        this.response.emit({
+        ...response,
+        nombreCliente: this.cliente?.cliente?.nombre ?? '',
+        credito: this.cliente?.credito ?? null,
+        pagos: this.cliente?.pagos ?? []
+        });
+
       },
       error => {
         console.error('Error desde el Backend: ', error);
