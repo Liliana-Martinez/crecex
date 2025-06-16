@@ -5,14 +5,25 @@
         <option value="guarantorp">Datos del aval principal</option>
         <option value="guarantors">Datos del aval secundario</option>
     </select>  
-    <app-search-bar [modulo]="modulo" (clienteEncontrado)="onClienteEncontrado($event)"></app-search-bar>
+    <app-search-bar
+        [modulo]="modulo"
+        [selectedOption]="selected"
+        (clienteEncontrado)="onClienteEncontrado($event)">
+    </app-search-bar><!--consultOption se agrego-->
 </div>
 
 <app-client-form 
-    *ngIf="selected === 'client'" 
+    *ngIf="selected === 'client'"
     [modo]="'modificar'"
-    [clientData]="client"></app-client-form>
-<app-guarantor-form *ngIf="selected === 'guarantorp'"></app-guarantor-form>
+    [clientData]="client">
+</app-client-form>
+
+<app-guarantor-form 
+    *ngIf="selected === 'guarantorp'"
+    [modo]="'modificar'"
+    [clientData]="client">
+</app-guarantor-form>
+
 <app-guarantor-form *ngIf="selected === 'guarantors'"></app-guarantor-form>
 
 
