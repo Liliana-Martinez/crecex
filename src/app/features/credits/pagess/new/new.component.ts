@@ -50,8 +50,9 @@ imprimir() {
     return;
   }
 
-  this.mostrarImpresion = true;
+  this.mostrarImpresion = false;
 }
+
 }
 
  
