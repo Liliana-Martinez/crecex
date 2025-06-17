@@ -51,6 +51,9 @@ imprimir() {
   }
 
   this.mostrarImpresion = false;
+  setTimeout(() => {
+    this.mostrarImpresion = true;
+  }, 100);
 }
 
 }

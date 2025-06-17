@@ -1,22 +1,24 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, SimpleChanges} from '@angular/core';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { PrintButtonComponent } from '../../../../shared/componentes/print-button/print-button.component';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-print',
-  imports: [],
   templateUrl: './print.component.html',
-  styleUrl: './print.component.css'
+  styleUrl: './print.component.css',
+  imports: []
+  
 })
 export class PrintComponent {
   @Input() datos: any;
-  ngOnInit() {
-    console.log('Datos a imprimir:', this.datos);
-    if (this.datos) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['datos'] && this.datos) {
+      console.log('Datos en print:', this.datos);
       this.imprimirCreditoFormato();
     }
-    
-  } 
+  }
 
   imprimirCreditoFormato() {
   if (!this.datos) {
@@ -25,94 +27,94 @@ export class PrintComponent {
   }
 
   const c = this.datos;
-  const cliente = c.clientes || c.cliente;
-  const credito = c.creditos || c.credito;
-  const pagos = c.pagos || [];
-  const zona = c.zona || {};
-
-  const fechaHoy = new Date().toLocaleString();
-
+  const i = c.imprimir || c.imprimir;
+  const cliente = i.cliente || i.clientes;
+  const credito = i.credito || i.creditos;
+  const pagos = i.pagos || [];
+  const zona = i.zona || {};
   const doc = new jsPDF();
 
-  const cargarImagen = (src: string): Promise<HTMLImageElement> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => resolve(img);
-      img.onerror = e => reject(e);
-    });
+  const fila = (
+    label: string,
+    value: string | number,
+    y: number
+  ) => {
+    
+    doc.rect(10, y - 4, 90, 6, 'F');
+    doc.setFontSize(8);
+    doc.setTextColor(0);
+    doc.text(`${label}:`, 12, y);
+    doc.text(`${value}`, 70, y);
   };
 
-  cargarImagen('/logo.jpg').then(logo => {
-    doc.addImage(logo, 'JPEG', 10, 10, 25, 25);
-
+  const renderContenido = (offsetY: number) => {
     doc.setFontSize(14);
-    doc.text('FORMATO DE CREDITO FINANCIERA CRECEX', 105, 20, { align: 'center' });
+    doc.text('FORMATO DE CREDITO FINANCIERA CRECEX', 105, 20 + offsetY, { align: 'center' });
 
-    // Encabezado
-    doc.setFontSize(10);
-    doc.text(`FORMATO DE CREDITO`, 10, 35);
-    doc.text(`FECHA: ${fechaHoy}`, 120, 35);
-    doc.text(`HORARIO: ${credito?.horarioEntrega || 'N/A'}`, 190, 35, { align: 'right' });
+    doc.setFontSize(8);
+    const fechaHoy = dayjs().format('DD/MM/YYYY');
+    doc.text(`FECHA: ${fechaHoy}`, 100, 35 + offsetY);
+    doc.text(`HORARIO: ${credito?.horarioEntrega || 'N/A'}`, 180, 35 + offsetY, { align: 'right' });
 
-    // Zona
-    doc.setFontSize(11);
-    doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 45);
-    doc.text(`GRUPO: -`, 50, 45);
-    doc.text(`PROMOTORA: ${zona.promotora || '-'}`, 130, 45);
-
-    // Cliente
-    doc.setFontSize(12);
+    doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 35 + offsetY);
+    doc.text(`PROMOTORA: ${zona.promotora || '-'}`, 100, 45 + offsetY);
     doc.text(
-      `CLIENTE: ${cliente?.nombre || ''} ${cliente?.apellidoPaterno || ''} ${cliente?.apellidoMaterno || ''}`,
+      `CLIENTE: ${cliente?.nombre} ${cliente?.apellidoPaterno} ${cliente?.apellidoMaterno}`,
       10,
-      55
+      45 + offsetY
     );
 
-    let y = 65;
-    const fila = (label: string, value: string | number,color: [number, number, number] = [240, 240, 255]) => {
-      doc.setFillColor(...color);
-      doc.rect(10, y - 6, 190, 9, 'F');
-      doc.setFontSize(10);
-      doc.setTextColor(0);
-      doc.text(`${label}:`, 12, y);
-      doc.text(`${value}`, 100, y);
-      y += 11;
-    };
+    let y = 50 + offsetY;
+    const salto = 6;
 
-    fila('TIPO DE CREDITO', credito?.tipoCredito || 'N/A');
-    fila('MONTO', `$${credito?.monto ?? 0}`);
-    fila('ABONO SEMANAL ANTERIOR', 'aún nada');
-    fila('DEDUCCIONES SEM. RESTANTES', 'lógica no aplicada');
-    fila('DEDUCCIONES DE SEM. TOTALES', 'lógica no aplicada');
-    fila('ATRASOS', `$${credito?.atrasos ?? 0}`);
-    fila('RECARGOS', `$${credito?.recargos ?? 0}`);
-    fila('DEDUCCIONES TOTALES', 'lógica no aplicada');
-    fila('CRÉDITO A ENTREGAR', `$${credito?.efectivo ?? 0}`, [200, 255, 200]);
-    fila('SEMANAS CRÉDITO', `${credito?.semanas ?? 0} semanas`);
-    fila('ABONO SEMANAL NUEVO', `$${credito?.abonoSemanal ?? 0}`);
+    fila('TIPO DE CREDITO', credito?.tipoCredito || 'N/A', y += salto);
+    fila('MONTO', `$${credito?.monto ?? 0}`, y += salto);
+    fila('ABONO SEMANAL ANTERIOR', 'aún nada', y += salto);
+    fila('DEDUCCIONES SEM. RESTANTES', 'lógica no aplicada', y += salto);
+    fila('DEDUCCIONES DE SEM. TOTALES', 'lógica no aplicada', y += salto);
+    fila('ATRASOS', `$${credito?.atrasos ?? 0}`, y += salto);
+    fila('RECARGOS', `$${credito?.recargos ?? 0}`, y += salto);
+    fila('DEDUCCIONES TOTALES', 'lógica no aplicada', y += salto);
+    fila('CRÉDITO A ENTREGAR', `$${credito?.efectivo ?? 0}`, y += salto);
+    fila('SEMANAS CRÉDITO', `${credito?.semanas ?? 0} semanas`, y += salto);
+    fila('ABONO SEMANAL NUEVO', `$${credito?.abonoSemanal ?? 0}`, y += salto);
 
-    const fechaPrimerPago = (pagos && pagos.length > 0 && pagos[0].fechaEsperada)
+    const fechaPrimerPago = pagos.length > 0
       ? new Date(pagos[0].fechaEsperada).toLocaleDateString()
       : 'N/A';
+    fila('FECHA DEL PRIMER PAGO', fechaPrimerPago, y += salto);
 
-    fila('FECHA DEL PRIMER PAGO', fechaPrimerPago);
-
-    // Firma
     doc.setFontSize(9);
-    doc.text('ENTREGÓ:', 105, 275);
-    doc.text('RECIBÍ:', 105, 285);
+    doc.text('ENTREGÓ:', 10, y + 10);
+    doc.text('RECIBÍ:', 120, y + 10);
+  };
 
-    doc.save(`${cliente?.nombre || 'cliente'}_formato_credito.pdf`);
-  }).catch(err => {
-    console.error('Error cargando imagen del logo:', err);
-    // Generar PDF sin logo
-    doc.setFontSize(14);
-    doc.text('FORMATO DE CREDITO FINANCIERA CRECEX', 105, 20, { align: 'center' });
-    // (resto similar a lo de arriba)
-    doc.save(`${cliente?.nombre || 'cliente'}_formato_credito.pdf`);
-  });
+  //logo
+  const logo = new Image();
+  logo.src = '/logo.jpg';
+
+  logo.onload = () => {
+    // Primera mitad
+    doc.addImage(logo, 'JPEG', 8, 8, 20, 20);
+    renderContenido(0);
+
+    // Segunda mitad
+    doc.addImage(logo, 'JPEG', 8, 148, 20, 20); 
+    renderContenido(140); 
+
+    doc.save(`${cliente?.nombre || 'cliente'}_Credito.pdf`);
+  };
+
+  logo.onerror = () => {
+    console.warn('No se cargó logo, se genera sin imagen');
+    renderContenido(0);
+    renderContenido(140);
+    doc.save(`${cliente?.nombre || 'cliente'}_Credito.pdf`);
+  };
 }
+
+
+
 
  
 }

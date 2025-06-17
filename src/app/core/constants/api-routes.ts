@@ -13,8 +13,7 @@ export const API_ROUTES = {
            GUARANTOR: `${API_URL}/clients-guarantors/add/guarantor`
         },
         CONSULT: `${API_URL}/clients-guarantors/consult`,
-        MODIFY: `${API_URL}/clients-guarantors/modify/client`,// <-- deja esto así
-        BUSCAR_CLIENTE: `${API_URL}/credits/buscar-cliente`
+        MODIFY: `${API_URL}/clients-guarantors/modify/client`
     }, 
     CREDITS:  {
         NEW: `${API_URL}/credits/new`,
