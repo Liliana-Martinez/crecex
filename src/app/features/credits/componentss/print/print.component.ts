@@ -35,7 +35,6 @@ export class PrintComponent {
   const semanasRestantes = c.semanasRestantes;
   const abonoAnterior = c.abonoAnterior;
   const descuentoSemanas = c.descuentoSemanas;
-
   // oficio
   const doc = new jsPDF({
     orientation: 'portrait',
@@ -55,8 +54,8 @@ export class PrintComponent {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.text(`FECHA: ${fechaHoy}`, 90, 35 + offsetY);
-    doc.text(`HORARIO DE ENTREGA: ${credito?.horarioEntrega || 'N/A'}`, 190, 35 + offsetY, { align: 'right' });
-    doc.text('CODIGO:', 190, 45 + offsetY);
+    doc.text(`HORARIO DE ENTREGA: ${credito?.horarioEntrega || 'N/A'}`, 135, 35 + offsetY);
+    doc.text(`CODIGO:${credito.id || 'N/A'}`, 135, 45 + offsetY);
     doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 35 + offsetY);
     doc.text(`PROMOTORA: ${zona.promotora || '-'}`, 90, 45 + offsetY);
 
@@ -80,16 +79,16 @@ export class PrintComponent {
       doc.text(`${label1}:`, 12, y);
       if (resaltar1) {
         doc.setFillColor(...colorResalte);
-        doc.rect(55, y - 5.5, 40, 7, 'F');
+        doc.rect(55, y - 5.5, 45, 7, 'F');
       }
-      doc.text(`${val1}`, 58, y);
+      doc.text(`${val1}`, 70, y);
 
       // Derecha
       doc.setFont('helvetica', resaltar2 ? 'bold' : 'normal');
       doc.text(`${label2}:`, 110, y);
       if (resaltar2) {
         doc.setFillColor(...colorResalte);
-        doc.rect(155, y - 5.5, 40, 7, 'F');
+        doc.rect(155, y - 5.5, 45, 7, 'F');
       }
       doc.text(`${val2}`, 158, y);
 
@@ -131,8 +130,8 @@ export class PrintComponent {
   logo.src = '/logo.jpg';
 
   logo.onload = () => {
-    doc.addImage(logo, 'JPEG', 8, 8, 20, 20);
-    renderContenido(0);
+    doc.addImage(logo, 'JPEG', 8, 1, 20, 20);
+    renderContenido(-10);
 
     doc.addImage(logo, 'JPEG', 8, 170, 20, 20);
     renderContenido(160); 
