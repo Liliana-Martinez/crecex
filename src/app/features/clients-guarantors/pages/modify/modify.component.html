@@ -21,10 +21,15 @@
 <app-guarantor-form 
     *ngIf="selected === 'guarantorp'"
     [modo]="'modificar'"
-    [clientData]="client">
+    [clientData]="client"
+    [selectedOption]="selected">
 </app-guarantor-form>
 
-<app-guarantor-form *ngIf="selected === 'guarantors'"></app-guarantor-form>
+<app-guarantor-form 
+    *ngIf="selected === 'guarantors'"
+    [modo]="'modificar'"
+    [clientData]="client"
+    [selectedOption]="selected"></app-guarantor-form>
 
 
 

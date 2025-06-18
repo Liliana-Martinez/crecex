@@ -21,11 +21,7 @@ export class ClientService {
   updateClient(dataToSend: any): Observable<any> {
     return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY, dataToSend);
   }
-  /*
-  getZones(): Observable<Zone[]> { 
-    return this.http.get<Zone[]>(API_ROUTES.ZONES.GETALL);
-  }
-*/
+
   //Metodos para manejar el ID del cliente
   setClientId(id: number) {
     this.clientId = id;

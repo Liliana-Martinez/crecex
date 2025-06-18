@@ -20,8 +20,10 @@ export class GuarantorFormComponent implements OnInit {
   guarantorForm!: FormGroup;
   errorMessage: string = '';
   originalGuarantorFormData: any;
+  guarantorData?: any;
   @Input() modo: 'agregar' | 'modificar' = 'agregar';
   @Input() clientData?: any;
+  @Input() selectedOption: string = '';
 
   constructor(private guarantorService: GuarantorService, private clientService: ClientService){}
 
@@ -81,28 +83,63 @@ export class GuarantorFormComponent implements OnInit {
     });
   }
 
-  private setGuarantorValues(): void {
-    if (this.guarantorForm && this.clientData && this.modo === 'modificar') {
-      const data = this.clientData.clientData;
-      this.guarantorForm.patchValue({
-        name: data.name,
-        paternalLn: data.paternalLn,
-        maternalLn: data.maternalLn,
-        age: data.age,
-        address: data.addres,
-        phone: data.phone,
-        nameJob: data.nameJob,
-        addresJob: data.addresJob,
-        phoneJob: data.phoneJob,
-        garantias: {
-          garantiaUno: data.garantias.garantiaUno,
-          garantiaDos: data.garantias.garantiaDos,
-          garantiaTres: data.garantias.garantiaTres
-        }
+  
+private setGuarantorValues(): void {
+  console.log('Datos para rellenar el formulario: ', this.clientData.guarantorData[0]);
+  console.log('OptionSelected: ', this.selectedOption);
+  const firstGuarantorData = this.clientData.guarantorData[0];
+  const secondGuarantorData = this.clientData.guarantorData[1]; 
 
-      });
+    if (this.guarantorForm && this.clientData && this.modo === 'modificar') {
+      if (this.selectedOption === 'guarantorp') {
+
+        console.log('Datos del aval principal: ', firstGuarantorData);
+
+        this.guarantorForm.patchValue({
+          name: firstGuarantorData.name,
+          paternalLn: firstGuarantorData.paternalLn,
+          maternalLn: firstGuarantorData.maternalLn,
+          age: firstGuarantorData.age,
+          address: firstGuarantorData.address,
+          phone: firstGuarantorData.phone,
+          nameJob: firstGuarantorData.nameJob,
+          addressJob: firstGuarantorData.addressJob,
+          colonia: firstGuarantorData.colonia,
+          city: firstGuarantorData.city,
+          phoneJob: firstGuarantorData.phoneJob,
+          garantias: {
+            garantiaUno: firstGuarantorData.garantias.garantiaUno,
+            garantiaDos: firstGuarantorData.garantias.garantiaDos,
+            garantiaTres: firstGuarantorData.garantias.garantiaTres
+          }
+
+        }); 
+      } else if(this.selectedOption === 'guarantors') {
+        console.log('Datos del segundp aval: ', secondGuarantorData);
+        console.log('Opcion seleccionada: ', this.selectedOption);
+
+        this.guarantorForm.patchValue({
+          name: secondGuarantorData.name,
+          paternalLn: secondGuarantorData.paternalLn,
+          maternalLn: secondGuarantorData.maternalLn,
+          age: secondGuarantorData.age,
+          address: secondGuarantorData.address,
+          phone: secondGuarantorData.phone,
+          nameJob: secondGuarantorData.nameJob,
+          addressJob: secondGuarantorData.addressJob,
+          colonia: secondGuarantorData.colonia,
+          city: secondGuarantorData.city,
+          phoneJob: secondGuarantorData.phoneJob,
+          garantias: {
+            garantiaUno: secondGuarantorData.garantias.garantiaUno,
+            garantiaDos: secondGuarantorData.garantias.garantiaDos,
+            garantiaTres: secondGuarantorData.garantias.garantiaTres
+          }
+
+        });
+      }
       this.originalGuarantorFormData = JSON.parse(JSON.stringify(this.guarantorForm.getRawValue()));
-      console.log('Datos para aplicar el formulario del aval: ', this.clientData);
+      console.log('Datos aplicados en el formulario del aval: ', firstGuarantorData);
     }
   }
 

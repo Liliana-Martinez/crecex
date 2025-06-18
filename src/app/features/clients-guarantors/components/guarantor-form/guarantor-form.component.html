@@ -116,7 +116,7 @@
         <div *ngIf="errorMessage" class="error">
             {{ errorMessage }}
         </div><br>
-        <app-save-button [label]="'Guardar'"></app-save-button> 
+        <app-save-button [label]="modo==='agregar' ? 'Guardar' : 'Actualizar'"></app-save-button> 
     </form>
 </div>
 
