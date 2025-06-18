@@ -50,8 +50,12 @@ imprimir() {
     return;
   }
 
-  this.mostrarImpresion = true;
+  this.mostrarImpresion = false;
+  setTimeout(() => {
+    this.mostrarImpresion = true;
+  }, 100);
 }
+
 }
 
  

@@ -48,6 +48,7 @@ imprimirCliente() {
     console.warn('No hay cliente para imprimir');
     
     return;
+
   }
   const c = this.clienteParaImprimir;
   const doc = new jsPDF();
