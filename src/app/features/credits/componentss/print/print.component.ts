@@ -30,9 +30,18 @@ export class PrintComponent {
   const i = c.imprimir || c.imprimir;
   const cliente = i.cliente || i.clientes;
   const credito = i.credito || i.creditos;
-  const pagos = i.pagos || [];
+  const pagos = i.pagos || {}; 
   const zona = i.zona || {};
-  const doc = new jsPDF();
+  const semanasRestantes = c.semanasRestantes;
+  const abonoAnterior = c.abonoAnterior;
+  const descuentoSemanas = c.descuentoSemanas;
+
+  // oficio
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: [216, 330]
+  });
 
   const colorResalte: [number, number, number] = [210, 255, 210];
 
@@ -45,29 +54,28 @@ export class PrintComponent {
 
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
-    doc.text(`FECHA: ${fechaHoy}`, 100, 35 + offsetY);
-    doc.text(`HORARIO: ${credito?.horarioEntrega || 'N/A'}`, 180, 35 + offsetY, { align: 'right' });
-
+    doc.text(`FECHA: ${fechaHoy}`, 90, 35 + offsetY);
+    doc.text(`HORARIO DE ENTREGA: ${credito?.horarioEntrega || 'N/A'}`, 190, 35 + offsetY, { align: 'right' });
+    doc.text('CODIGO:', 190, 45 + offsetY);
     doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 35 + offsetY);
-    doc.text(`PROMOTORA: ${zona.promotora || '-'}`, 100, 45 + offsetY);
+    doc.text(`PROMOTORA: ${zona.promotora || '-'}`, 90, 45 + offsetY);
 
     const nombreCompleto = `${cliente?.nombre} ${cliente?.apellidoPaterno} ${cliente?.apellidoMaterno}`.toUpperCase();
     doc.setFont('helvetica', 'bold');
-    doc.text(`CLIENTE: ${nombreCompleto}`, 10, 52 + offsetY);
+    doc.text(`CLIENTE: ${nombreCompleto}`, 10, 45 + offsetY);
 
-    // Detalles en pares
     let y = 60 + offsetY;
     const salto = 8;
     const fontSize = 10;
 
     const imprimirPar = (
       label1: string, val1: string | number, resaltar1: boolean,
-      label2: string, val2: string | number, resaltar2: boolean
+      label2: string, val2: string | number, resaltar2: boolean,
     ) => {
       doc.setFontSize(fontSize);
       doc.setTextColor(0);
 
-      // Campo izquierdo
+      // Izquierda
       doc.setFont('helvetica', resaltar1 ? 'bold' : 'normal');
       doc.text(`${label1}:`, 12, y);
       if (resaltar1) {
@@ -76,7 +84,7 @@ export class PrintComponent {
       }
       doc.text(`${val1}`, 58, y);
 
-      // Campo derecho
+      // Derecha
       doc.setFont('helvetica', resaltar2 ? 'bold' : 'normal');
       doc.text(`${label2}:`, 110, y);
       if (resaltar2) {
@@ -87,34 +95,34 @@ export class PrintComponent {
 
       y += salto;
     };
+    const deduccionTotal   = descuentoSemanas+ credito.atrasos + credito.recargos;
+    const fechaPrimerPago = pagos?.fechaEsperada
+      ? dayjs(pagos.fechaEsperada).format('DD/MM/YYYY')
+      : 'N/A';
 
-    // Imprimir los pares
     imprimirPar('TIPO DE CREDITO', credito?.tipoCredito || 'N/A', false,
                 'MONTO', `$${credito?.monto ?? 0}`, true);
 
-    imprimirPar('ABONO SEMANAL ANT.', 'aún nada', false,
-                'DED. SEM. RESTANTES', 'lógica no aplicada', false);
+    imprimirPar('ABONO SEMANAL ANTERIOR', `$${abonoAnterior}`, false,
+                'SEMANAS RESTANTES', `$${semanasRestantes}`, false);
 
-    imprimirPar('DED. SEM. TOTALES', 'lógica no aplicada', false,
+    imprimirPar('DEDUCCION DE SEMANAS', `$${descuentoSemanas}`, false,
                 'ATRASOS', `$${credito?.atrasos ?? 0}`, false);
 
     imprimirPar('RECARGOS', `$${credito?.recargos ?? 0}`, false,
-                'DED. TOTALES', 'lógica no aplicada', false);
+                'DED. TOTALES', `$${deduccionTotal}`, false);
 
     imprimirPar('CRÉDITO A ENTREGAR', `$${credito?.efectivo ?? 0}`, true,
                 'SEMANAS CREDITO', `${credito?.semanas ?? 0} semanas`, false);
 
-    imprimirPar('ABONO SEM. NUEVO', `$${credito?.abonoSemanal ?? 0}`, true,
-                'FECHA 1er PAGO',
-                pagos.length > 0 ? new Date(pagos[0].fechaEsperada).toLocaleDateString() : 'N/A',
-                true);
+    imprimirPar('ABONO SEMANAL', `$${credito?.abonoSemanal ?? 0}`, true,
+                'FECHA PRIMER PAGO', fechaPrimerPago, true);
 
     y += 10;
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.text('ENTREGÓ:', 10, y);
     doc.line(40, y - 1.5, 100, y - 1.5);
-
     doc.text('RECIBÍ:', 120, y);
     doc.line(150, y - 1.5, 195, y - 1.5);
   };
@@ -126,8 +134,8 @@ export class PrintComponent {
     doc.addImage(logo, 'JPEG', 8, 8, 20, 20);
     renderContenido(0);
 
-    doc.addImage(logo, 'JPEG', 8, 148, 20, 20);
-    renderContenido(150);
+    doc.addImage(logo, 'JPEG', 8, 170, 20, 20);
+    renderContenido(160); 
 
     doc.save(`${cliente?.nombre || 'cliente'}_Credito.pdf`);
   };
@@ -135,17 +143,8 @@ export class PrintComponent {
   logo.onerror = () => {
     console.warn('No se cargó logo, se genera sin imagen');
     renderContenido(0);
-    renderContenido(140);
+    renderContenido(180);
     doc.save(`${cliente?.nombre || 'cliente'}_Credito.pdf`);
   };
 }
-
-
-
-
-
-
-
-
- 
 }
