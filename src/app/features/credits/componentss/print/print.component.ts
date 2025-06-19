@@ -1,7 +1,5 @@
 import { Component, Input, SimpleChanges} from '@angular/core';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { PrintButtonComponent } from '../../../../shared/componentes/print-button/print-button.component';
 import dayjs from 'dayjs';
 
 @Component({
@@ -9,7 +7,6 @@ import dayjs from 'dayjs';
   templateUrl: './print.component.html',
   styleUrl: './print.component.css',
   imports: []
-  
 })
 export class PrintComponent {
   @Input() datos: any;
@@ -82,7 +79,6 @@ export class PrintComponent {
         doc.rect(55, y - 5.5, 45, 7, 'F');
       }
       doc.text(`${val1}`, 70, y);
-
       // Derecha
       doc.setFont('helvetica', resaltar2 ? 'bold' : 'normal');
       doc.text(`${label2}:`, 110, y);
@@ -91,32 +87,24 @@ export class PrintComponent {
         doc.rect(155, y - 5.5, 45, 7, 'F');
       }
       doc.text(`${val2}`, 158, y);
-
       y += salto;
     };
+
     const deduccionTotal   = descuentoSemanas+ credito.atrasos + credito.recargos;
     const fechaPrimerPago = pagos?.fechaEsperada
-      ? dayjs(pagos.fechaEsperada).format('DD/MM/YYYY')
-      : 'N/A';
-
+    ? dayjs(pagos.fechaEsperada).format('DD/MM/YYYY'): 'N/A';
     imprimirPar('TIPO DE CREDITO', credito?.tipoCredito || 'N/A', false,
-                'MONTO', `$${credito?.monto ?? 0}`, true);
-
-    imprimirPar('ABONO SEMANAL ANTERIOR', `$${abonoAnterior}`, false,
-                'SEMANAS RESTANTES', `$${semanasRestantes}`, false);
-
-    imprimirPar('DEDUCCION DE SEMANAS', `$${descuentoSemanas}`, false,
-                'ATRASOS', `$${credito?.atrasos ?? 0}`, false);
-
-    imprimirPar('RECARGOS', `$${credito?.recargos ?? 0}`, false,
-                'DED. TOTALES', `$${deduccionTotal}`, false);
-
-    imprimirPar('CRÉDITO A ENTREGAR', `$${credito?.efectivo ?? 0}`, true,
-                'SEMANAS CREDITO', `${credito?.semanas ?? 0} semanas`, false);
-
-    imprimirPar('ABONO SEMANAL', `$${credito?.abonoSemanal ?? 0}`, true,
-                'FECHA PRIMER PAGO', fechaPrimerPago, true);
-
+            'MONTO', `$${(credito?.monto ?? 0).toLocaleString('en-US')}`, true);
+    imprimirPar('ABONO SEMANAL ANTERIOR', `$${(abonoAnterior ?? 0).toLocaleString('en-US')}`, false,
+            'SEMANAS RESTANTES', `$${(semanasRestantes ?? 0).toLocaleString('en-US')}`, false);
+    imprimirPar('DEDUCCION DE SEMANAS', `$${(descuentoSemanas ?? 0).toLocaleString('en-US')}`, false,
+            'ATRASOS', `$${(credito?.atrasos ?? 0).toLocaleString('en-US')}`, false);
+    imprimirPar('RECARGOS', `$${(credito?.recargos ?? 0).toLocaleString('en-US')}`, false,
+            'DED. TOTALES', `$${(deduccionTotal ?? 0).toLocaleString('en-US')}`, false);
+    imprimirPar('CRÉDITO A ENTREGAR', `$${(credito?.efectivo ?? 0).toLocaleString('en-US')}`, true,
+            'SEMANAS CREDITO', `${credito?.semanas ?? 0} semanas`, false);
+    imprimirPar('ABONO SEMANAL', `$${(credito?.abonoSemanal ?? 0).toLocaleString('en-US')}`, true,
+            'FECHA PRIMER PAGO', fechaPrimerPago, true);
     y += 10;
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
@@ -127,18 +115,14 @@ export class PrintComponent {
   };
 
   const logo = new Image();
-  logo.src = '/logo.jpg';
-
+  logo.src = '/logo.jpg';                                        
   logo.onload = () => {
     doc.addImage(logo, 'JPEG', 8, 1, 20, 20);
     renderContenido(-10);
-
     doc.addImage(logo, 'JPEG', 8, 170, 20, 20);
     renderContenido(160); 
-
     doc.save(`${cliente?.nombre || 'cliente'}_Credito.pdf`);
   };
-
   logo.onerror = () => {
     console.warn('No se cargó logo, se genera sin imagen');
     renderContenido(0);
