@@ -100,7 +100,7 @@ export class FormCreditComponent implements OnChanges {
     descuentoSemanasPendientes
   };
   this.modalVisible = true;
-}
+  }
   confirmarEnvio(): void {
     const formData = {
       idCliente: this.idCliente,
