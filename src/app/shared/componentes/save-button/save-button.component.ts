@@ -11,8 +11,12 @@ export class SaveButtonComponent {
   @Input() disabled:  boolean = false;
   @Output() save = new EventEmitter<void>();
 
-  onSave() {
-    this.save.emit();
-  }
+onSave() {
+  this.save.emit();
+}
+ngOnChanges() {
+  console.log('Label recibido en SaveButtonComponent:', this.label);
+}
+
 }
  

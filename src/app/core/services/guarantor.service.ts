@@ -16,6 +16,6 @@ export class GuarantorService {
   }
 
   updateGuarantor(dataToSend: any): Observable<any>{
-    return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY, dataToSend);
+    return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY.GUARANTOR, dataToSend);
   }
 }

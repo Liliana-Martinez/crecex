@@ -19,7 +19,7 @@ export class ClientService {
   }
 
   updateClient(dataToSend: any): Observable<any> {
-    return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY, dataToSend);
+    return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY.CLIENT, dataToSend);
   }
 
   //Metodos para manejar el ID del cliente

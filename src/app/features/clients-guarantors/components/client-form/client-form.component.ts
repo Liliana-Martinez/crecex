@@ -71,7 +71,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
       map(value => value ? this.filterZones(value) : this.listZones)
     );
 
-    this.setClientValues();
+    //this.setClientValues();
   }
 
   addClient() {
@@ -128,7 +128,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
     return this.listZones.filter(z => z.codigoZona.toLowerCase().includes(filterValue));
   }
 
-  private setClientValues(): void {
+private setClientValues(): void {
     if (this.clientForm && this.clientData && this.modo === 'modificar') {
       const data = this.clientData.clientData; //Variable de aqui, lo del back
       this.clientForm.patchValue({

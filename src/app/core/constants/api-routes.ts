@@ -13,7 +13,10 @@ export const API_ROUTES = {
            GUARANTOR: `${API_URL}/clients-guarantors/add/guarantor`
         },
         CONSULT: `${API_URL}/clients-guarantors/consult`,
-        MODIFY: `${API_URL}/clients-guarantors/modify/client`
+        MODIFY: {
+            CLIENT: `${API_URL}/clients-guarantors/modify/client`,
+            GUARANTOR: `${API_URL}/clients-guarantors/modify/guarantor`
+        }
     }, 
     CREDITS:  {
         NEW: `${API_URL}/credits/new`,

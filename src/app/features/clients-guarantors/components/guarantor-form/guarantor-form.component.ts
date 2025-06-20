@@ -8,9 +8,10 @@ import { ClientService } from '../../../../core/services/client.service';
 
 @Component({
   selector: 'app-guarantor-form',
-  imports: [SaveButtonComponent,
-            ReactiveFormsModule,
-            CommonModule
+  imports: [
+    SaveButtonComponent,
+    ReactiveFormsModule,
+    CommonModule
   ],
   templateUrl: './guarantor-form.component.html',
   styleUrl: './guarantor-form.component.css'
@@ -49,7 +50,7 @@ export class GuarantorFormComponent implements OnInit {
       })
     });
 
-    this.setGuarantorValues();
+    //this.setGuarantorValues();
   }
 
   addGuarantor() {
@@ -59,17 +60,17 @@ export class GuarantorFormComponent implements OnInit {
       return;
     }
 
-    console.log('¿Formulario válido?: ', this.guarantorForm.valid);
+    /*console.log('¿Formulario válido?: ', this.guarantorForm.valid);
     console.log('Errores: ', this.guarantorForm.errors);
-    console.log('Valor del formulario: ', this.guarantorForm.value);
+    console.log('Valor del formulario: ', this.guarantorForm.value);*/
 
     const guarantorData: Guarantor = {
       ...this.guarantorForm.value,
       clientId: this.clientService.getClientId()
     };
 
-    console.log('Id del ultimo cliente agregado: ', this.clientService.getClientId());
-    console.log('Datos del aval con el id del cliente agregado: ', guarantorData);
+    /*console.log('Id del ultimo cliente agregado: ', this.clientService.getClientId());
+    console.log('Datos del aval con el id del cliente agregado: ', guarantorData);*/
     
     this.guarantorService.addGuarantor(guarantorData).subscribe({
       next: (response) => {
@@ -85,28 +86,24 @@ export class GuarantorFormComponent implements OnInit {
 
   
 private setGuarantorValues(): void {
-  console.log('Datos para rellenar el formulario: ', this.clientData.guarantorData[0]);
-  console.log('OptionSelected: ', this.selectedOption);
-  const firstGuarantorData = this.clientData.guarantorData[0];
-  const secondGuarantorData = this.clientData.guarantorData[1]; 
-
-    if (this.guarantorForm && this.clientData && this.modo === 'modificar') {
+  if (this.guarantorForm && this.clientData && this.modo === 'modificar') {
+    this.guarantorData = this.clientData.guarantorDataResult;
+    const firstGuarantorData = this.guarantorData[0];
+    const secondGuarantorData = this.guarantorData[1]; 
       if (this.selectedOption === 'guarantorp') {
-
-        console.log('Datos del aval principal: ', firstGuarantorData);
-
+        
         this.guarantorForm.patchValue({
-          name: firstGuarantorData.name,
-          paternalLn: firstGuarantorData.paternalLn,
-          maternalLn: firstGuarantorData.maternalLn,
-          age: firstGuarantorData.age,
-          address: firstGuarantorData.address,
-          phone: firstGuarantorData.phone,
-          nameJob: firstGuarantorData.nameJob,
-          addressJob: firstGuarantorData.addressJob,
+          name: firstGuarantorData.nombre,
+          paternalLn: firstGuarantorData.apellidoPaterno,
+          maternalLn: firstGuarantorData.apellidoMaterno,
+          age: firstGuarantorData.edad,
+          address: firstGuarantorData.domicilio,
+          phone: firstGuarantorData.telefono,
+          nameJob: firstGuarantorData.trabajo,
+          addressJob: firstGuarantorData.domicilioTrabajo,
           colonia: firstGuarantorData.colonia,
-          city: firstGuarantorData.city,
-          phoneJob: firstGuarantorData.phoneJob,
+          city: firstGuarantorData.ciudad,
+          phoneJob: firstGuarantorData.telefonoTrabajo,
           garantias: {
             garantiaUno: firstGuarantorData.garantias.garantiaUno,
             garantiaDos: firstGuarantorData.garantias.garantiaDos,
@@ -114,22 +111,20 @@ private setGuarantorValues(): void {
           }
 
         }); 
-      } else if(this.selectedOption === 'guarantors') {
-        console.log('Datos del segundp aval: ', secondGuarantorData);
-        console.log('Opcion seleccionada: ', this.selectedOption);
+      } else if (this.selectedOption === 'guarantors') {
 
         this.guarantorForm.patchValue({
-          name: secondGuarantorData.name,
-          paternalLn: secondGuarantorData.paternalLn,
-          maternalLn: secondGuarantorData.maternalLn,
-          age: secondGuarantorData.age,
-          address: secondGuarantorData.address,
-          phone: secondGuarantorData.phone,
-          nameJob: secondGuarantorData.nameJob,
-          addressJob: secondGuarantorData.addressJob,
+          name: secondGuarantorData.nombre,
+          paternalLn: secondGuarantorData.apellidoPaterno,
+          maternalLn: secondGuarantorData.apellidoMaterno,
+          age: secondGuarantorData.edad,
+          address: secondGuarantorData.domicilio,
+          phone: secondGuarantorData.telefono,
+          nameJob: secondGuarantorData.trabajo,
+          addressJob: secondGuarantorData.domicilioTrabajo,
           colonia: secondGuarantorData.colonia,
-          city: secondGuarantorData.city,
-          phoneJob: secondGuarantorData.phoneJob,
+          city: secondGuarantorData.ciudad,
+          phoneJob: secondGuarantorData.telefonoTrabajo,
           garantias: {
             garantiaUno: secondGuarantorData.garantias.garantiaUno,
             garantiaDos: secondGuarantorData.garantias.garantiaDos,
@@ -155,10 +150,12 @@ private setGuarantorValues(): void {
     maternalLn: 'apellidoMaterno',
     age: 'edad',
     address: 'domicilio',
+    colonia: 'colonia',
+    city: 'ciudad',
     phone: 'telefono',
     nameJob: 'trabajo',
-    addresJob: 'domicilioTabajo',
-    phoneJob: 'telefonoJob',
+    addressJob: 'domicilioTrabajo',
+    phoneJob: 'telefonoTrabajo',
     garantias: {
       garantiaUno: 'garantiaUno',
       garantiaDos: 'garantiaDos',
@@ -169,7 +166,13 @@ private setGuarantorValues(): void {
   updateGuarantor(): void {
     const currentValues = this.guarantorForm.getRawValue();
     const modifiedFields: any = {};
-    const id = this.clientData.idAval;
+    let idAval: number = 0;
+    if (this.selectedOption === 'guarantorp') {
+      idAval = this.clientData.guarantorDataResult[0].idAval;
+    }
+    else if (this.selectedOption === 'guarantors') {
+      idAval = this.clientData.guarantorDataResult[1].idAval;
+    }
 
     for (const key in currentValues) {
       const current = currentValues[key];
@@ -201,9 +204,11 @@ private setGuarantorValues(): void {
       return;
     }
     const dataToSend = {
-      id: id,
+      id: idAval,
       ...modifiedFields
     };
+
+    console.log('Datos a modificar: ', dataToSend); 
 
     this.guarantorService.updateGuarantor(dataToSend).subscribe({
       next: () => console.log('Aval actualizado exitosamente'),
