@@ -3,7 +3,6 @@ import { SubmenuuComponent } from '../../componentss/submenuu/submenuu.component
 import { TableComponent } from '../../componentss/table/table.component';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
-import { SaveButtonComponent } from "../../../../shared/componentes/save-button/save-button.component";
 import { PrintButtonComponent } from "../../../../shared/componentes/print-button/print-button.component";
 import { FormCreditComponent } from "../../componentss/form-credit/form-credit.component";
 import { CreditsService } from '../../../../core/services/credits.service';
@@ -24,30 +23,27 @@ export class RenewComponent {
   @Input() response: any = null;
   modulo: string = 'renew';
   cliente: any = null;
-   errorMessage: string = '';
-    datosParaImprimir: any;
+  errorMessage: string = '';
+  datosParaImprimir: any;
   mostrarImpresion = false;
-  
-   constructor(private creditsService: CreditsService) {}
- 
-   clienteEncontrado(cliente: ClienteConDatos) {
-     console.log('Cliente encontrado', cliente);
-     this.cliente = cliente; 
-   }
-   guardarDatosParaImprimir(datos: any) {
+  constructor(private creditsService: CreditsService) {}
+  clienteEncontrado(cliente: ClienteConDatos) {
+    console.log('Cliente encontrado', cliente);
+    this.cliente = cliente; 
+  }
+  guardarDatosParaImprimir(datos: any) {
   console.log(' Recibido en el padre para imprimir:', datos);
   this.datosParaImprimir = datos;
-}
-   imprimir() {
-  if (!this.datosParaImprimir) {
-    console.warn(' No hay datos para imprimir');
-    return;
   }
-
+  imprimir() {
+    if (!this.datosParaImprimir) {
+      console.warn(' No hay datos para imprimir');
+      return;
+  }
   this.mostrarImpresion = false;
   setTimeout(() => {
     this.mostrarImpresion = true;
   }, 100);
-}
+  }
 }
    

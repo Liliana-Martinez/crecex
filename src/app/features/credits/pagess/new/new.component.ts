@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SubmenuuComponent } from '../../componentss/submenuu/submenuu.component';
 import { FormCreditComponent } from '../../componentss/form-credit/form-credit.component';
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
@@ -18,7 +18,6 @@ import { PrintComponent } from '../../componentss/print/print.component';
     SubmenuuComponent,
     SearchBarComponent,
     FormCreditComponent,
-    //SaveButtonComponent,
     PrintButtonComponent, 
     CommonModule,
     MatTableModule, 
@@ -34,28 +33,24 @@ export class NewComponent {
   errorMessage: string = '';
   mostrarImpresion = false;
   constructor(private creditsService: CreditsService) {}
-
   clienteEncontrado(cliente: ClienteConDatos) {
     console.log('Cliente encontrado', cliente);
     this.cliente = cliente; 
   }
   guardarDatosParaImprimir(datos: any) {
-  console.log(' Recibido en el padre para imprimir:', datos);
-  this.datosParaImprimir = datos;
-}
-
-imprimir() {
-  if (!this.datosParaImprimir) {
-    console.warn(' No hay datos para imprimir');
-    return;
+    console.log(' Recibido en el padre para imprimir:', datos);
+    this.datosParaImprimir = datos;
   }
-
+  imprimir() {
+    if (!this.datosParaImprimir) {
+      console.warn(' No hay datos para imprimir');
+      return;
+    }
   this.mostrarImpresion = false;
   setTimeout(() => {
     this.mostrarImpresion = true;
   }, 100);
-}
-
+  }
 }
 
  

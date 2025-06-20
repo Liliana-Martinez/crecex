@@ -1,15 +1,7 @@
-<div *ngIf="errorMensaje" style="
-  color: #ee0a1d;
-  padding: 10px;
-  text-align: center;
-">
+<div *ngIf="errorMensaje" style="color: #ee0a1d;padding: 10px;text-align: center;">
   {{ errorMensaje }}
 </div>
-<div *ngIf="errorMensaj" style="
-  color: #145517;
-  padding: 10px;
-  text-align: center;
-">
+<div *ngIf="errorMensaj" style="color: #145517; padding: 10px; text-align: center;">
   {{ errorMensaj }}
 </div>
 <form [formGroup]="FormCredit" (ngSubmit)="abrirConfirmacion()">
@@ -20,19 +12,19 @@
     </div>
     <div class="data custom-select-wrapper">
       <label for="semanas">Semanas</label>
-      <select id="semanas" formControlName="semanas" [(ngModel)]="selectedOptionn" class="custom-select">
-      <option [value]="12">12</option>
-      <option [value]="16">16</option>
-    </select>
+      <select id="semanas" formControlName="semanas"  class="custom-select">
+        <option [value]="12">12</option>
+        <option [value]="16">16</option>
+      </select>
     </div>
   </div>
 
   <div class="row">
     <div class="data custom-select-wrapper">
       <label for="horario">Horario</label>
-      <select id="horario" formControlName="horarioEntrega" [(ngModel)]="selectedOption" class="custom-select">
-      <option value="mañana">Mañana</option>
-      <option value="tarde">Tarde</option>
+      <select id="horario" formControlName="horarioEntrega"  class="custom-select">
+        <option value="mañana">Mañana</option>
+        <option value="tarde">Tarde</option>
     </select>
     </div>
     <div class="data">
@@ -61,15 +53,7 @@
   
   <app-save-button [label]="'guardar'" ></app-save-button>
 </form>
-<div class="modal-backdrop" *ngIf="modalVisible" style="
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-">
+<div class="modal-backdrop" *ngIf="modalVisible" style="position: fixed;top: 0; left: 0; right: 0; bottom: 0;background: rgba(0,0,0,0.6);display: flex;justify-content: center;align-items: center;z-index: 1000;">
   <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
     <h3 style="margin-top: 0;">¿Está seguro de que los datos son correctos?</h3>
     <div *ngIf="datosParaConfirmar">
@@ -80,8 +64,6 @@
       <p><strong>Recargos:</strong> {{ datosParaConfirmar.recargos }}</p>
       <p><strong>Efectivo:</strong> {{ datosParaConfirmar.efectivo | number:'1.2-2' }}</p>
       <p><strong>Abono Semanal:</strong> {{ datosParaConfirmar.abonoSemanal | number:'1.2-2' }}</p>
-
-      <!-- Si hay semanas pendientes -->
       <ng-container *ngIf="modulo === 'renew' && datosParaConfirmar.semanasRestantes > 0">
         <p style="color: red; font-weight: bold;">
           Se descontarán {{ datosParaConfirmar.semanasRestantes }} semanas pendientes

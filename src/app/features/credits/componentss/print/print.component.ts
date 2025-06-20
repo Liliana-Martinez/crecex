@@ -16,13 +16,11 @@ export class PrintComponent {
       this.imprimirCreditoFormato();
     }
   }
-
   imprimirCreditoFormato() {
   if (!this.datos) {
     console.warn('No hay datos de cliente para imprimir');
     return;
   }
-
   const c = this.datos;
   const i = c.imprimir || c.imprimir;
   const cliente = i.cliente || i.clientes;
@@ -32,22 +30,19 @@ export class PrintComponent {
   const semanasRestantes = c.semanasRestantes;
   const abonoAnterior = c.abonoAnterior;
   const descuentoSemanas = c.descuentoSemanas;
-  // oficio
+  //hoja ofcio
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
     format: [216, 330]
   });
-
   const colorResalte: [number, number, number] = [210, 255, 210];
-
   const renderContenido = (offsetY: number) => {
+  const fechaHoy = dayjs().format('DD/MM/YYYY');
+  const nombreCompleto = `${cliente?.nombre} ${cliente?.apellidoPaterno} ${cliente?.apellidoMaterno}`.toUpperCase();
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.text('FORMATO DE CREDITO FINANCIERA CRECEX', 105, 20 + offsetY, { align: 'center' });
-
-    const fechaHoy = dayjs().format('DD/MM/YYYY');
-
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.text(`FECHA: ${fechaHoy}`, 90, 35 + offsetY);
@@ -55,21 +50,16 @@ export class PrintComponent {
     doc.text(`CODIGO:${credito.id || 'N/A'}`, 135, 45 + offsetY);
     doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 35 + offsetY);
     doc.text(`PROMOTORA: ${zona.promotora || '-'}`, 90, 45 + offsetY);
-
-    const nombreCompleto = `${cliente?.nombre} ${cliente?.apellidoPaterno} ${cliente?.apellidoMaterno}`.toUpperCase();
     doc.setFont('helvetica', 'bold');
     doc.text(`CLIENTE: ${nombreCompleto}`, 10, 45 + offsetY);
 
     let y = 60 + offsetY;
     const salto = 8;
     const fontSize = 10;
-
     const imprimirPar = (
       label1: string, val1: string | number, resaltar1: boolean,
       label2: string, val2: string | number, resaltar2: boolean,
-    ) => {
-      doc.setFontSize(fontSize);
-      doc.setTextColor(0);
+    ) => {doc.setFontSize(fontSize);doc.setTextColor(0);
 
       // Izquierda
       doc.setFont('helvetica', resaltar1 ? 'bold' : 'normal');
@@ -96,7 +86,7 @@ export class PrintComponent {
     imprimirPar('TIPO DE CREDITO', credito?.tipoCredito || 'N/A', false,
             'MONTO', `$${(credito?.monto ?? 0).toLocaleString('en-US')}`, true);
     imprimirPar('ABONO SEMANAL ANTERIOR', `$${(abonoAnterior ?? 0).toLocaleString('en-US')}`, false,
-            'SEMANAS RESTANTES', `$${(semanasRestantes ?? 0).toLocaleString('en-US')}`, false);
+            'SEMANAS RESTANTES', `${(semanasRestantes ?? 0).toLocaleString('en-US')}`, false);
     imprimirPar('DEDUCCION DE SEMANAS', `$${(descuentoSemanas ?? 0).toLocaleString('en-US')}`, false,
             'ATRASOS', `$${(credito?.atrasos ?? 0).toLocaleString('en-US')}`, false);
     imprimirPar('RECARGOS', `$${(credito?.recargos ?? 0).toLocaleString('en-US')}`, false,
