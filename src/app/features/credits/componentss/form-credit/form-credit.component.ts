@@ -24,7 +24,8 @@ export class FormCreditComponent implements OnChanges {
 
   FormCredit: FormGroup;
   errorMensaje: string | null = null;
-
+  errorMensaj: string |  null = null;
+  
   modalVisible = false;
   datosParaConfirmar: any = null;
 
@@ -50,7 +51,7 @@ export class FormCreditComponent implements OnChanges {
   this.errorMensaje = null;
 
   if (!this.FormCredit.valid) {
-    this.errorMensaje = 'Completa los campos requeridos';
+    this.errorMensaje = 'Completa los campos obligatorios';
     return;
   }
 
@@ -115,13 +116,13 @@ export class FormCreditComponent implements OnChanges {
         this.FormCredit.get('abonoSemanal')?.setValue(response.abonoSemanal);
         this.FormCredit.get('efectivo')?.setValue(response.efectivo);
         this.modalVisible = false;
+        this.errorMensaj = 'Crédito creado satisfactoriamente';
         this.response.emit({
         ...response,
         nombreCliente: this.cliente?.cliente?.nombre ?? '',
         credito: this.cliente?.credito ?? null,
         pagos: this.cliente?.pagos ?? []
         });
-
       },
       error => {
         console.error('Error desde el Backend: ', error);

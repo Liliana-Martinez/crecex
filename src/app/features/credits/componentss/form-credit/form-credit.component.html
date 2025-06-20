@@ -5,6 +5,13 @@
 ">
   {{ errorMensaje }}
 </div>
+<div *ngIf="errorMensaj" style="
+  color: #145517;
+  padding: 10px;
+  text-align: center;
+">
+  {{ errorMensaj }}
+</div>
 <form [formGroup]="FormCredit" (ngSubmit)="abrirConfirmacion()">
   <div class="row">
     <div class="data">
@@ -51,6 +58,7 @@
       <input type="number" id="efectivo" formControlName="efectivo"  />
     </div>
   </div>
+  
   <app-save-button [label]="'guardar'" ></app-save-button>
 </form>
 <div class="modal-backdrop" *ngIf="modalVisible" style="
