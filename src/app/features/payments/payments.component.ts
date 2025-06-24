@@ -19,44 +19,54 @@ import { PaymentService } from '../../core/services/payment.service';
 
 
 export class PaymentsComponent {
-  constructor(private zoneService: ZoneService,
-    private paymentService: PaymentService){}
-  //Colores
-      getClass(field: string, value: number): string {
-        if (field === 'earlyPayment' && value > 0) return 'celda-verde';
-        if (field === 'latePayment' && value > 0) return 'celda-roja';
-        if (field === 'default' && value > 0) return 'celda-amarilla';
-        return '';
-      }
+  constructor(
+    private zoneService: ZoneService,
+    private paymentService: PaymentService
+  ) {}
+
+  paymentCol: string[] = [
+    'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
+    'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment', 'default',
+    'lateFees', 'payment', 'paymentType'
+  ];
+
   idZona: number = 0;
+  codigoZona: string = '';
+  promotora: string = '';
+  fechaSiguienteSemana: string = '';
+
+  zonaSeleccionada: Zone | null = null;
   dataPayment: any = null;
   ClientsPayment: any[] = [];
   mensajeError: string = '';
   idCliente: number = 0;
   selectedOption: string = 'efectivo';
-  paymentCol: string[] = [  
-    'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
-    'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment','default',
-    'lateFees', 'payment', 'paymentType'
-  ];
+
+  // Colores por tipo de estado
+  getClass(field: string, value: number): string {
+    if (field === 'earlyPayment' && value > 0) return 'celda-verde';
+    if (field === 'latePayment' && value > 0) return 'celda-roja';
+    if (field === 'default' && value > 0) return 'celda-amarilla';
+    return '';
+  }
+
   usarZona(zona: Zone) {
     console.log('Zona seleccionada en pagos: ', zona);
-    console.log('codigo zona', zona.codigoZona);
-    
+    this.zonaSeleccionada = zona;
     this.idZona = zona.id;
-    console.log('id que se va a mandar:', this.idZona);
 
-   
-
-    // Servicio Zona
     this.zoneService.zoneData(this.idZona).subscribe({
       next: (response) => {
-        this.dataPayment = response; 
-        console.log('Respuesta del back: ', response);
-        //Llenado de tabla :3
-        this.ClientsPayment= response; 
-        console.log('Lo que va a llenar la tabla: ',this.ClientsPayment);
-        if (this.ClientsPayment) {
+        console.log('Respuesta del backend:', response);
+
+        // Extrae los datos generales
+        this.codigoZona = response.codigoZona;
+        this.promotora = response.promotora;
+        this.fechaSiguienteSemana = response.fechaSiguienteSemana;
+
+        this.ClientsPayment = response.clientes;
+
+        if (this.ClientsPayment && this.ClientsPayment.length > 0) {
           this.dataPayment = this.ClientsPayment.map((item: any, index: number) => ({
             idCredito: item.idCredito,
             clients: index + 1,
@@ -70,31 +80,26 @@ export class PaymentsComponent {
             weeklyAmount: item.montoSemanal ?? '',
             latePayment: item.atraso ?? '',
             earlyPayment: item.adelanto ?? '',
-            default: item.falla??'',
+            default: item.falla ?? '',
             lateFees: item.recargos ?? '',
             payment: '',
             paymentType: ''
           }));
         } else {
-      this.dataPayment = [];
-}
-
-
+          this.dataPayment = [];
+        }
       },
-     error: (err) => {
+      error: (err) => {
         console.error('Error:', err);
         this.dataPayment = null;
-
-        if (err.status === 404) {
-          this.dataPayment = null;
-          this.mensajeError = 'No hay clientes con creditos activos en esta zona';
-        } else {
-          this.mensajeError = 'Ocurrió un error al obtener los datos';
-        }
+        this.mensajeError = err.status === 404
+          ? 'No hay clientes con créditos activos en esta zona'
+          : 'Ocurrió un error al obtener los datos';
       }
     });
   }
-   guardarPagos() {
+
+  guardarPagos() {
     const pagosAEnviar = this.dataPayment.map((item: any) => ({
       idCredito: item.idCredito,
       lateFees: item.lateFees,
@@ -107,14 +112,18 @@ export class PaymentsComponent {
     this.paymentService.enviarPagos(pagosAEnviar).subscribe({
       next: (response) => {
         console.log('Respuesta del backend:', response);
+
+        if (this.zonaSeleccionada) {
+          this.usarZona(this.zonaSeleccionada);
+        }
       },
       error: (err) => {
         console.error('Error al enviar pagos:', err);
       }
     });
   }
-
-
-
 }
+
+
+
 
