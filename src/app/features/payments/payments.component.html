@@ -109,5 +109,5 @@
 </div>
 <div class="container-button">
   <app-save-button (save)="guardarPagos()"></app-save-button>
-  <app-print-button></app-print-button>
+  <app-print-button  (onPrint)="imprimirPDF()" ></app-print-button>
 </div>
