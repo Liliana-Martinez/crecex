@@ -80,7 +80,8 @@ export class PaymentsComponent {
             deliveryDate: item.fechaEntrega ? dayjs(item.fechaEntrega).format('DD/MM/YYYY') : '',
             dueDate: item.fechaVencimiento ? dayjs(item.fechaVencimiento).format('DD/MM/YYYY') : '',
             week: item.numeroSemana ?? '',
-             monto: item.monto ?? '', 
+            monto: item.monto ?? '', 
+            puntos: item.puntos??'',
             weeklyAmount: item.montoSemanal ?? '',
             latePayment: item.atraso ?? '',
             earlyPayment: item.adelanto ?? '',
@@ -140,20 +141,23 @@ export class PaymentsComponent {
     doc.addImage(logo, 'JPEG', 10, 5, 20, 20);
 
     // Encabezado
-    doc.setFontSize(11);
+    doc.setFontSize(20);
     doc.setFont('helvetica', 'normal');
     doc.text('CLIENTES ACTIVOS', 155, 15, { align: 'center' });
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
     doc.text(`SECCIÓN: ${zona}`, 105, 30);
     doc.text(`GRUPO: ${zona.split('-')[1] ?? ''}`, 60, 30);
     doc.text(`SEMANA: ${semana}`, 160, 30, { align: 'center' });
     doc.text(`PROMOTORA: ${promotora}`, 250, 30, { align: 'right' });
     doc.setFontSize(9);
 
-    // Definición de columnas
+    // Columnas
     const columnas = [
       { nombre: 'NUM', ancho: 8 },
       { nombre: 'CLA', ancho: 7 },
       { nombre: 'NOMBRE', ancho: 50 },
+      { nombre: 'PUNTOS', ancho: 13 },
       { nombre: 'N° CRED', ancho: 15 },
       { nombre: 'CUMP.', ancho: 15 },
       { nombre: 'ENTREGA', ancho: 17 },
@@ -161,50 +165,47 @@ export class PaymentsComponent {
       { nombre: 'SEM', ancho: 8 },
       { nombre: 'MONTO', ancho: 15 },
       { nombre: 'ABONO', ancho: 13 },
-      { nombre: 'A', ancho: 10 },
+      { nombre: 'ATR', ancho: 10 },
       { nombre: 'AD', ancho: 10 },
-      { nombre: 'F', ancho: 10 },
-      { nombre: 'PUNTOS', ancho: 13 },
-      { nombre: 'PAGO', ancho: 20 },
-      { nombre: 'AD2', ancho: 20 },
+      { nombre: 'RECUPERADO', ancho: 25 },
+      { nombre: 'AD2', ancho: 25 },
       { nombre: 'MULTAS', ancho: 20 }
     ];
-
-    const columnasCentradas = ['NUM', 'N° CRED', 'SEM'];
 
     const altoFila = 6;
     const margenX = 10;
     let y = 45;
 
-    // Encabezado tabla
-    let x = margenX;
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'bold');
-    doc.setFillColor (23, 170, 214); 
+    const dibujarEncabezado = () => {
+      let x = margenX;
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.setFillColor(23, 170, 214);
+      columnas.forEach(col => {
+        const centroX = x + col.ancho / 2;
+        doc.rect(x, y, col.ancho, altoFila, 'F');
+        doc.text(col.nombre, centroX, y + altoFila / 2 + 1, {
+          align: 'center',
+          baseline: 'middle'
+        });
+        doc.setFillColor(23, 170, 214);
+        x += col.ancho;
+      });
 
-    columnas.forEach(col => {
-      doc.rect(x, y, col.ancho, altoFila, 'F');
-      
-      if (columnasCentradas.includes(col.nombre)) {
-        doc.text(col.nombre, x + col.ancho / 2, y + 4, { align: 'center' });
-        doc.setFillColor (23, 170, 214); 
-      } else {
-        doc.text(col.nombre, x + 1, y + 4);
-        doc.setFillColor (23, 170, 214); 
-      }
-      x += col.ancho;
-    });
+      y += altoFila;
+      doc.setFont('helvetica', 'normal');
+    };
 
-    y += altoFila;
-    doc.setFont('helvetica', 'normal');
+    dibujarEncabezado();
 
-    // Cuerpo de la tabla
+    // === Cuerpo de la tabla ===
     this.dataPayment.forEach((item: any, index: number) => {
-      x = margenX;
+      let x = margenX;
       const fila = [
         index + 1,
         item.classification,
         item.name,
+        `${item.puntos}`,
         item.loans,
         item.compliance,
         item.deliveryDate,
@@ -212,23 +213,43 @@ export class PaymentsComponent {
         item.week,
         `$${item.monto}`,
         `$${item.weeklyAmount}`,
-        item.latePayment,
-        item.earlyPayment,
-        item.default,
-        `$${item.lateFees}`,
-        item.payment ?? '',
-        item.paymentType ?? '',
-        item.paymentType ?? ''
+        item.latePayment === 0 ? '' : item.latePayment,
+        item.earlyPayment === 0 ? '' : item.earlyPayment,
+        item.nada ?? '',
+        item.nada ?? '',
+        item.nada ?? ''
       ];
 
       fila.forEach((valor, i) => {
         const col = columnas[i];
-        doc.rect(x, y, col.ancho, altoFila);
+        const centroX = x + col.ancho / 2;
 
-        if (columnasCentradas.includes(col.nombre)) {
-          doc.text(String(valor), x + col.ancho / 2, y + 4, { align: 'center' });
+  
+        let pintarColor = false;
+        if (col.nombre === 'ATR' && item.latePayment !== 0) {
+          doc.setFillColor (241, 82, 82); 
+          pintarColor = true;
+        } else if (col.nombre === 'AD' && item.earlyPayment !== 0) {
+          doc.setFillColor (80, 175, 80); 
+          pintarColor = true;
+        }
+
+        if (pintarColor) {
+          doc.rect(x, y, col.ancho, altoFila, 'F');
         } else {
-          doc.text(String(valor), x + 1, y + 4);
+          doc.rect(x, y, col.ancho, altoFila);
+        }
+
+        if (col.nombre === 'NOMBRE') {
+          doc.text(String(valor), x + 2, y + altoFila / 2 + 1, {
+            align: 'left',
+            baseline: 'middle'
+          });
+        } else {
+          doc.text(String(valor), centroX, y + altoFila / 2 + 1, {
+            align: 'center',
+            baseline: 'middle'
+          });
         }
 
         x += col.ancho;
@@ -236,35 +257,20 @@ export class PaymentsComponent {
 
       y += altoFila;
 
-      // Nueva página si rebasa
       if (y > 190) {
         doc.addPage();
         y = 20;
-        x = margenX;
-        doc.setFont('helvetica', 'bold');
-        doc.setFillColor(220, 220, 220);
-        columnas.forEach(col => {
-          doc.rect(x, y, col.ancho, altoFila, 'F');
-          if (columnasCentradas.includes(col.nombre)) {
-            doc.text(col.nombre, x + col.ancho / 2, y + 4, { align: 'center' });
-          } else {
-            doc.text(col.nombre, x + 1, y + 4);
-          }
-          x += col.ancho;
-        });
-        y += altoFila;
-        doc.setFont('helvetica', 'normal');
+        dibujarEncabezado();
       }
     });
 
-    // Total
     const deudaTotal = this.dataPayment.reduce(
       (acc: number, p: any) => acc + (Number(p.weeklyAmount) || 0), 0
     );
-    doc.setFont('helvetica', 'bold');
-    doc.text(`DEBE DE ENTREGAR: $${deudaTotal.toLocaleString('en-US')}`, 15, y + 16);
 
-    // Guardar
+    doc.setFont('helvetica', 'bold');
+    doc.text(`DEBE DE ENTREGAR: $${deudaTotal.toLocaleString('en-US')}`, 151, y + 5);
+
     doc.save(`${promotora}_${zona}_${this.fechaSiguienteSemana}.pdf`);
   };
 
@@ -272,6 +278,8 @@ export class PaymentsComponent {
     console.error('No se pudo cargar el logo.');
   };
 }
+
+
 
 
 
