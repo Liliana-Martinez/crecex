@@ -120,3 +120,29 @@
     </form>
 </div>
 
+<div *ngIf="showConfirmation" class="modal-overlay">
+  <div class="modal-content">
+    <h3>¿Deseas actualizar los siguientes datos?</h3>
+    <ul>
+      <li *ngFor="let field of modifiedFields | keyvalue : preserverOrder">
+        <strong>{{ field.key }}:</strong>
+        <ng-container *ngIf="typeof field.value === 'object'; else simpleValue">
+          <ul>
+            <li *ngFor="let nested of getKeyValueObject(field.value) | keyvalue">
+              {{ nested.key }}: {{ nested.value }}
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #simpleValue>
+          {{ field.value }}
+        </ng-template>
+      </li>
+    </ul>
+
+    <button (click)="confirmUpdate()">Confirmar</button>
+    <button (click)="cancelUpdate()">Cancelar</button>
+  </div>
+</div>
+
+
+

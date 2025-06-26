@@ -26,6 +26,13 @@ export class GuarantorFormComponent implements OnInit {
   @Input() clientData?: any;
   @Input() selectedOption: string = '';
 
+  showConfirmation: boolean = false;
+  dataToSend: any = {};
+  modifiedFields = new Map<string, any>();
+
+
+
+
   constructor(private guarantorService: GuarantorService, private clientService: ClientService){}
 
   ngOnInit(): void {
@@ -91,7 +98,6 @@ private setGuarantorValues(): void {
     const firstGuarantorData = this.guarantorData[0];
     const secondGuarantorData = this.guarantorData[1]; 
       if (this.selectedOption === 'guarantorp') {
-        
         this.guarantorForm.patchValue({
           name: firstGuarantorData.nombre,
           paternalLn: firstGuarantorData.apellidoPaterno,
@@ -143,76 +149,107 @@ private setGuarantorValues(): void {
       this.setGuarantorValues();
     }
   }
+   
+public fieldMap: Record<string, string | Record<string, string>> = {
+  name: 'Nombre',
+  paternalLn: 'Apellido paterno',
+  maternalLn: 'Apellido materno',
+  age: 'Edad',
+  address: 'Domicilio',
+  colonia: 'Colonia',
+  city: 'Ciudad',
+  phone: 'Teléfono',
+  nameJob: 'Trabajo',
+  addressJob: 'Domicilio del trabajo',
+  phoneJob: 'Teléfono del trabajo',
+  garantias: {
+    garantiaUno: 'Garantía uno',
+    garantiaDos: 'Garantía dos',
+    garantiaTres: 'Garantía tres',
+  }
+};
 
-  private fieldMap: Record<string, string | Record<string, string>> = {
-    name: 'nombre',
-    paternalLn:'apellidoPaterno',
-    maternalLn: 'apellidoMaterno',
-    age: 'edad',
-    address: 'domicilio',
-    colonia: 'colonia',
-    city: 'ciudad',
-    phone: 'telefono',
-    nameJob: 'trabajo',
-    addressJob: 'domicilioTrabajo',
-    phoneJob: 'telefonoTrabajo',
-    garantias: {
-      garantiaUno: 'garantiaUno',
-      garantiaDos: 'garantiaDos',
-      garantiaTres: 'garantiaTres'
+updateGuarantor(): void {
+  const currentValues = this.guarantorForm.getRawValue();
+  //const modifiedFields: any = {};
+  let idAval: number = 0;
+
+  if (this.selectedOption === 'guarantorp') {
+    idAval = this.clientData.guarantorDataResult[0].idAval;
+  } else if (this.selectedOption === 'guarantors') {
+    idAval = this.clientData.guarantorDataResult[1].idAval;
+  }
+
+  for (const key in currentValues) {
+    const current = currentValues[key];
+    const original = this.originalGuarantorFormData[key];
+    const mapValue = this.fieldMap[key];
+
+    if  (typeof current === 'object' && current !== null) {
+      const nestedChanges: any = {};
+      const nestedFieldMap = typeof mapValue === 'object' ? mapValue : {};
+
+      for (const nestedKey in current) {
+        if (current[nestedKey] !== original[nestedKey]) {
+          const mappedNestedKey = nestedFieldMap[nestedKey] || nestedKey;
+          nestedChanges[mappedNestedKey] = current[nestedKey];
+        }
+      }
+
+      if (Object.keys(nestedChanges).length > 0) {
+        const mappedKey = typeof mapValue === 'string' ? mapValue : key;
+        this.modifiedFields.set(mappedKey, nestedChanges);
+      }
+    } else if (current !== original) {
+      const mappedKey = typeof mapValue === 'string' ? mapValue : key;  
+      this.modifiedFields.set(mappedKey, current);
     }
+  }
+
+  if (this.modifiedFields.size === 0) {
+    console.log('No se realizaron cambios');
+    return;
+  }
+
+  //Convertir el Map a un objeto para poder enviar
+  const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
+
+  this.dataToSend = {
+    id: idAval,
+    ...modifiedFieldsObject
   };
 
-  updateGuarantor(): void {
-    const currentValues = this.guarantorForm.getRawValue();
-    const modifiedFields: any = {};
-    let idAval: number = 0;
-    if (this.selectedOption === 'guarantorp') {
-      idAval = this.clientData.guarantorDataResult[0].idAval;
+  this.showConfirmation = true;
+  console.log('Confirmación activa:', this.showConfirmation);
+  console.log('Datos a enviar al back:', this.dataToSend);
+ 
+}
+
+preserverOrder(a: any, b: any): number {
+  return 0;
+}
+
+getKeyValueObject(obj: any): { [key: string]: any } {
+  return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
+}
+
+
+  confirmUpdate(): void {
+  this.guarantorService.updateGuarantor(this.dataToSend).subscribe({
+    next: () => {
+      console.log('Aval actualizado exitosamente');
+      this.showConfirmation = true;
+    },
+    error: (err) => {
+      console.error('Error al actualizar el aval', err);
+      this.showConfirmation = false;
     }
-    else if (this.selectedOption === 'guarantors') {
-      idAval = this.clientData.guarantorDataResult[1].idAval;
-    }
+  });
+}
 
-    for (const key in currentValues) {
-      const current = currentValues[key];
-      const original = this.originalGuarantorFormData[key];
-      const mapValue = this.fieldMap[key];
+cancelUpdate(): void {
+  this.showConfirmation = false;
+}
 
-      if (typeof current === 'object' && current !== null) {
-        const nestedChanges: any = {};
-        const nestedFieldMap = typeof mapValue === 'object' ? mapValue: {};
 
-        for (const nestedKey in current) {
-          if (current[nestedKey] !== original[nestedKey]) {
-            const mappedNestedKey = nestedFieldMap[nestedKey] || nestedKey;
-            nestedChanges[mappedNestedKey] = current[nestedKey];
-          }
-        }
-        if (Object.keys(nestedChanges).length > 0) {
-          const mappedKey = typeof mapValue === 'string' ? mapValue: key;
-          modifiedFields[mappedKey] = nestedChanges;
-        }
-      } else if (current !== original) {
-        const mappedKey = typeof mapValue === 'string' ? mapValue: key;
-        modifiedFields[mappedKey] = current;
-      }
-    }
-
-    if (Object.keys(modifiedFields).length === 0) {
-      console.log('no se realizaron cambios');
-      return;
-    }
-    const dataToSend = {
-      id: idAval,
-      ...modifiedFields
-    };
-
-    console.log('Datos a modificar: ', dataToSend); 
-
-    this.guarantorService.updateGuarantor(dataToSend).subscribe({
-      next: () => console.log('Aval actualizado exitosamente'),
-      error: (err) => console.error('Error al actualizar el aval', err)
-    });
-  }
 }
