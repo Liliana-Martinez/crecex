@@ -28,29 +28,24 @@ export class AdditionalComponent {
   errorMessage: string = '';
   datosParaImprimir: any;
   mostrarImpresion = false;
-   
   constructor(private creditsService: CreditsService) {}
-  
-  clienteEncontrado(cliente: ClienteConDatos) {
+    clienteEncontrado(cliente: ClienteConDatos) {
       console.log('Cliente encontrado', cliente);
       this.cliente = cliente; 
-  }
-  guardarDatosParaImprimir(datos: any) {
-  console.log(' Recibido en el padre para imprimir:', datos);
-  this.datosParaImprimir = datos;
-}
-  imprimir() {
-  if (!this.datosParaImprimir) {
-    console.warn(' No hay datos para imprimir');
-    return;
-  }
-
-  this.mostrarImpresion = false;
-  setTimeout(() => {
-    this.mostrarImpresion = true;
-  }, 100);
-}
-   
-
+    }
+    guardarDatosParaImprimir(datos: any) {
+    console.log(' Recibido en el padre para imprimir:', datos);
+    this.datosParaImprimir = datos;
+    }
+    imprimir() {
+    if (!this.datosParaImprimir) {
+      console.warn(' No hay datos para imprimir');
+      return;
+    }
+    this.mostrarImpresion = false;
+    setTimeout(() => {
+      this.mostrarImpresion = true;
+    }, 100);
+    }
 } 
  

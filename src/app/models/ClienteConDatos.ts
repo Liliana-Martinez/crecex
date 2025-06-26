@@ -3,6 +3,7 @@ export interface ClienteConDatos {
   credito?: Credito;
   pagos?: Pagos[];
   semanasPagadas?: number;
+  totalDescontarSemanas?: number;
 }
  
 export interface Cliente {
