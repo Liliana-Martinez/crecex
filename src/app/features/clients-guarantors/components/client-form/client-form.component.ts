@@ -33,6 +33,8 @@ export class ClientFormComponent implements OnInit, OnChanges {
   @Input() modo: 'agregar' | 'modificar' = 'agregar';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
   
+  showSuccessModal = false; //Variable para relacionar el modal
+  successMessage = ''; //Variable para relacionar el modal
 
   constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
@@ -49,6 +51,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
       phone: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
       classification: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Da-d]$/)] :[]),
       zone: new FormControl('', this.modo === 'agregar' ? [Validators.required] :[]),
+      points: new FormControl({ value : this.modo === 'agregar' ? 0 : '', disabled: this.modo === 'agregar'}, []), //****** */
       zoneId: new FormControl(''),
       nameJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
       addressJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
@@ -94,8 +97,13 @@ export class ClientFormComponent implements OnInit, OnChanges {
         //Guardar el id del cliente para agregar sus avales
         const clientId = response.clientId;
         this.clientService.setClientId(clientId);
-        console.log('Id del usuario recien agregado: ', clientId);
-        this.errorMessage = 'Cliente y garantias agregados correctamente.';
+        
+        //Mostrar el modal de exito
+        this.successMessage = 'Se agrego correctamente el cliente y sus garantias.';
+        this.showSuccessModal = true;
+
+        //Limpiar el formulario
+        this.clientForm.reset();
       },
       error: (err) => {
         console.error('Error al agregar el cliente.', err);
@@ -128,6 +136,12 @@ export class ClientFormComponent implements OnInit, OnChanges {
     return this.listZones.filter(z => z.codigoZona.toLowerCase().includes(filterValue));
   }
 
+  //Cerrar el modal  de exito
+  closeSuccessModal(): void {
+    this.showSuccessModal = false;
+  }
+
+  //Codigo para modificar en el submenu de clientes-avales
 private setClientValues(): void {
     if (this.clientForm && this.clientData && this.modo === 'modificar') {
       const data = this.clientData.clientData; //Variable de aqui, lo del back

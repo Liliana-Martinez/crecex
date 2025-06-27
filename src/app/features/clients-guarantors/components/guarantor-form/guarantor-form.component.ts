@@ -220,8 +220,8 @@ updateGuarantor(): void {
   };
 
   this.showConfirmation = true;
-  console.log('Confirmación activa:', this.showConfirmation);
-  console.log('Datos a enviar al back:', this.dataToSend);
+  /*console.log('Confirmación activa:', this.showConfirmation);
+  console.log('Datos a enviar al back:', this.dataToSend);*/
  
 }
 
@@ -238,7 +238,10 @@ getKeyValueObject(obj: any): { [key: string]: any } {
   this.guarantorService.updateGuarantor(this.dataToSend).subscribe({
     next: () => {
       console.log('Aval actualizado exitosamente');
-      this.showConfirmation = true;
+      this.showConfirmation = false;
+      this.modifiedFields.clear();
+      this.dataToSend = {};
+      this.guarantorForm.reset();
     },
     error: (err) => {
       console.error('Error al actualizar el aval', err);
