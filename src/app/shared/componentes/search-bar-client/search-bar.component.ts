@@ -25,7 +25,12 @@ export class SearchBarComponent {
   @Output() clienteEncontrado = new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
   nombreCompleto: string = '';  
   mensajeError: string = '';
+  showErrorModal = false;
+  
 
+closeErrorModal() {
+  this.showErrorModal = false;
+}
   constructor(private creditsService: CreditsService) {}
 
   buscarCliente(): void {
@@ -50,12 +55,13 @@ export class SearchBarComponent {
         this.clienteEncontrado.emit(response);
       },
       error: (err) => {
-        if (err.status === 404) {
-          this.mensajeError = 'Cliente no encontrado.';
-        } else {
-          this.mensajeError = err.error?.message || 'Ocurrio un error inesperado';
-        }
+      if (err.status === 404) {
+        this.mensajeError = 'Cliente no encontrado.';
+      } else {
+        this.mensajeError = err.error?.message || 'Ocurrió un error inesperado.';
       }
+      this.showErrorModal = true; // Mostrar el modal
+    }
     });
   }
 } 

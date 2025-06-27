@@ -9,10 +9,14 @@
         name="nombreCompleto"
         (keydown.enter)="buscarCliente()"
       >
-      <div *ngIf="mensajeError" class="error" style="color: red;font-size: 12px;">
-        {{ mensajeError }}
-      </div>
     </mat-form-field>
   </form>
+</div>
+  <div *ngIf="showErrorModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: red;">❌ Error</h3>
+    <p>{{ mensajeError }}</p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
 </div>
      
