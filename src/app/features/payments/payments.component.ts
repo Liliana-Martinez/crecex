@@ -41,10 +41,6 @@ export class PaymentsComponent {
     // Servicio Zona
     this.zoneService.zoneData(this.idZona).subscribe({
       next: (response) => {
-<<<<<<< HEAD
-        console.log('respuesta del back: ', response);
-        this.dataPayment = response; 
-=======
         console.log('Respuesta del back: ', response);
         //Llenado de tabla :3
         this.ClientsPayment= response; 
@@ -70,19 +66,14 @@ export class PaymentsComponent {
         } else {
       this.dataPayment = [];
 }
->>>>>>> 8f44ebd6ca7d5b6fba3a7614095ff6c40e57989a
       },
      error: (err) => {
         console.error('Error:', err);
         this.dataPayment = null;
 
-        if (err.status === 404) {
-<<<<<<< HEAD
-          alert(err.error.message); 
+        if (err.status === 404) { 
           this.dataPayment = null;
-=======
           this.mensajeError = 'No hay clientes con creditos activos en esta zona';
->>>>>>> 8f44ebd6ca7d5b6fba3a7614095ff6c40e57989a
         } else {
           this.mensajeError = 'Ocurrió un error al obtener los datos';
         }
