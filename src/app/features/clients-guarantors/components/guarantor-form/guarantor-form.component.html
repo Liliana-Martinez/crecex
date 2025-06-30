@@ -1,24 +1,24 @@
 <div class="container-form">
-    <form [formGroup]="guarantorForm" (ngSubmit)="addGuarantor()">
+    <form [formGroup]="guarantorForm" (ngSubmit)="modo === 'agregar' ? addGuarantor() : updateGuarantor()">
         <h4>Datos personales del aval</h4>
             <div class="row">
                 <div class="data">
                     <label>Nombre</label>
                     <input type="text" formControlName="name" required>
-                    <div class="mensaje-error" *ngIf="guarantorForm.get('name')?.invalid && guarantorForm.get('name')?.touched">
+                    <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('name')?.invalid && guarantorForm.get('name')?.touched">
                         Nombre vacío o no es válido.
                     </div>
                 </div>
                 <div class="data">
                     <label>Apellido paterno</label>
-                    <input type="text" formControlName="paternalLn" required> <div class="mensaje-error" *ngIf="guarantorForm.get('paternalLn')?.invalid && guarantorForm.get('paternalLn')?.touched">
+                    <input type="text" formControlName="paternalLn" required> <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('paternalLn')?.invalid && guarantorForm.get('paternalLn')?.touched">
                         Apellido vacío o no es válido.
                     </div><!--paternalLn=paternalLastName -->
                 </div>
                 <div class="data">
                     <label>Apellido materno</label>
                     <input type="text" formControlName="maternalLn" required> 
-                    <div class="mensaje-error" *ngIf="guarantorForm.get('maternalLn')?.invalid && guarantorForm.get('maternalLn')?.touched">
+                    <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('maternalLn')?.invalid && guarantorForm.get('maternalLn')?.touched">
                         Apellido vacío o no es válido.
                     </div> <!--maternalLn=maternalLastName -->
                 </div>  
@@ -27,21 +27,21 @@
                 <div class="data">
                     <label>Edad</label>
                     <input type="number" formControlName="age" min="18" max="60" required>
-                    <div class="mensaje-error" *ngIf="guarantorForm.get('age')?.invalid && guarantorForm.get('age')?.touched">
+                    <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('age')?.invalid && guarantorForm.get('age')?.touched">
                         Edad vacía o no es válido.
                     </div>
                 </div>
                 <div class="data">
                     <label>Domicilio</label>
                     <input type="text" formControlName="address" required>
-                    <div class="mensaje-error" *ngIf="guarantorForm.get('address')?.invalid && guarantorForm.get('address')?.touched">
+                    <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('address')?.invalid && guarantorForm.get('address')?.touched">
                         Domicilio vacío o no es válido.
                     </div>
                 </div>
                 <div class="data">
                     <label>Colonia</label>
                     <input type="text" formControlName="colonia" required>
-                    <div class="mensaje-error" *ngIf="guarantorForm.get('colonia')?.invalid && guarantorForm.get('colonia')?.touched">
+                    <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('colonia')?.invalid && guarantorForm.get('colonia')?.touched">
                         Colonia vacío o no es válido.
                     </div>
                 </div>
@@ -50,14 +50,14 @@
                 <div class="data">
                     <label>Ciudad</label>
                     <input type="text" formControlName="city" required>
-                    <div class="mensaje-error" *ngIf="guarantorForm.get('city')?.invalid && guarantorForm.get('city')?.touched">
+                    <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('city')?.invalid && guarantorForm.get('city')?.touched">
                         Ciudad vacío o no es válido.
                     </div>
                 </div>
                 <div class="dataPhone">
                     <label>Telefóno</label>
                     <input type="tel" formControlName="phone" required>
-                    <div class="mensaje-error" *ngIf="guarantorForm.get('phone')?.invalid && guarantorForm.get('phone')?.touched">
+                    <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('phone')?.invalid && guarantorForm.get('phone')?.touched">
                         Telefóno vacío o no es válido.
                     </div>
                 </div>
@@ -68,21 +68,21 @@
             <div class="data">
                 <label>Nombre</label>
                 <input type="text" formControlName="nameJob" required>
-                <div class="mensaje-error" *ngIf="guarantorForm.get('nameJob')?.invalid && guarantorForm.get('nameJob')?.touched">
+                <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('nameJob')?.invalid && guarantorForm.get('nameJob')?.touched">
                     Nombre de trabajo vacío o no es válido.
                 </div>
             </div>
             <div class="data">
                 <label>Domicilio</label>
                 <input type="text" formControlName="addressJob" required>
-                <div class="mensaje-error" *ngIf="guarantorForm.get('addressJob')?.invalid && guarantorForm.get('addressJob')?.touched">
+                <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('addressJob')?.invalid && guarantorForm.get('addressJob')?.touched">
                     Domicilio de trabajo vacío o no es válido.
                 </div>
             </div>
             <div class="data">
                 <label>Telefóno</label>
                 <input type="tel" formControlName="phoneJob" required>
-                <div class="mensaje-error" *ngIf="guarantorForm.get('phoneJob')?.invalid && guarantorForm.get('phoneJob')?.touched">
+                <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('phoneJob')?.invalid && guarantorForm.get('phoneJob')?.touched">
                     Telefóno de trabajo vacío o no es válido.
                 </div>
             </div>
@@ -93,21 +93,21 @@
             <div class="data">
                 <label>Garantia 1</label>
                 <input type="text" formControlName="garantiaUno" required>
-                <div class="mensaje-error" *ngIf="guarantorForm.get('garantias.garantiaUno')?.invalid && guarantorForm.get('garantias.garantiaUno')?.touched">
+                <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('garantias.garantiaUno')?.invalid && guarantorForm.get('garantias.garantiaUno')?.touched">
                     Garantia vacío o no es válido.
                 </div>
             </div>
             <div class="data">
                 <label>Garantia 2</label>
                 <input type="text" formControlName="garantiaDos" required>
-                <div class="mensaje-error" *ngIf="guarantorForm.get('garantias.garantiaDos')?.invalid && guarantorForm.get('garantias.garantiaDos')?.touched">
+                <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('garantias.garantiaDos')?.invalid && guarantorForm.get('garantias.garantiaDos')?.touched">
                     Garantia vacío o no es válido.
                 </div>
             </div>
             <div class="data">
                 <label>Garantia 3</label>
                 <input type="text" formControlName="garantiaTres" required>
-                <div class="mensaje-error" *ngIf="guarantorForm.get('garantias.garantiaTres')?.invalid && guarantorForm.get('garantias.garantiaTres')?.touched">
+                <div class="mensaje-error" *ngIf="modo === 'agregar' && guarantorForm.get('garantias.garantiaTres')?.invalid && guarantorForm.get('garantias.garantiaTres')?.touched">
                     Garantia vacío o no es válido.
                 </div>
             </div>        
@@ -116,7 +116,33 @@
         <div *ngIf="errorMessage" class="error">
             {{ errorMessage }}
         </div><br>
-        <app-save-button [label]="'Guardar'"></app-save-button> 
+        <app-save-button [label]="modo === 'agregar' ? 'Guardar' : 'Actualizar'"></app-save-button> 
     </form>
 </div>
+
+<div *ngIf="showConfirmation" class="modal-overlay">
+  <div class="modal-content">
+    <h3>¿Deseas actualizar los siguientes datos?</h3>
+    <ul>
+      <li *ngFor="let field of modifiedFields | keyvalue : preserverOrder">
+        <strong>{{ field.key }}:</strong>
+        <ng-container *ngIf="typeof field.value === 'object'; else simpleValue">
+          <ul>
+            <li *ngFor="let nested of getKeyValueObject(field.value) | keyvalue">
+              {{ nested.key }}: {{ nested.value }}
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #simpleValue>
+          {{ field.value }}
+        </ng-template>
+      </li>
+    </ul>
+
+    <button (click)="confirmUpdate()">Confirmar</button>
+    <button (click)="cancelUpdate()">Cancelar</button>
+  </div>
+</div>
+
+
 

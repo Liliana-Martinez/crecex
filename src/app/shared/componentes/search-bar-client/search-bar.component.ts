@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';  
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { BuscarCliente } from '../../../models/BuscarCliente';
-import { ClienteConDatos } from '../../../models/ClienteConDatos';
+
 @Component({
   selector: 'app-search-bar', 
+  standalone: true,
   templateUrl: './search-bar.component.html',
   imports: [
     CommonModule,
@@ -17,14 +18,19 @@ import { ClienteConDatos } from '../../../models/ClienteConDatos';
   ],
   styleUrls: ['./search-bar.component.css']
 })
+
 export class SearchBarComponent {
   @Input() modulo: string = '';
-  @Output() clienteEncontrado = new EventEmitter<ClienteConDatos>();
-
-   
+  @Input() selectedOption: string = ''; //************ 
+  @Output() clienteEncontrado = new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
   nombreCompleto: string = '';  
   mensajeError: string = '';
+  showErrorModal = false;
+  
 
+closeErrorModal() {
+  this.showErrorModal = false;
+}
   constructor(private creditsService: CreditsService) {}
 
   buscarCliente(): void {
@@ -37,8 +43,11 @@ export class SearchBarComponent {
       
     const datosCliente: BuscarCliente = {
       nombreCompleto: this.nombreCompleto, 
-      modulo: this.modulo
+      modulo: this.modulo,
+      selectedOption: this.selectedOption
     };
+
+    console.log('Datos que se van a enviar del buscador: ',datosCliente);
 
     this.creditsService.obtenerDatosCliente(datosCliente).subscribe({
       next: (response) => {
@@ -46,14 +55,13 @@ export class SearchBarComponent {
         this.clienteEncontrado.emit(response);
       },
       error: (err) => {
-
-        this.mensajeError = err.error?.message || 'Ocurrió un error inesperado';
-
-        console.error('Error capturado por catch', err);
-        this.mensajeError = err?.error?.error || 'Error al consultar el cliente.';
-
-        this.clienteEncontrado.emit();
+      if (err.status === 404) {
+        this.mensajeError = 'Cliente no encontrado.';
+      } else {
+        this.mensajeError = err.error?.message || 'Ocurrió un error inesperado.';
       }
+      this.showErrorModal = true; // Mostrar el modal
+    }
     });
   }
 } 

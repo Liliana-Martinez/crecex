@@ -30,5 +30,19 @@ table {
 
 
 .custom-select:focus {
-  border-color: #098013;
+  border-color: #1f8027;
+}
+.celda-verde {
+  background-color: #24a342; /* verde claro */
+  color: #000000;
+}
+
+.celda-roja {
+  background-color: #d12130; /* rojo claro */
+  color: #000000;
+}
+
+.celda-amarilla {
+  background-color: #f1c42f; /* amarillo claro */
+  color: #070602;
 }

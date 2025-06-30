@@ -14,4 +14,8 @@ export class GuarantorService {
   addGuarantor(credentials: Guarantor): Observable<Guarantor> {
     return this.http.post<Guarantor>(API_ROUTES.CLIGRS.ADD.GUARANTOR, credentials);
   }
+
+  updateGuarantor(dataToSend: any): Observable<any>{
+    return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY.GUARANTOR, dataToSend);
+  }
 }
