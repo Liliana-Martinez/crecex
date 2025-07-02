@@ -55,13 +55,12 @@ closeErrorModal() {
         this.clienteEncontrado.emit(response);
       },
       error: (err) => {
-      if (err.status === 404) {
-        this.mensajeError = 'Cliente no encontrado.';
-      } else {
-        this.mensajeError = err.error?.message || 'Ocurrió un error inesperado.';
+        if (err.status === 404) {
+          this.mensajeError = 'Cliente no encontrado.';
+        } else {
+          this.mensajeError = err.error?.message || 'Ocurrio un error inesperado';
+        }
       }
-      this.showErrorModal = true; // Mostrar el modal
-    }
     });
   }
 } 

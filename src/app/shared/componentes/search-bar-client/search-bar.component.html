@@ -2,6 +2,13 @@
   <form class="search-bar-form">
     <mat-form-field class="example-full-width">
       <mat-label>Nombre Completo</mat-label>
+      <div *ngIf="mensajeError" style="
+  color: #ee0a1d;
+  padding: 2px;
+  text-align:left;
+">
+  {{ mensajeError }}
+</div>
       <input 
         matInput 
         placeholder="Nombre Completo" 
@@ -10,13 +17,7 @@
         (keydown.enter)="buscarCliente()"
       >
     </mat-form-field>
+    
   </form>
-</div>
-  <div *ngIf="showErrorModal" class="modal-overlay">
-  <div class="modal-content">
-    <h3 style="color: red;">❌ Error</h3>
-    <p>{{ mensajeError }}</p>
-    <button (click)="closeErrorModal()">Cerrar</button>
-  </div>
-</div>
+
      
