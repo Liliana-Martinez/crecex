@@ -47,6 +47,7 @@ export class PaymentsComponent {
 
   // Colores por tipo de estado
   getClass(field: string, value: number): string {
+
     if (field === 'earlyPayment' && value > 0) return 'celda-verde';
     if (field === 'latePayment' && value > 0) return 'celda-roja';
     if (field === 'default' && value > 0) return 'celda-amarilla';
@@ -60,9 +61,6 @@ export class PaymentsComponent {
 
     this.zoneService.zoneData(this.idZona).subscribe({
       next: (response) => {
-        console.log('Respuesta del backend:', response);
-
-        // Extrae los datos generales
         this.codigoZona = response.codigoZona;
         this.promotora = response.promotora;
         this.fechaSiguienteSemana = response.fechaSiguienteSemana;
@@ -97,9 +95,13 @@ export class PaymentsComponent {
       error: (err) => {
         console.error('Error:', err);
         this.dataPayment = null;
-        this.mensajeError = err.status === 404
-          ? 'No hay clientes con créditos activos en esta zona'
-          : 'Ocurrió un error al obtener los datos';
+        if (err.status === 404) { 
+          this.dataPayment = null;
+          this.mensajeError = 'No hay clientes con creditos activos en esta zona';
+        } else {
+          this.mensajeError = 'Ocurrió un error al obtener los datos';
+        }
+
       }
     });
   }
@@ -128,7 +130,7 @@ export class PaymentsComponent {
     });
   }
   imprimirPDF() {
-  const doc = new jsPDF('landscape');
+  const doc = new jsPDF('landscape', 'mm', 'legal');
   const fechaHoy = new Date().toLocaleDateString('es-MX');
   const zona = this.codigoZona || 'N/A';
   const promotora = this.promotora || 'N/A';
@@ -140,67 +142,74 @@ export class PaymentsComponent {
   logo.onload = () => {
     doc.addImage(logo, 'JPEG', 10, 5, 20, 20);
 
-    // Encabezado
     doc.setFontSize(20);
     doc.setFont('helvetica', 'normal');
     doc.text('CLIENTES ACTIVOS', 155, 15, { align: 'center' });
+
     doc.setFontSize(11);
     doc.setFont('helvetica', 'normal');
     doc.text(`SECCIÓN: ${zona}`, 105, 30);
     doc.text(`GRUPO: ${zona.split('-')[1] ?? ''}`, 60, 30);
     doc.text(`SEMANA: ${semana}`, 160, 30, { align: 'center' });
     doc.text(`PROMOTORA: ${promotora}`, 250, 30, { align: 'right' });
-    doc.setFontSize(9);
 
-    // Columnas
+    doc.setFontSize(10);
+
     const columnas = [
-      { nombre: 'NUM', ancho: 8 },
-      { nombre: 'CLA', ancho: 7 },
-      { nombre: 'NOMBRE', ancho: 50 },
-      { nombre: 'PUNTOS', ancho: 13 },
-      { nombre: 'N° CRED', ancho: 15 },
-      { nombre: 'CUMP.', ancho: 15 },
-      { nombre: 'ENTREGA', ancho: 17 },
-      { nombre: 'VENCIMIENTO', ancho: 22 },
-      { nombre: 'SEM', ancho: 8 },
-      { nombre: 'MONTO', ancho: 15 },
-      { nombre: 'ABONO', ancho: 13 },
-      { nombre: 'ATR', ancho: 10 },
-      { nombre: 'AD', ancho: 10 },
-      { nombre: 'RECUPERADO', ancho: 25 },
-      { nombre: 'AD2', ancho: 25 },
-      { nombre: 'MULTAS', ancho: 20 }
+      { nombre: 'NUM', ancho: 9 },       
+      { nombre: 'CLA', ancho: 8 },       
+      { nombre: 'NOMBRE', ancho: 48 },  
+      { nombre: 'PUNTOS', ancho: 14 },   
+      { nombre: 'N° CRED', ancho: 16 },  
+      { nombre: 'CUMP.', ancho: 16 },    
+      { nombre: 'ENTREGA', ancho: 18 }, 
+      { nombre: 'VENCIMIENTO', ancho: 22 }, 
+      { nombre: 'SEM', ancho: 9 },       
+      { nombre: 'MONTO', ancho: 16 },    
+      { nombre: 'ABONO', ancho: 14 },    
+      { nombre: 'ATR', ancho: 11 },      
+      { nombre: 'AD', ancho: 11 },       
+      { nombre: 'RECUPERADO', ancho: 25 }, // 27 -> 25
+      { nombre: 'AD2', ancho: 25 },      // 27 -> 25
+      { nombre: 'MULTAS', ancho: 18 }    // 22 -> 18 (ajustado para que no corte)
     ];
 
-    const altoFila = 6;
+    const altoFila = 8;
     const margenX = 10;
     let y = 45;
 
+    let totalAtraso = 0;
+    let totalAdelanto = 0;
+
     const dibujarEncabezado = () => {
       let x = margenX;
-      doc.setFontSize(8);
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.setFillColor(23, 170, 214);
       columnas.forEach(col => {
         const centroX = x + col.ancho / 2;
         doc.rect(x, y, col.ancho, altoFila, 'F');
-        doc.text(col.nombre, centroX, y + altoFila / 2 + 1, {
+        doc.text(col.nombre, centroX, y + altoFila / 2 + 2, {
           align: 'center',
           baseline: 'middle'
         });
         doc.setFillColor(23, 170, 214);
         x += col.ancho;
       });
-
       y += altoFila;
       doc.setFont('helvetica', 'normal');
     };
 
     dibujarEncabezado();
 
-    // === Cuerpo de la tabla ===
     this.dataPayment.forEach((item: any, index: number) => {
       let x = margenX;
+      const atrasoVal = (`$${item.latePayment === 0}`|| `$${item.latePayment === 'o'}`) ? '' : item.latePayment;
+      const adelantoVal = (`$${item.latePayment === 0}` || item.earlyPayment === 'o') ? '' : item.earlyPayment;
+
+      if (atrasoVal !== '') totalAtraso += Number(item.latePayment || 0);
+      if (adelantoVal !== '') totalAdelanto += Number(item.earlyPayment || 0);
+
       const fila = [
         index + 1,
         item.classification,
@@ -213,8 +222,8 @@ export class PaymentsComponent {
         item.week,
         `$${item.monto}`,
         `$${item.weeklyAmount}`,
-        item.latePayment === 0 ? '' : item.latePayment,
-        item.earlyPayment === 0 ? '' : item.earlyPayment,
+        atrasoVal,
+        adelantoVal,
         item.nada ?? '',
         item.nada ?? '',
         item.nada ?? ''
@@ -224,13 +233,12 @@ export class PaymentsComponent {
         const col = columnas[i];
         const centroX = x + col.ancho / 2;
 
-  
         let pintarColor = false;
-        if (col.nombre === 'ATR' && item.latePayment !== 0) {
-          doc.setFillColor (241, 82, 82); 
+        if (col.nombre === 'ATR' && atrasoVal !== '') {
+          doc.setFillColor(199, 57, 57);
           pintarColor = true;
-        } else if (col.nombre === 'AD' && item.earlyPayment !== 0) {
-          doc.setFillColor (80, 175, 80); 
+        } else if (col.nombre === 'AD' && adelantoVal !== '') {
+          doc.setFillColor(54, 141, 54);
           pintarColor = true;
         }
 
@@ -241,12 +249,12 @@ export class PaymentsComponent {
         }
 
         if (col.nombre === 'NOMBRE') {
-          doc.text(String(valor), x + 2, y + altoFila / 2 + 1, {
+          doc.text(String(valor), x + 2, y + altoFila / 2 + 2, {
             align: 'left',
             baseline: 'middle'
           });
         } else {
-          doc.text(String(valor), centroX, y + altoFila / 2 + 1, {
+          doc.text(String(valor), centroX, y + altoFila / 2 + 2, {
             align: 'center',
             baseline: 'middle'
           });
@@ -257,7 +265,7 @@ export class PaymentsComponent {
 
       y += altoFila;
 
-      if (y > 190) {
+      if (y + altoFila > 275) { 
         doc.addPage();
         y = 20;
         dibujarEncabezado();
@@ -265,11 +273,17 @@ export class PaymentsComponent {
     });
 
     const deudaTotal = this.dataPayment.reduce(
-      (acc: number, p: any) => acc + (Number(p.weeklyAmount) || 0), 0
+      (acc: number, p: any) => acc + ((p.week && Number(p.week) > 0) ? Number(p.weeklyAmount) : 0),
+      0
     );
 
     doc.setFont('helvetica', 'bold');
-    doc.text(`DEBE DE ENTREGAR: $${deudaTotal.toLocaleString('en-US')}`, 151, y + 5);
+    doc.setFontSize(12);
+    y += 5;
+
+    doc.text(`DEBE DE ENTREGAR: $${deudaTotal.toLocaleString('en-US')}`, 140, y);
+    doc.text(` $${totalAtraso.toLocaleString('en-US')}`, 200, y, { align: 'left' });
+    doc.text(`$${totalAdelanto.toLocaleString('en-US')}`, 213, y, { align: 'left' });
 
     doc.save(`${promotora}_${zona}_${this.fechaSiguienteSemana}.pdf`);
   };
@@ -278,9 +292,6 @@ export class PaymentsComponent {
     console.error('No se pudo cargar el logo.');
   };
 }
-
-
-
 
 
 
