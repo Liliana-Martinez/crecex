@@ -57,8 +57,8 @@ form h4 {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4); /* fondo oscuro semitransparente */
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 1000; /* asegúrate de que esté encima de todo */
 }
 
@@ -68,6 +68,15 @@ form h4 {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   text-align: center;
+}
+
+.modal-content-confirmation {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 90%
 }
 
 @media screen and (max-width: 768px) {

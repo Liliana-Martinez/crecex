@@ -26,15 +26,22 @@ import { ZoneService } from '../../../../core/services/zone.service';
 
 export class ClientFormComponent implements OnInit, OnChanges {
   clientForm!: FormGroup;
-  errorMessage: string = '';
+  
   originalClientFormData: any;
   listZones: Zone[] = [];
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
   @Input() modo: 'agregar' | 'modificar' = 'agregar';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
   
+  dataToSend: any = {};
+  modifiedFields = new Map<string, any>();
   showSuccessModal = false; //Variable para relacionar el modal
   successMessage = ''; //Variable para relacionar el modal
+
+  showErrorModal = false;
+  errorMessage: string = '';
+
+  showConfirmation = false;
 
   constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
@@ -87,6 +94,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
     if (this.clientForm.invalid) {
       this.errorMessage = 'Debe completar todos los campos.';
+      this.showErrorModal = true;
       return;
     }
 
@@ -103,11 +111,19 @@ export class ClientFormComponent implements OnInit, OnChanges {
         this.showSuccessModal = true;
 
         //Limpiar el formulario
-        this.clientForm.reset();
+        this.clientForm.reset({
+          points: 0
+        });
       },
       error: (err) => {
-        console.error('Error al agregar el cliente.', err);
-        this.errorMessage = 'Error: no se pudo agregar el cliente.'
+        //console.error('Error al agregar el cliente.', err);
+        if (err.status === 409 && err.error && err.error.message === 'El cliente ya existe.') {
+          this.errorMessage = 'El cliente ya existe.';
+          this.showErrorModal = true;
+        } else {
+          this.errorMessage = 'No se pudo agregar el cliente.';
+          this.showErrorModal =  true;
+        }
       }
     });
   }
@@ -141,6 +157,11 @@ export class ClientFormComponent implements OnInit, OnChanges {
     this.showSuccessModal = false;
   }
 
+  //Cerrar el modal  de fallo
+  closeErrorModal(): void {
+    this.showErrorModal = false;
+  }
+
   //Codigo para modificar en el submenu de clientes-avales
 private setClientValues(): void {
     if (this.clientForm && this.clientData && this.modo === 'modificar') {
@@ -156,6 +177,7 @@ private setClientValues(): void {
         phone: data.phone,
         classification: data.classification,
         zone: data.zone,
+        points: data.points,/*********** */
         nameJob: data.nameJob,
         addressJob: data.addressJob,
         phoneJob: data.phoneJob,
@@ -180,7 +202,7 @@ private setClientValues(): void {
     }
   }
 
-  private fieldMap: Record<string, string | Record<string, string>> = {
+  public fieldMap: Record<string, string | Record<string, string>> = {
     name: 'nombre',
     paternalLn: 'apellidoPaterno',
     maternalLn: 'apellidoMaterno',
@@ -191,6 +213,7 @@ private setClientValues(): void {
     phone: 'telefono',
     classification: 'clasificacion',
     zone: 'zona',
+    points: 'puntos',
     nameJob: 'trabajo',
     addressJob: 'domicilioTrabajo',
     phoneJob: 'telefonoTrabajo',
@@ -206,7 +229,7 @@ private setClientValues(): void {
 
 updateClient(): void {
   const currentValues = this.clientForm.getRawValue();
-  const modifiedFields: any = {};
+  //const modifiedFields: any = {};
   const id = this.clientData.idCliente;
 
   for (const key in currentValues) {
@@ -227,28 +250,62 @@ updateClient(): void {
 
       if (Object.keys(nestedChanges).length > 0) {
         const mappedKey = typeof mapValue === 'string' ? mapValue : key;
-        modifiedFields[mappedKey] = nestedChanges;
+        this.modifiedFields.set(mappedKey, nestedChanges);
       }
 
     } else if (current !== original) {
       const mappedKey = typeof mapValue === 'string' ? mapValue : key;
-      modifiedFields[mappedKey] = current;
+      this.modifiedFields.set(mappedKey, current);
     }
   }
 
-  if (Object.keys(modifiedFields).length === 0) {
+  console.log('Datos modificados en este punto: ', this.modifiedFields);
+  if (this.modifiedFields.size === 0) {
     console.log('No se realizaron cambios.');
+    this.errorMessage = 'No se realizaron cambios.'
+    this.showErrorModal = true;
+    this.clientForm.reset(); //Limpiar el formulario si dio clic en actualizar pero no se modifico ningun campo
     return;
   }
 
-  const dataToSend = {
+  //Convertir el map a un objeto para poder enviar
+  const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
+
+  this.dataToSend = {
     id: id,
-    ...modifiedFields
+    ...modifiedFieldsObject
   };
 
-  this.clientService.updateClient(dataToSend).subscribe({
-    next: () => console.log('Cliente actualizado exitosamente'),
-    error: (err) => console.error('Error al actualizar cliente:', err)
+  this.showConfirmation = true;
+}
+
+preserverOrder(a: any, b: any): number {
+  return 0;
+}
+
+getKeyValueObject(obj: any): { [key: string]: any } {
+  return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
+}
+
+confirmUpdate(): void {
+  this.clientService.updateClient(this.dataToSend).subscribe({
+    next: () => {
+      console.log('Cliente actualizado exitosamente');
+      this.showConfirmation = false;
+      this.modifiedFields.clear();
+      this.dataToSend = {};
+      this.clientForm.reset();
+      this.successMessage = 'Cliente actualizado exitosamente.';
+      this.showSuccessModal = true;
+    },
+    error: (err) => {
+      console.error('Error al actualizar cliente:', err);
+      this.showConfirmation = false;
+    }
   });
+}
+
+cancelUpdate(): void {
+  this.showConfirmation = false;
 }
 }

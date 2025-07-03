@@ -19,16 +19,22 @@ import { ClientService } from '../../../../core/services/client.service';
 export class GuarantorFormComponent implements OnInit {
 
   guarantorForm!: FormGroup;
-  errorMessage: string = '';
   originalGuarantorFormData: any;
   guarantorData?: any;
   @Input() modo: 'agregar' | 'modificar' = 'agregar';
   @Input() clientData?: any;
   @Input() selectedOption: string = '';
 
-  showConfirmation: boolean = false;
   dataToSend: any = {};
   modifiedFields = new Map<string, any>();
+
+  showSuccessModal = false;
+  successMessage = '';
+
+  showErrorModal = false;
+  errorMessage = '';
+
+  showConfirmation = false;
 
 
 
@@ -64,34 +70,41 @@ export class GuarantorFormComponent implements OnInit {
     console.log('Se dio clic a guardar');
     if(this.guarantorForm.invalid) {
       this.errorMessage = 'Debe completar todos los campos.';
+      this.showErrorModal = true;
       return;
     }
-
-    /*console.log('¿Formulario válido?: ', this.guarantorForm.valid);
-    console.log('Errores: ', this.guarantorForm.errors);
-    console.log('Valor del formulario: ', this.guarantorForm.value);*/
 
     const guarantorData: Guarantor = {
       ...this.guarantorForm.value,
       clientId: this.clientService.getClientId()
     };
-
-    /*console.log('Id del ultimo cliente agregado: ', this.clientService.getClientId());
-    console.log('Datos del aval con el id del cliente agregado: ', guarantorData);*/
     
     this.guarantorService.addGuarantor(guarantorData).subscribe({
       next: (response) => {
-        console.log('Respuesta del back: ', response);
-        this.errorMessage = 'Se ha agregado correctamente el aval del cliente.';
+        //Mostrar el modal de exito
+        this.successMessage = 'Se agregó correctamente el aval y sus garantías.';
+        this.showSuccessModal = true;
+
+        //Limpiar el formulario
+        this.guarantorForm.reset();
       },
       error: (err) => {
-        console.log('Error al agregar el aval principal del cliente.', err);
-        this.errorMessage = 'No se puedo agregar el aval principal del cliente.'
+        //console.log('Error al agregar el aval principal del cliente.', err);
+        this.errorMessage = 'No se pudo agregar el aval del cliente.'
+        this.showErrorModal = true;
       }
     });
   }
 
-  
+  //Cerrar el modal  de exito
+  closeSuccessModal(): void {
+    this.showSuccessModal = false;
+  }
+
+  closeErrorModal(): void {
+    this.showErrorModal = false;
+  }
+
 private setGuarantorValues(): void {
   if (this.guarantorForm && this.clientData && this.modo === 'modificar') {
     this.guarantorData = this.clientData.guarantorDataResult;
