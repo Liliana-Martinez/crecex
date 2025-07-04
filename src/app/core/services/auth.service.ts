@@ -8,6 +8,8 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthResponse } from '../../models/AuthResponse';
 
 interface TokenPayload {
+  exp: number;
+  iat: number;
   userId: number;
   userName: string;
 }
@@ -47,6 +49,14 @@ export class AuthService {
     const decoded = jwtDecode<TokenPayload>(token);
     console.log('Decoded:', decoded);
     return decoded.userName;
+  }
+
+  getUserType(): string {
+    const token = this.getToken();
+    if (!token || token.split('.').length !== 3) return '';
+
+    const decoded = jwtDecode<TokenPayload>(token);
+    return decoded.userName; //ESto es para saber el nombre de usuario y poner restricciones
   }
 
   //Eliminar token (Cerrar sesion)

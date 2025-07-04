@@ -25,12 +25,7 @@ export class SearchBarComponent {
   @Output() clienteEncontrado = new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
   nombreCompleto: string = '';  
   mensajeError: string = '';
-  showErrorModal = false;
   
-
-closeErrorModal() {
-  this.showErrorModal = false;
-}
   constructor(private creditsService: CreditsService) {}
 
   buscarCliente(): void {

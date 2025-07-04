@@ -112,16 +112,31 @@
                 </div>
             </div>        
         </div>
-        <!--Mensaje de error si el formulario es invalido-->
-        <div *ngIf="errorMessage" class="error">
-            {{ errorMessage }}
-        </div><br>
         <app-save-button [label]="modo === 'agregar' ? 'Guardar' : 'Actualizar'"></app-save-button> 
     </form>
 </div>
 
-<div *ngIf="showConfirmation" class="modal-overlay">
+<!--Modal de exito al agregar el aval y sus garantias-->
+<div *ngIf="showSuccessModal" class="modal-overlay">
   <div class="modal-content">
+    <h3 style="color: green;">✔️ ¡Éxito!</h3>
+    <p>{{ successMessage }}</p>
+    <button (click)="closeSuccessModal()">Cerrar</button>
+  </div>
+</div>
+
+<!--Modal para controlar los errores-->
+<div *ngIf="showErrorModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: red;">❌ ¡Error!</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
+</div>
+
+<!--Este modal es para confirmar los datos de actualización-->
+<div *ngIf="showConfirmation" class="modal-overlay">
+  <div class="modal-content-confirmation">
     <h3>¿Deseas actualizar los siguientes datos?</h3>
     <ul>
       <li *ngFor="let field of modifiedFields | keyvalue : preserverOrder">

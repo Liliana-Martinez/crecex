@@ -5,8 +5,20 @@
     </div>
     <h3>Bienvenido {{ username }}</h3>
     <div class="image-container">
-        <button class="logout-button" title="Cerrar sesión">
+        <button class="logout-button" title="Cerrar sesión" (click)="openLogoutModal()">
             <img src="logout.png" alt="Cerrar sesión">
         </button>
     </div>
 </header>
+
+<!--Modal para confirmar cerrar sesión-->
+<div *ngIf="showLogoutModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>¿Desea cerrar sesión?</h3>
+    <div class="modal-actions">
+      <button (click)="confirmLogout()">Sí, cerrar sesión</button>
+      <button (click)="cancelLogoutModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
