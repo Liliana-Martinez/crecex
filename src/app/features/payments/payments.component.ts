@@ -54,57 +54,67 @@ export class PaymentsComponent {
     return '';
   }
 
-  usarZona(zona: Zone) {
-    console.log('Zona seleccionada en pagos: ', zona);
-    this.zonaSeleccionada = zona;
-    this.idZona = zona.id;
+  showErrorModal = false;
+  errorMessage = '';
 
-    this.zoneService.zoneData(this.idZona).subscribe({
-      next: (response) => {
-        this.codigoZona = response.codigoZona;
-        this.promotora = response.promotora;
-        this.fechaSiguienteSemana = response.fechaSiguienteSemana;
-
-        this.ClientsPayment = response.clientes;
-
-        if (this.ClientsPayment && this.ClientsPayment.length > 0) {
-          this.dataPayment = this.ClientsPayment.map((item: any, index: number) => ({
-            idCredito: item.idCredito,
-            clients: index + 1,
-            name: item.nombreCompleto,
-            loans: item.numeroCreditos,
-            classification: item.clasificacion,
-            compliance: item.cumplimiento,
-            deliveryDate: item.fechaEntrega ? dayjs(item.fechaEntrega).format('DD/MM/YYYY') : '',
-            dueDate: item.fechaVencimiento ? dayjs(item.fechaVencimiento).format('DD/MM/YYYY') : '',
-            week: item.numeroSemana ?? '',
-            monto: item.monto ?? '', 
-            puntos: item.puntos??'',
-            weeklyAmount: item.montoSemanal ?? '',
-            latePayment: item.atraso ?? '',
-            earlyPayment: item.adelanto ?? '',
-            default: item.falla ?? '',
-            lateFees: item.recargos ?? '',
-            payment: '',
-            paymentType: ''
-          }));
-        } else {
-          this.dataPayment = [];
-        }
-      },
-      error: (err) => {
-        console.error('Error:', err);
-        this.dataPayment = null;
-        if (err.status === 404) { 
-          this.dataPayment = null;
-          this.mensajeError = 'No hay clientes con creditos activos en esta zona';
-        } else {
-          this.mensajeError = 'Ocurrió un error al obtener los datos';
-        }
-
-      }
-    });
+  closeErrorModal() {
+    this.showErrorModal = false;
   }
+
+  usarZona(zona: Zone) {
+  console.log('Zona seleccionada en pagos: ', zona);
+  this.zonaSeleccionada = zona;
+  this.idZona = zona.id;
+
+  this.zoneService.zoneData(this.idZona).subscribe({
+    next: (response) => {
+      this.codigoZona = response.codigoZona;
+      this.promotora = response.promotora;
+      this.fechaSiguienteSemana = response.fechaSiguienteSemana;
+
+      this.ClientsPayment = response.clientes;
+
+      if (this.ClientsPayment && this.ClientsPayment.length > 0) {
+        this.dataPayment = this.ClientsPayment.map((item: any, index: number) => ({
+          idCredito: item.idCredito,
+          clients: index + 1,
+          name: item.nombreCompleto,
+          loans: item.numeroCreditos,
+          classification: item.clasificacion,
+          compliance: item.cumplimiento,
+          deliveryDate: item.fechaEntrega ? dayjs(item.fechaEntrega).format('DD/MM/YYYY') : '',
+          dueDate: item.fechaVencimiento ? dayjs(item.fechaVencimiento).format('DD/MM/YYYY') : '',
+          week: item.numeroSemana ?? '',
+          monto: item.monto ?? '',
+          puntos: item.puntos ?? '',
+          weeklyAmount: item.montoSemanal ?? '',
+          latePayment: item.atraso ?? '',
+          earlyPayment: item.adelanto ?? '',
+          default: item.falla ?? '',
+          lateFees: item.recargos ?? '',
+          payment: '',
+          paymentType: ''
+        }));
+      } else {
+        this.dataPayment = [];
+        this.errorMessage = 'No hay clientes con créditos activos en esta zona.';
+        this.showErrorModal = true;
+      }
+    },
+    error: (err) => {
+      console.error('Error:', err);
+      this.dataPayment = null;
+
+      if (err.status === 404) {
+        this.errorMessage = 'No hay clientes con créditos activos en esta zona.';
+      } else {
+        this.errorMessage = 'Ocurrió un error al obtener los datos.';
+      }
+
+      this.showErrorModal = true;
+    }
+  });
+}
 
   guardarPagos() {
     const pagosAEnviar = this.dataPayment.map((item: any) => ({
@@ -130,6 +140,11 @@ export class PaymentsComponent {
     });
   }
   imprimirPDF() {
+    if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
+    this.errorMessage = 'Debes seleccionar una zona antes de imprimir.';
+    this.showErrorModal = true;
+    return;
+  }
   const doc = new jsPDF('landscape', 'mm', 'legal');
   const fechaHoy = new Date().toLocaleDateString('es-MX');
   const zona = this.codigoZona || 'N/A';

@@ -31,5 +31,13 @@
   </table>
 </div>
 <div class="container-button">
-  <app-print-button (onPrint)="imprimirCliente()"></app-print-button>
+  <div *ngIf="showErrorModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: red;">❌ Error</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
+</div>
+
+  <app-print-button (onPrint)="imprimirCliente()" ></app-print-button>
 </div>

@@ -1,11 +1,12 @@
 <app-search-bar-zone (selectedZone)="usarZona($event)"></app-search-bar-zone>
-<div *ngIf="mensajeError" style="
-  color: #ee0a1d;
-  padding: 10px;
-  text-align: center;
-">
-  {{ mensajeError }}
+<div *ngIf="showErrorModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: red;">❌ Error</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
 </div>
+
 <div class="container-table">
     <table mat-table [dataSource]="dataPayment" class="mat-elevation-z8">
         <!-- No Cliente --> 
