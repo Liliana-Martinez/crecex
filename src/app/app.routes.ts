@@ -23,6 +23,10 @@ import { CashComponent } from './features/statistics/pages/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pages/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pages/total-payments/total-payments.component';
 import { SingInComponent } from './auth/sing-in/sing-in.component';
+import { NoAutorizadoComponent } from './shared/componentes/no-autorizado/no-autorizado.component';
+import { roleGuard } from './auth/role.guard';
+import { roleChildGuard } from './auth/role-child.guard';
+import { RedirectByRoleComponent } from './auth/redirect-by-role';
 
 
 export const routes: Routes = [
@@ -31,36 +35,116 @@ export const routes: Routes = [
     { path: 'sing-in', component: SingInComponent},
     { path: 'app', component: InteractiveScreenComponent, // Estructura con header y menú
     children: [
-      { path: 'home', component: HomeComponent }, // Aquí se cargará dentro del <router-outlet>
-      { path: 'clients-guarantors', component: ClientsGuarantorsComponent,
+      { 
+        path: 'home', 
+        component: HomeComponent,
+        canActivate: [roleGuard],
+        data: {expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']} 
+      }, // Aquí se cargará dentro del <router-outlet>
+      { 
+        path: 'clients-guarantors', 
+        component: ClientsGuarantorsComponent,
+        canActivateChild: [roleChildGuard],
         children: [
-          { path: '', redirectTo: 'add', pathMatch: 'full' },
-          { path: 'add', component: AddComponent },
-          { path: 'consult', component: ConsultComponent },
-          { path: 'modify', component: ModifyComponent },
+          //{ path: '', redirectTo: 'add', pathMatch: 'full' },
+          { 
+            path: '', 
+            pathMatch: 'full', 
+            component: RedirectByRoleComponent,
+            data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador'] }
+          },
+          { 
+            path: 'add', 
+            component: AddComponent,
+            data: { expectedRoles: ['usuario3', 'administrador']} 
+          },
+          { 
+            path: 'consult', 
+            component: ConsultComponent,  
+            data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']} 
+          },
+          { 
+            path: 'modify', 
+            component: ModifyComponent, 
+            data: { expectedRoles: ['administrador']} 
+          },
         ]
       },
-      { path: 'credits', component: CreditsComponent,
+      { 
+        path: 'credits', 
+        component: CreditsComponent,
+        canActivateChild: [roleChildGuard],
         children: [
           { path: '', redirectTo: 'new', pathMatch: 'full' },
-          { path: 'new', component: NewComponent },
-          { path: 'renew', component: RenewComponent },
-          { path: 'additional', component: AdditionalComponent },
+          { 
+            path: 'new', 
+            component: NewComponent, 
+            data: { expectedRoles: ['administrador']}
+          },
+          { 
+            path: 'renew', 
+            component: RenewComponent,
+            data: { expectedRoles: ['administrador']} 
+          },
+          { 
+            path: 'additional', 
+            component: AdditionalComponent,
+            data: { expectedRoles: ['administrador']} 
+          },
         ]
       },
-      { path: 'payments', component: PaymentsComponent }, 
-      { path: 'collectors', component: CollectorsComponent },
-      { path: 'commissions', component: CommissionsComponent },
-      { path: 'statistics', component: StatisticsComponent,
+      { 
+        path: 'payments', 
+        component: PaymentsComponent,
+        canActivate: [roleGuard], 
+        data: { expectedRoles: ['usuario2', 'usuario3', 'administrador']}
+      }, 
+      { 
+        path: 'collectors', 
+        component: CollectorsComponent,
+        canActivate: [roleGuard], 
+        data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']}
+      },
+      { 
+        path: 'commissions', 
+        component: CommissionsComponent,
+        canActivate: [roleGuard], 
+        data: { expectedRoles: ['administrador']}
+      },
+      { 
+        path: 'statistics', 
+        component: StatisticsComponent,
+        canActivateChild: [roleChildGuard],
         children:[
           { path:'', redirectTo: 'cash', pathMatch: 'full' },
-          { path:'cash', component: CashComponent},
-          { path:'total-credits', component: TotalCreditsComponent },
-          { path:'total-payments', component: TotalPaymentsComponent },
+          { 
+            path:'cash', 
+            component: CashComponent, 
+            data: { expectedRoles: ['administrador']}
+          },
+          { 
+            path:'total-credits', 
+            component: TotalCreditsComponent,
+            data: { expectedRoles: ['administrador']}
+          },
+          { 
+            path:'total-payments', 
+            component: TotalPaymentsComponent, 
+            data: { expectedRoles: ['administrador']} 
+          },
         ]
       },
-      { path: 'credit-bureau', component: CreditBureauComponent },
+      { 
+        path: 'credit-bureau', 
+        component: CreditBureauComponent,
+        canActivate: [roleGuard], 
+        data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']}
+      },
     ]
+  },
+  {
+    path: 'no-autorizado',
+    component: NoAutorizadoComponent
   }
 
     /*{ path: '', component: LoginComponent},

@@ -229,8 +229,15 @@ private setClientValues(): void {
 
 updateClient(): void {
   const currentValues = this.clientForm.getRawValue();
-  //const modifiedFields: any = {};
+
+  if (!this.clientData || !this.clientData.idCliente) {
+    this.errorMessage = 'Primero debe buscar un cliente.';
+    this.showErrorModal = true;
+    return;
+  }
+
   const id = this.clientData.idCliente;
+  console.log('ID del cliete que se va a modificar:', id);
 
   for (const key in currentValues) {
     const current = currentValues[key];

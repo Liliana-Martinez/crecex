@@ -36,9 +36,6 @@ export class GuarantorFormComponent implements OnInit {
 
   showConfirmation = false;
 
-
-
-
   constructor(private guarantorService: GuarantorService, private clientService: ClientService){}
 
   ngOnInit(): void {
@@ -131,7 +128,11 @@ private setGuarantorValues(): void {
 
         }); 
       } else if (this.selectedOption === 'guarantors') {
-
+        if (!secondGuarantorData) {
+          this.errorMessage = 'El cliente no tiene aval secundario';
+          this.showErrorModal = true;
+          return;
+        }
         this.guarantorForm.patchValue({
           name: secondGuarantorData.nombre,
           paternalLn: secondGuarantorData.apellidoPaterno,
@@ -184,8 +185,13 @@ public fieldMap: Record<string, string | Record<string, string>> = {
 
 updateGuarantor(): void {
   const currentValues = this.guarantorForm.getRawValue();
-  //const modifiedFields: any = {};
   let idAval: number = 0;
+
+  if (!this.clientData.guarantorDataResult) {
+    this.errorMessage = 'Primero debe buscar un cliente.';
+    this.showErrorModal = true;
+    return;
+  }
 
   if (this.selectedOption === 'guarantorp') {
     idAval = this.clientData.guarantorDataResult[0].idAval;
@@ -221,6 +227,8 @@ updateGuarantor(): void {
 
   if (this.modifiedFields.size === 0) {
     console.log('No se realizaron cambios');
+    this.errorMessage = 'No se realizaron cambios';
+    this.showErrorModal = true;
     return;
   }
 
@@ -255,6 +263,8 @@ getKeyValueObject(obj: any): { [key: string]: any } {
       this.modifiedFields.clear();
       this.dataToSend = {};
       this.guarantorForm.reset();
+      this.successMessage = 'Aval actualizado exitosamente';
+      this.showSuccessModal = true;
     },
     error: (err) => {
       console.error('Error al actualizar el aval', err);

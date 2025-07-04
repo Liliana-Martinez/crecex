@@ -2,13 +2,6 @@
   <form class="search-bar-form">
     <mat-form-field class="example-full-width">
       <mat-label>Nombre Completo</mat-label>
-      <div *ngIf="mensajeError" style="
-  color: #ee0a1d;
-  padding: 2px;
-  text-align:left;
-">
-  {{ mensajeError }}
-</div>
       <input 
         matInput 
         placeholder="Nombre Completo" 
@@ -16,8 +9,12 @@
         name="nombreCompleto"
         (keydown.enter)="buscarCliente()"
       >
+      <div *ngIf="mensajeError" style="color: #ee0a1d; padding: 2px; text-align:left;">
+        {{ mensajeError }}
+      </div>
     </mat-form-field>
-    
   </form>
+
+
 
      
