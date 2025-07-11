@@ -117,28 +117,35 @@ export class PaymentsComponent {
 }
 
   guardarPagos() {
-    const pagosAEnviar = this.dataPayment.map((item: any) => ({
-      idCredito: item.idCredito,
-      lateFees: item.lateFees,
-      payment: item.payment,
-      paymentType: item.paymentType
-    }));
-
-    console.log('Datos a enviar:', pagosAEnviar);
-
-    this.paymentService.enviarPagos(pagosAEnviar).subscribe({
-      next: (response) => {
-        console.log('Respuesta del backend:', response);
-
-        if (this.zonaSeleccionada) {
-          this.usarZona(this.zonaSeleccionada);
-        }
-      },
-      error: (err) => {
-        console.error('Error al enviar pagos:', err);
-      }
-    });
+  if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
+    this.errorMessage = 'Debes seleccionar una zona antes de guardar.';
+    this.showErrorModal = true;
+    return;
   }
+
+  const pagosAEnviar = this.dataPayment.map((item: any) => ({
+    idCredito: item.idCredito,
+    lateFees: item.lateFees,
+    payment: item.payment,
+    paymentType: item.paymentType
+  }));
+
+  console.log('Datos a enviar:', pagosAEnviar);
+
+  this.paymentService.enviarPagos(pagosAEnviar).subscribe({
+    next: (response) => {
+      console.log('Respuesta del backend:', response);
+
+      if (this.zonaSeleccionada) {
+        this.usarZona(this.zonaSeleccionada);
+      }
+    },
+    error: (err) => {
+      console.error('Error al enviar pagos:', err);
+    }
+  });
+  }
+
   imprimirPDF() {
     if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
     this.errorMessage = 'Debes seleccionar una zona antes de imprimir.';

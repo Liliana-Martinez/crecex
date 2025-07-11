@@ -5,5 +5,6 @@
   <app-form-credit  [cliente]="cliente" [modulo]="'new'" (response)="guardarDatosParaImprimir($event)" ></app-form-credit> 
   <app-print-button (onPrint)="imprimir()"></app-print-button>
   <app-print *ngIf="mostrarImpresion" [datos]="datosParaImprimir"></app-print>
+
 </div>
      
