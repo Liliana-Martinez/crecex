@@ -118,6 +118,9 @@ export class PrintComponent {
     renderContenido(0);
     renderContenido(180);
     doc.save(`${cliente?.nombre || 'cliente'}_Credito.pdf`);
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   };
 }
 }
