@@ -108,6 +108,25 @@
         <tr mat-row *matRowDef="let row; columns: paymentCol;"></tr>
       </table>          
 </div>
+
+<div style="margin-top: 20px; display: flex; gap: 20px;">
+  <div>
+    <label for="total">Total:</label>
+    <input id="total" type="number" class="estilo" [value]="total" disabled>
+  </div>
+  <div>
+    <label for="cobrado">Total Cobrado:</label>
+    <input id="cobrado" type="number" class="estilo" [value]="cobrado" disabled>
+  </div>
+  <div>
+    <label for="porcentajeCobranza">% Cobranza:</label>
+    <input id="porcentajeCobranza" type="text" class="estilo" [value]="porcentajeCobranza" disabled>
+  </div>
+</div>
+
+
+
+
 <div class="container-button">
   <app-save-button (save)="guardarPagos()"></app-save-button>
   <app-print-button  (onPrint)="imprimirPDF()" ></app-print-button>

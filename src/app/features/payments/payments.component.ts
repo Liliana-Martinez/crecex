@@ -73,7 +73,7 @@ export class PaymentsComponent {
       this.fechaSiguienteSemana = response.fechaSiguienteSemana;
 
       this.ClientsPayment = response.clientes;
-
+      console.log('Datos de table:',this.ClientsPayment )
       if (this.ClientsPayment && this.ClientsPayment.length > 0) {
         this.dataPayment = this.ClientsPayment.map((item: any, index: number) => ({
           idCredito: item.idCredito,
@@ -95,10 +95,13 @@ export class PaymentsComponent {
           payment: '',
           paymentType: ''
         }));
+        this.calcularResumen(this.dataPayment);
+
       } else {
         this.dataPayment = [];
         this.errorMessage = 'No hay clientes con créditos activos en esta zona.';
         this.showErrorModal = true;
+        
       }
     },
     error: (err) => {
@@ -115,6 +118,29 @@ export class PaymentsComponent {
     }
   });
 }
+total: number = 0;
+cobrado: number = 0;
+porcentajeCobranza: string = '0%';
+
+calcularResumen(clientesZona: any[]) {
+  let total = 0;
+  let cobrado = 0;
+  console.log('Totales',this.dataPayment)
+  for (const cliente of clientesZona) {
+    const semanal = cliente.montoSemanal || 0;
+    const falla = cliente.falla || 0;
+
+    total += semanal;
+    cobrado += semanal - falla;
+  }
+
+  const porcentaje = total > 0 ? (cobrado / total) * 100 : 0;
+
+  this.total = total;
+  this.cobrado = cobrado;
+  this.porcentajeCobranza = porcentaje.toFixed(2) + '%';
+}
+
 
   guardarPagos() {
   if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
