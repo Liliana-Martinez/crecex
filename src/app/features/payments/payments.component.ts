@@ -125,10 +125,10 @@ porcentajeCobranza: string = '0%';
 calcularResumen(clientesZona: any[]) {
   let total = 0;
   let cobrado = 0;
-  console.log('Totales',this.dataPayment)
+  console.log('Totales',this.dataPayment);
   for (const cliente of clientesZona) {
-    const semanal = cliente.montoSemanal || 0;
-    const falla = cliente.falla || 0;
+    const semanal = cliente.weeklyAmount || 0;
+    const falla = cliente.default || 0;
 
     total += semanal;
     cobrado += semanal - falla;
