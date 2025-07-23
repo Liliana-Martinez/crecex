@@ -196,7 +196,7 @@ calcularResumen(clientesZona: any[]) {
 
     doc.setFontSize(11);
     doc.setFont('helvetica', 'normal');
-    doc.text(`SECCIÓN: ${zona}`, 105, 30);
+    doc.text(`SECCIÓN: ${zona}`, 105, 30);  
     doc.text(`GRUPO: ${zona.split('-')[1] ?? ''}`, 60, 30);
     doc.text(`SEMANA: ${semana}`, 160, 30, { align: 'center' });
     doc.text(`PROMOTORA: ${promotora}`, 250, 30, { align: 'right' });
