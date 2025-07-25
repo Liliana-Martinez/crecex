@@ -39,7 +39,9 @@ export class PrintComponent {
   const colorResalte: [number, number, number] = [210, 255, 210];
   const renderContenido = (offsetY: number) => {
   const fechaHoy = dayjs().format('DD/MM/YYYY');
-  const nombreCompleto = `${cliente?.nombre} ${cliente?.apellidoPaterno} ${cliente?.apellidoMaterno}`.toUpperCase();
+  const fechaFormateada = dayjs(credito.fechaEntrega).format('YYYYMMDD');
+  const ref = `${fechaFormateada}${cliente.id}${credito.id}`;
+  const nombreCompleto = `${fechaHoy}${cliente?.apellidoPaterno}${cliente?.apellidoMaterno}`.toUpperCase();
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.text('FORMATO DE CREDITO FINANCIERA CRECEX', 105, 20 + offsetY, { align: 'center' });
@@ -50,6 +52,7 @@ export class PrintComponent {
     doc.text(`CODIGO:${credito.id || 'N/A'}`, 135, 45 + offsetY);
     doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 35 + offsetY);
     doc.text(`PROMOTORA: ${zona.promotora || '-'}`, 90, 45 + offsetY);
+    doc.text(`REFERENCIA: ${ref || 'N/A'}  `, 135, 52 + offsetY);
     doc.setFont('helvetica', 'bold');
     doc.text(`CLIENTE: ${nombreCompleto}`, 10, 45 + offsetY);
 

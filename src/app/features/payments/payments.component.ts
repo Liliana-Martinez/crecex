@@ -30,6 +30,7 @@ export class PaymentsComponent {
   paymentCol: string[] = [
     'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
     'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment', 'default',
+    'pagado',
     'lateFees', 'payment', 'paymentType'
   ];
 
