@@ -49,8 +49,12 @@ export class NewComponent {
   this.mostrarImpresion = false;
   setTimeout(() => {
     this.mostrarImpresion = true;
-  }, 100);
+
+  }, 300);
+  
+
   }
+  
 }
 
  

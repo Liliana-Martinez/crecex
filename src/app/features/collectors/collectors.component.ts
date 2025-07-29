@@ -4,6 +4,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SearchBarComponent } from '../../shared/componentes/search-bar-client/search-bar.component';
 import { ClienteCollector,  Aval, GarantiaCliente, GarantiaAval } from '../../models/ClienteCollector';
 import jsPDF from 'jspdf';
+import { CommonModule } from '@angular/common';
 export interface Collector {
   name: string;
   address: string;
@@ -13,7 +14,7 @@ export interface Collector {
 }
 @Component({
   selector: 'app-collectors',
-  imports: [SearchBarComponent, PrintButtonComponent, MatTableModule],
+  imports: [SearchBarComponent, PrintButtonComponent, MatTableModule, CommonModule],
   templateUrl: './collectors.component.html',
   styleUrl: './collectors.component.css'
 })
@@ -22,9 +23,10 @@ export class CollectorsComponent {
   dataCollector = new MatTableDataSource<any>()
   collectorCol: string [] = ['name', 'address', 'phone', 'guarantorp', 'guarantors'];
   clienteParaImprimir!: ClienteCollector;
+  
   asignarDatos(respuesta: any) {
     console.log('Asignar datos:', respuesta);
-  const collector: Collector = {
+    const collector: Collector = {
     name: respuesta.cliente.nombre + ' ' + respuesta.cliente.apellidoPaterno + ' ' + respuesta.cliente.apellidoMaterno,
     address: respuesta.cliente.domicilio,
     phone: respuesta.cliente.telefono,
@@ -34,11 +36,20 @@ export class CollectorsComponent {
   this.clienteParaImprimir = respuesta as ClienteCollector;
   this.dataCollector.data = [collector];
   }
+
+  showErrorModal = false;
+errorMessage = '';
+
+closeErrorModal() {
+  this.showErrorModal = false;
+}
+
   imprimirCliente() {
     if (!this.clienteParaImprimir) {
-      console.warn('No hay cliente para imprimir');
-      return;
-    }
+    this.errorMessage = 'Debes seleccionar un cliente para poder imprimir.';
+    this.showErrorModal = true;
+    return;
+  }
     const c = this.clienteParaImprimir;
     const doc = new jsPDF();
     const fecha = new Date().toLocaleDateString();

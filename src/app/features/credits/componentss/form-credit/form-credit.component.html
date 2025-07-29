@@ -1,9 +1,20 @@
-<div *ngIf="errorMensaje" style="color: #ee0a1d;padding: 10px;text-align: center;">
-  {{ errorMensaje }}
+
+<div *ngIf="showSuccessModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: green;">✅ ¡Éxito!</h3>
+    <p>{{ successMessage }}</p>
+    <button (click)="closeSuccessModal()">Cerrar</button>
+  </div>
 </div>
-<div *ngIf="errorMensaj" style="color: #145517; padding: 10px; text-align: center;">
-  {{ errorMensaj }}
+
+<div *ngIf="showErrorModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: red;">❌ Error</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
 </div>
+
 <form [formGroup]="FormCredit" (ngSubmit)="abrirConfirmacion()">
   <div class="row">
     <div class="data">
@@ -53,8 +64,11 @@
   
   <app-save-button [label]="'guardar'" ></app-save-button>
 </form>
-<div class="modal-backdrop" *ngIf="modalVisible" style="position: fixed;top: 0; left: 0; right: 0; bottom: 0;background: rgba(0,0,0,0.6);display: flex;justify-content: center;align-items: center;z-index: 1000;">
-  <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+<div class="modal-backdrop" *ngIf="modalVisible" style="position: fixed;top: 0; left: 0; right: 0;
+            bottom: 0;background: rgba(0,0,0,0.6);display: flex;justify-content: center;align-items: 
+            center;z-index: 1000;">
+  <div class="modal-content" style="background: white; padding: 20px; border-radius: 10px; width: 90%; 
+            max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: left;">
     <h3 style="margin-top: 0;">¿Está seguro de que los datos son correctos?</h3>
     <div *ngIf="datosParaConfirmar">
       <p><strong>Monto:</strong> {{ datosParaConfirmar.monto }}</p>
@@ -65,10 +79,10 @@
       <p><strong>Efectivo:</strong> {{ datosParaConfirmar.efectivo | number:'1.2-2' }}</p>
       <p><strong>Abono Semanal:</strong> {{ datosParaConfirmar.abonoSemanal | number:'1.2-2' }}</p>
       <ng-container *ngIf="modulo === 'renew' && datosParaConfirmar.semanasRestantes > 0">
-        <p style="color: red; font-weight: bold;">
-          Se descontarán {{ datosParaConfirmar.semanasRestantes }} semanas pendientes
-          del crédito anterior ({{ datosParaConfirmar.descuentoSemanasPendientes | number:'1.2-2' }} MXN).
-        </p>
+      <p style="color: red; font-weight: bold;">
+        Se descontarán {{ datosParaConfirmar.semanasRestantes }} semanas pendientes
+        del crédito anterior ({{ datosParaConfirmar.descuentoSemanasPendientes | number:'1.2-2' }} MXN).
+      </p>
       </ng-container>
     </div>
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
