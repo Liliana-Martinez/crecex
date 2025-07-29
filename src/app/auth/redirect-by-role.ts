@@ -14,8 +14,11 @@ export class RedirectByRoleComponent implements OnInit {
     ngOnInit(): void {
         const role = this.authService.getUserType();
 
+        // Las siguientes son las rutas a las que redirige aut. despues de home
         switch(role) {
             case 'usuario1':
+                this.router.navigate(['app/clients-guarantors/consult']);
+                break;
             case 'usuario2':
                 this.router.navigate(['app/clients-guarantors/consult']);
                 break;
@@ -23,10 +26,10 @@ export class RedirectByRoleComponent implements OnInit {
                 this.router.navigate(['app/clients-guarantors/add']);
                 break;
             case 'administrador':
-                this.router.navigate(['app/clients-guarantors/modify']);
+                this.router.navigate(['app/clients-guarantors/add']);
                 break;
             default:
-                this.router.navigate(['no-autorizado']);
+                this.router.navigate(['app/home']);
                 break;
         }
     }

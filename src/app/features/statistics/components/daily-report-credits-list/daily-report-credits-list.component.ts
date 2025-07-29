@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { StatisticsService } from '../../../../core/services/statistics.service';
+import dayjs from 'dayjs';
+import { CommonModule } from '@angular/common';
 
 export interface DailyReport {
   creditNumber: number;
@@ -7,20 +10,46 @@ export interface DailyReport {
   date: Date;  
 }
 
-const DAILY_DATA: DailyReport[] = [
-  {creditNumber: 23, creditAmount: 2500, date: new Date("2025-03-01")},
-];
 
-/**
- * @title Basic use of `<table mat-table>`
- */
 @Component({
   selector: 'app-daily-report-credits-list',
-  imports: [MatTableModule],
+  imports: [MatTableModule, CommonModule],
   templateUrl: './daily-report-credits-list.component.html',
   styleUrl: './daily-report-credits-list.component.css'
 })
+
 export class DailyReportCreditsListComponent {
-  dailyListCol: string[] = ['creditNumber', 'creditAmount', 'date'];
-  dataDailyRep = DAILY_DATA;
+  dataDailyRep = new MatTableDataSource<any>();
+  dailyListCol: string[] = ['idCredit', 'creditAmount', 'date'];
+
+  constructor (private statisticsService: StatisticsService) {}
+
+  ngOnInit(): void {
+    this.loadDailyCredits();
+  }
+
+  loadDailyCredits(): void {
+    this.statisticsService.getDailyCredits().subscribe({
+    next: (data: any[]) => {
+      console.log('Datos crudos del backend:', data);
+      const formattedData = data.map((credit) => ({
+        idCredit: credit.idCredito,
+        creditAmount: credit.creditAmount,
+        date: dayjs(credit.date).format('DD/MM/YYYY'),
+      }));
+
+      this.dataDailyRep.data = formattedData;
+      console.log('Créditos del día (formateados):', formattedData);
+    },
+      error: (err) => {
+        console.error('Error al obtener los creditos del dia', err);
+      }
+    });
+  }
+
+  getTotalCreditAmount(): number {
+    return this.dataDailyRep.data
+      .map(item => item.creditAmount)
+      .reduce((acc, value) => acc + value, 0);
+  }
 }

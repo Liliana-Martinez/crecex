@@ -1,51 +1,76 @@
 <app-submenu-statistics></app-submenu-statistics>
 <div class="container-form">
-    <form>
-        <p>Date</p>
+    <!--Formulario ingresos y egresos-->
+    <form [formGroup]="incomeExpensesForm">
+        <p class="currentDate">📅 Fecha de hoy: {{currentDate}}</p>
         <div class="row">
             <div class="data">
+                <label>Monto inicial</label>
+                <input type="number" formControlName="initialAmount">
+            </div>
+        </div>
+
+        <!--Subgrupo para los ingresos-->
+        <div formGroupName="incomeForm" class="row">
+            <div class="data">
                 <label>Ingresos de pagos</label>
-                <input type="number" id="income" name="income" min="18" max="60" required>
+                <input type="text" formControlName="income">
             </div>
             <div class="data">
                 <label>Ingresos extra</label>
-                <input type="number" id="extraIncome" name="extraIncome" required>
+                <input type="number" formControlName="extraIncome">
+            </div>
+            <div class="data">
+                <label>Descripción</label>
+                <input type="text" formControlName="descriptionIncome">
             </div>
             <div class="data">
                 <label>Total</label>
-                <input type="number" id="totalIncome" name="totalIncome" required>
+                <input type="text" formControlName="totalIncome" [readonly]="true">
             </div>
         </div>
-        <div class="row">
+
+        <!--Subgrupo para los egresos-->
+        <div formGroupName="expensesForm" class="row">
             <div class="data">
                 <label>Egresos de créditos</label>
-                <input type="number" id="expenses" name="expenses" required>
+                <input type="text" formControlName="expenses" [readonly]="true">
             </div>
             <div class="data">
                 <label>Egresos extra</label>
-                <input type="number" id="extraExpenses" name="extraExpenses" required>
+                <input type="number" formControlName="extraExpenses">
+            </div>
+            <div class="data">
+                <label>Descripción</label>
+                <input type="text" formControlName="descriptionExpenses">
             </div>
             <div class="data">
                 <label>Total</label>
-                <input type="number" id="totalExpenses" name="totalExpenses" required> <!--group=grupo de clasificacion-->
+                <input type="text" formControlName="totalExpenses" [readonly]="true">
             </div>
         </div>
+
         <div class="row">
             <div class="data">
                 <label>Total en caja</label>
-                <input type="number" id="totalCash" name="totalCash" required>
+                <input type="text" formControlName="totalCash" [readonly]="true">
             </div>  
         </div>
+        <app-save-button></app-save-button>
     </form>
+
 </div>
-<select id="listSelect" [(ngModel)]="selectedList">
-    <option value="dailyReport">Consulta del día</option>
-    <option value="weeklyReport">Consulta de la semana</option>
-    <option value="monthlyReport">Consulta del mes</option>
-</select>  
+<div class="container-table">
+    <select id="listSelect" [(ngModel)]="selectedList">
+        <option value="dailyReport">Consulta del día</option>
+        <option value="weeklyReport">Consulta de la semana</option>
+        <option value="monthlyReport">Consulta del mes</option>
+    </select>  
 
-<app-daily-report-list *ngIf="selectedList === 'dailyReport'"></app-daily-report-list>
-<app-weekly-report-list *ngIf="selectedList === 'weeklyReport'"></app-weekly-report-list>
-<app-monthly-report-list *ngIf="selectedList === 'monthlyReport'"></app-monthly-report-list>
+    <app-daily-report-list *ngIf="selectedList === 'dailyReport'"></app-daily-report-list>
+    <app-weekly-report-list *ngIf="selectedList === 'weeklyReport'"></app-weekly-report-list>
+    <app-monthly-report-list *ngIf="selectedList === 'monthlyReport'"></app-monthly-report-list>
+</div>
 
-<app-save-button></app-save-button>
+
+<!--<app-save-button></app-save-button>-->

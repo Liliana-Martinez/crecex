@@ -29,11 +29,13 @@ table {
 .data label {
   width: 180px;
   display: block;
+  font-size: 20px;
 }
 
 .data input {
   width: 250px;
   padding: 5px;
+  font-size: 18px;
   border: none;
   border-bottom: 1px solid black;
 }

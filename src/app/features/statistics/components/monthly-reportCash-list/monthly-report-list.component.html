@@ -7,9 +7,9 @@
         </ng-container>
       
         <!-- Ingresos de pagos -->
-        <ng-container matColumnDef="income">
+        <ng-container matColumnDef="paymentsIncome">
           <th mat-header-cell *matHeaderCellDef> Ingresos de pagos</th>
-          <td mat-cell *matCellDef="let element"> {{element.income}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.paymentsIncome | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
         </ng-container>
       
         <!-- Ingresos extra -->
@@ -17,29 +17,41 @@
           <th mat-header-cell *matHeaderCellDef> Ingresos extra </th>
           <td mat-cell *matCellDef="let element"> {{element.extraIncome}} </td>
         </ng-container>
+
+        <!-- Descripcion de ingresos extra-->
+        <ng-container matColumnDef="descriptionIncome">
+          <th mat-header-cell *matHeaderCellDef> Descripción </th>
+          <td mat-cell *matCellDef="let element"> {{element.descriptionIncome}} </td>
+        </ng-container>
       
         <!-- Total de ingresos -->
         <ng-container matColumnDef="totalIncome">
           <th mat-header-cell *matHeaderCellDef> Total </th>
-          <td mat-cell *matCellDef="let element"> {{element.totalIncome}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.totalIncome | currency:'MXN':'symbol-narrow':'1.2-2' }} </td>
         </ng-container>
 
         <!-- Egresos -->
         <ng-container matColumnDef="expenses">
             <th mat-header-cell *matHeaderCellDef> Egresos de créditos </th>
-            <td mat-cell *matCellDef="let element"> {{element.expenses}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.expenses  | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
         </ng-container>
 
         <!-- Egresos extra -->
         <ng-container matColumnDef="extraExpenses">
             <th mat-header-cell *matHeaderCellDef> Egresos extra </th>
-            <td mat-cell *matCellDef="let element"> {{element.extraExpenses}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.extraExpenses  | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
+        </ng-container>
+
+        <!-- descripcion de egresos extra -->
+        <ng-container matColumnDef="descriptionExpenses">
+            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+            <td mat-cell *matCellDef="let element"> {{element.descriptionExpenses}} </td>
         </ng-container>
 
         <!-- Total de egresos -->
         <ng-container matColumnDef="totalExpenses">
             <th mat-header-cell *matHeaderCellDef> Total </th>
-            <td mat-cell *matCellDef="let element"> {{element.totalExpenses}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.totalExpenses | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="monthlyListCol"></tr>

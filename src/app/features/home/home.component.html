@@ -14,3 +14,12 @@
         atención, rapidez, seguridad y confianza.
     </p>
 </div>
+
+<!-- Modal de acceso denegado -->
+<div *ngIf="showModal" class="modal-backdrop">
+  <div class="modal-content">
+    <h3>🔒 Acceso denegado</h3>
+    <p>No tiene permisos para acceder a ese módulo.</p>
+    <button (click)="closeModal()">Cerrar</button>
+  </div>
+</div>

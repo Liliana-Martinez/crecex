@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { StatisticsService } from '../../../../core/services/statistics.service';
+import dayjs from 'dayjs';
+import { CommonModule } from '@angular/common';
 
 export interface DailyReport {
   date: Date;
@@ -11,18 +14,43 @@ export interface DailyReport {
   totalExpenses: number;
 }
 
-const DAILY_DATA = null;
-
-/**
- * @title Basic use of `<table mat-table>`
- */
 @Component({
   selector: 'app-daily-report-list',
-  imports: [MatTableModule],
+  imports: [MatTableModule, CommonModule],
   templateUrl: './daily-report-list.component.html',
   styleUrl: './daily-report-list.component.css'
 })
 export class DailyReportListComponent {
-  dailyListCol: string[] = ['date', 'income', 'extraIncome', 'totalIncome', 'expenses', 'extraExpenses', 'totalExpenses'];
-  dataDailyRep = null;
+  dataDailyRep = new MatTableDataSource<any>();
+  dailyListCol: string[] = ['date', 'paymentsIncome', 'extraIncome', 'descriptionIncome', 'totalIncome', 'expenses', 'extraExpenses', 'descriptionExpenses', 'totalExpenses'];
+  
+
+  constructor (private statisticsService: StatisticsService) {}
+  
+  ngOnInit(): void {
+    this.loadDailyReport();
+  }
+
+  loadDailyReport(): void {
+    this.statisticsService.getDailyCashReport().subscribe({
+      next: (data: any[]) => {
+        console.log('Datos del back: ', data);
+        const formattedData = data.map((consult) => ({
+          date: dayjs(consult.date).format('DD/MM/YYYY'),
+          paymentsIncome: consult.paymentsIncome,
+          extraIncome: consult.extraIncome,
+          descriptionIncome: consult.descriptionIncome,
+          totalIncome: (consult.paymentsIncome || 0) + (consult.extraIncome || 0),
+          expenses: consult.expenses,
+          extraExpenses: consult.extraExpenses,
+          descriptionExpenses: consult.descriptionExpenses,
+          totalExpenses: (consult.expenses || 0) + (consult.extraExpenses || 0)
+        }));
+        this.dataDailyRep.data = formattedData;
+      },
+      error: (err) => {
+        console.error('Error al obtener lel reporte diario', err);
+      }
+    });
+  }
 }

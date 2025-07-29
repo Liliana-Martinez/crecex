@@ -36,15 +36,8 @@ form p {
     border-bottom: 2px solid gray;
 }
 
-@media screen and (max-width: 768px) {
-    .row {
-        flex-direction: column; /* Apila los elementos en columna */
-        gap: 5px; /* Reduce el espacio entre elementos */
-    }
-
-    .data {
-        width: 100%; /* Ocupa todo el ancho disponible */
-    }
+.container-table {
+    margin-top: 50px;
 }
 
 select {
@@ -84,3 +77,22 @@ select:disabled {
     cursor: not-allowed; /* Cambia el cursor */
     opacity: 0.7; /* Reduce la opacidad */
 }
+
+.currentDate {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+@media screen and (max-width: 768px) {
+    .row {
+        flex-direction: column; /* Apila los elementos en columna */
+        gap: 5px; /* Reduce el espacio entre elementos */
+    }
+
+    .data {
+        width: 100%; /* Ocupa todo el ancho disponible */
+    }
+}
+

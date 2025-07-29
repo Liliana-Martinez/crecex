@@ -23,7 +23,6 @@ import { CashComponent } from './features/statistics/pages/cash/cash.component';
 import { TotalCreditsComponent } from './features/statistics/pages/total-credits/total-credits.component';
 import { TotalPaymentsComponent } from './features/statistics/pages/total-payments/total-payments.component';
 import { SingInComponent } from './auth/sing-in/sing-in.component';
-import { NoAutorizadoComponent } from './shared/componentes/no-autorizado/no-autorizado.component';
 import { roleGuard } from './auth/role.guard';
 import { roleChildGuard } from './auth/role-child.guard';
 import { RedirectByRoleComponent } from './auth/redirect-by-role';
@@ -84,7 +83,7 @@ export const routes: Routes = [
           { 
             path: 'renew', 
             component: RenewComponent,
-            data: { expectedRoles: ['administrador']} 
+            data: { expectedRoles: ['administrador, usuario1']} 
           },
           { 
             path: 'additional', 
@@ -141,17 +140,6 @@ export const routes: Routes = [
         data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']}
       },
     ]
-  },
-  {
-    path: 'no-autorizado',
-    component: NoAutorizadoComponent
   }
-
-    /*{ path: '', component: LoginComponent},
-    { path: 'Home', component: InteractiveScreenComponent},
-    { path: 'home', component: HomeComponent},
-    { path: 'features',
-        loadChildren: () => import('./features/features.routes').then(m =>m.FEATURES_ROUTES)
-    }*/
 ];
 

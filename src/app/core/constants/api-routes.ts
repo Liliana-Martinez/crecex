@@ -27,9 +27,19 @@ export const API_ROUTES = {
     COLLECTORS: `${API_URL}/collectors`,
     COMMISSIONS: `${API_URL}/commissions`,
     STATISTICS: {
-        CASH: `${API_URL}/statistics/cash`,
+        //CASH: `${API_URL}/statistics/cash`,
+        CASH: {
+            FORM: `${API_URL}/statistics/cash/form`,
+            DAY: `${API_URL}/statistics/cash/day`,
+            WEEK: `${API_URL}/statistics/cash/week`,
+            MONTH: `${API_URL}/statistics/cash/month`
+        },
         //TOTCRED = TOTALCREDITS
-        TOTCRED: `${API_URL}/statistics/total-credits`,
+        TOTCRED: {
+            DAY: `${API_URL}/statistics/total-credits/day`,
+            WEEK: `${API_URL}/statistics/total-credits/week`,
+            MONTH: `${API_URL}/statistics/total-credits/month`
+        },
         //TOTPAYM = TOTALPAYMENTS
         TOTPAYM: `${API_URL}/statistics/total-payments`
     },

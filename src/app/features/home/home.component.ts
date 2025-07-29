@@ -23,8 +23,13 @@ export class HomeComponent implements OnInit {
         if (value) {
           this.showModal = true;
 
-          //Limpiar para futuras 
+          //Limpiar para futuras navegaciones
+          setTimeout(() => this.accessService.clearAccessDeniedFlag(), 100); 
         }
       });
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 }

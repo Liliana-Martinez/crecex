@@ -1,20 +1,20 @@
 <div class="container-list">
-    <table mat-table class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataMonthlyRep" class="mat-elevation-z8">
         <!-- Numero de credito -->
-        <ng-container matColumnDef="creditNumber">
-          <th mat-header-cell *matHeaderCellDef> Número de crédito </th>
-          <td mat-cell *matCellDef="let element"> {{element.creditNumber}} </td>
+        <ng-container matColumnDef="idCredit">
+          <th mat-header-cell *matHeaderCellDef> ID del crédito </th>
+          <td mat-cell *matCellDef="let element"> {{element.idCredit}} </td>
         </ng-container>
       
         <!-- Monto del crédito -->
         <ng-container matColumnDef="creditAmount">
           <th mat-header-cell *matHeaderCellDef> Monto del crédito</th>
-          <td mat-cell *matCellDef="let element"> {{element.creditAmount}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.creditAmount | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
         </ng-container>
       
         <!-- Fecha -->
         <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <th mat-header-cell *matHeaderCellDef> Fecha de entrega</th>
           <td mat-cell *matCellDef="let element"> {{element.date}} </td>
         </ng-container>
       
@@ -23,3 +23,14 @@
     </table>
 </div>
 
+<div class="total-footer" *ngIf="dataMonthlyRep.data.length > 0">
+  <div class="footer-content">
+    <span class="left">Total créditos: {{ dataMonthlyRep.data.length }}</span>
+    <span class="right">
+      Total monto:
+      <span class="amount">
+        {{ getTotalCreditAmount() | currency:'MXN':'symbol-narrow':'1.2-2' }}
+      </span>
+    </span>
+  </div>
+</div>

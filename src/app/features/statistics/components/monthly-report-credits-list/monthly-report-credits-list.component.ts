@@ -1,25 +1,46 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { StatisticsService } from '../../../../core/services/statistics.service';
+import dayjs from 'dayjs';
 
-export interface MonthlyReport {
-  creditNumber: number;
-  creditAmount: number;
-  date: Date;  
-}
-
-const MONTHLY_DATA= null;
-
-/**
- * @title Basic use of `<table mat-table>`
- */
 
 @Component({
   selector: 'app-monthly-report-credits-list',
-  imports: [MatTableModule],
+  imports: [MatTableModule, CommonModule],
   templateUrl: './monthly-report-credits-list.component.html',
   styleUrl: './monthly-report-credits-list.component.css'
 })
 export class MonthlyReportCreditsListComponent {
-  monthlyListCol: string[] = ['creditNumber', 'creditAmount', 'date'];
-  dataMonthlyRep = MONTHLY_DATA;
+  dataMonthlyRep = new MatTableDataSource<any>();
+  monthlyListCol: string[] = ['idCredit', 'creditAmount', 'date']; 
+
+  constructor (private statisticsService: StatisticsService) {}
+
+  ngOnInit(): void {
+    this.loadMonthlyCredits();
+  }
+
+  loadMonthlyCredits(): void {
+    this.statisticsService.getMonthlyCredits().subscribe({
+      next: (data: any[]) => {
+        const formattedData = data.map((credit) => ({
+          idCredit: credit.idCredito,
+          creditAmount: credit.creditAmount,
+          date: dayjs(credit.date).format('DD/MM/YYYY'),
+        }));
+        this.dataMonthlyRep.data = formattedData;
+        console.log('Créditos del mes:', formattedData);
+      },
+      error: (err) => {
+        console.error('Error al obtener los creditos del mes', err);
+      }
+    });
+  }
+
+  getTotalCreditAmount(): number {
+    return this.dataMonthlyRep.data
+      .map(item => item.creditAmount)
+      .reduce((acc, value) => acc + value, 0);
+  }
 }

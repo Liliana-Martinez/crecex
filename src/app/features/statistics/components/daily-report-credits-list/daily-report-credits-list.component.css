@@ -10,4 +10,31 @@ table {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
 }
 
+.total-footer .footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-top: 2px solid #e0e0e0;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.total-footer .left {
+  text-align: left;
+}
+
+.total-footer .right {
+  text-align: right;
+}
+
+
+
+
   

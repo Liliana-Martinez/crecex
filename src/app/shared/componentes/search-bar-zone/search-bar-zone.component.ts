@@ -58,3 +58,5 @@ export class SearchBarZoneComponent {
     console.log('Zona seleccionada: ', zone);
   }
 }
+
+
