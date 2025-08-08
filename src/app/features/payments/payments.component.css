@@ -65,3 +65,8 @@ table {
   box-shadow: 0 0 15px rgba(0,0,0,0.3);
   max-width: 400px;
 }
+.pago-realizado {
+  background-color: #ffcccc; /* rojo claro */
+  color: black;
+}
+

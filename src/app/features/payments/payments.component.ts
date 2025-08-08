@@ -31,8 +31,7 @@ export class PaymentsComponent {
   paymentCol: string[] = [
     'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
     'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment', 'default',
-    'pagado',
-    'lateFees', 'payment', 'paymentType'
+    'paid', 'lateFees', 'payment', 'paymentType'
   ];
 
   idZona: number = 0;
@@ -55,6 +54,15 @@ export class PaymentsComponent {
     if (field === 'default' && value > 0) return 'celda-amarilla';
     return '';
   }
+  //colores pagado o no
+  getClas(campo: string, valor: any): string {
+  if (campo === 'paid') {
+    return valor !== null && valor > 0 ? 'pago-realizado' : 'pago-pendiente';
+  }
+  // Otras condiciones para otras columnas si las tienes
+  return '';
+}
+
 
   showErrorModal = false;
   errorMessage = '';
@@ -73,7 +81,6 @@ export class PaymentsComponent {
       this.codigoZona = response.codigoZona;
       this.promotora = response.promotora;
       this.fechaSiguienteSemana = response.fechaSiguienteSemana;
-
       this.ClientsPayment = response.clientes;
       console.log('Datos de table:',this.ClientsPayment )
       if (this.ClientsPayment && this.ClientsPayment.length > 0) {
@@ -95,7 +102,10 @@ export class PaymentsComponent {
           default: item.falla ?? '',
           lateFees: item.recargos ?? '',
           payment: '',
-          paymentType: ''
+          paymentType: '',
+          paid: item.cantidadEfectivo ?? ''
+          
+          
         }));
         this.calcularResumen(this.dataPayment);
 
