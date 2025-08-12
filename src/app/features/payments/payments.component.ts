@@ -15,7 +15,8 @@ import 'jspdf-autotable'
 
 @Component({
   selector: 'app-payments',
-  imports: [SearchBarZoneComponent, SaveButtonComponent, PrintButtonComponent, MatTableModule, CommonModule, FormsModule],
+  imports: [SearchBarZoneComponent, SaveButtonComponent, PrintButtonComponent, 
+            MatTableModule, CommonModule, FormsModule,],
   templateUrl: './payments.component.html',
   styleUrl: './payments.component.css'
 })
@@ -123,16 +124,19 @@ total: number = 0;
 cobrado: number = 0;
 porcentajeCobranza: string = '0%';
 
-calcularResumen(clientesZona: any[]) {
+ calcularResumen(clientesZona: any[]) {
   let total = 0;
   let cobrado = 0;
-  console.log('Totales',this.dataPayment);
-  for (const cliente of clientesZona) {
-    const semanal = cliente.weeklyAmount || 0;
-    const falla = cliente.default || 0;
+  console.log('Totales', this.dataPayment);
 
-    total += semanal;
-    cobrado += semanal - falla;
+  for (const cliente of clientesZona) {
+    if (cliente.week >= 1) {
+      const semanal = cliente.weeklyAmount || 0;
+      const falla = cliente.default || 0;
+
+      total += semanal;
+      cobrado += semanal - falla;
+    }
   }
 
   const porcentaje = total > 0 ? (cobrado / total) * 100 : 0;

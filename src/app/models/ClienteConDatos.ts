@@ -23,6 +23,7 @@ export interface Credito {
   fechaEntrega: string;
   semanas: number;         
   abonoSemanal: number;  
+  cumplimiento: string;
 }
  
 export interface Pagos {

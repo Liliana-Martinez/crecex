@@ -28,7 +28,7 @@ export class TableComponent  {
         ? dayjs(this.cliente.credito.fechaEntrega).format('DD/MM/YYYY'): '',
         week: this.cliente.pagos?.[0]?.numeroSemana,
         weeklyAmount: this.cliente.pagos?.[0]?.cantidad,
-        compliance: ''
+        compliance: this.cliente.credito?.cumplimiento
       }]; 
 
     }  
