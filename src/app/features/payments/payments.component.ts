@@ -63,7 +63,6 @@ export class PaymentsComponent {
   return '';
 }
 
-
   showErrorModal = false;
   errorMessage = '';
 
@@ -227,6 +226,7 @@ porcentajeCobranza: string = '0%';
       { nombre: 'CUMP.', ancho: 16 },    
       { nombre: 'ENTREGA', ancho: 18 }, 
       { nombre: 'VENCIMIENTO', ancho: 22 }, 
+      
       { nombre: 'SEM', ancho: 9 },       
       { nombre: 'MONTO', ancho: 16 },    
       { nombre: 'ABONO', ancho: 14 },    
@@ -234,7 +234,7 @@ porcentajeCobranza: string = '0%';
       { nombre: 'AD', ancho: 11 },       
       { nombre: 'RECUPERADO', ancho: 25 }, // 27 -> 25
       { nombre: 'AD2', ancho: 25 },      // 27 -> 25
-      { nombre: 'MULTAS', ancho: 18 }    // 22 -> 18 (ajustado para que no corte)
+      { nombre: 'MULTAS', ancho: 18 }    // 22 -> 18 
     ];
 
     const altoFila = 8;
