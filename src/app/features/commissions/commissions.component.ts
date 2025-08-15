@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { SearchBarZoneComponent } from '../../shared/componentes/search-bar-zone/search-bar-zone.component';
 import { MatTableModule } from '@angular/material/table';
+import { Zone } from '../../models/Zone';
+import { ZoneService } from '../../core/services/zone.service';
 
 export interface commissionsData {
   collection: number;
@@ -26,4 +28,6 @@ const COMMISSIONS_DATA: commissionsData[] = [
 export class CommissionsComponent {
   commissionsCol: string[] = ['collection', 'collectionRate', 'numberCredits', 'totalAmount'];
   dataCommissions = COMMISSIONS_DATA;
+
+
 }
