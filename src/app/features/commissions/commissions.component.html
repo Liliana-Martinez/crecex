@@ -1,33 +1,48 @@
 <app-search-bar-zone (selectedZone)="onZoneSelected($event)" ></app-search-bar-zone>
+
+<!-- Input arriba de la tabla -->
+
+<div class="input-container">
+  <div class="data">
+    <input type="number" placeholder="Saldo" [(ngModel)]="filtro" />
+  </div>
+  <app-save-button></app-save-button>
+</div>
+
 <div class="commissions">
-    <table mat-table [dataSource]="dataCommissions" class="mat-elevation-z8 demo-table">
-        <!-- Gastos de cobranza -->
-        <ng-container matColumnDef="collection">
-          <th mat-header-cell *matHeaderCellDef> Gastos de cobranza </th>
-          <td mat-cell *matCellDef="let element"> {{element.collection}} </td>
-        </ng-container>
-      
-        <!-- Comisión de porcentaje de cobranza -->
-        <ng-container matColumnDef="collectionRate">
-          <th mat-header-cell *matHeaderCellDef> Comisión de % de cobranza </th>
-          <td mat-cell *matCellDef="let element"> {{element.collectionRate}} </td>
-        </ng-container>
-      
-        <!-- Número de créditos -->
-        <ng-container matColumnDef="numberCredits">
-          <th mat-header-cell *matHeaderCellDef> No de créditos </th>
-          <td mat-cell *matCellDef="let element"> {{element.numberCredits}} </td>
-        </ng-container>
-      
-        <!-- cantidad total -->
-        <ng-container matColumnDef="totalAmount">
-          <th mat-header-cell *matHeaderCellDef>Total </th>
-          <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="commissionsCol"></tr>
-        <tr mat-row *matRowDef="let row; columns: commissionsCol;"></tr>
-      </table>
-      
-      
+  <table mat-table [dataSource]="dataCommissions" class="mat-elevation-z8 demo-table">
+    
+    <!-- Gastos de cobranza -->
+    <ng-container matColumnDef="collection">
+      <th mat-header-cell *matHeaderCellDef> Gastos de cobranza </th>
+      <td mat-cell *matCellDef="let element"> {{element.collection}} </td>
+    </ng-container>
+  
+    <!-- Comisión de porcentaje de cobranza -->
+    <ng-container matColumnDef="collectionRate">
+      <th mat-header-cell *matHeaderCellDef> Comisión de % de cobranza </th>
+      <td mat-cell *matCellDef="let element"> {{element.collectionRate}} </td>
+    </ng-container>
+  
+    <!-- Número de créditos -->
+    <ng-container matColumnDef="numberCredits">
+      <th mat-header-cell *matHeaderCellDef> No de créditos </th>
+      <td mat-cell *matCellDef="let element"> {{element.numberCredits}} </td>
+    </ng-container>
+
+    <!-- EXTRAS -->
+    <ng-container matColumnDef="extras">
+      <th mat-header-cell *matHeaderCellDef> Extras </th>
+      <td mat-cell *matCellDef="let element"> {{element.extras}} </td>
+    </ng-container>
+  
+    <!-- cantidad total -->
+    <ng-container matColumnDef="totalAmount">
+      <th mat-header-cell *matHeaderCellDef>Total </th>
+      <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="commissionsCol"></tr>
+    <tr mat-row *matRowDef="let row; columns: commissionsCol;"></tr>
+  </table>
 </div>
