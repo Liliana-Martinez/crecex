@@ -35,23 +35,30 @@
     padding-right: 20px;
 }
 
-.data label {
-    width: 130px;
-    display: block;
+/* Contenedor del input */
+.input-container {
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
-.data input {
-    width: 250px;
-    padding: 5px;
-    border: none;
-    border-bottom: 1px solid black;
+.input-container input {
+  width: 250px;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid black;
 }
 
-.data input:focus {
+.input-container input:focus {
     background-color: rgba(220, 220, 220, 0.799);
     outline: none;
     border-radius: 5px;
     border-bottom: 2px solid gray;
+}
+
+::ng-deep app-save-button button {
+  font-size: small !important;
+  float: left !important;
 }
 
 @media screen and (max-width: 768px) {
@@ -64,14 +71,4 @@
         width: 100%; /* Ocupa todo el ancho disponible */
     }
 }
-/* Contenedor del input */
-.input-container {
-    display: flex;
-    margin-left: 650px;
-    margin-bottom: 50px;       /* Espacio hacia abajo, separa de la tabla */
-}
 
-.data {
-    flex: 0;                   
-    padding-right: 0;         
-}
