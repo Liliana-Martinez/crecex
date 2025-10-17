@@ -57,6 +57,8 @@
 }
 
 ::ng-deep app-save-button button {
+  margin-top: 15px !important;
+  margin-left: 20px !important;
   font-size: small !important;
   float: left !important;
 }
