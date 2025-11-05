@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { SaveButtonComponent } from "../../shared/componentes/save-button/save-button.component";
 
 export interface commissionsData {
-  collection: number;      // Gastos de cobranza
+  collectionExpenses: number;      // Gastos de cobranza
   collectionRate: number;  // Comisión
   numberCredits: number;   // No de créditos
   extras: number;          // Extras
@@ -22,7 +22,7 @@ export interface commissionsData {
   styleUrl: './commissions.component.css'
 })
 export class CommissionsComponent {
-  commissionsCol: string[] = ['collection', 'collectionRate', 'numberCredits', 'extras', 'totalAmount'];
+  commissionsCol: string[] = ['collectionExpenses', 'collectionRate', 'numberCredits', 'extras', 'totalAmount'];
   dataCommissions: commissionsData[] = [];
   filtro: string = '';
 
@@ -30,24 +30,26 @@ export class CommissionsComponent {
   constructor(private commissionsService: CommissionsService) {}
 
   onZoneSelected(zone: Zone) {
-    console.log("Zona recibida del search:", zone); 
-    console.log("Mandando idZona al back:", zone.id);
+  console.log("Zona recibida del search:", zone);
+  console.log("Mandando idZona al back:", zone.id);
 
-    this.commissionsService.getCommissionsByZone(zone.id).subscribe((resp: any) => {
-      console.log("Datos del backend:", resp);
+  this.commissionsService.getCommissionsByZone(zone.id).subscribe((resp: any) => {
+    console.log("Datos del backend:", resp);
 
-      // Mapeamos los datos del back a lo que espera la tabla
-      const mapped: commissionsData = {
-        collection: resp.totalRecargos,                  // Gastos de cobranza
-        collectionRate: resp.comision,                   // Comisión
-        numberCredits: resp.total,                       // No de créditos
-        extras: resp.cantidad,
-        totalAmount: resp.totalRecargos + resp.comision + resp.total // Suma
-      };
+    // Mapeamos los datos del back a lo que espera la tabla
+    const mapped: commissionsData = {
+      collectionExpenses: resp.resultado.collectionExpenses, // Gastos de cobranza
+      collectionRate: resp.resultado.collectionRate, // Comisión %
+      numberCredits: 
+      resp.resultado.numberCredits,   // No. de créditos
+      extras: resp.resultado.extras,                 // Extras
+      totalAmount: resp.resultado.totalAmount        // Total general
+    };
 
-      // Cargamos en la tabla (tiene que ser array)
-      this.dataCommissions = [mapped];
-    });
-  }
+    // Cargamos en la tabla (tiene que ser array)
+    this.dataCommissions = [mapped];
+  });
+}
+
 }
 
