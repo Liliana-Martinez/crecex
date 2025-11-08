@@ -2,12 +2,6 @@
 
 <div class="commissions">
   <table mat-table [dataSource]="dataCommissions" class="mat-elevation-z8 demo-table">
-    
-    <!-- Gastos de cobranza -->
-    <ng-container matColumnDef="collectionExpenses"> 
-      <th mat-header-cell *matHeaderCellDef> Gastos de cobranza </th>
-      <td mat-cell *matCellDef="let element"> {{element.collectionExpenses}} </td>
-    </ng-container>
   
     <!-- Comisión de porcentaje de cobranza -->
     <ng-container matColumnDef="collectionRate">
@@ -15,6 +9,12 @@
       <td mat-cell *matCellDef="let element"> {{element.collectionRate}} </td>
     </ng-container>
   
+    <!-- Gastos de cobranza -->
+    <ng-container matColumnDef="collectionExpenses"> 
+      <th mat-header-cell *matHeaderCellDef> Gastos de cobranza </th>
+      <td mat-cell *matCellDef="let element"> {{element.collectionExpenses}} </td>
+    </ng-container>
+
     <!-- Número de créditos -->
     <ng-container matColumnDef="numberCredits">
       <th mat-header-cell *matHeaderCellDef> No de créditos </th>

@@ -7,8 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { SaveButtonComponent } from "../../shared/componentes/save-button/save-button.component";
 
 export interface commissionsData {
-  collectionExpenses: number;      // Gastos de cobranza
   collectionRate: number;  // Comisión
+  collectionExpenses: number;      // Gastos de cobranza
   numberCredits: number;   // No de créditos
   extras: number;          // Extras
   totalAmount: number;     // Total (suma)
@@ -22,7 +22,7 @@ export interface commissionsData {
   styleUrl: './commissions.component.css'
 })
 export class CommissionsComponent {
-  commissionsCol: string[] = ['collectionExpenses', 'collectionRate', 'numberCredits', 'extras', 'totalAmount'];
+  commissionsCol: string[] = ['collectionRate', 'collectionExpenses', 'numberCredits', 'extras', 'totalAmount'];
   dataCommissions: commissionsData[] = [];
   filtro: string = '';
 
