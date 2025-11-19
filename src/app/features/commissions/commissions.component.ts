@@ -40,8 +40,7 @@ export class CommissionsComponent {
     const mapped: commissionsData = {
       collectionExpenses: resp.resultado.collectionExpenses, // Gastos de cobranza
       collectionRate: resp.resultado.collectionRate, // Comisión %
-      numberCredits: 
-      resp.resultado.numberCredits,   // No. de créditos
+      numberCredits: resp.resultado.numberCredits,   // No. de créditos
       extras: resp.resultado.extras,                 // Extras
       totalAmount: resp.resultado.totalAmount        // Total general
     };
