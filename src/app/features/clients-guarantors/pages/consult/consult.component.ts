@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './consult.component.html',
   styleUrl: './consult.component.css'
 })
+
 export class ConsultComponent {
   modulo: string = 'consult';
   client: any = null;
