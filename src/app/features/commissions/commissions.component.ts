@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SearchBarZoneComponent } from '../../shared/componentes/search-bar-zone/search-bar-zone.component';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Zone } from '../../models/Zone';
 import { CommissionsService } from '../../core/services/commissions.service';
 import { FormsModule } from '@angular/forms';
@@ -21,10 +21,11 @@ export interface commissionsData {
   templateUrl: './commissions.component.html',
   styleUrl: './commissions.component.css'
 })
+
 export class CommissionsComponent {
   commissionsCol: string[] = ['collectionRate', 'collectionExpenses', 'numberCredits', 'extras', 'totalAmount'];
-  dataCommissions: commissionsData[] = [];
-  filtro: string = '';
+  dataCommissions = new MatTableDataSource<any>();
+  filtro: number = 0;
 
 
   constructor(private commissionsService: CommissionsService) {}
@@ -46,8 +47,27 @@ export class CommissionsComponent {
     };
 
     // Cargamos en la tabla (tiene que ser array)
-    this.dataCommissions = [mapped];
+    this.dataCommissions.data = [mapped];
   });
+}
+
+//Sumar lo del input a la columna Extras
+aplicarFiltroExtras() {
+  if (this.dataCommissions.data.length === 0) return;
+
+  const row = this.dataCommissions.data[0];
+
+  row.extras = Number(row.extras) + Number(this.filtro);
+
+  /* Si totalAmount incluye extras, también lo actualizas:
+  row.totalAmount = 
+      Number(row.collectionExpenses) +
+      Number(row.collectionRate) +
+      Number(row.numberCredits) +
+      Number(row.extras);*/
+
+  // Avisamos a la tabla que los datos cambiaron:
+  this.dataCommissions._updateChangeSubscription();
 }
 
 }
