@@ -83,7 +83,7 @@ export const routes: Routes = [
           { 
             path: 'renew', 
             component: RenewComponent,
-            data: { expectedRoles: ['administrador, usuario1']} 
+            data: { expectedRoles: ['administrador', 'usuario1']} 
           },
           { 
             path: 'additional', 
