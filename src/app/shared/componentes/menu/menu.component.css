@@ -5,13 +5,14 @@
     min-height: calc(100vh); /*Calcula la altura del menu de los 80px del header hasta el tamaño de la pantalla*/
     display: flex;
     flex-direction: column;
-    background-color: #11930a; /*#11930a*/
+    background-color: #1B5E20; /*#11930a*/
 }
 
 .menu {
     margin-top: 0;
     list-style: none;
     padding: 20px;
+    font-family: "Segoe UI", Arial, sans-serif;
     font-size: 16px;
     color: white;
     flex-grow: 1;
@@ -20,13 +21,11 @@
 .menu li {
     padding: 22px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    border-bottom: 1px solid #ccc; 
+    transition: background-color 0.3s; 
 }
   
 .menu li:hover {
-    background-color: #0b7a05; /* Azul al pasar el mouse #0b7a05*/
-    color: white;
+    background-color: rgba(255,255,255,0.12);
 }
 
 .menu li a {
@@ -37,15 +36,20 @@
 }
 
 .menu li.active {
-    background-color: #0b7a05; 
+    background-color: rgba(255,255,255,0.12); 
     color: white;
     font-weight: bold;
     text-decoration: none;
 }
 
+.menu i {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
 @media screen and (max-width: 768px) {
   .container-menu {
       flex-direction: column; /* Apila los elementos en columna */
-      background-color: #11930a;
+      background-color: #1B5E20;
   }
 }

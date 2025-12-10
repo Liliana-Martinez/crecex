@@ -43,6 +43,7 @@ export const API_ROUTES = {
         //TOTPAYM = TOTALPAYMENTS
         TOTPAYM: `${API_URL}/statistics/total-payments`
     },
+    ZONESMODULE: `${API_URL}/zones`,
     BUREAU: {
         ADD: `${API_URL}/credit-bureau/add`,
         CONSULT: `${API_URL}/credit-bureau/consult`

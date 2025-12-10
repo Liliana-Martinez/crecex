@@ -26,6 +26,7 @@ import { SingInComponent } from './auth/sing-in/sing-in.component';
 import { roleGuard } from './auth/role.guard';
 import { roleChildGuard } from './auth/role-child.guard';
 import { RedirectByRoleComponent } from './auth/redirect-by-role';
+import { ZonesComponent } from './features/zones/zones.component';
 
 
 export const routes: Routes = [
@@ -132,6 +133,10 @@ export const routes: Routes = [
             data: { expectedRoles: ['administrador']} 
           },
         ]
+      },
+      {
+        path: 'zones',
+        component: ZonesComponent
       },
       { 
         path: 'credit-bureau', 
