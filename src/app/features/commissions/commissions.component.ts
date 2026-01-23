@@ -25,7 +25,7 @@ export interface commissionsData {
 export class CommissionsComponent {
   commissionsCol: string[] = ['collectionRate', 'collectionExpenses', 'numberCredits', 'extras', 'totalAmount'];
   dataCommissions = new MatTableDataSource<any>();
-  filtro: number = 0;
+  value: number = 0; //Valor que se ingresara en el input
 
 
   constructor(private commissionsService: CommissionsService) {}
@@ -51,24 +51,20 @@ export class CommissionsComponent {
   });
 }
 
-//Sumar lo del input a la columna Extras
-aplicarFiltroExtras() {
-  if (this.dataCommissions.data.length === 0) return;
+agregarExtras(){
+  const extra = Number(this.value);
+  console.log('Valor del campo: ', extra);
 
-  const row = this.dataCommissions.data[0];
+  if(!extra) return; //No suma si el campo esta vacio
 
-  row.extras = Number(row.extras) + Number(this.filtro);
+  const registro = this.dataCommissions.data[0];
+  registro.extras = Number(registro.extras) + extra;
 
-  /* Si totalAmount incluye extras, también lo actualizas:
-  row.totalAmount = 
-      Number(row.collectionExpenses) +
-      Number(row.collectionRate) +
-      Number(row.numberCredits) +
-      Number(row.extras);*/
+  this.dataCommissions.data = [registro];
 
-  // Avisamos a la tabla que los datos cambiaron:
-  this.dataCommissions._updateChangeSubscription();
+  this.value = 0;
 }
+
 
 }
 

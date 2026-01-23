@@ -14,6 +14,7 @@ export class SaveButtonComponent {
 onSave() {
   this.save.emit();
 }
+
 ngOnChanges() {
   console.log('Label recibido en SaveButtonComponent:', this.label);
 }

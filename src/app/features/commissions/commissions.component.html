@@ -40,8 +40,7 @@
 
 <!-- Input de entrada para el saldo extra -->
 <div class="input-container">
-    <input type="number" placeholder="Saldo" [(ngModel)]="filtro" (ngModelChange)="aplicarFiltroExtras()"/>
+    <input type="number" placeholder="Saldo" [(ngModel)]="value"/>
 </div>
 
-
-<app-save-button label= "Agregar a extras"></app-save-button>
+<app-save-button label= "Agregar a extras" (save)="agregarExtras()"></app-save-button>
