@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SubmenuStatisticsComponent } from '../../components/submenu-statistics/submenu-statistics.component';
 import { DailyReportListComponent } from '../../components/daily-reportCash-list/daily-report-list.component';
 import { WeeklyReportListComponent } from '../../components/weekly-reportCash-list/weekly-report-list.component';
 import { MonthlyReportListComponent } from '../../components/monthly-reportCash-list/monthly-report-list.component';
@@ -11,7 +10,6 @@ import { StatisticsService } from '../../../../core/services/statistics.service'
 @Component({
   selector: 'app-cash',
   imports: [
-    SubmenuStatisticsComponent,
     FormsModule, 
     CommonModule,
     DailyReportListComponent, 

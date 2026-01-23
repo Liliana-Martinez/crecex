@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { SubmenuuComponent } from '../../componentss/submenuu/submenuu.component';
 import { FormCreditComponent } from '../../componentss/form-credit/form-credit.component';
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
 import { PrintButtonComponent } from '../../../../shared/componentes/print-button/print-button.component';
@@ -15,7 +14,6 @@ import { PrintComponent } from '../../componentss/print/print.component';
   styleUrls: ['./new.component.css'],
   standalone: true,
   imports: [
-    SubmenuuComponent,
     SearchBarComponent,
     FormCreditComponent,
     PrintButtonComponent, 

@@ -27,6 +27,8 @@ import { roleGuard } from './auth/role.guard';
 import { roleChildGuard } from './auth/role-child.guard';
 import { RedirectByRoleComponent } from './auth/redirect-by-role';
 import { ZonesComponent } from './features/zones/zones.component';
+import { AddZoneComponent } from './features/zones/pages/add-zone/add-zone.component';
+import { ModifyZoneComponent } from './features/zones/pages/modify-zone/modify-zone.component';
 
 
 export const routes: Routes = [
@@ -136,7 +138,19 @@ export const routes: Routes = [
       },
       {
         path: 'zones',
-        component: ZonesComponent
+        component: ZonesComponent,
+        children:[
+          { path:'', redirectTo: 'add', pathMatch: 'full' },
+          { 
+            path:'add', 
+            component: AddZoneComponent
+          },
+          {
+            path: 'modify',
+            component: ModifyZoneComponent
+          }
+
+        ]
       },
       { 
         path: 'credit-bureau', 

@@ -1,0 +1,57 @@
+<div class="form-container">
+  <form [formGroup]="zoneForm" (ngSubmit)="addZoneData()">
+ 
+    <!-- CÓDIGO DE ZONA -->
+  <label>Código de zona</label>
+  <input matInput formControlName="zoneCode" [matAutocomplete]="zoneAuto" placeholder="Ejemplo 1-A">
+
+  <mat-autocomplete #zoneAuto="matAutocomplete"
+    (optionSelected)="onZoneSelected($event.option.value)">
+    <mat-option *ngFor="let z of filteredZones$ | async" [value]="z.codigoZona">
+      {{ z.codigoZona }}
+    </mat-option>
+  </mat-autocomplete>
+
+   <!--PROMOTOR -->
+  <label>Promotor(a)</label>
+  <input matInput formControlName="promoter" [matAutocomplete]="promoterAuto" placeholder="Escribe o selecciona">
+
+  <mat-autocomplete #promoterAuto="matAutocomplete">
+    <mat-option *ngFor="let p of filteredPromoters$ | async" [value]="p.promotor">
+      {{ p.promotor }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <!--SUPERVISIÓN -->
+  <label>Supervisión</label>
+  <input matInput formControlName="supervisor" [matAutocomplete]="supervisorAuto" placeholder="Escribe o selecciona">
+
+  <mat-autocomplete #supervisorAuto="matAutocomplete">
+    <mat-option *ngFor="let s of filteredSupervisors$ | async" [value]="s.supervisor">
+      {{ s.supervisor }}
+    </mat-option>
+  </mat-autocomplete>
+
+    <app-save-button></app-save-button>
+  </form>
+</div>
+
+<!--Modal que se muestra cuando se agregaron correctamente los datos del cliente y sus garantuas -->
+
+ <div *ngIf="showSuccessModal" class="modal-overlay">
+  <div class="modal-content">
+    <i class="fa-solid fa-check" style="color: #0c9d0e; font-size: 42px;"></i> <h3 style="color: #0c9d0e;">¡Éxito!</h3>
+    <p>{{ successMessage }}</p>
+    <button (click)="closeSuccessModal()">Cerrar</button>
+  </div>
+</div>
+
+<!--Modal para los errores-->
+<div *ngIf="showErrorModal" class="modal-overlay">
+  <div class="modal-content">
+    <i class="fa-solid fa-circle-xmark" style="color: #cf0c0c; font-size: 32px;"></i> <h3 style="color: #cf0c0c;">¡Error!</h3>
+    <p> {{ errorMessage}} </p>
+    <button (click)="closeErrorModal()">Cerrar</button>
+  </div>
+</div>
+

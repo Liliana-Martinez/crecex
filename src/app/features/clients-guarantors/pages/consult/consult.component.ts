@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SubmenuComponent } from '../../components/submenu/submenu.component';
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { CreditHistory } from '../../../../models/credit-history';
@@ -10,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-consult',
-  imports: [CommonModule, SubmenuComponent, SearchBarComponent, MatTableModule],
+  imports: [CommonModule, SearchBarComponent, MatTableModule],
   templateUrl: './consult.component.html',
   styleUrl: './consult.component.css'
 })
