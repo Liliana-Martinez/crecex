@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SubmenuStatisticsComponent } from '../../components/submenu-statistics/submenu-statistics.component';
 import { SearchBarZoneComponent } from '../../../../shared/componentes/search-bar-zone/search-bar-zone.component';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { StatisticsService } from '../../../../core/services/statistics.service';
@@ -11,7 +10,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-total-payments',
-  imports: [SubmenuStatisticsComponent, SearchBarZoneComponent, MatTableModule, CommonModule, ReactiveFormsModule],
+  imports: [SearchBarZoneComponent, MatTableModule, CommonModule, ReactiveFormsModule],
   templateUrl: './total-payments.component.html',
   styleUrl: './total-payments.component.css'
 })

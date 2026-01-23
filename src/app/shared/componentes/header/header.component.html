@@ -1,14 +1,15 @@
 <header>
     <div class="logo-container">
-        <h1>Crecex</h1>
-        <img class= 'logo' src="logo.jpg" alt="Logo">
+        <img class= 'logo' src="logo.jpg" alt="logo">
+        <!--<span class="empresa-nombre">Crecex</span>-->
     </div>
-    <h3>Bienvenido {{ username }}</h3>
-    <div class="image-container">
+
+    <div class="header-title">Bienvenido {{ username }}</div>
+
         <button class="logout-button" title="Cerrar sesión" (click)="openLogoutModal()">
-            <img src="logout.png" alt="Cerrar sesión">
+            <!--<img src="logout.png" alt="Cerrar sesión">-->
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </button>
-    </div>
 </header>
 
 <!--Modal para confirmar cerrar sesión-->

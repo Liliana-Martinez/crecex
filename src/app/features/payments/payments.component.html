@@ -11,7 +11,7 @@
     <table mat-table [dataSource]="dataPayment" class="mat-elevation-z8">
         <!-- No Cliente --> 
         <ng-container matColumnDef="clients">
-            <th mat-header-cell *matHeaderCellDef> No Cliente </th>
+            <th mat-header-cell *matHeaderCellDef> No. Cliente </th>
             <td mat-cell *matCellDef="let element"> {{element.clients}} </td>
           </ng-container>
         <!-- Nombre --> 
@@ -21,7 +21,7 @@
         </ng-container>
         <!-- N° Prestamos -->
         <ng-container matColumnDef="loans"> 
-            <th mat-header-cell *matHeaderCellDef> No Prestamos </th>
+            <th mat-header-cell *matHeaderCellDef> No. Préstamos </th>
             <td mat-cell *matCellDef="let element"> {{element.loans}}</td>
         </ng-container>
         <!-- Clasificacion -->
@@ -36,12 +36,12 @@
           </ng-container>
         <!-- Fecha Entrega-->
         <ng-container matColumnDef="deliveryDate">
-          <th mat-header-cell *matHeaderCellDef> Fecha Entrega </th>
+          <th mat-header-cell *matHeaderCellDef>Fecha de entrega</th>
           <td mat-cell *matCellDef="let element"> {{element.deliveryDate}} </td>
         </ng-container>
         <!-- Fecha Vencimiento -->
         <ng-container matColumnDef="dueDate">
-          <th mat-header-cell *matHeaderCellDef> Fecha Vencimiento</th>
+          <th mat-header-cell *matHeaderCellDef> Fecha de vencimiento</th>
           <td mat-cell *matCellDef="let element"> {{element.dueDate}} </td>
         </ng-container>
         <!-- Semana-->
@@ -51,7 +51,7 @@
           </ng-container> 
         <!-- Monto Semanal -->
         <ng-container matColumnDef="weeklyAmount">
-            <th mat-header-cell *matHeaderCellDef> Monto Semanal </th>
+            <th mat-header-cell *matHeaderCellDef> Monto semanal </th>
             <td mat-cell *matCellDef="let element"> {{element.weeklyAmount}}</td>
           </ng-container> 
         <!-- Atraso -->
@@ -87,14 +87,14 @@
 
         <!-- Recargos Moratorios -->
         <ng-container matColumnDef="lateFees" >
-          <th mat-header-cell *matHeaderCellDef> Recargos Moratorios </th>
+          <th mat-header-cell *matHeaderCellDef> Recargos moratorios </th>
           <td mat-cell *matCellDef="let element"> 
             <input type="number"[(ngModel)]= "element.lateFees" class="estilo">
           </td>
         </ng-container>
         <!-- Pago -->
         <ng-container matColumnDef="payment">
-            <th mat-header-cell *matHeaderCellDef> pago </th>
+            <th mat-header-cell *matHeaderCellDef> Pago </th>
             <td mat-cell *matCellDef="let element"> 
             
               <input type="number" [(ngModel)]="element.payment"  class="estilo">
@@ -103,7 +103,7 @@
           </ng-container>
         <!-- Tipo Pago -->
       <ng-container matColumnDef="paymentType">
-        <th mat-header-cell *matHeaderCellDef> Tipo Pago </th>
+        <th mat-header-cell *matHeaderCellDef> Tipo de pago </th>
         <td mat-cell *matCellDef="let element">
           <select [(ngModel)]="element.paymentType" class="estilo">
             <option value="efectivo">Efectivo</option>
@@ -117,17 +117,17 @@
       </table>          
 </div>
 
-<div style="margin-top: 20px; display: flex; gap: 20px;">
+<div class="container-form">
   <div>
-    <label for="total">Total:</label>
+    <label for="total">Total</label>
     <input id="total" type="number" class="estilo" [value]="total" disabled>
   </div>
   <div>
-    <label for="cobrado">Total Cobrado:</label>
+    <label for="cobrado">Total cobrado</label>
     <input id="cobrado" type="number" class="estilo" [value]="cobrado" disabled>
   </div>
   <div>
-    <label for="porcentajeCobranza">% Cobranza:</label>
+    <label for="porcentajeCobranza">Porcentaje de cobranza</label>
     <input id="porcentajeCobranza" type="text" class="estilo" [value]="porcentajeCobranza" disabled>
   </div>
 </div>

@@ -70,3 +70,13 @@ table {
   color: black;
 }
 
+.container-form {
+  margin-top: 20px; 
+  margin-left: 20px; 
+  display: flex; 
+  gap: 20px;
+}
+
+.container-form label {
+  margin-right: 5px;
+}

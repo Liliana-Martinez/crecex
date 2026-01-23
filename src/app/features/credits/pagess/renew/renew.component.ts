@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { SubmenuuComponent } from '../../componentss/submenuu/submenuu.component';
 import { TableComponent } from '../../componentss/table/table.component';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
@@ -10,12 +9,7 @@ import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { PrintComponent } from '../../componentss/print/print.component';
 @Component({
   selector: 'app-renew',
-  imports: [SubmenuuComponent, 
-    TableComponent, CommonModule, 
-    SearchBarComponent,
-    PrintButtonComponent, 
-    FormCreditComponent,
-    PrintComponent],
+  imports: [TableComponent, CommonModule, SearchBarComponent,PrintButtonComponent, FormCreditComponent, PrintComponent],
   templateUrl: './renew.component.html',
   styleUrl: './renew.component.css'
 })
