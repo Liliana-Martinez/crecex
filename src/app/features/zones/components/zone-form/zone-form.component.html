@@ -1,5 +1,5 @@
 <div class="form-container">
-  <form [formGroup]="zoneForm" (ngSubmit)="addZoneData()">
+  <form [formGroup]="zoneForm" (ngSubmit)="modo === 'agregar' ? addZoneData() : updateZoneData()">
  
     <!-- CÓDIGO DE ZONA -->
   <label>Código de zona</label>
@@ -32,13 +32,13 @@
     </mat-option>
   </mat-autocomplete>
 
-    <app-save-button></app-save-button>
+    <app-save-button [label]="modo === 'agregar' ? 'Guardar' : 'Actualizar'"></app-save-button>
   </form>
 </div>
 
 <!--Modal que se muestra cuando se agregaron correctamente los datos del cliente y sus garantuas -->
 
- <div *ngIf="showSuccessModal" class="modal-overlay">
+<div *ngIf="showSuccessModal" class="modal-overlay">
   <div class="modal-content">
     <i class="fa-solid fa-check" style="color: #0c9d0e; font-size: 42px;"></i> <h3 style="color: #0c9d0e;">¡Éxito!</h3>
     <p>{{ successMessage }}</p>

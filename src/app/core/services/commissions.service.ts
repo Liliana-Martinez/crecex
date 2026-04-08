@@ -11,7 +11,7 @@ export class CommissionsService {
 
   getCommissionsByZone(idZona: number): Observable<any> {
     // Llamada GET al backend enviando el idZona como query param
-    return this.http.get(`${API_ROUTES.COMMISSIONS}?idZona=${idZona}`);
+    return this.http.get(`${API_ROUTES.COMMISSIONS.GET_BY_ZONE}?idZona=${idZona}`);
   }
 
 }

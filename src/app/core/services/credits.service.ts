@@ -18,16 +18,16 @@ export class CreditsService {
     let url = '';
     switch (modulo) {
       case 'new':
-        url = API_ROUTES.CREDITS.NEW;
+        url = API_ROUTES.CREDITS.CREATE_NEW;
         break; 
       case 'renew':
         url = API_ROUTES.CREDITS.RENEW;
         break;
       case 'additional':
-        url = API_ROUTES.CREDITS.ADDITIONAL;
+        url = API_ROUTES.CREDITS.CREATE_ADDITIONAL;
         break;
       default:
-        url = API_ROUTES.CREDITS.NEW;
+        url = API_ROUTES.CREDITS.CREATE_NEW;
     }
 
     return this.http.post<any>(url, formData);

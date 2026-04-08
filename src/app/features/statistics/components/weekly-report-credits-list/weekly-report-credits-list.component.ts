@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 export class WeeklyReportCreditsListComponent {
   
   dataWeeklyRep = new MatTableDataSource<any>();
-  weeklyListCol: string[] = ['idCredit', 'creditAmount', 'date'];
+  weeklyListCol: string[] = ['idCredit', 'creditAmount', 'date', 'promoter', 'client', 'creditWeeks'];
 
   constructor (private statisticsService: StatisticsService) {}
 
@@ -28,6 +28,9 @@ export class WeeklyReportCreditsListComponent {
           idCredit: credit.idCredito,
           creditAmount: credit.creditAmount,
           date: dayjs(credit.fecha).format('DD/MM/YYYY'),
+          promoter: credit.promoter,
+          client: credit.client,
+          creditWeeks: credit.creditWeeks
         }));
         this.dataWeeklyRep.data = formattedData;
         console.log('Creditos de la semana: ', formattedData);

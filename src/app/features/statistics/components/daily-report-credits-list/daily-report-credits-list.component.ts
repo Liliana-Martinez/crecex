@@ -7,7 +7,10 @@ import { CommonModule } from '@angular/common';
 export interface DailyReport {
   creditNumber: number;
   creditAmount: number;
-  date: Date;  
+  date: Date;
+  promoter: string;
+  client: string;
+  creditWeeks: number;
 }
 
 
@@ -20,7 +23,7 @@ export interface DailyReport {
 
 export class DailyReportCreditsListComponent {
   dataDailyRep = new MatTableDataSource<any>();
-  dailyListCol: string[] = ['idCredit', 'creditAmount', 'date'];
+  dailyListCol: string[] = ['idCredit', 'creditAmount', 'date', 'promoter', 'client', 'creditWeeks'];
 
   constructor (private statisticsService: StatisticsService) {}
 
@@ -36,6 +39,9 @@ export class DailyReportCreditsListComponent {
         idCredit: credit.idCredito,
         creditAmount: credit.creditAmount,
         date: dayjs(credit.date).format('DD/MM/YYYY'),
+        promoter: credit.promoter,
+        client: credit.client,
+        creditWeeks: credit.creditWeeks
       }));
 
       this.dataDailyRep.data = formattedData;

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DailyReportListComponent } from './daily-report-list.component';
+import { DailyReportListComponent } from './report-list.component';
 
 describe('DailyReportListComponent', () => {
   let component: DailyReportListComponent;

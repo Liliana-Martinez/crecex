@@ -5,57 +5,57 @@ export const API_ROUTES = {
         LOGIN: `${API_URL}/auth/login`,
         REGISTER: `${API_URL}/auth/register`
     },
-    HOME: `${API_URL}/home`,
-    //CLIGRS = CLIENTESGUARANTORS
-    CLIGRS: {
-        ADD: {
-           CLIENT: `${API_URL}/clients-guarantors/add/client`,
-           GUARANTOR: `${API_URL}/clients-guarantors/add/guarantor`
+    CLIENTS_GUARANTORS: {
+        CREATE: {
+           CLIENT: `${API_URL}/clients-guarantors/add/client`, //post
+           GUARANTOR: `${API_URL}/clients-guarantors/add/guarantor` //post
         },
-        CONSULT: `${API_URL}/clients-guarantors/consult`,
-        MODIFY: {
-            CLIENT: `${API_URL}/clients-guarantors/modify/client`,
-            GUARANTOR: `${API_URL}/clients-guarantors/modify/guarantor`
+        GET_BY_NAME: `${API_URL}/clients-guarantors/consult`, //get
+        UPDATE: {
+            CLIENT: `${API_URL}/clients-guarantors/modify/client`, //put
+            GUARANTOR: `${API_URL}/clients-guarantors/modify/guarantor`//put
         }
     }, 
     CREDITS:  {
-        NEW: `${API_URL}/credits/new`,
+        CREATE_NEW: `${API_URL}/credits/new`,
         RENEW: `${API_URL}/credits/renew`,
-        ADDITIONAL: `${API_URL}/credits/additional`
+        CREATE_ADDITIONAL: `${API_URL}/credits/additional`
     },
-    PAYMENTS: `${API_URL}/payments`,
-    COLLECTORS: `${API_URL}/collectors`,
-    COMMISSIONS: `${API_URL}/commissions`,
+    PAYMENTS: {
+        GET_BY_ZONE: `${API_URL}/payments`
+    },
+    COLLECTORS: {
+        GET_BY_NAME: `${API_URL}/collectors` //No genero error
+    },
+    COMMISSIONS: {
+        GET_BY_ZONE: `${API_URL}/commissions`
+    },
     STATISTICS: {
-        //CASH: `${API_URL}/statistics/cash`,
-        CASH: {
-            FORM: `${API_URL}/statistics/cash/form`,
-            DAY: `${API_URL}/statistics/cash/day`,
-            WEEK: `${API_URL}/statistics/cash/week`,
-            MONTH: `${API_URL}/statistics/cash/month`
+        CASH: { //Submodulo
+            CREATE_ENTRY: `${API_URL}/statistics/cash`, //crear movimiento en caja ingreso/egreso
+            GET_REPORT: `${API_URL}/statistics/cash`
         },
-        //TOTCRED = TOTALCREDITS
-        TOTCRED: {
-            DAY: `${API_URL}/statistics/total-credits/day`,
+        TOTAL_CREDITS: { //Submodulo
+            DAY: `${API_URL}/statistics/total-credits/day`, 
             WEEK: `${API_URL}/statistics/total-credits/week`,
             MONTH: `${API_URL}/statistics/total-credits/month`
         },
-        //TOTPAYM = TOTALPAYMENTS
-        TOTPAYM: `${API_URL}/statistics/total-payments`
+        TOTAL_PAYMENTS: `${API_URL}/statistics/total-payments` //Submodulo
     },
-    BUREAU: {
-        ADD: `${API_URL}/credit-bureau/add`,
-        CONSULT: `${API_URL}/credit-bureau/consult`
+    CREDIT_BUREAU: {
+        CREATE: `${API_URL}/credit-bureau/add`, //Registar cliente en buro de credito
+        GET_BY_NAME: `${API_URL}/credit-bureau/consult`
     },
     ZONES: {
-        GETALL: `${API_URL}/zones/getAllZones`,
-        GETAVAILABLE: `${API_URL}/zones/getAvailableZones`,
-        CLIENTSZONE: `${API_URL}/zones/getClientsFromZone`,
-        ADD: `${API_URL}/zones/add`,
-        CONSULT: `${API_URL}/zones/consult`
+        GET_ALL: `${API_URL}/zones/getAllZones`,
+        GET_AVAILABLE: `${API_URL}/zones/getAvailableZones`,
+        GET_ASSIGNED: `${API_URL}/zones/getAssignedZones`,
+        GET_CLIENTS_BY_ZONE: `${API_URL}/zones/getClientsFromZone`,
+        CREATE:  `${API_URL}/zones`,
+        UPDATE: `${API_URL}/zones/modify`,
+        CONSULT: `${API_URL}/zones/consult` //Ver donde se usa
     },
     SEARCHBARCLIENTE:{
-        SEARCH : `${API_URL}/search/cliente`
-
+        SEARCH : `${API_URL}/search/cliente` //Agregar dentro de cliente como SEARCH
     }
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 import { ZoneService } from '../../../../core/services/zone.service';
@@ -18,7 +18,10 @@ export class ZoneFormComponent implements OnInit {
 
   zoneForm!: FormGroup;
 
-  listZones: Zone[] = [];
+  @Input() modo: 'agregar' | 'modificar' = 'agregar';
+
+  availableZonesList: Zone[] = [];
+  assignedZonesList: Zone[] = [];
   promotersList: Promoter[] = [];
   supervisorsList: Supervisor[] = [];
 
@@ -35,48 +38,94 @@ export class ZoneFormComponent implements OnInit {
   constructor(private zoneService: ZoneService) {}
 
   ngOnInit(): void {
+
+    this.initForm();
+
+    if (this.modo === 'agregar') {
+      this.initAddMode();
+    } else if (this.modo === 'modificar') {
+      this.initModifyMode();
+    }
+  }
+
+  //Inicializar el formulario
+  private initForm(): void {
     this.zoneForm = new FormGroup({
       zoneCode: new FormControl('', [Validators.required]),
       promoter: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)]),
       supervisor: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)])
     });
+  }
 
-    this.getAvailableZones();
+  //Inicializar lo necesario para la opcion "Agregar zona de trabajo"
+  private initAddMode(): void {
+    this.getZoneFormData();
 
     // ZONAS
     this.filteredZones$ = this.zoneForm.get('zoneCode')!.valueChanges.pipe(
       startWith(''),
-      map(value => this.filterZones(value ?? ''))
+      map(value => this.filterAvailableZones(value ?? ''))
     );
-
     //Promotores
     this.filteredPromoters$ = this.zoneForm.get('promoter')!.valueChanges.pipe(
-      startWith(' '),
+      startWith(''),
       map(value => this.filterPromoters(value ?? ''))
     );
-
     //Supervisores
     this.filteredSupervisors$ = this.zoneForm.get('supervisor')!.valueChanges.pipe(
-      startWith(' '),
+      startWith(''),
       map(value => this.filterSupervisors(value ?? ''))
     );
   }
 
-  //Asignar a las listas lo que llega del back
-  private getAvailableZones(): void {
+  //Inicializar lo necesario para la opcion de "Modificar zona"
+  private initModifyMode(): void {
+    this.getAssignedZones();
+
+    // ZONAS
+    this.filteredZones$ = this.zoneForm.get('zoneCode')!.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterAssignedZones(value ?? ''))
+    );
+    //Promotores
+    this.filteredPromoters$ = this.zoneForm.get('promoter')!.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterPromoters(value ?? ''))
+    );
+
+  }
+
+  //Asignar a las listas (Para el submodulo de "agregar") los datos que llegan del back
+  private getZoneFormData(): void {
     this.zoneService.getAvailableZones().subscribe(response => {
       console.log('response:', response);
-      this.listZones = response.availableZones;
+      this.availableZonesList = response.availableZones;
       this.promotersList = response.promoters;
       this.supervisorsList = response.supervisors;
       console.log('Lista de supervisores: ', this.supervisorsList)
     });
   }
 
-  // FILTROS
-  private filterZones(value: string): Zone[] {
+  //Asignar a la lista los datos que llegan del back (para el submodulo "modificar")
+  private getAssignedZones(): void {
+    this.zoneService.getAssignedZones().subscribe(response => {
+      console.log('response: ', response);
+      this.assignedZonesList = response.assignedZones;
+    });
+  }
+
+  // Filtra la busqueda en la lista de zonas disponibles
+  private filterAvailableZones(value: string): Zone[] {
     const filterValue = value.toLowerCase();
-    return this.listZones.filter(z =>
+    return this.availableZonesList.filter(z =>
+      z.codigoZona.toLowerCase().includes(filterValue)
+    );
+  }
+
+  //Filtra la lista de zonas asignadas
+  private filterAssignedZones(value: string): Zone[] {
+    const filterValue = value.toLowerCase();
+    return this.assignedZonesList.filter(z =>
       z.codigoZona.toLowerCase().includes(filterValue)
     );
   }
@@ -95,12 +144,33 @@ export class ZoneFormComponent implements OnInit {
     );
   }
 
-  
-  //SELECCIÓN DE ZONA para autorellenar el promotor y supervisor segun sea la zona (Para modificar)
+  //SELECCIÓN DE ZONA para autorellenar el promotor y supervisor segun sea la zona (En el submenu "Modificar zona")
   onZoneSelected(zoneCode: string): void {
+
+    if (this.modo !== 'modificar') {
+      return;
+    }
+    
+    console.log('Zona seleccionada: ', zoneCode);
     this.selectedZone = zoneCode;
     this.zoneForm.get('zoneCode')?.setValue(zoneCode);
+
+    const zone = this.assignedZonesList.find(
+      z => z.codigoZona === zoneCode
+    );
+
+    if (!zone) {
+      this.errorMessage = 'No se encontro la informacion de la zona.';
+      this.showErrorModal = true;
+      return;
+    }
+
+    this.zoneForm.patchValue({
+      promoter: zone.promotor,
+      supervisor: zone.supervisor
+    });
   }
+
 
   addZoneData() {
     if (this.zoneForm.invalid) {
@@ -111,7 +181,7 @@ export class ZoneFormComponent implements OnInit {
     
     const zoneCode = this.zoneForm.get('zoneCode')?.value;
     
-    const zoneValidation = this.listZones.some(
+    const zoneValidation = this.availableZonesList.some(
       z => z.codigoZona === zoneCode
     );
     
@@ -135,6 +205,33 @@ export class ZoneFormComponent implements OnInit {
     });    
   }
 
+  updateZoneData() {
+    if (this.zoneForm.invalid) {
+      this.zoneForm.markAllAsTouched();
+      return;
+    }
+
+    const { zoneCode, promoter, supervisor} = this.zoneForm.getRawValue();
+    const payload = {
+      codigoZona: zoneCode,
+      promotor: promoter,
+      supervisor: supervisor
+    };
+
+    this.zoneService.updateZone(payload).subscribe({
+      next: () => {
+        this.successMessage = 'Zona actualizada correctamente';
+        this.showSuccessModal = true;
+      },
+      error: (err) => {
+        this.errorMessage = 'Error al actualizar la zona';
+        this.showErrorModal = true;
+        console.error(err);
+      }
+    });
+
+  }
+
   //Cerrar el modal  de exito
   closeSuccessModal(): void {
     this.showSuccessModal = false;
@@ -145,6 +242,3 @@ export class ZoneFormComponent implements OnInit {
     this.showErrorModal = false;
   }
 }
-
-
-
