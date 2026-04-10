@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 })
 export class MonthlyReportCreditsListComponent {
   dataMonthlyRep = new MatTableDataSource<any>();
-  monthlyListCol: string[] = ['idCredit', 'creditAmount', 'date']; 
+  monthlyListCol: string[] = ['idCredit', 'creditAmount', 'date', 'promoter', 'client', 'creditWeeks']; 
 
   constructor (private statisticsService: StatisticsService) {}
 
@@ -28,6 +28,9 @@ export class MonthlyReportCreditsListComponent {
           idCredit: credit.idCredito,
           creditAmount: credit.creditAmount,
           date: dayjs(credit.date).format('DD/MM/YYYY'),
+          promoter: credit.promoter,
+          client: credit.client,
+          creditWeeks: credit.creditWeeks
         }));
         this.dataMonthlyRep.data = formattedData;
         console.log('Créditos del mes:', formattedData);

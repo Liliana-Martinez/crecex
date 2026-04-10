@@ -12,11 +12,11 @@ export class CreditBureauService {
   constructor(private http: HttpClient) { }
 
   addToCreditBureau(credentials: CreditBureau): Observable<CreditBureau[]> {
-    return this.http.post<CreditBureau[]>(API_ROUTES.BUREAU.ADD, credentials);
+    return this.http.post<CreditBureau[]>(API_ROUTES.CREDIT_BUREAU.CREATE, credentials);
   }
 
   searchByName(name: string): Observable<CreditBureau[]> {
-    return this.http.get<CreditBureau[]>(API_ROUTES.BUREAU.CONSULT, {
+    return this.http.get<CreditBureau[]>(API_ROUTES.CREDIT_BUREAU.GET_BY_NAME, {
       params: { name }
     });
   }

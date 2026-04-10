@@ -9,6 +9,6 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   enviarPagos(pagos: any[]): Observable<any> {
-    return this.http.post<any>(API_ROUTES.PAYMENTS , pagos);
+    return this.http.post<any>(API_ROUTES.PAYMENTS.GET_BY_ZONE , pagos);
   }
 } 

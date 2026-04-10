@@ -1,12 +1,11 @@
 <!--<app-submenu-statistics></app-submenu-statistics>-->
 <div class="container-form">
     <!--Formulario ingresos y egresos-->
-    <form [formGroup]="incomeExpensesForm">
-        <p class="currentDate">📅 Fecha de hoy: {{currentDate}}</p>
+    <form [formGroup]="incomeExpensesForm" (ngSubmit)="addTransaction()">
         <div class="row">
             <div class="data">
-                <label>Monto inicial</label>
-                <input type="number" formControlName="initialAmount">
+                <label>Cantidad en caja</label>
+                <input type="number" formControlName="totalCash" [readonly]="true">
             </div>
         </div>
 
@@ -14,7 +13,7 @@
         <div formGroupName="incomeForm" class="row">
             <div class="data">
                 <label>Ingresos de pagos</label>
-                <input type="text" formControlName="income">
+                <input type="text" formControlName="income" readonly>
             </div>
             <div class="data">
                 <label>Ingresos extra</label>
@@ -38,11 +37,11 @@
             </div>
             <div class="data">
                 <label>Egresos extra</label>
-                <input type="number" formControlName="extraExpenses">
+                <input type="number" formControlName="extraExpense">
             </div>
             <div class="data">
                 <label>Descripción</label>
-                <input type="text" formControlName="descriptionExpenses">
+                <input type="text" formControlName="descriptionExpense">
             </div>
             <div class="data">
                 <label>Total</label>
@@ -52,25 +51,23 @@
 
         <div class="row">
             <div class="data">
-                <label>Total en caja</label>
-                <input type="text" formControlName="totalCash" [readonly]="true">
+                <label>Egresos de comisiones</label>
+                <input type="text" formControlName="commissionExpenses" [readonly]="true">
             </div>  
         </div>
         <app-save-button></app-save-button>
     </form>
-
 </div>
+
 <div class="container-table">
-    <select id="listSelect" [(ngModel)]="selectedList">
-        <option value="dailyReport">Consulta del día</option>
-        <option value="weeklyReport">Consulta de la semana</option>
-        <option value="monthlyReport">Consulta del mes</option>
+    <select id="listSelect" [(ngModel)]="selectedList" (ngModelChange)="onReportTypeChange($event)">
+        <option value="daily">Consulta del día</option>
+        <option value="weekly">Consulta de la semana</option>
+        <option value="monthly">Consulta del mes</option>
     </select>  
 
-    <app-daily-report-list *ngIf="selectedList === 'dailyReport'"></app-daily-report-list>
-    <app-weekly-report-list *ngIf="selectedList === 'weeklyReport'"></app-weekly-report-list>
-    <app-monthly-report-list *ngIf="selectedList === 'monthlyReport'"></app-monthly-report-list>
+    <app-report-list 
+        [type]="selectedList"
+        [incomeData]="incomeData"
+        [expenseData]="expenseData"></app-report-list>
 </div>
-
-
-<!--<app-save-button></app-save-button>-->

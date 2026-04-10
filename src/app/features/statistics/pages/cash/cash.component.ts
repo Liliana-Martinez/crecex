@@ -1,126 +1,149 @@
 import { Component } from '@angular/core';
-import { DailyReportListComponent } from '../../components/daily-reportCash-list/daily-report-list.component';
-import { WeeklyReportListComponent } from '../../components/weekly-reportCash-list/weekly-report-list.component';
-import { MonthlyReportListComponent } from '../../components/monthly-reportCash-list/monthly-report-list.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReportListComponent } from '../../components/report-list/report-list.component';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValueChangeEvent } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 import { StatisticsService } from '../../../../core/services/statistics.service';
+import { API_ROUTES } from '../../../../core/constants/api-routes';
+
+interface TransactionPayload {
+  income?: {
+    amount: number;
+    description: string;
+  };
+  expense?: {
+    amount: number;
+    description: string;
+  }
+}
 
 @Component({
   selector: 'app-cash',
   imports: [
     FormsModule, 
     CommonModule,
-    DailyReportListComponent, 
-    WeeklyReportListComponent,
-    MonthlyReportListComponent,
+    ReportListComponent,
     SaveButtonComponent,
     ReactiveFormsModule
   ],
   templateUrl: './cash.component.html',
   styleUrl: './cash.component.css'
 })
+
 export class CashComponent {
-  selectedList: string = "dailyReport";
+  selectedList: string = "daily";
   incomeExpensesForm!: FormGroup;
   currentDate: string = '';
+  incomeData: any;
+  expenseData: any;
 
   constructor(private statisticsService: StatisticsService) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    this.initForm();
+    this.getReportData(); //Cargar los datos iniciales para el formulario y tablas
+  }
 
-    const today = new Date();
-    const isMonday = today.getDay() === 1;
-
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    };
-    //Formato en español
-    this.currentDate = today.toLocaleDateString('es-MX', options);
-
+  private initForm(): void {
     this.incomeExpensesForm = new FormGroup({
-      initialAmount: new FormControl({ value: '', disabled: !isMonday }),
+      totalCash: new FormControl(''),
       incomeForm: new FormGroup({
-        income: new FormControl(''),
+        income: new FormControl({value: 0, disabled: true}),
         extraIncome: new FormControl(''),
         descriptionIncome: new FormControl(''),
         totalIncome: new FormControl('')
       }),
       expensesForm: new FormGroup({
-        expenses: new FormControl(''),
-        extraExpenses: new FormControl(''),
-        descriptionExpenses: new FormControl(''),
+        expenses: new FormControl({value: 0, disabled: true}),
+        extraExpense: new FormControl(''),
+        descriptionExpense: new FormControl(''),
         totalExpenses: new FormControl('')
       }),
-      totalCash: new FormControl('')
+      commissionExpenses: new FormControl({value: 0, disabled: true})
     });
-
-    if (!isMonday) {
-      this.getInitialAmount();
-    }
-
-    this.setupListeners();
-  
   }
 
-  getInitialAmount() {
-    this.statisticsService.getInitialAmountDaily().subscribe({
-    next: (res) => {
-      if (res && res.monto !== null && res.monto !== undefined) {
-        this.incomeExpensesForm.patchValue({ initialAmount: res.monto });
+  //Detectar el tipo de reporte (daily, weekly o monthly)
+  onReportTypeChange(value: string): void {
+    console.log('Valor del select: ', value);
+    this.selectedList = value;
+    this.getReportData(); //Recargar datos del reporte que se haya seleccionado
+  }
+
+  //Llamada para traer datos para rellenar algunos inputs del formulario y para mostrar en las tablas
+  private getReportData(): void {
+    console.log('URL base:', API_ROUTES.STATISTICS.CASH.GET_REPORT);
+    console.log('tipo de reporte antes de enviar al back: ', this.selectedList);
+    this.statisticsService.getCashReport(this.selectedList).subscribe({
+      next: (response) => {
+        console.log('response: ', response);
+
+        this.incomeData = response.income;
+        this.expenseData = response.expenses;
+
+        console.log('incomeData: ', this.incomeData);
+        console.log('expenseData: ', this.expenseData);
+        this.incomeExpensesForm.patchValue({
+          totalCash: response.cash.totalCash,
+          incomeForm: {
+            income: response.dailyData.income,
+            totalIncome: response.dailyData.totalIncome
+          },
+          expensesForm: {
+            expenses: response.dailyData.expenses,
+            totalExpenses: response.dailyData.totalExpenses
+          },
+          commissionExpenses: response.dailyData.commissions
+        });
+      },
+      error: (error) => {
+        console.error('Error al obtener los datos del reporte: ', error);
       }
-    },
-    error: (err) => {
-      console.error('Error al obtener el monto inicial:', err);
+    });
+
+  }
+
+  //Agregar ingreso/egreso o ambos
+  addTransaction(): void {
+    const incomeForm = this.incomeExpensesForm.get('incomeForm')?.value;
+    const expensesForm = this.incomeExpensesForm.get('expensesForm')?.value;
+
+    const dataToSend: any = {};
+
+    if (incomeForm.extraIncome && Number(incomeForm.extraIncome) > 0) {
+      dataToSend.income = {
+        amount: incomeForm.extraIncome,
+        description: incomeForm.descriptionIncome
+      };
     }
-  });
-  }
 
-  setupListeners() {
-    // Cuando cambia algo en ingresos
-    this.incomeExpensesForm.get('incomeForm')!.valueChanges.subscribe(() => {
-      this.calculateTotalIncome();
-      this.calculateTotalCash();
+    if (expensesForm.extraExpense && Number(expensesForm.extraExpense) > 0) {
+      dataToSend.expense = {
+        amount: expensesForm.extraExpense,
+        description: expensesForm.descriptionExpense
+      };
+    }
+
+    if (!dataToSend.income && !dataToSend.expense) {
+      console.warn('No hay datos para guardar.');
+      return;
+    }
+
+    console.log('dataToSend: ', dataToSend);
+    this.statisticsService.addTransaction(dataToSend).subscribe(() => {
+      this.getReportData();
+
+      //Limpiar el formulario
+      this.incomeExpensesForm.patchValue({
+        incomeForm: {
+          extraIncome: '',
+          descriptionIncome: ''
+        },
+        expensesForm: {
+          extraExpense: '',
+          descriptionExpense: ''
+        }
+      });
     });
-
-    // Cuando cambia algo en egresos
-    this.incomeExpensesForm.get('expensesForm')!.valueChanges.subscribe(() => {
-      this.calculateTotalExpenses();
-      this.calculateTotalCash();
-    });
-
-    // Si cambia el monto inicial
-    this.incomeExpensesForm.get('initialAmount')!.valueChanges.subscribe(() => {
-      this.calculateTotalCash();
-    });
-  }
-
-  calculateTotalIncome() {
-    const incomeGroup = this.incomeExpensesForm.get('incomeForm')!.value;
-    const income = parseFloat(incomeGroup.income) || 0;
-    const extraIncome = parseFloat(incomeGroup.extraIncome) || 0;
-
-    const total = income + extraIncome;
-    this.incomeExpensesForm.get('incomeForm.totalIncome')!.setValue(total, { emitEvent: false });
-  }
-
-  calculateTotalExpenses() {
-    const expenseGroup = this.incomeExpensesForm.get('expensesForm')!.value;
-    const expenses = parseFloat(expenseGroup.expenses) || 0;
-    const extraExpenses = parseFloat(expenseGroup.extraExpenses) || 0;
-
-    const total = expenses + extraExpenses;
-    this.incomeExpensesForm.get('expensesForm.totalExpenses')!.setValue(total, { emitEvent: false });
-  }
-
-  calculateTotalCash() {
-    const initial = parseFloat(this.incomeExpensesForm.get('initialAmount')!.value) || 0;
-
-    const totalIncome = this.incomeExpensesForm.get('incomeForm.totalIncome')!.value || 0;
-    const totalExpenses = this.incomeExpensesForm.get('expensesForm.totalExpenses')!.value || 0;
-
-    const total = initial + totalIncome - totalExpenses;
-    this.incomeExpensesForm.get('totalCash')!.setValue(total, { emitEvent: false });
   }
 }

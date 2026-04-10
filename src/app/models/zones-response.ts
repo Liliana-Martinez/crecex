@@ -4,4 +4,8 @@ export interface ZonesResponse {
     availableZones: Zone[];
     promoters: Promoter[];
     supervisors: any[];
+    assignedZones: Zone[];
+}
+export interface AssignedZonesResponse {
+    assignedZones: Zone[];
 }

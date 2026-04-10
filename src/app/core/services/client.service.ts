@@ -15,11 +15,11 @@ export class ClientService {
   constructor(private http: HttpClient) { }
 
   addClient(credentials: Client): Observable<AddClientResponse> {
-    return this.http.post<AddClientResponse>(API_ROUTES.CLIGRS.ADD.CLIENT, credentials);
+    return this.http.post<AddClientResponse>(API_ROUTES.CLIENTS_GUARANTORS.CREATE.CLIENT, credentials);
   }
 
   updateClient(dataToSend: any): Observable<any> {
-    return this.http.put<any>(API_ROUTES.CLIGRS.MODIFY.CLIENT, dataToSend);
+    return this.http.put<any>(API_ROUTES.CLIENTS_GUARANTORS.UPDATE.CLIENT, dataToSend);
   }
 
   //Metodos para manejar el ID del cliente

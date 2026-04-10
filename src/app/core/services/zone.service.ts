@@ -3,7 +3,7 @@ import { Zone } from '../../models/Zone';
 import { API_ROUTES } from '../constants/api-routes';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ZonesResponse } from '../../models/zones-response';
+import { AssignedZonesResponse, ZonesResponse } from '../../models/zones-response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +13,19 @@ export class ZoneService {
   constructor(private http:HttpClient) { }
 
   getZones(): Observable<Zone[]> { 
-    return this.http.get<Zone[]>(API_ROUTES.ZONES.GETALL);
+    return this.http.get<Zone[]>(API_ROUTES.ZONES.GET_ALL);
   }
 
   addZone(credentials: any): Observable<any> {
-    return this.http.post<any>(API_ROUTES.ZONES.ADD, credentials);
+    return this.http.post<any>(API_ROUTES.ZONES.CREATE, credentials);
   }
 
   getAvailableZones(): Observable<ZonesResponse> {
-    return this.http.get<ZonesResponse>(API_ROUTES.ZONES.GETAVAILABLE);
+    return this.http.get<ZonesResponse>(API_ROUTES.ZONES.GET_AVAILABLE);
+  }
+
+  getAssignedZones(): Observable<AssignedZonesResponse> {
+    return this.http.get<AssignedZonesResponse>(API_ROUTES.ZONES.GET_ASSIGNED);
   }
   
   zoneData(idZona: number): Observable<any>{
@@ -30,5 +34,9 @@ export class ZoneService {
 
   zonePromo(idZona: number): Observable<any>{
     return this.http.get<Zone[]>(`${API_ROUTES.COMMISSIONS}?idZona=${idZona}`);
+  }
+
+  updateZone(data: any) {
+    return this.http.put(API_ROUTES.ZONES.UPDATE, data);
   }
 }
