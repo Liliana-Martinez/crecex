@@ -66,5 +66,8 @@
         <option value="monthly">Consulta del mes</option>
     </select>  
 
-    <app-report-list [type]="selectedList"></app-report-list>
+    <app-report-list 
+        [type]="selectedList"
+        [incomeData]="incomeData"
+        [expenseData]="expenseData"></app-report-list>
 </div>

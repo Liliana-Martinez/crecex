@@ -34,6 +34,8 @@ export class CashComponent {
   selectedList: string = "daily";
   incomeExpensesForm!: FormGroup;
   currentDate: string = '';
+  incomeData: any;
+  expenseData: any;
 
   constructor(private statisticsService: StatisticsService) {}
 
@@ -74,15 +76,24 @@ export class CashComponent {
     console.log('tipo de reporte antes de enviar al back: ', this.selectedList);
     this.statisticsService.getCashReport(this.selectedList).subscribe({
       next: (response) => {
-        console.log('Total de pagos: ', response);
+        console.log('response: ', response);
+
+        this.incomeData = response.income;
+        this.expenseData = response.expenses;
+
+        console.log('incomeData: ', this.incomeData);
+        console.log('expenseData: ', this.expenseData);
         this.incomeExpensesForm.patchValue({
+          totalCash: response.cash.totalCash,
           incomeForm: {
-            income: response.income.total
-          }/*,
-          expensesForm: {
-            expenses: response.expenses.total
+            income: response.dailyData.income,
+            totalIncome: response.dailyData.totalIncome
           },
-          commissionExpenses: response.commissions.total*/
+          expensesForm: {
+            expenses: response.dailyData.expenses,
+            totalExpenses: response.dailyData.totalExpenses
+          },
+          commissionExpenses: response.dailyData.commissions
         });
       },
       error: (error) => {
