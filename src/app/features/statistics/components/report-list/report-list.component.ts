@@ -47,30 +47,22 @@ export class ReportListComponent implements OnChanges {
 
   private buildIncomeTable(): void {
     const data: any[] = [];
+    const transactions = this.incomeData.transactions || [];
 
-    // 👉 TOTAL
-    data.push({
-      paymentsIncome: this.incomeData.payments,
-      extraIncome: 0,
-      descriptionIncome: 'TOTAL',
-      totalIncome: this.incomeData.total
+    transactions.forEach((t: any, index: number) => {
+      const isFirst = index === 0;
+      const isLast = index === transactions.length - 1;
+
+      data.push({
+        paymentsIncome: isFirst ? this.incomeData.payments : '',
+        extraIncome: t.monto,
+        descriptionIncome: t.descripcion,
+        totalIncome: isLast ? this.incomeData.total : ''
+      });
     });
 
-    // 👉 TRANSACTIONS
-    if (this.incomeData.transactions) {
-      this.incomeData.transactions.forEach((t: any) => {
-        data.push({
-          paymentsIncome: 0,
-          extraIncome: t.monto,
-          descriptionIncome: t.descripcion,
-          totalIncome: 0
-        });
-      });
-    }
-
-    // 👉 IMPORTANTE con MatTableDataSource
     this.dailyIncomeReport.data = data;
-}
+  }
 
 private buildExpenseTable(): void {
   const data: any[] = [];
