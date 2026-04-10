@@ -29,13 +29,13 @@ export class ZoneService {
   }
   
   zoneData(idZona: number): Observable<any>{
-    return this.http.get<any>(`${API_ROUTES.PAYMENTS}?idZona=${idZona}`);
-  } 
-
-  zonePromo(idZona: number): Observable<any>{
-    return this.http.get<Zone[]>(`${API_ROUTES.COMMISSIONS}?idZona=${idZona}`);
+  return this.http.get<any>(`${API_ROUTES.PAYMENTS.GET_BY_ZONE}?idZona=${idZona}`);
   }
 
+  zonePromo(idZona: number): Observable<any>{
+  return this.http.get<Zone[]>(`${API_ROUTES.COMMISSIONS.GET_BY_ZONE}?idZona=${idZona}`);
+  }
+  
   updateZone(data: any) {
     return this.http.put(API_ROUTES.ZONES.UPDATE, data);
   }

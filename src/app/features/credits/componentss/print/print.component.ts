@@ -51,7 +51,7 @@ export class PrintComponent {
     doc.text(`HORARIO DE ENTREGA: ${(credito?.horarioEntrega ?? 'N/A').toUpperCase()}`,135,35 + offsetY);
     doc.text(`CODIGO:${credito.id || 'N/A'}`, 135, 45 + offsetY);
     doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 35 + offsetY);
-    doc.text(`PROMOTOR: ${(zona.promotora || '-').toUpperCase()}`,90, 45 + offsetY);
+    doc.text(`PROMOTOR: ${(zona.promotor || '-').toUpperCase()}`,90, 45 + offsetY);
     doc.text(`REFERENCIA: ${ref || 'N/A'}  `, 10, 45 + offsetY);
     doc.setFont('helvetica', 'bold');
     doc.text(`CLIENTE: ${nombreCompleto}`, 10, 52 + offsetY);
