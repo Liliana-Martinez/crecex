@@ -34,27 +34,27 @@ export class PrintComponent {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
-    format: [216, 330]
+    format: [216, 330] 
   });
   const colorResalte: [number, number, number] = [210, 255, 210];
   const renderContenido = (offsetY: number) => {
   const fechaHoy = dayjs().format('DD/MM/YYYY');
   const fechaFormateada = dayjs(credito.fechaEntrega).format('YYYYMMDD');
   const ref = `${fechaFormateada}${cliente.id}${credito.id}`;
-  const nombreCompleto = `${fechaHoy}${cliente?.apellidoPaterno}${cliente?.apellidoMaterno}`.toUpperCase();
+  const nombreCompleto = `${cliente?.nombre}  ${cliente?.apellidoPaterno}  ${cliente?.apellidoMaterno}`.toUpperCase();
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.text('FORMATO DE CREDITO FINANCIERA CRECEX', 105, 20 + offsetY, { align: 'center' });
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
     doc.text(`FECHA: ${fechaHoy}`, 90, 35 + offsetY);
-    doc.text(`HORARIO DE ENTREGA: ${credito?.horarioEntrega || 'N/A'}`, 135, 35 + offsetY);
+    doc.text(`HORARIO DE ENTREGA: ${(credito?.horarioEntrega ?? 'N/A').toUpperCase()}`,135,35 + offsetY);
     doc.text(`CODIGO:${credito.id || 'N/A'}`, 135, 45 + offsetY);
     doc.text(`SECCIÓN: ${zona.codigoZona || '-'}`, 10, 35 + offsetY);
-    doc.text(`PROMOTOR: ${zona.promotora || '-'}`, 90, 45 + offsetY);
-    doc.text(`REFERENCIA: ${ref || 'N/A'}  `, 135, 52 + offsetY);
+    doc.text(`PROMOTOR: ${(zona.promotora || '-').toUpperCase()}`,90, 45 + offsetY);
+    doc.text(`REFERENCIA: ${ref || 'N/A'}  `, 10, 45 + offsetY);
     doc.setFont('helvetica', 'bold');
-    doc.text(`CLIENTE: ${nombreCompleto}`, 10, 45 + offsetY);
+    doc.text(`CLIENTE: ${nombreCompleto}`, 10, 52 + offsetY);
 
     let y = 60 + offsetY;
     const salto = 8;
@@ -86,7 +86,8 @@ export class PrintComponent {
     const deduccionTotal   = descuentoSemanas+ credito.atrasos + credito.recargos;
     const fechaPrimerPago = pagos?.fechaEsperada
     ? dayjs(pagos.fechaEsperada).format('DD/MM/YYYY'): 'N/A';
-    imprimirPar('TIPO DE CREDITO', credito?.tipoCredito || 'N/A', false,
+    imprimirPar('TIPO DE CREDITO', (credito?.tipoCredito ?? 'N/A').toUpperCase(), false,
+
             'MONTO', `$${(credito?.monto ?? 0).toLocaleString('en-US')}`, true);
     imprimirPar('ABONO SEMANAL ANTERIOR', `$${(abonoAnterior ?? 0).toLocaleString('en-US')}`, false,
             'SEMANAS RESTANTES', `${(semanasRestantes ?? 0).toLocaleString('en-US')}`, false);

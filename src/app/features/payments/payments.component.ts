@@ -187,140 +187,182 @@ porcentajeCobranza: string = '0%';
   }
 
   imprimirPDF() {
-    if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
+
+  if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
     this.errorMessage = 'Debes seleccionar una zona antes de imprimir.';
     this.showErrorModal = true;
     return;
   }
+
   const doc = new jsPDF('landscape', 'mm', 'legal');
-  const fechaHoy = new Date().toLocaleDateString('es-MX');
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  const margenX = 10;
   const zona = this.codigoZona || 'N/A';
   const promotora = this.promotora || 'N/A';
   const semana = this.fechaSiguienteSemana || 'N/A';
+
+  doc.setFont('helvetica', 'normal');
+  doc.setLineWidth(0.2);
+  doc.setDrawColor(210, 210, 210);
+  doc.setFontSize(10);
+
+  let maxNombreWidth = 0;
+
+  this.dataPayment.forEach((item: any) => {
+    const width = doc.getTextWidth(item.name || '');
+    if (width > maxNombreWidth) maxNombreWidth = width;
+  });
+
+  const anchoNombreReal = maxNombreWidth + 8;
+  const anchoNombreLimitado = Math.min(anchoNombreReal, 90);
+
+  const columnasBase = [
+    { nombre: 'NUM', ancho: 7 },
+    { nombre: 'CLS', ancho: 9 },
+    { nombre: 'NOMBRE', ancho: anchoNombreLimitado },
+    { nombre: 'PUNTOS', ancho: 12 },
+    { nombre: 'N° CRED', ancho: 14 },
+    { nombre: 'CUMP.', ancho: 14 },
+    { nombre: 'ENTREGA', ancho: 16 },
+    { nombre: 'VENC.', ancho: 18 },
+    { nombre: 'SEM', ancho: 8 },
+    { nombre: 'MONTO', ancho: 15 },
+    { nombre: 'ABONO', ancho: 14 },
+    { nombre: 'ATR', ancho: 13 },
+    { nombre: 'AD', ancho: 13 },
+    { nombre: 'RECUPERADO', ancho: 20 },
+    { nombre: 'AD2', ancho: 15 },
+    { nombre: 'MULTAS', ancho: 15 }
+  ];
+
+  const anchoBaseTotal = columnasBase.reduce((acc, c) => acc + c.ancho, 0);
+  const anchoDisponible = pageWidth - (margenX * 2);
+  const escala = anchoDisponible / anchoBaseTotal;
+
+  const columnas = columnasBase.map(col => ({
+    nombre: col.nombre,
+    ancho: col.ancho * escala
+  }));
+
+  const anchoTotalTabla = columnas.reduce((acc, c) => acc + c.ancho, 0);
 
   const logo = new Image();
   logo.src = '/logo.jpg';
 
   logo.onload = () => {
-    doc.addImage(logo, 'JPEG', 10, 5, 20, 20);
 
-    doc.setFontSize(20);
+    doc.addImage(logo, 'JPEG', margenX, 8, 28, 28);
+
+    // Título
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(30, 30, 30);
+    doc.text('LISTA DE CLIENTES ACTIVOS', pageWidth / 2, 18, { align: 'center' });
+
+    // 🔹 ENCABEZADO EJECUTIVO CENTRADO EN BLOQUE
+    doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text('CLIENTES ACTIVOS', 155, 15, { align: 'center' });
+    doc.setTextColor(80, 80, 80);
 
+    const textoEncabezado =
+      `Zona: ${zona}     |     Grupo: ${zona.split('-')[1] ?? ''}     |     Promotor: ${promotora}     |     Semana: ${semana}`;
+
+    doc.text(textoEncabezado, pageWidth / 2, 40, { align: 'center' });
+
+    doc.setDrawColor(230, 230, 230);
+    doc.line(margenX, 50, pageWidth - margenX, 50);
+
+    let y = 60;
+    const altoFila = 12;
+
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
+    doc.setTextColor(50, 50, 50);
+    doc.setFillColor(245, 245, 245);
+
+    let x = margenX;
+
+    columnas.forEach(col => {
+      doc.rect(x, y, col.ancho, altoFila);
+      doc.text(col.nombre, x + col.ancho / 2, y + 8, { align: 'center' });
+      x += col.ancho;
+    });
+
+    y += altoFila;
+
     doc.setFont('helvetica', 'normal');
-    doc.text(`SECCIÓN: ${zona}`, 105, 30);  
-    doc.text(`GRUPO: ${zona.split('-')[1] ?? ''}`, 60, 30);
-    doc.text(`SEMANA: ${semana}`, 160, 30, { align: 'center' });
-    doc.text(`PROMOTORA: ${promotora}`, 250, 30, { align: 'right' });
-
     doc.setFontSize(10);
-
-    const columnas = [
-      { nombre: 'NUM', ancho: 9 },       
-      { nombre: 'CLA', ancho: 8 },       
-      { nombre: 'NOMBRE', ancho: 48 },  
-      { nombre: 'PUNTOS', ancho: 14 },   
-      { nombre: 'N° CRED', ancho: 16 },  
-      { nombre: 'CUMP.', ancho: 16 },    
-      { nombre: 'ENTREGA', ancho: 18 }, 
-      { nombre: 'VENCIMIENTO', ancho: 22 }, 
-      
-      { nombre: 'SEM', ancho: 9 },       
-      { nombre: 'MONTO', ancho: 16 },    
-      { nombre: 'ABONO', ancho: 14 },    
-      { nombre: 'ATR', ancho: 11 },      
-      { nombre: 'AD', ancho: 11 },       
-      { nombre: 'RECUPERADO', ancho: 25 }, // 27 -> 25
-      { nombre: 'AD2', ancho: 25 },      // 27 -> 25
-      { nombre: 'MULTAS', ancho: 18 }    // 22 -> 18 
-    ];
-
-    const altoFila = 8;
-    const margenX = 10;
-    let y = 45;
 
     let totalAtraso = 0;
     let totalAdelanto = 0;
 
-    const dibujarEncabezado = () => {
-      let x = margenX;
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.setFillColor(23, 170, 214);
-      columnas.forEach(col => {
-        const centroX = x + col.ancho / 2;
-        doc.rect(x, y, col.ancho, altoFila, 'F');
-        doc.text(col.nombre, centroX, y + altoFila / 2 + 2, {
-          align: 'center',
-          baseline: 'middle'
-        });
-        doc.setFillColor(23, 170, 214);
-        x += col.ancho;
-      });
-      y += altoFila;
-      doc.setFont('helvetica', 'normal');
-    };
-
-    dibujarEncabezado();
-
     this.dataPayment.forEach((item: any, index: number) => {
-      let x = margenX;
-      const atrasoVal = (`$${item.latePayment === 0}`|| `$${item.latePayment === 'o'}`) ? '' : item.latePayment;
-      const adelantoVal = (`$${item.latePayment === 0}` || item.earlyPayment === 'o') ? '' : item.earlyPayment;
 
-      if (atrasoVal !== '') totalAtraso += Number(item.latePayment || 0);
-      if (adelantoVal !== '') totalAdelanto += Number(item.earlyPayment || 0);
+      if (y + altoFila > pageHeight - 25) {
+        doc.addPage();
+        doc.setLineWidth(0.2);
+        doc.setDrawColor(210, 210, 210);
+        y = 20;
+      }
+
+      if (index % 2 === 0) {
+        doc.setFillColor(252, 252, 252);
+        doc.rect(margenX, y, anchoTotalTabla, altoFila, 'F');
+      }
+
+      const atrasoVal =
+        item.latePayment > 0
+          ? `$${Number(item.latePayment).toLocaleString('en-US')}`
+          : '';
+
+      const adelantoVal =
+        item.earlyPayment > 0
+          ? `$${Number(item.earlyPayment).toLocaleString('en-US')}`
+          : '';
+
+      if (item.latePayment > 0) totalAtraso += Number(item.latePayment);
+      if (item.earlyPayment > 0) totalAdelanto += Number(item.earlyPayment);
 
       const fila = [
         index + 1,
         item.classification,
         item.name,
-        `${item.puntos}`,
+        item.puntos,
         item.loans,
         item.compliance,
         item.deliveryDate,
         item.dueDate,
         item.week,
-        `$${item.monto}`,
-        `$${item.weeklyAmount}`,
+        item.monto ? `$${Number(item.monto).toLocaleString('en-US')}` : '',
+        item.weeklyAmount ? `$${Number(item.weeklyAmount).toLocaleString('en-US')}` : '',
         atrasoVal,
         adelantoVal,
-        item.nada ?? '',
-        item.nada ?? '',
-        item.nada ?? ''
+        item.recuperado ? `$${Number(item.recuperado).toLocaleString('en-US')}` : '',
+        item.ad2 ? `$${Number(item.ad2).toLocaleString('en-US')}` : '',
+        item.multas ? `$${Number(item.multas).toLocaleString('en-US')}` : ''
       ];
 
+      x = margenX;
+
       fila.forEach((valor, i) => {
+
         const col = columnas[i];
-        const centroX = x + col.ancho / 2;
 
-        let pintarColor = false;
         if (col.nombre === 'ATR' && atrasoVal !== '') {
-          doc.setFillColor(199, 57, 57);
-          pintarColor = true;
+          doc.setTextColor(170, 40, 40);
         } else if (col.nombre === 'AD' && adelantoVal !== '') {
-          doc.setFillColor(54, 141, 54);
-          pintarColor = true;
-        }
-
-        if (pintarColor) {
-          doc.rect(x, y, col.ancho, altoFila, 'F');
+          doc.setTextColor(30, 120, 60);
         } else {
-          doc.rect(x, y, col.ancho, altoFila);
+          doc.setTextColor(60, 60, 60);
         }
 
         if (col.nombre === 'NOMBRE') {
-          doc.text(String(valor), x + 2, y + altoFila / 2 + 2, {
-            align: 'left',
-            baseline: 'middle'
-          });
+          doc.text(String(valor), x + 3, y + 8);
         } else {
-          doc.text(String(valor), centroX, y + altoFila / 2 + 2, {
-            align: 'center',
-            baseline: 'middle'
-          });
+          doc.text(String(valor), x + col.ancho / 2, y + 8, { align: 'center' });
         }
 
         x += col.ancho;
@@ -328,27 +370,31 @@ porcentajeCobranza: string = '0%';
 
       y += altoFila;
 
-      if (y + altoFila > 275) { 
-        doc.addPage();
-        y = 20;
-        dibujarEncabezado();
-      }
+      doc.setDrawColor(235, 235, 235);
+      doc.line(margenX, y, margenX + anchoTotalTabla, y);
     });
 
+    y += 15;
+
     const deudaTotal = this.dataPayment.reduce(
-      (acc: number, p: any) => acc + ((p.week && Number(p.week) > 0) ? Number(p.weeklyAmount) : 0),
+      (acc: number, p: any) =>
+        acc + ((p.week && Number(p.week) > 0) ? Number(p.weeklyAmount) : 0),
       0
     );
 
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    y += 5;
+    doc.setFontSize(14);
 
-    doc.text(`DEBE DE ENTREGAR: $${deudaTotal.toLocaleString('en-US')}`, 140, y);
-    doc.text(` $${totalAtraso.toLocaleString('en-US')}`, 200, y, { align: 'left' });
-    doc.text(`$${totalAdelanto.toLocaleString('en-US')}`, 213, y, { align: 'left' });
+    doc.setTextColor(30, 30, 30);
+    doc.text(`TOTAL A ENTREGAR: $${deudaTotal.toLocaleString('en-US')}`, margenX, y);
 
-    doc.save(`${promotora}_${zona}_${this.fechaSiguienteSemana}.pdf`);
+    doc.setTextColor(170, 40, 40);
+    doc.text(`Atraso: $${totalAtraso.toLocaleString('en-US')}`, margenX + 150, y);
+
+    doc.setTextColor(30, 120, 60);
+    doc.text(`Adelanto: $${totalAdelanto.toLocaleString('en-US')}`, margenX + 220, y);
+
+    doc.save(`REPORTE_${promotora}_${zona}_${semana}.pdf`);
   };
 
   logo.onerror = () => {
