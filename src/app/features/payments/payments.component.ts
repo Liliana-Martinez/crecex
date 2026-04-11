@@ -268,7 +268,7 @@ porcentajeCobranza: string = '0%';
     doc.setTextColor(80, 80, 80);
 
     const textoEncabezado =
-      `Zona: ${zona}     |     Grupo: ${zona.split('-')[1] ?? ''}     |     Promotor: ${promotora}     |     Semana: ${semana}`;
+      `Zona: ${zona}     |     Grupo: ${zona.split('-')[1] ?? ''}     |     Promotora: ${promotora}     |     Semana: ${semana}`;
 
     doc.text(textoEncabezado, pageWidth / 2, 40, { align: 'center' });
 
