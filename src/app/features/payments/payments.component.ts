@@ -36,7 +36,7 @@ export class PaymentsComponent {
 
   idZona: number = 0;
   codigoZona: string = '';
-  promotora: string = '';
+  promotor: string = '';
   fechaSiguienteSemana: string = '';
 
   zonaSeleccionada: Zone | null = null;
@@ -78,7 +78,7 @@ export class PaymentsComponent {
   this.zoneService.zoneData(this.idZona).subscribe({
     next: (response) => {
       this.codigoZona = response.codigoZona;
-      this.promotora = response.promotora;
+      this.promotor = response.promotor;
       this.fechaSiguienteSemana = response.fechaSiguienteSemana;
       this.ClientsPayment = response.clientes;
       console.log('Datos de table:',this.ClientsPayment )
@@ -102,7 +102,7 @@ export class PaymentsComponent {
           lateFees: item.recargos ?? '',
           payment: '',
           paymentType: '',
-          paid: item.cantidadEfectivo ?? ''
+          paid: item.adeudo ?? ''
           
           
         }));
@@ -201,7 +201,7 @@ porcentajeCobranza: string = '0%';
 
   const margenX = 10;
   const zona = this.codigoZona || 'N/A';
-  const promotora = this.promotora || 'N/A';
+  const promotor = this.promotor || 'N/A';
   const semana = this.fechaSiguienteSemana || 'N/A';
 
   doc.setFont('helvetica', 'normal');
@@ -268,7 +268,7 @@ porcentajeCobranza: string = '0%';
     doc.setTextColor(80, 80, 80);
 
     const textoEncabezado =
-      `Zona: ${zona}     |     Grupo: ${zona.split('-')[1] ?? ''}     |     Promotora: ${promotora}     |     Semana: ${semana}`;
+      `Zona: ${zona}     |     Grupo: ${zona.split('-')[1] ?? ''}     |     Promotor: ${promotor}     |     Semana: ${semana}`;
 
     doc.text(textoEncabezado, pageWidth / 2, 40, { align: 'center' });
 
@@ -394,7 +394,7 @@ porcentajeCobranza: string = '0%';
     doc.setTextColor(30, 120, 60);
     doc.text(`Adelanto: $${totalAdelanto.toLocaleString('en-US')}`, margenX + 220, y);
 
-    doc.save(`REPORTE_${promotora}_${zona}_${semana}.pdf`);
+    doc.save(`REPORTE_${promotor}_${zona}_${semana}.pdf`);
   };
 
   logo.onerror = () => {

@@ -63,7 +63,7 @@ closeErrorModal() {
     doc.setFontSize(10);
     doc.text(`Fecha: ${fecha}`, 200, 10, { align: 'right' });
     const cliente = c.cliente;
-    const zonaInfo = `Zona: ${cliente.codigoZona}        Promotora: ${cliente.promotora}`;
+    const zonaInfo = `Zona: ${cliente.codigoZona}        Promotor: ${cliente.promotor}`;
     doc.text(zonaInfo, 105, 22, { align: 'center' });
 
     let y = 35;

@@ -18,7 +18,7 @@ export interface Cliente {
   domicilioReferencia: string;
   telefonoReferencia: string;
   codigoZona: string;
-  promotora: string;
+  promotor: string;
 }
 
 export interface Aval {
