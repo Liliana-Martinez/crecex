@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { StatisticsService } from '../../../../core/services/statistics.service';
 import { CommonModule } from '@angular/common';
 import { OnChanges, SimpleChanges } from '@angular/core';
+import dayjs from 'dayjs';
 
 export interface DailyIncomeReport {
   income: number;
@@ -26,23 +26,28 @@ export interface DailyExpenseReport {
   styleUrl: './report-list.component.css'
 })
 export class ReportListComponent implements OnChanges {
-  dailyIncomeReport = new MatTableDataSource<any>();
-  dailyExpenseReport = new MatTableDataSource<any>();
-  dailyIncomeReportCol: string[] = ['paymentsIncome', 'extraIncome', 'descriptionIncome', 'totalIncome'];
-  dailyExpenseReportCol: string[] = ['creditExpenses', 'extraExpenses', 'descriptionExpenses', 'commissionExpenses', 'supervisor', 'totalExpenses'];
+  incomeReport = new MatTableDataSource<any>();
+  expensesReport = new MatTableDataSource<any>();
+  commissionExpensesReport = new MatTableDataSource<any>();
+  incomeReportCol: string[] = ['date', 'paymentsIncome', 'extraIncome', 'descriptionIncome', 'totalIncome'];
+  expensesReportCol: string[] = ['date', 'creditExpense', 'extraExpense', 'descriptionExpense', 'totalExpenses'];
+  commissionExpensesReportCol: string[] = ['date', 'commissionExpense', 'commissionExpenseDescription', 'commissionExpensesTotal'];
   @Input() type: string = '';
   @Input() incomeData: any;
   @Input() expenseData: any;
+  @Input() commissionExpenseData: any;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.incomeData && this.expenseData) {
-      this.buildTables();
-    }
+    if (!this.incomeData && !this.expenseData && !this.commissionExpenseData) return;
+
+    this.setColumns();
+    this.buildTables();
   }
 
   private buildTables(): void {
     this.buildIncomeTable();
     this.buildExpenseTable();
+    this.buildCommissionTable();
   }
 
   private buildIncomeTable(): void {
@@ -54,6 +59,7 @@ export class ReportListComponent implements OnChanges {
       const isLast = index === transactions.length - 1;
 
       data.push({
+        date: dayjs(t.fecha).format('DD-MM-YYYY'),
         paymentsIncome: isFirst ? this.incomeData.payments : '',
         extraIncome: t.monto,
         descriptionIncome: t.descripcion,
@@ -61,36 +67,59 @@ export class ReportListComponent implements OnChanges {
       });
     });
 
-    this.dailyIncomeReport.data = data;
+    this.incomeReport.data = data;
   }
 
-private buildExpenseTable(): void {
-  const data: any[] = [];
+  private buildExpenseTable(): void {
+    const data: any[] = [];
+    const transactions = this.expenseData.transactions || [];
 
-  // 👉 TOTAL
-  data.push({
-    creditExpenses: this.expenseData.credits,
-    extraExpenses: 0,
-    descriptionExpenses: 'TOTAL',
-    commissionExpenses: 0,
-    supervisor: '',
-    totalExpenses: this.expenseData.total
-  });
+    transactions.forEach((t: any, index: number) => {
+      const isFirst = index === 0;
+      const isLast = index === transactions.length - 1;
 
-  // 👉 TRANSACTIONS
-  if (this.expenseData.transactions) {
-    this.expenseData.transactions.forEach((t: any) => {
       data.push({
-        creditExpenses: 0,
-        extraExpenses: t.monto,
-        descriptionExpenses: t.descripcion,
-        commissionExpenses: 0,
-        supervisor: '',
-        totalExpenses: 0
+        date: dayjs(t.fecha).format('DD-MM-YYYY'),
+        creditExpense: isFirst ? this.expenseData.credits: '',
+        extraExpense: t.monto,
+        descriptionExpense: t.descripcion,
+        totalExpenses: isLast ? this.expenseData.total : ''
       });
     });
+    this.expensesReport.data = data;
   }
 
-  this.dailyExpenseReport.data = data;
-}
+  private buildCommissionTable(): void {
+    const data: any[] = [];
+    const commissions = this.expenseData.commissions || [];
+
+    commissions.forEach((c: any, index: number) => {
+      const isLast = index === commissions.length - 1;
+
+      data.push({
+        date: dayjs(c.fecha).format('DD-MM-YYYY'),
+        commissionExpense: c.monto,
+        commissionExpenseDescription: 'Comisión',
+        commissionExpensesTotal: isLast ? this.getTotalCommissions(commissions) : ''
+      });
+    });
+
+    this.commissionExpensesReport.data = data;
+  }
+
+  private setColumns(): void {
+    if (this.type === 'daily') {
+      this.incomeReportCol = ['paymentsIncome', 'extraIncome', 'descriptionIncome', 'totalIncome'];
+      this.expensesReportCol = ['creditExpense', 'extraExpense', 'descriptionExpense', 'totalExpenses'];
+      this.commissionExpensesReportCol = ['commissionExpense', 'commissionExpenseDescription', 'commissionExpensesTotal'];
+    } else {
+      this.incomeReportCol = ['date', 'paymentsIncome', 'extraIncome', 'descriptionIncome', 'totalIncome'];
+      this.expensesReportCol = ['date', 'creditExpense', 'extraExpense', 'descriptionExpense', 'totalExpenses'];
+      this.commissionExpensesReportCol = ['date', 'commissionExpense', 'commissionExpenseDescription', 'commissionExpensesTotal'];
+    }
+  }
+
+  private getTotalCommissions(commissions: any[]): number {
+    return commissions.reduce((sum: number, c: any) => sum + c.monto, 0);
+  }
 }
