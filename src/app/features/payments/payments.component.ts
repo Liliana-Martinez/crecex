@@ -31,7 +31,7 @@ export class PaymentsComponent {
   paymentCol: string[] = [
     'clients', 'name', 'loans', 'classification', 'compliance', 'deliveryDate',
     'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment', 'default',
-    'paid', 'lateFees', 'payment', 'paymentType'
+    'adeudo', 'lateFees', 'payment', 'paymentType'
   ];
 
   idZona: number = 0;
@@ -56,7 +56,7 @@ export class PaymentsComponent {
   }
   //colores pagado o no
   getClas(campo: string, valor: any): string {
-  if (campo === 'paid') {
+  if (campo === 'adeudo') {
     return valor !== null && valor > 0 ? 'pago-realizado' : 'pago-pendiente';
   }
   // Otras condiciones para otras columnas si las tienes
@@ -102,7 +102,7 @@ export class PaymentsComponent {
           lateFees: item.recargos ?? '',
           payment: '',
           paymentType: '',
-          paid: item.adeudo ?? ''
+          adeudo: item.adeudo ?? ''
           
           
         }));
