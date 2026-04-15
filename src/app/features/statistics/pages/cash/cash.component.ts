@@ -36,6 +36,7 @@ export class CashComponent {
   currentDate: string = '';
   incomeData: any;
   expenseData: any;
+  commissionExpenseData: any;
 
   constructor(private statisticsService: StatisticsService) {}
 
@@ -80,9 +81,12 @@ export class CashComponent {
 
         this.incomeData = response.income;
         this.expenseData = response.expenses;
+        this.commissionExpenseData = response.expenses.commissions;
 
-        console.log('incomeData: ', this.incomeData);
-        console.log('expenseData: ', this.expenseData);
+        /*console.log('incomeData: ', this.incomeData);
+        console.log('expenseData: ', this.expenseData);*/
+        console.log('commissionExpense: ', this.commissionExpenseData);
+
         this.incomeExpensesForm.patchValue({
           totalCash: response.cash.totalCash,
           incomeForm: {
@@ -132,6 +136,8 @@ export class CashComponent {
     console.log('dataToSend: ', dataToSend);
     this.statisticsService.addTransaction(dataToSend).subscribe(() => {
       this.getReportData();
+
+      console.log('Se agrego el movimiento correctamente.');
 
       //Limpiar el formulario
       this.incomeExpensesForm.patchValue({
