@@ -1,4 +1,3 @@
-<!--<app-submenu-statistics></app-submenu-statistics>-->
 <div class="container-form">
     <!--Formulario ingresos y egresos-->
     <form [formGroup]="incomeExpensesForm" (ngSubmit)="addTransaction()">
@@ -70,4 +69,14 @@
         [type]="selectedList"
         [incomeData]="incomeData"
         [expenseData]="expenseData"></app-report-list>
+</div>
+
+<!--Modal que se muestra cuando se agregaron correctamente los datos del cliente y sus garantuas -->
+
+ <div *ngIf="showSuccessModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: green;">✔️ ¡Éxito!</h3>
+    <p>{{ successMessage }}</p>
+    <button (click)="closeSuccessModal()">Cerrar</button>
+  </div>
 </div>
