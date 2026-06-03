@@ -45,8 +45,7 @@
 <div class="total-footer" *ngIf="dataDailyRep.data.length > 0">
   <div class="footer-content">
     <span class="left">Total créditos: {{ dataDailyRep.data.length }}</span>
-    <span class="right">
-      Total monto:
+    <span class="right">Total monto: 
       <span class="amount">
         {{ getTotalCreditAmount() | currency:'MXN':'symbol-narrow':'1.2-2' }}
       </span>

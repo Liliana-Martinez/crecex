@@ -37,6 +37,8 @@ export class CashComponent {
   incomeData: any;
   expenseData: any;
   commissionExpenseData: any;
+  showSuccessModal = false;
+  successMessage = '';
 
   constructor(private statisticsService: StatisticsService) {}
 
@@ -137,7 +139,8 @@ export class CashComponent {
     this.statisticsService.addTransaction(dataToSend).subscribe(() => {
       this.getReportData();
 
-      console.log('Se agrego el movimiento correctamente.');
+      this.successMessage = 'El movimiento se agregó correctamente.';
+      this.showSuccessModal = true;
 
       //Limpiar el formulario
       this.incomeExpensesForm.patchValue({
@@ -151,5 +154,10 @@ export class CashComponent {
         }
       });
     });
+  }
+
+  //Cerrar el modal  de exito
+  closeSuccessModal(): void {
+    this.showSuccessModal = false;
   }
 }

@@ -1,29 +1,53 @@
 table {
     width: 100%;
-  }
+}
 
 .income-list-container {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 20px;
+    margin: 70px 20px 0 20px;
     border: 1px solid #ccc; /* Borde sutil */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
 }
 
 .expense-list-container {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 20px;
+  margin: 80px 20px 0 20px;
   border: 1px solid #ccc; /* Borde sutil */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
 }
 
 .commissionExpense-list-container {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 20px;
+  margin: 80px 20px 0 20px;
   border: 1px solid #ccc; /* Borde sutil */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra difuminada */
+}
+
+mat-card-title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  letter-spacing: 5px;
+  padding: 5px 0 5px 0;
+  background-color: #1b5e1fea;
+}
+
+.total-footer .footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-top: 2px solid #e0e0e0;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.total-footer .left {
+  text-align: left;
 }
 
 
