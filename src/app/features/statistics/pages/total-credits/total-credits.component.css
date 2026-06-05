@@ -1,37 +1,55 @@
-select {
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 250px; 
-    padding: 4px; 
-    font-size: 15px; 
-    border: 1px solid #000000; 
-    border-radius: 4px; 
-    appearance: none; 
-    cursor: pointer; 
+.table-selector {
+    margin: 20px;
 }
 
-select:focus {
-    border-color: gray; 
-    outline: none; 
-    box-shadow: 0 0 5px rgba(87, 93, 96, 0.5); 
+.table-selector-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
 }
 
-select {
-    /*background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); Flecha personalizada */
-    background-image: url('/flecha.png');
-    background-repeat: no-repeat;
-    background-position: right 10px center; /* Posición de la flecha */
-    background-size: 10px; /* Tamaño de la flecha */
+.select-container {
+    position: relative;
+    width: 250px;
 }
 
-/* Estilo para el hover */
-select:hover {
-    border-color: gray; /* Cambia el color del borde al pasar el mouse */
+.custom-select {
+    width: 100%;
+    padding: 12px 40px 12px 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
 }
 
-/* Estilo para deshabilitado */
-select:disabled {
-    background-color: #f0f0f0; /* Color de fondo deshabilitado */
-    cursor: not-allowed; /* Cambia el cursor */
-    opacity: 0.7; /* Reduce la opacidad */
+.custom-select:focus {
+    border-color: #1B5E20;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+
+.custom-select:hover {
+    border-color: #bdbdbd;
+}
+
+.initial-focus {
+    border-color: #1B5E20;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+
+.select-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #6b7280;
+    pointer-events: none;
 }

@@ -22,22 +22,22 @@ import { BuscarCliente } from '../../../models/BuscarCliente';
 export class SearchBarComponent {
   @Input() modulo: string = '';
   @Input() selectedOption: string = ''; //************ 
-  @Output() clienteEncontrado = new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
-  nombreCompleto: string = '';  
-  mensajeError: string = '';
+  @Output() clienteEncontrado= new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
+  fullName: string = '';  
+  errorMessage: string = '';
   
   constructor(private creditsService: CreditsService) {}
 
-  buscarCliente(): void {
-    this.mensajeError = '';
+  searchClient(): void {
+    this.errorMessage = '';
 
-    if (!this.nombreCompleto.trim()) {
-      this.mensajeError = 'El nombre completo es obligatorio';
+    if (!this.fullName.trim()) {
+      this.errorMessage = 'El nombre completo es obligatorio';
       return;
     }   
       
     const datosCliente: BuscarCliente = {
-      nombreCompleto: this.nombreCompleto, 
+      nombreCompleto: this.fullName, 
       modulo: this.modulo,
       selectedOption: this.selectedOption
     };
@@ -51,9 +51,9 @@ export class SearchBarComponent {
       },
       error: (err) => {
         if (err.status === 404) {
-          this.mensajeError = 'Cliente no encontrado.';
+          this.errorMessage = 'Cliente no encontrado.';
         } else {
-          this.mensajeError = err.error?.message || 'Ocurrio un error inesperado';
+          this.errorMessage = err.error?.message || 'Ocurrio un error inesperado';
         }
       }
     });

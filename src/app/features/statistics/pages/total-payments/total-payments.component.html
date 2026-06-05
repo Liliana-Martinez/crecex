@@ -1,52 +1,47 @@
-<!--<app-submenu-statistics></app-submenu-statistics>-->
-<app-search-bar-zone (selectedZone)="onZoneSelected($event)"></app-search-bar-zone>
-<div class="container-list">
-    <table mat-table [dataSource]="dataTotalPayments" class="mat-elevation-z8">
-        <!-- Numero de credito -->
-        <ng-container matColumnDef="paymentNumber">
-          <th mat-header-cell *matHeaderCellDef> No. de pago </th>
-          <td mat-cell *matCellDef="let element"> {{element.paymentNumber}} </td>
-        </ng-container>
+<div class="table-selector">
+    <label for="tableSelector" class="table-selector-label">
+        Selecciona el tipo de consulta
+    </label>
 
-        <!-- Nombre del cliente -->
-        <ng-container matColumnDef="clientName">
-          <th mat-header-cell *matHeaderCellDef> Cliente </th>
-          <td mat-cell *matCellDef="let element"> {{element.clientName}} </td>
-        </ng-container>
-      
-        <!-- Monto del crédito -->
-        <ng-container matColumnDef="creditAmount">
-          <th mat-header-cell *matHeaderCellDef> Monto del crédito</th>
-          <td mat-cell *matCellDef="let element"> {{element.creditAmount | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
-        </ng-container>
-      
-        <!-- Monto semanal -->
-        <ng-container matColumnDef="weeklyAmount">
-            <th mat-header-cell *matHeaderCellDef> Monto semanal </th>
-            <td mat-cell *matCellDef="let element"> {{element.weeklyAmount | currency:'MXN':'symbol-narrow':'1.2-2'}} </td>
-        </ng-container>
-
-        <!-- Fecha -->
-        <ng-container matColumnDef="paymentDate">
-          <th mat-header-cell *matHeaderCellDef> Fecha de pago </th>
-          <td mat-cell *matCellDef="let element"> {{element.paymentDate}} </td>
-        </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="totalPaymentsCol"></tr>
-        <tr mat-row *matRowDef="let row; columns: totalPaymentsCol;"></tr>
-    </table>
+    <div class="select-container">
+        <select id="listSelect" class="custom-select initial-focus" [(ngModel)]="selectedList" (ngModelChange)="onReportTypeChange($event)">
+            <option value="daily">Consulta del día</option>
+            <option value="weekly">Consulta de la semana</option>
+            <option value="monthly">Consulta del mes</option>
+        </select>  
+        <i class="fa-solid fa-chevron-down select-icon"></i>
+    </div>
 </div>
-<div class="container-form">
-    <form [formGroup]="formCobranza">
-        <div class="row">
-            <div class="data">
-                <label>Total de semana</label>
-                <input type="text" formControlName="weekTotal" readonly>
-            </div>
-            <div class="data">
-                <label>Total recibido</label>
-                <input type="text" formControlName="receivedTotal"> 
-            </div>  
+
+<div class="paymentSummary-container">
+    <table mat-table [dataSource]="paymentSummary" class="mat-elevation-z8">
+        <!--dinero cobrado-->
+        <ng-container matColumnDef="collectedAmount">
+            <th mat-header-cell *matHeaderCellDef> Dinero cobrado </th>
+            <td mat-cell *matCellDef="let element"> {{element.collectedAmount}} </td>
+        </ng-container>
+        <!--porcentaje de dinero cobrado-->
+        <ng-container matColumnDef="collectedAmountPercentage">
+            <th mat-header-cell *matHeaderCellDef> Porcentaje de dinero cobrado </th>
+            <td mat-cell *matCellDef="let element"> {{element.collectedAmountPercentage}} </td>
+        </ng-container>
+        <!--dinero faltante-->
+        <ng-container matColumnDef="outstandingAmount">
+            <th mat-header-cell *matHeaderCellDef> Dinero faltante </th>
+            <td mat-cell *matCellDef="let element"> {{element.outstandingAmount}} </td>
+        </ng-container>
+        <!--porcentaje de dinero faltante-->
+        <ng-container matColumnDef="outstandingAmountPercentage">
+            <th mat-header-cell *matHeaderCellDef> Porcentaje de dinero faltante </th>
+            <td mat-cell *matCellDef="let element"> {{element.outstandingAmountPercentage}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="paymentSummaryCol"></tr>
+        <tr mat-row *matRowDef="let row; columns: paymentSummaryCol;"></tr>
+    </table>
+    <div class="total-footer">
+        <div class="footer-content">
+            <span class="left"> Total de deuda: {{ totalDebt | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
         </div>
-    </form>
+    </div>
 </div>

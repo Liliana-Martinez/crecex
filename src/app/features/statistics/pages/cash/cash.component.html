@@ -1,74 +1,87 @@
-<div class="container-form">
-    <!--Formulario ingresos y egresos-->
+<div class="financial-container">
     <form [formGroup]="incomeExpensesForm" (ngSubmit)="addTransaction()">
-        <div class="row">
-            <div class="data">
-                <label>Cantidad en caja</label>
-                <input type="number" formControlName="totalCash" [readonly]="true">
+        <div class="section-card">
+            <h3>Cantidad en caja</h3>
+            <div class="form-grid">
+                <div class="input-group small-input-group">
+                    <label>Cantidad en caja</label>
+                    <input type="number" formControlName="totalCash" readonly>
+                </div>
             </div>
         </div>
-
-        <!--Subgrupo para los ingresos-->
-        <div formGroupName="incomeForm" class="row">
-            <div class="data">
-                <label>Ingresos de pagos</label>
-                <input type="text" formControlName="income" readonly>
-            </div>
-            <div class="data">
-                <label>Ingresos extra</label>
-                <input type="number" formControlName="extraIncome">
-            </div>
-            <div class="data">
-                <label>Descripción</label>
-                <input type="text" formControlName="descriptionIncome">
-            </div>
-            <div class="data">
-                <label>Total</label>
-                <input type="text" formControlName="totalIncome" [readonly]="true">
-            </div>
-        </div>
-
-        <!--Subgrupo para los egresos-->
-        <div formGroupName="expensesForm" class="row">
-            <div class="data">
-                <label>Egresos de créditos</label>
-                <input type="text" formControlName="expenses" [readonly]="true">
-            </div>
-            <div class="data">
-                <label>Egresos extra</label>
-                <input type="number" formControlName="extraExpense">
-            </div>
-            <div class="data">
-                <label>Descripción</label>
-                <input type="text" formControlName="descriptionExpense">
-            </div>
-            <div class="data">
-                <label>Total</label>
-                <input type="text" formControlName="totalExpenses" [readonly]="true">
+        <div class="section-card">
+            <h3>Ingresos</h3>
+            <div formGroupName="incomeForm" class="form-grid">
+                <div class="input-group">
+                    <label>Ingresos de pagos</label>
+                    <input type="text" formControlName="income" readonly>
+                </div>
+                <div class="input-group">
+                    <label>Ingresos extra</label>
+                    <input type="number" formControlName="extraIncome">
+                </div>
+                <div class="input-group">
+                    <label>Descripción</label>
+                    <input type="text" formControlName="descriptionIncome">
+                </div>
+                <div class="input-group">
+                    <label>Total</label> 
+                    <input type="text" formControlName="totalIncome" readonly>
+                </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="data">
-                <label>Egresos de comisiones</label>
-                <input type="text" formControlName="commissionExpenses" [readonly]="true">
-            </div>  
+         <!-- EGRESOS -->
+        <div class="section-card">
+            <h3>Egresos</h3>
+            <div formGroupName="expensesForm" class="form-grid">
+                <div class="input-group">
+                    <label>Egresos de créditos</label>
+                    <input type="text" formControlName="expenses" readonly>
+                </div>
+                <div class="input-group">
+                    <label>Egresos extra</label>
+                    <input type="number" formControlName="extraExpense">
+                </div>
+                <div class="input-group">
+                    <label>Descripción</label>
+                    <input type="text" formControlName="descriptionExpense">
+                </div>
+                <div class="input-group">
+                    <label>Total</label>
+                    <input type="text" formControlName="totalExpenses" readonly>
+                </div>
+            </div>
         </div>
-        <app-save-button></app-save-button>
+        <!-- COMISIONES -->
+        <div class="section-card">
+            <h3>Comisiones</h3>
+            <div class="form-grid">
+                <div class="input-group small-input-group">
+                    <label>Egresos de comisiones</label>
+                    <input type="text" formControlName="commissionExpenses" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <app-save-button></app-save-button>
+        </div>
     </form>
 </div>
 
-<div class="container-table">
-    <select id="listSelect" [(ngModel)]="selectedList" (ngModelChange)="onReportTypeChange($event)">
-        <option value="daily">Consulta del día</option>
-        <option value="weekly">Consulta de la semana</option>
-        <option value="monthly">Consulta del mes</option>
-    </select>  
+<div class="table-selector">
+    <label for="tableSelector" class="table-selector-label">
+        Selecciona el tipo de reporte
+    </label>
 
-    <app-report-list 
-        [type]="selectedList"
-        [incomeData]="incomeData"
-        [expenseData]="expenseData"></app-report-list>
+    <div class="select-container">
+        <select id="listSelect" class="custom-select initial-focus" [(ngModel)]="selectedList" (ngModelChange)="onReportTypeChange($event)">
+            <option value="daily">Consulta del día</option>
+            <option value="weekly">Consulta de la semana</option>
+            <option value="monthly">Consulta del mes</option>
+        </select>  
+        <i class="fa-solid fa-chevron-down select-icon"></i>
+    </div>
+    <app-report-list [type]="selectedList" [incomeData]="incomeData" [expenseData]="expenseData"></app-report-list>
 </div>
 
 <!--Modal que se muestra cuando se agregaron correctamente los datos del cliente y sus garantuas -->

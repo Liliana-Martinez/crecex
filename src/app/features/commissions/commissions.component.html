@@ -1,7 +1,7 @@
 <app-search-bar-zone (selectedZone)="onZoneSelected($event)" ></app-search-bar-zone>
 
 <div class="commissions">
-  <table mat-table [dataSource]="dataCommissions" class="mat-elevation-z8 demo-table">
+  <table mat-table [dataSource]="dataCommissions" class="mat-elevation-z8">
   
     <!-- Comisión de porcentaje de cobranza -->
     <ng-container matColumnDef="collectionRate">
@@ -38,9 +38,24 @@
   </table>
 </div>
 
-<!-- Input de entrada para el saldo extra -->
-<div class="input-container">
-    <input type="number" placeholder="Saldo" [(ngModel)]="value"/>
-</div>
+<form class="extra-form" [formGroup]="extraCommissionForm" (ngSubmit)="addExtraCommission()">
+  <div class="form-card">
+    <h3>Agregar extra</h3>
+    <div class="form-row">
+      <div class="input-group">
+        <label>Monto extra</label>
+        <input type="number" formControlName="extra" placeholder="Ingresa el monto" required>
+      </div>
+      <div class="input-group">
+        <label>Descripción</label>
+        <input type="text" formControlName="description" placeholder="Describe el extra" required>
+      </div>
+    </div>
 
-<app-save-button label= "Agregar a extras" (save)="agregarExtras()"></app-save-button>
+  </div>
+  <div class="button-container">
+    <app-save-button label="Agregar a extras"></app-save-button>
+  </div>
+
+</form>
+

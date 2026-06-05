@@ -7,9 +7,10 @@ import { FormCreditComponent } from "../../componentss/form-credit/form-credit.c
 import { CreditsService } from '../../../../core/services/credits.service';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { PrintComponent } from '../../componentss/print/print.component';
+import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 @Component({
   selector: 'app-renew',
-  imports: [TableComponent, CommonModule, SearchBarComponent,PrintButtonComponent, FormCreditComponent, PrintComponent],
+  imports: [TableComponent, CommonModule, SearchBarComponent,PrintButtonComponent, FormCreditComponent, PrintComponent, SaveButtonComponent],
   templateUrl: './renew.component.html',
   styleUrl: './renew.component.css'
 })

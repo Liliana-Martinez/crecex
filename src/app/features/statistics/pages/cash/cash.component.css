@@ -1,88 +1,122 @@
-form p {
-    margin-left: 20px;
+.financial-container {
+    margin: 10px;
+}
+
+.section-card {
+    border-radius: 16px;
+    padding: 10px 20px;
+}
+
+.section-card:focus-within {
+    background-color: #e8f5e9;
+}
+
+.section-card h3 {
     margin-top: 5px;
     margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
 }
 
-.row {
-    margin-left: 20px;
-    margin-right: 5px;
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.small-input-group {
+    max-width: 250px;
+}
+
+.input-group {
     display: flex;
-    flex-direction: row;
-} 
-
-.data {
-    flex: 1;
-    padding-right: 30px;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.data label {
-    width: 150px;
-    margin-top: 20px;
-    display: block;
+.input-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
 }
 
-.data input {
-    width: 250px;
-    padding: 5px;
-    border: none;
-    border-bottom: 1px solid black;
-}
-
-.data input:focus {
-    background-color: rgba(220, 220, 220, 0.799);
+.input-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 14px;
     outline: none;
-    border-radius: 5px;
-    border-bottom: 2px solid gray;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    background-color: white;
 }
 
-.container-table {
-    margin-top: 50px;
+.input-group input:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
 }
 
-select {
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 250px; 
-    padding: 4px; 
-    font-size: 15px; 
-    border: 1px solid #000000; 
-    border-radius: 4px; 
-    appearance: none; 
-    cursor: pointer; 
+.input-group input[readonly] {
+    background-color: #f3f4f6;
+    color: #6b7280;
 }
 
-select:focus {
-    border-color: gray; 
-    outline: none; 
-    box-shadow: 0 0 5px rgba(87, 93, 96, 0.5); 
+.table-selector {
+    margin: 20px;
 }
 
-select {
-    /*background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); Flecha personalizada */
-    background-image: url('/flecha.png');
-    background-repeat: no-repeat;
-    background-position: right 10px center; /* Posición de la flecha */
-    background-size: 10px; /* Tamaño de la flecha */
+.table-selector-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
 }
 
-/* Estilo para el hover */
-select:hover {
-    border-color: gray; /* Cambia el color del borde al pasar el mouse */
+.select-container {
+    position: relative;
+    width: 250px;
 }
 
-/* Estilo para deshabilitado */
-select:disabled {
-    background-color: #f0f0f0; /* Color de fondo deshabilitado */
-    cursor: not-allowed; /* Cambia el cursor */
-    opacity: 0.7; /* Reduce la opacidad */
+.custom-select {
+    width: 100%;
+    padding: 12px 40px 12px 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
 }
 
-.currentDate {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #2c3e50;
+.custom-select:focus {
+    border-color: #1B5E20;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+
+.custom-select:hover {
+    border-color: #bdbdbd;
+}
+
+.initial-focus {
+    border-color: #1B5E20;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+
+.select-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #6b7280;
+    pointer-events: none;
 }
 
 .modal-overlay {

@@ -7,6 +7,7 @@ import { PrintButtonComponent } from "../../../../shared/componentes/print-butto
 import { CreditsService } from '../../../../core/services/credits.service';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { PrintComponent } from '../../componentss/print/print.component';
+import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 
 @Component({
   selector: 'app-additional',
@@ -15,7 +16,7 @@ import { PrintComponent } from '../../componentss/print/print.component';
             CommonModule, 
             SearchBarComponent, 
             PrintButtonComponent, 
-            PrintComponent],
+            PrintComponent, SaveButtonComponent],
   templateUrl: './additional.component.html',
   styleUrl: './additional.component.css'
 })

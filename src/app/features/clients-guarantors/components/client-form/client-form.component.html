@@ -1,26 +1,30 @@
 <div class="container-form">
-    <form [formGroup]="clientForm" (ngSubmit)="modo === 'agregar' ? addClient() : updateClient()">
-        <h4>Datos personales del cliente</h4>
+    <form [formGroup]="clientForm" (ngSubmit)="option === 'create' ? addClient() : updateClient()">
+        <div class="form-section">
+            <h4>Datos personales del cliente</h4>
             <div class="row">
                 <div class="data">
                     <label>Nombre</label>
                     <input type="text" formControlName="name" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('name')?.invalid && clientForm.get('name')?.touched">
-                        Nombre vacío o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('name')?.invalid && clientForm.get('name')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa un nombre válido</span>
                     </div>
                 </div>
                 <div class="data">
                     <label>Apellido paterno</label>
                     <input type="text" formControlName="paternalLn" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('paternalLn')?.invalid && clientForm.get('paternalLn')?.touched">
-                        Apellido vacío o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('paternalLn')?.invalid && clientForm.get('paternalLn')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa un apellido válido</span>
                     </div><!--paternalLn=paternalLastName -->
                 </div>
                 <div class="data">
                     <label>Apellido materno</label>
                     <input type="text" formControlName="maternalLn" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('maternalLn')?.invalid && clientForm.get('maternalLn')?.touched">
-                        Apellido vacío o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('maternalLn')?.invalid && clientForm.get('maternalLn')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa un apellido válido</span>
                     </div> <!--maternalLn=maternalLastName -->
                 </div>  
             </div>
@@ -28,22 +32,25 @@
                 <div class="data">
                     <label>Edad</label>
                     <input type="number" formControlName="age" min="18" max="60" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('age')?.invalid && clientForm.get('age')?.touched">
-                        Edad vacía o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('age')?.invalid && clientForm.get('age')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa una edad válida</span>
                     </div>
                 </div>
                 <div class="data">
                     <label>Domicilio</label>
                     <input type="text" formControlName="address" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('address')?.invalid && clientForm.get('address')?.touched">
-                        Domicilio vacío o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('address')?.invalid && clientForm.get('address')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa un domicilio válido</span>
                     </div>
                 </div>
                 <div class="data">
                     <label>Colonia</label>
                     <input type="text" formControlName="colonia" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('colonia')?.invalid && clientForm.get('colonia')?.touched">
-                        Colonia vacío o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('colonia')?.invalid && clientForm.get('colonia')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa una colonia válida</span>
                     </div>
                 </div>
             </div>
@@ -51,33 +58,32 @@
                 <div class="data">
                     <label>Ciudad</label>
                     <input type="text" formControlName="city" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('city')?.invalid && clientForm.get('city')?.touched">
-                        Ciudad vacío o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('city')?.invalid && clientForm.get('city')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa una ciudad válida</span>
                     </div>
                 </div>
                 <div class="data">
                     <label>Telefóno</label>
                     <input type="tel" formControlName="phone" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('phone')?.invalid && clientForm.get('phone')?.touched">
-                        Telefóno vacío o no es válido.
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('phone')?.invalid && clientForm.get('phone')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa un teléfono válido</span>
                     </div>
                 </div>
                 <div class="data">
                     <label>Clasificación</label>
                     <input type="text" formControlName="classification" required>
-                    <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('classification')?.invalid && clientForm.get('classification')?.touched">
-                        Clasificación vacío o no es válido.
-                    </div> <!--group=grupo de clasificacion-->
+                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('classification')?.invalid && clientForm.get('classification')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Ingresa una clasificación válida</span>
+                    </div> 
                 </div>
             </div>
             <div class="row">
                 <div class="data">
                     <label>Zona</label>
-                    <input type="text" 
-                            matInput
-                            placeholder="Ejem. 1-A"
-                            formControlName="zone"
-                            [matAutocomplete]="auto">
+                    <input type="text" matInput placeholder="Ejemplo 1-A" formControlName="zone" [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onZoneSelected($event.option.value)">
                         <mat-option *ngFor="let zona of filteredZones$ | async" [value]="zona.codigoZona">
                             {{ zona.codigoZona }}
@@ -88,82 +94,99 @@
                     <label>Puntos</label>
                     <input type="number" formControlName="points">
                 </div>
-            </div> 
-        <h4>Datos del trabajo del cliente</h4>
-        <div class="row">
-            <div class="data">
-                <label>Nombre</label>
-                <input type="text" formControlName="nameJob" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('nameJob')?.invalid && clientForm.get('nameJob')?.touched">
-                    Nombre de trabajo vacío o no es válido.
-                </div>
-            </div>
-            <div class="data">
-                <label>Domicilio</label>
-                <input type="text" formControlName="addressJob" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('addressJob')?.invalid && clientForm.get('addressJob')?.touched">
-                    Domicilio de trabajo vacío o no es válido.
-                </div>
-            </div>
-            <div class="data">
-                <label>Telefóno</label>
-                <input type="tel" formControlName="phoneJob" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('phoneJob')?.invalid && clientForm.get('phoneJob')?.touched">
-                    Telefóno de trabajo vacío o no es válido.
-                </div>
-            </div>
-        </div>
-        
-        <h4>Referencia del cliente</h4>
-        <div class="row">
-            <div class="data">
-                <label>Nombre completo</label>
-                <input type="text" formControlName="nameReference" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('nameReference')?.invalid && clientForm.get('nameReference')?.touched">
-                    Nombre de referencia vacío o no es válido.
-                </div>
-            </div>
-            <div class="data">
-                <label>Domicilio</label>
-                <input type="text" formControlName="addressReference" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('addressReference')?.invalid && clientForm.get('addressReference')?.touched">
-                    Domicilio de referencia vacío o no es válido.
-                </div>
-            </div>
-            <div class="data">
-                <label>Telefóno</label>
-                <input type="tel" formControlName="phoneReference" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('phoneReference')?.invalid && clientForm.get('phoneReference')?.touched">
-                    Telefóno de referencia vacío o no es válido.
-                </div>
             </div>
         </div>
 
-        <h4>Garantias</h4>
-        <div formGroupName="garantias" class="row">
+        <div class="form-section">
+            <h4>Datos del trabajo del cliente</h4>
+        <div class="row">
+            <div class="data">
+                <label>Nombre</label>
+                <input type="text" formControlName="jobName" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('jobName')?.invalid && clientForm.get('jobName')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa un nombre de trabajo válido</span>
+                </div>
+            </div>
+            <div class="data">
+                <label>Domicilio</label>
+                <input type="text" formControlName="workAddress" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('workAddress')?.invalid && clientForm.get('workAddress')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa un domicilio válido</span>
+                </div>
+            </div>
+            <div class="data">
+                <label>Telefóno</label>
+                <input type="tel" formControlName="workPhone" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('workPhone')?.invalid && clientForm.get('workPhone')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa un teléfono válido</span>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+        <div class="form-section">
+            <h4>Referencia del cliente</h4>
+        <div class="row">
+            <div class="data">
+                <label>Nombre completo</label>
+                <input type="text" formControlName="referenceName" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('referenceName')?.invalid && clientForm.get('referenceName')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa un nombre válido</span>
+                </div>
+            </div>
+            <div class="data">
+                <label>Domicilio</label>
+                <input type="text" formControlName="referenceAddress" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('referenceAddress')?.invalid && clientForm.get('referenceAddress')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa un domicilio válido</span>
+                </div>
+            </div>
+            <div class="data">
+                <label>Telefóno</label>
+                <input type="tel" formControlName="referencePhone" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('referencePhone')?.invalid && clientForm.get('referencePhone')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa un teléfono válido</span>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="form-section">
+            <h4>Garantias</h4>
+        <div formGroupName="collateral" class="row">
             <div class="data">
                 <label>Garantia 1</label>
-                <input type="text" formControlName="garantiaUno" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('garantias.garantiaUno')?.invalid && clientForm.get('garantias.garantiaUno')?.touched">
-                    Garantia vacío o no es válido.
+                <input type="text" formControlName="firstCollateral" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.firstCollateral')?.invalid && clientForm.get('collateral.firstCollateral')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa una garantía válida</span>
                 </div>
             </div>
             <div class="data">
                 <label>Garantia 2</label>
-                <input type="text" formControlName="garantiaDos" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('garantias.garantiaDos')?.invalid && clientForm.get('garantias.garantiaDos')?.touched">
-                    Garantia vacío o no es válido.
+                <input type="text" formControlName="secondCollateral" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.secondCollateral')?.invalid && clientForm.get('collateral.secondCollateral')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa una garantía válida</span>
                 </div>
             </div>
             <div class="data">
                 <label>Garantia 3</label>
-                <input type="text" formControlName="garantiaTres" required>
-                <div class="mensaje-error" *ngIf="modo === 'agregar' && clientForm.get('garantias.garantiaTres')?.invalid && clientForm.get('garantias.garantiaTres')?.touched">
-                    Garantia vacío o no es válido.
+                <input type="text" formControlName="thirdCollateral" required>
+                <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.thirdCollateral')?.invalid && clientForm.get('collateral.thirdCollateral')?.touched">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>Ingresa una garantía válida</span>
                 </div>
             </div>        
         </div> 
-        <app-save-button [label]="modo === 'agregar' ? 'Guardar' : 'Actualizar'"></app-save-button>
+        </div>
+        <app-save-button [label]="option === 'create' ? 'Guardar' : 'Actualizar'"></app-save-button>
     </form>
 </div>
 

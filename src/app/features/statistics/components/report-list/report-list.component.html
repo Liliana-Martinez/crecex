@@ -1,7 +1,5 @@
 <div class="income-list-container">
-  <mat-card class="section-card">
-  <mat-card-title>Ingresos</mat-card-title>
-  <mat-divider></mat-divider>
+  <h3>Ingresos</h3>
     <table mat-table [dataSource]="incomeReport" class="mat-elevation-z8">
         <!-- Fecha -->
         <ng-container matColumnDef="date">
@@ -24,21 +22,17 @@
         <tr mat-header-row *matHeaderRowDef="incomeReportCol"></tr>
         <tr mat-row *matRowDef="let row; columns: incomeReportCol;"></tr>
     </table>
-  </mat-card>
-</div>
-
-<div class="total-footer">
-  <div class="footer-content">
-    <span class="left">Total del ingreso de pagos: {{ paymentsIncome | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
-    <span class="right">Total de ingresos: {{ totalIncome | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
-  </div>
+    <div class="total-footer">
+      <div class="footer-content">
+        <span class="left">Total del ingreso de pagos: {{ paymentsIncome | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
+        <span class="right">Total de ingresos: {{ totalIncome | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
+      </div>
+    </div>
 </div>
 
 <!--tabla para mostrar egresos extra y de creditos-->
 <div class="expense-list-container">
-  <mat-card class="section-card">
-  <mat-card-title>Egresos</mat-card-title>
-  <mat-divider></mat-divider>
+  <h3>Egresos</h3>
   <table mat-table [dataSource]="expensesReport" class="mat-elevation-z8">
 
     <!-- Fecha -->
@@ -46,12 +40,6 @@
         <th mat-header-cell *matHeaderCellDef> Fecha </th>
         <td mat-cell *matCellDef="let element"> {{element.date}} </td>
       </ng-container>
-
-    <!-- Egresos del capital de los creditos otorgados-->
-    <ng-container matColumnDef="creditExpense">
-      <th mat-header-cell *matHeaderCellDef> Egreso de crédito </th>
-      <td mat-cell *matCellDef="let element"> {{element.creditExpense | currency:'MXN':'symbol-narrow':'1.2-2' }} </td>
-    </ng-container>
 
     <!-- Egresos extra -->
     <ng-container matColumnDef="extraExpense">
@@ -74,21 +62,17 @@
     <tr mat-header-row *matHeaderRowDef="expensesReportCol"></tr>
     <tr mat-row *matRowDef="let row; columns: expensesReportCol;"></tr>
   </table>
-  </mat-card>
-</div>
-
-<div class="total-footer">
-  <div class="footer-content">
-    <span class="left"> Total del egreso de créditos: {{ creditExpense | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
-    <span class="right"> Total de egresos: {{ totalExpense | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
+  <div class="total-footer">
+    <div class="footer-content">
+      <span class="left"> Total del egreso de créditos: {{ creditExpense | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
+      <span class="right"> Total de egresos: {{ totalExpense | currency: 'MXN':'symbol-narrow':'1.2-2' }} </span>
+    </div>
   </div>
 </div>
 
 <!--Egresos de comisiones-->
 <div class="commissionExpense-list-container">
-  <mat-card class="section-card">
-  <mat-card-title>Egresos de comisiones</mat-card-title>
-  <mat-divider></mat-divider>
+  <h3>Egresos de comisiones</h3>
   <table mat-table [dataSource]="commissionExpensesReport" class="mat-elevation-z8">
 
     <!-- Fecha -->
@@ -118,14 +102,8 @@
     <tr mat-header-row *matHeaderRowDef="commissionExpensesReportCol"></tr>
     <tr mat-row *matRowDef="let row; columns: commissionExpensesReportCol;"></tr>
   </table>
-  </mat-card>
 </div>
 
-<div class="total-footer">
-  <div class="footer-content">
-    <span class="left">Total de comisiones: {{ commissionExpensesTotal | currency:'MXN':'symbol-narrow':'1.2-2' }} </span>
-  </div>
-</div>
 
   
   

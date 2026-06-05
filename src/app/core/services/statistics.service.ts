@@ -19,6 +19,11 @@ export class StatisticsService {
   getCashReport(reportType: string):Observable<any> {
     return this.http.get(`${API_ROUTES.STATISTICS.CASH.GET_REPORT}?reportType=${reportType}`);
   }
+
+  //Obtener lo de los pagos segun el tipo de consulta
+  getPaymentSummary(reportType: string):Observable<any> {
+    return this.http.get(`${API_ROUTES.STATISTICS.TOTAL_PAYMENTS}?reportType=${reportType}`);
+  }
   
   getDailyCredits(): Observable<any> {
     return this.http.get(API_ROUTES.STATISTICS.TOTAL_CREDITS.DAY);
@@ -32,6 +37,7 @@ export class StatisticsService {
     return this.http.get(API_ROUTES.STATISTICS.TOTAL_CREDITS.MONTH);
   }
 
+  //Se usa en pagos totales antes de cambiar la UI
   getCreditsByZone(codigoZona: string): Observable<any[]> {
     return this.http.get<any[]>(`${API_ROUTES.STATISTICS.TOTAL_PAYMENTS}?zona=${codigoZona}`);
   }

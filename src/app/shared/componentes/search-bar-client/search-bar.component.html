@@ -1,20 +1,13 @@
-<div class="container-search-bar">
-  <form class="search-bar-form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Nombre Completo</mat-label>
-      <input 
-        matInput 
-        placeholder="Nombre Completo" 
-        [(ngModel)]="nombreCompleto" 
-        name="nombreCompleto"
-        (keydown.enter)="buscarCliente()"
-      >
-      <div *ngIf="mensajeError" style="color: #ee0a1d; padding: 2px; text-align:left;">
-        {{ mensajeError }}
-      </div>
-    </mat-form-field>
-  </form>
-
-
-
-     
+<div class="search-container">
+    <form class="search-form">
+        <mat-form-field appearance="outline" class="search-field">
+            <i matPrefix class="fa-solid fa-magnifying-glass search-icon"></i>
+            <mat-label>Buscar cliente</mat-label>
+            <input matInput [(ngModel)]="fullName" name="fullName" (keydown.enter)="searchClient()">
+        </mat-form-field>
+        <div *ngIf="errorMessage" class="search-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>{{ errorMessage }}</span>
+        </div>
+    </form>
+</div>

@@ -49,7 +49,7 @@ export class CashComponent {
 
   private initForm(): void {
     this.incomeExpensesForm = new FormGroup({
-      totalCash: new FormControl(''),
+      totalCash: new FormControl({ value: 0, disabled: true}),
       incomeForm: new FormGroup({
         income: new FormControl({value: 0, disabled: true}),
         extraIncome: new FormControl(''),

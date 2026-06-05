@@ -8,6 +8,7 @@ import { TableComponent } from '../../componentss/table/table.component';
 import { CreditsService } from '../../../../core/services/credits.service';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { PrintComponent } from '../../componentss/print/print.component';
+import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
@@ -20,7 +21,7 @@ import { PrintComponent } from '../../componentss/print/print.component';
     CommonModule,
     MatTableModule, 
     TableComponent,
-    PrintComponent
+    PrintComponent, SaveButtonComponent
   ] 
 })
 export class NewComponent { 

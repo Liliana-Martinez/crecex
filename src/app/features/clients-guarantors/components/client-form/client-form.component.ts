@@ -30,7 +30,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
   originalClientFormData: any;
   listZones: Zone[] = [];
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
-  @Input() modo: 'agregar' | 'modificar' = 'agregar';
+  @Input() option: 'create' | 'update' = 'create';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
   
   dataToSend: any = {};
@@ -48,30 +48,30 @@ export class ClientFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     //Inicializar formulario
     this.clientForm = new FormGroup({
-      name: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      paternalLn: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      maternalLn: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      age: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
-      address: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
-      colonia: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      city: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      phone: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
-      classification: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Da-d]$/)] :[]),
-      zone: new FormControl('', this.modo === 'agregar' ? [Validators.required] :[]),
-      points: new FormControl({ value : this.modo === 'agregar' ? 0 : '', disabled: this.modo === 'agregar'}, []), //****** */
+      name: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      paternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      maternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
+      address: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
+      colonia: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      city: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      phone: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
+      classification: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Da-d]$/)] :[]),
+      zone: new FormControl('', this.option === 'create' ? [Validators.required] :[]),
+      points: new FormControl({ value : this.option === 'create' ? 0 : '', disabled: this.option === 'create'}, []), //****** */
       zoneId: new FormControl(''),
-      nameJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-      addressJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
-      phoneJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^\d{10}$/)] :[]),
-      nameReference: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-      addressReference: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
-      phoneReference: new FormControl('', this.modo === 'agregar' ?[Validators.required, Validators.pattern(/^\d{10}$/)] :[]), 
+      jobName: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+      workAddress: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
+      workPhone: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] :[]),
+      referenceName: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+      referenceAddress: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
+      referencePhone: new FormControl('', this.option === 'create' ?[Validators.required, Validators.pattern(/^\d{10}$/)] :[]), 
 
       /**Formulario anidado, es decir garantiasForm dentro de ClientForm */
-      garantias: new FormGroup({
-        garantiaUno: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-        garantiaDos: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-        garantiaTres: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[])
+      collateral: new FormGroup({
+        firstCollateral: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+        secondCollateral: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
+        thirdCollateral: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[])
       })
     });
 
@@ -80,9 +80,9 @@ export class ClientFormComponent implements OnInit, OnChanges {
       startWith(''),
       map(value => value ? this.filterZones(value) : this.listZones)
     );
-
-    //this.setClientValues();
+    console.log("option en el formulario de clientes: ", this.option);
   }
+
 
   addClient() {
     const zoneCode = this.clientForm.get('zone')?.value;
@@ -164,7 +164,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   //Codigo para modificar en el submenu de clientes-avales
 private setClientValues(): void {
-    if (this.clientForm && this.clientData && this.modo === 'modificar') {
+    if (this.clientForm && this.clientData && this.option === 'update') {
       const data = this.clientData.clientData; //Variable de aqui, lo del back
       this.clientForm.patchValue({
         name: data.name,
@@ -178,16 +178,16 @@ private setClientValues(): void {
         classification: data.classification,
         zone: data.zone,
         points: data.points,/*********** */
-        nameJob: data.nameJob,
-        addressJob: data.addressJob,
-        phoneJob: data.phoneJob,
-        nameReference: data.nameReference,
-        addressReference: data.addressReference,
-        phoneReference: data.phoneReference ,
-        garantias: {
-          garantiaUno: data.garantias.garantiaUno,
-          garantiaDos: data.garantias.garantiaDos,
-          garantiaTres: data.garantias.garantiaTres,
+        jobName: data.nameJob,
+        workAddress: data.addressJob,
+        workPhone: data.phoneJob,
+        referenceName: data.nameReference,
+        referenceAddress: data.addressReference,
+        referencePhone: data.phoneReference ,
+        collateral: {
+          firstCollateral: data.garantias.garantiaUno,
+          secondCollateral: data.garantias.garantiaDos,
+          thirdCollateral: data.garantias.garantiaTres,
         }
       }
       );
@@ -214,16 +214,16 @@ private setClientValues(): void {
     classification: 'Clasificación',
     zone: 'Zona',
     points: 'Puntos',
-    nameJob: 'Trabajo',
-    addressJob: 'Domicilio del trabajo',
-    phoneJob: 'Teléfono del trabajo',
-    nameReference: 'Nombre de la referencia',
-    addressReference: 'Domicilio de la referencia',
-    phoneReference: 'Teléfono de la referencia',
-    garantias: {
-      garantiaUno: 'Garantía uno',
-      garantiaDos: 'Garantía dos',
-      garantiaTres: 'Garantía tres',
+    jobName: 'Trabajo',
+    workAddress: 'Domicilio del trabajo',
+    workPhone: 'Teléfono del trabajo',
+    referenceName: 'Nombre de la referencia',
+    referenceAddress: 'Domicilio de la referencia',
+    referencePhone: 'Teléfono de la referencia',
+    collateral: {
+      firstCollateral: 'Garantía uno',
+      secondCollateral: 'Garantía dos',
+      thirdCollateral: 'Garantía tres',
     }
 };
 

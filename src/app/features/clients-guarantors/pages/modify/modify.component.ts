@@ -15,8 +15,8 @@ import { CommonModule } from '@angular/common';
 })
 
 export class ModifyComponent {
-  modulo: string = 'modify';
-  selected: string = 'client';
+  modulo: string = 'update';//Aqui era modify
+  selectedForm: string = 'client';
   client?: any; //Es el cliente buscado
 
   onClienteEncontrado(client: any): void {

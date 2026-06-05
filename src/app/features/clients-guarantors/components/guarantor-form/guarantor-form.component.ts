@@ -21,7 +21,7 @@ export class GuarantorFormComponent implements OnInit {
   guarantorForm!: FormGroup;
   originalGuarantorFormData: any;
   guarantorData?: any;
-  @Input() modo: 'agregar' | 'modificar' = 'agregar';
+  @Input() option: 'create' | 'update' = 'create';
   @Input() clientData?: any;
   @Input() selectedOption: string = '';
 
@@ -41,26 +41,26 @@ export class GuarantorFormComponent implements OnInit {
   ngOnInit(): void {
     //Inicializar formulario
     this.guarantorForm = new FormGroup({
-      name: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      paternalLn: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      maternalLn: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      age: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
-      address: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
-      colonia: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      city: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      phone: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
-      nameJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      addressJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
-      phoneJob: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
+      name: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      paternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      maternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
+      address: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
+      colonia: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      city: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      phone: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
+      nameJob: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+      addressJob: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
+      phoneJob: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
       /**Formulario "anidado" para las garantias */
       garantias: new FormGroup({
-        garantiaUno: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-        garantiaDos: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-        garantiaTres: new FormControl('', this.modo === 'agregar' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : [])
+        garantiaUno: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+        garantiaDos: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
+        garantiaTres: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : [])
       })
     });
 
-    //this.setGuarantorValues();
+    console.log("option en avales: ", this.option);
   }
 
   addGuarantor() {
@@ -103,7 +103,7 @@ export class GuarantorFormComponent implements OnInit {
   }
 
 private setGuarantorValues(): void {
-  if (this.guarantorForm && this.clientData && this.modo === 'modificar') {
+  if (this.guarantorForm && this.clientData && this.option === 'update') {
     this.guarantorData = this.clientData.guarantorDataResult;
     const firstGuarantorData = this.guarantorData[0];
     const secondGuarantorData = this.guarantorData[1]; 

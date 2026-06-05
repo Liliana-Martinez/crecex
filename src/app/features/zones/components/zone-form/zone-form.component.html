@@ -1,36 +1,43 @@
 <div class="form-container">
-  <form [formGroup]="zoneForm" (ngSubmit)="modo === 'agregar' ? addZoneData() : updateZoneData()">
- 
-    <!-- CÓDIGO DE ZONA -->
-  <label>Código de zona</label>
-  <input matInput formControlName="zoneCode" [matAutocomplete]="zoneAuto" placeholder="Ejemplo 1-A">
+  <form [formGroup]="zoneForm" (ngSubmit)="modo === 'agregar' ? addZoneData() : updateZoneData()" class="zone-form">
+    <h3>Datos de la zona</h3>
+    <div class="form-grid">
+      <!-- CÓDIGO -->
+      <div class="input-group">
+        <label>Código de zona</label>
+        <input matInput formControlName="zoneCode" [matAutocomplete]="zoneAuto"placeholder="Ejemplo 1-A">
 
-  <mat-autocomplete #zoneAuto="matAutocomplete"
-    (optionSelected)="onZoneSelected($event.option.value)">
-    <mat-option *ngFor="let z of filteredZones$ | async" [value]="z.codigoZona">
-      {{ z.codigoZona }}
-    </mat-option>
-  </mat-autocomplete>
+        <mat-autocomplete #zoneAuto="matAutocomplete" (optionSelected)="onZoneSelected($event.option.value)">
+          <mat-option *ngFor="let z of filteredZones$ | async" [value]="z.codigoZona">
+            {{ z.codigoZona }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
 
-   <!--PROMOTOR -->
-  <label>Promotor(a)</label>
-  <input matInput formControlName="promoter" [matAutocomplete]="promoterAuto" placeholder="Escribe o selecciona">
+      <!-- PROMOTOR -->
+      <div class="input-group">
+        <label>Promotor(a)</label>
+        <input matInput formControlName="promoter" [matAutocomplete]="promoterAuto" placeholder="Escribe o selecciona">
 
-  <mat-autocomplete #promoterAuto="matAutocomplete">
-    <mat-option *ngFor="let p of filteredPromoters$ | async" [value]="p.promotor">
-      {{ p.promotor }}
-    </mat-option>
-  </mat-autocomplete>
+        <mat-autocomplete #promoterAuto="matAutocomplete">
+          <mat-option *ngFor="let p of filteredPromoters$ | async" [value]="p.promotor">
+            {{ p.promotor }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
 
-  <!--SUPERVISIÓN -->
-  <label>Supervisión</label>
-  <input matInput formControlName="supervisor" [matAutocomplete]="supervisorAuto" placeholder="Escribe o selecciona">
-
-  <mat-autocomplete #supervisorAuto="matAutocomplete">
-    <mat-option *ngFor="let s of filteredSupervisors$ | async" [value]="s.supervisor">
-      {{ s.supervisor }}
-    </mat-option>
-  </mat-autocomplete>
+      <!-- SUPERVISIÓN -->
+      <div class="input-group">
+        <label>Supervisión</label>
+        <input matInput formControlName="supervisor" [matAutocomplete]="supervisorAuto" placeholder="Escribe o selecciona">
+        <mat-autocomplete #supervisorAuto="matAutocomplete">
+          <mat-option *ngFor="let s of filteredSupervisors$ | async"
+            [value]="s.supervisor">
+            {{ s.supervisor }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
 
     <app-save-button [label]="modo === 'agregar' ? 'Guardar' : 'Actualizar'"></app-save-button>
   </form>

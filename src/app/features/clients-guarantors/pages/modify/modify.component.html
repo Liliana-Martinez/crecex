@@ -1,36 +1,24 @@
-<!--<app-submenu></app-submenu>-->
-<div class="container">
-    <select id="select" [(ngModel)]="selected">
-        <option value="client">Datos del cliente</option>
-        <option value="guarantorp">Datos del aval principal</option>
-        <option value="guarantors">Datos del aval secundario</option>
-    </select>  
-    <app-search-bar
-        [modulo]="modulo"
-        [selectedOption]="selected"
-        (clienteEncontrado)="onClienteEncontrado($event)">
-    </app-search-bar><!--consultOption se agrego-->
+<div class="form-selector">
+    <label for="formSelect" class="form-selector-label">
+        Selecciona el formulario
+    </label>
+
+        <div class="select-container">
+            <select id="formSelect" class="custom-select initial-focus" [(ngModel)]="selectedForm">
+                <option value="client">Datos del cliente</option>
+                <option value="primaryGuarantor">Datos del aval principal</option>
+                <option value="secondaryGuarantor">Datos del aval secundario</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-icon"></i>
+        </div>
 </div>
 
-<app-client-form 
-    *ngIf="selected === 'client'"
-    [modo]="'modificar'"
-    [clientData]="client">
-</app-client-form>
+<app-search-bar [modulo]="modulo" [selectedOption]="selectedForm" (clienteEncontrado)="onClienteEncontrado($event)"></app-search-bar>
 
-<app-guarantor-form 
-    *ngIf="selected === 'guarantorp'"
-    [modo]="'modificar'"
-    [clientData]="client"
-    [selectedOption]="selected">
-</app-guarantor-form>
 
-<app-guarantor-form 
-    *ngIf="selected === 'guarantors'"
-    [modo]="'modificar'"
-    [clientData]="client"
-    [selectedOption]="selected">
-</app-guarantor-form>
+<app-client-form *ngIf="selectedForm === 'client'"></app-client-form>
+<app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'"></app-guarantor-form>
+<app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'"></app-guarantor-form>
 
 
 

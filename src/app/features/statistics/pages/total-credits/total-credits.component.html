@@ -1,9 +1,17 @@
-<!--<app-submenu-statistics></app-submenu-statistics>-->
-<select id="listSelect" [(ngModel)]="selectedList">
-    <option value="dailyCredits">Consulta del día</option>
-    <option value="weeklyCredits">Consulta de la semana</option>
-    <option value="monthlyCredits">Consulta del mes</option>
-</select>  
+<div class="table-selector">
+    <label for="tableSelector" class="table-selector-label">
+        Selecciona el tipo de reporte
+    </label>
+
+    <div class="select-container">
+        <select id="listSelect" class="custom-select initial-focus" [(ngModel)]="selectedList">
+            <option value="dailyCredits">Consulta del día</option>
+            <option value="weeklyCredits">Consulta de la semana</option>
+            <option value="monthlyCredits">Consulta del mes</option>
+        </select>
+        <i class="fa-solid fa-chevron-down select-icon"></i>
+    </div>
+</div>  
 
 <app-daily-report-credits-list *ngIf="selectedList === 'dailyCredits'"></app-daily-report-credits-list>
 <app-weekly-report-credits-list *ngIf="selectedList === 'weeklyCredits'"></app-weekly-report-credits-list>

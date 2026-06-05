@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatCardModule, MatCardTitle } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { OnChanges, SimpleChanges } from '@angular/core';
 import dayjs from 'dayjs';
@@ -13,17 +12,15 @@ export interface DailyIncomeReport {
 }
 
 export interface DailyExpenseReport {
-  creditExpenses: number;
   extraExpenses: number;
   descriptionExpenses: String;
   commissionExpenses: number;
   supervisor: String;
-  totalExpenses: number;
 }
 
 @Component({
   selector: 'app-report-list',
-  imports: [MatTableModule, CommonModule, MatCardModule, MatCardTitle, MatDividerModule],
+  imports: [MatTableModule, CommonModule, MatCardModule],
   templateUrl: './report-list.component.html',
   styleUrl: './report-list.component.css'
 })
@@ -32,7 +29,7 @@ export class ReportListComponent implements OnChanges {
   expensesReport = new MatTableDataSource<any>();
   commissionExpensesReport = new MatTableDataSource<any>();
   incomeReportCol: string[] = ['date', 'extraIncome', 'descriptionIncome'];
-  expensesReportCol: string[] = ['date', 'creditExpense', 'extraExpense', 'descriptionExpense', 'totalExpenses'];
+  expensesReportCol: string[] = ['date', 'extraExpense', 'descriptionExpense'];
   commissionExpensesReportCol: string[] = ['date', 'commissionExpense', 'commissionExpenseDescription', 'commissionExpensesTotal'];
   @Input() type: string = '';
   @Input() incomeData: any;
@@ -81,15 +78,11 @@ export class ReportListComponent implements OnChanges {
     this.totalExpense = this.expenseData.total;
 
     transactions.forEach((t: any, index: number) => {
-      const isFirst = index === 0;
-      const isLast = index === transactions.length - 1;
 
       data.push({
         date: dayjs(t.fecha).format('DD-MM-YYYY'),
-        creditExpense: isFirst ? this.expenseData.credits: '',
         extraExpense: t.monto,
-        descriptionExpense: t.descripcion,
-        totalExpenses: isLast ? this.expenseData.total : ''
+        descriptionExpense: t.descripcion
       });
     });
     this.expensesReport.data = data;
@@ -98,7 +91,7 @@ export class ReportListComponent implements OnChanges {
   private buildCommissionTable(): void {
     const data: any[] = [];
     const commissions = this.expenseData.commissions || [];
-    this.commissionExpensesTotal = this.expenseData.commisions.total;
+    this.commissionExpensesTotal = this.expenseData.commissions.total;
 
     commissions.forEach((c: any, index: number) => {
       const isLast = index === commissions.length - 1;
@@ -116,12 +109,12 @@ export class ReportListComponent implements OnChanges {
 
   private setColumns(): void {
     if (this.type === 'daily') {
-      this.incomeReportCol = ['paymentsIncome', 'extraIncome', 'descriptionIncome', 'totalIncome'];
-      this.expensesReportCol = ['creditExpense', 'extraExpense', 'descriptionExpense', 'totalExpenses'];
+      this.incomeReportCol = ['extraIncome', 'descriptionIncome'];
+      this.expensesReportCol = ['extraExpense', 'descriptionExpense',];
       this.commissionExpensesReportCol = ['commissionExpense', 'commissionExpenseDescription', 'commissionExpensesTotal'];
     } else {
-      this.incomeReportCol = ['date', 'paymentsIncome', 'extraIncome', 'descriptionIncome', 'totalIncome'];
-      this.expensesReportCol = ['date', 'creditExpense', 'extraExpense', 'descriptionExpense', 'totalExpenses'];
+      this.incomeReportCol = ['date', 'extraIncome', 'descriptionIncome'];
+      this.expensesReportCol = ['date', 'extraExpense', 'descriptionExpense'];
       this.commissionExpensesReportCol = ['date', 'commissionExpense', 'commissionExpenseDescription', 'commissionExpensesTotal'];
     }
   }

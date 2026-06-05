@@ -1,4 +1,5 @@
-<div class="container-list">
+<div class="list-container">
+  <h3>Créditos</h3>
     <table mat-table [dataSource]="dataDailyRep" class="mat-elevation-z8">
         
         <!-- Numero de credito -->
@@ -40,18 +41,14 @@
         <tr mat-header-row *matHeaderRowDef="dailyListCol"></tr>
         <tr mat-row *matRowDef="let row; columns: dailyListCol;"></tr>
     </table>
+    <div class="total-footer" >
+      <div class="footer-content">
+        <span class="left">Créditos totales: {{ dataDailyRep.data.length }}</span>
+        <span class="right">Total monto: {{ getTotalCreditAmount() | currency:'MXN':'symbol-narrow':'1.2-2' }}</span>
+      </div>
+    </div>
 </div>
 
-<div class="total-footer" *ngIf="dataDailyRep.data.length > 0">
-  <div class="footer-content">
-    <span class="left">Total créditos: {{ dataDailyRep.data.length }}</span>
-    <span class="right">Total monto: 
-      <span class="amount">
-        {{ getTotalCreditAmount() | currency:'MXN':'symbol-narrow':'1.2-2' }}
-      </span>
-    </span>
-  </div>
-</div>
 
 
 

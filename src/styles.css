@@ -11,3 +11,11 @@ html, body{
 body {
     font-family: 'Inter', sans-serif;
 }
+
+.mat-mdc-table,
+.mat-mdc-header-cell,
+.mat-mdc-cell,
+.mat-mdc-form-field,
+.mat-mdc-input-element {
+    font-family: 'Inter', sans-serif !important;
+}

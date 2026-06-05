@@ -12,8 +12,4 @@ import { CommonModule } from '@angular/common';
 })
 export class AddComponent {
   selectedForm: string = 'client';
-
-  changeForm(event: any) {
-    console.log("Seleccionado:", this.selectedForm);
-  }
 }

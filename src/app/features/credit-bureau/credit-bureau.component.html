@@ -1,29 +1,39 @@
-<h3>Elija la opción de la acción que desea realizar</h3>
+<div class="option-selector">
+    <label for="optionSelector" class="option-selector-label">
+        Elije la opcion a realizar
+    </label>
 
-<select id="actionSelect" [(ngModel)]="selectedAction">
-    <option value="add">Agregar a buró de crédito</option>
-    <option value="consult">Consultar buró de crédito</option>
-</select> 
+    <div class="select-container">
+        <select id="actionSelect" class="custom-select initial-focus" [(ngModel)]="selectedAction">
+            <option value="add">Agregar a buró de crédito</option>
+            <option value="consult">Consultar buró de crédito</option>
+        </select>
+        <i class="fa-solid fa-chevron-down select-icon"></i>
+    </div> 
+</div>
 
 <!--Div que contiene el formulario de la opcion agregar-->
-<div class="container-form" *ngIf="selectedAction === 'add'">
-    <form [formGroup]="creditBureauForm" (ngSubmit)="addToCreditBureau()">
-        <div class="row">
-            <div class="data">
+<div class="form-container" *ngIf="selectedAction === 'add'">
+    <form [formGroup]="creditBureauForm" (ngSubmit)="addToCreditBureau()" class="credit-bureau">
+        <h3>Datos</h3>
+        <div class="form-grid">
+            <div class="input-group">
                 <label>Nombre completo</label>
                 <input type="text" formControlName="nameBc" required><!--nameBc=nombreBuroCredito-->
                 <div class="mensaje-error" *ngIf="creditBureauForm.get('nameBc')?.invalid && creditBureauForm.get('nameBc')?.touched">
-                    Nombre vacío o no es válido.
+                    Nombre vacío o no es válido.          
                 </div>
             </div>
-            <div class="data">
+
+            <div class="input-group">
                 <label>Domicilio</label>
                 <input type="text" formControlName="addressBc" required><!--addressBc=domicilioBuroCredito-->
                 <div class="mensaje-error" *ngIf="creditBureauForm.get('addressBc')?.invalid && creditBureauForm.get('addressBc')?.touched">
                     Domicilio vacío o no es válido.
                 </div>
             </div>
-            <div class="data">
+
+            <div class="input-group">
                 <label>Telefóno</label>
                 <input type="tel" formControlName="phoneBc" required><!--phoneBc=phoneBuroCredito-->
                 <div class="mensaje-error" *ngIf="creditBureauForm.get('phoneBc')?.invalid && creditBureauForm.get('phoneBc')?.touched">
@@ -42,12 +52,18 @@
 </div>
 
 <div class="consult-option" *ngIf="selectedAction === 'consult'">
-    <div class="container-search">
-        <!--buscador para clientes en buro de credito -->
-        <mat-form-field class="example-full-width">
-            <mat-label>Ingrese el nombre completo</mat-label>
-            <input matInput [(ngModel)]="searchText" (ngModelChange)="searchInCreditBureau()">
-        </mat-form-field>
+    <div class="search-container">
+        <form class="search-form">
+            <mat-form-field appearance="outline" class="search-field">
+                <i matPrefix class="fa-solid fa-magnifying-glass search-icon"></i>
+                <mat-label>Buscar cliente</mat-label>
+                <input matInput [(ngModel)]="searchText" name="nombreCompleto" (ngModelChange)="searchInCreditBureau()">
+            </mat-form-field>
+            <div *ngIf="errorMessage" class="search-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>{{ errorMessage }}</span>
+            </div>
+        </form>
     </div>
 
     <div class="container-table">

@@ -1,46 +1,6 @@
-.form-container {
-    margin-top: 30px;
-    margin-left: 20px;
-}
-.row {
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 5px;
+.actions-container {
     display: flex;
-    flex-direction: row;
-} 
-
-.data {
-    flex: 1;
-    padding-right: 20px;
-}
-
-.data label {
-    width: 130px;
-    display: block;
-}
-
-.data input {
-    width: 250px;
-    padding: 5px;
-    border: none;
-    border-bottom: 1px solid black;
-}
-
-.data input:focus {
-    background-color: rgba(220, 220, 220, 0.799);
-    outline: none;
-    border-radius: 5px;
-    border-bottom: 2px solid gray;
-}
-
-@media screen and (max-width: 768px) {
-    .row {
-        flex-direction: column; /* Apila los elementos en columna */
-        gap: 5px; /* Reduce el espacio entre elementos */
-    }
-
-    .data {
-        width: 100%; /* Ocupa todo el ancho disponible */
-    }
+    justify-content: center;
+    gap: 16px;
+    margin-top: 40px;
 }

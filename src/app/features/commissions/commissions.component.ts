@@ -3,7 +3,7 @@ import { SearchBarZoneComponent } from '../../shared/componentes/search-bar-zone
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Zone } from '../../models/Zone';
 import { CommissionsService } from '../../core/services/commissions.service';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaveButtonComponent } from "../../shared/componentes/save-button/save-button.component";
 
 export interface commissionsData {
@@ -17,7 +17,7 @@ export interface commissionsData {
 @Component({
   selector: 'app-commissions',
   standalone: true,
-  imports: [SearchBarZoneComponent, MatTableModule, FormsModule, SaveButtonComponent],
+  imports: [ReactiveFormsModule, SearchBarZoneComponent, MatTableModule, FormsModule, SaveButtonComponent],
   templateUrl: './commissions.component.html',
   styleUrl: './commissions.component.css'
 })
@@ -25,10 +25,18 @@ export interface commissionsData {
 export class CommissionsComponent {
   commissionsCol: string[] = ['collectionRate', 'collectionExpenses', 'numberCredits', 'extras', 'totalAmount'];
   dataCommissions = new MatTableDataSource<any>();
+  extraCommissionForm!: FormGroup;
   value: number = 0; //Valor que se ingresara en el input
 
 
   constructor(private commissionsService: CommissionsService) {}
+
+  ngOnInit(): void{
+    this.extraCommissionForm= new FormGroup({
+      extra: new FormControl(''),
+      description: new FormControl('')
+    });
+  }
 
   onZoneSelected(zone: Zone) {
   console.log("Zona recibida del search:", zone);
@@ -51,7 +59,7 @@ export class CommissionsComponent {
   });
 }
 
-agregarExtras(){
+addExtraCommission(){
   const extra = Number(this.value);
   console.log('Valor del campo: ', extra);
 
