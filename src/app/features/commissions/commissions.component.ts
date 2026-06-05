@@ -5,6 +5,8 @@ import { Zone } from '../../models/Zone';
 import { CommissionsService } from '../../core/services/commissions.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaveButtonComponent } from "../../shared/componentes/save-button/save-button.component";
+import { PrintButtonComponent } from '../../shared/componentes/print-button/print-button.component';
+import { PrintComponent } from '../credits/componentss/print/print.component';
 
 export interface commissionsData {
   collectionRate: number;  // Comisión
@@ -17,7 +19,11 @@ export interface commissionsData {
 @Component({
   selector: 'app-commissions',
   standalone: true,
+<<<<<<< HEAD
   imports: [ReactiveFormsModule, SearchBarZoneComponent, MatTableModule, FormsModule, SaveButtonComponent],
+=======
+  imports: [SearchBarZoneComponent, MatTableModule, FormsModule, SaveButtonComponent, PrintButtonComponent, PrintComponent],
+>>>>>>> efc79b928b59c9438c641c0f89674b3ea1fd4eff
   templateUrl: './commissions.component.html',
   styleUrl: './commissions.component.css'
 })

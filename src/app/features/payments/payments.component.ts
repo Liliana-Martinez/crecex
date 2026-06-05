@@ -33,14 +33,13 @@ export class PaymentsComponent {
     'dueDate', 'week', 'weeklyAmount', 'latePayment', 'earlyPayment', 'default',
     'adeudo', 'lateFees', 'payment', 'paymentType'
   ];
-
   idZona: number = 0;
   codigoZona: string = '';
   promotor: string = '';
   fechaSiguienteSemana: string = '';
 
   zonaSeleccionada: Zone | null = null;
-  dataPayment: any = null;
+  dataPayment: any = null;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
   ClientsPayment: any[] = [];
   mensajeError: string = '';
   idCliente: number = 0;
@@ -103,8 +102,6 @@ export class PaymentsComponent {
           payment: '',
           paymentType: '',
           adeudo: item.adeudo ?? ''
-          
-          
         }));
         this.calcularResumen(this.dataPayment);
 

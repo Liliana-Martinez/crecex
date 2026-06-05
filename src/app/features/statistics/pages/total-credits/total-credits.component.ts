@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { DailyReportCreditsListComponent } from '../../components/daily-report-credits-list/daily-report-credits-list.component';
 import { WeeklyReportCreditsListComponent } from '../../components/weekly-report-credits-list/weekly-report-credits-list.component';
 import { MonthlyReportCreditsListComponent } from '../../components/monthly-report-credits-list/monthly-report-credits-list.component';
+import { PrintButtonComponent } from '../../../../shared/componentes/print-button/print-button.component';
+import { PrintComponent } from '../../../credits/componentss/print/print.component';
 
 @Component({
   selector: 'app-total-credits',
@@ -11,10 +13,18 @@ import { MonthlyReportCreditsListComponent } from '../../components/monthly-repo
     CommonModule,
     DailyReportCreditsListComponent,
     WeeklyReportCreditsListComponent,
-    MonthlyReportCreditsListComponent],
+    MonthlyReportCreditsListComponent,
+    PrintButtonComponent,
+    PrintComponent],
   templateUrl: './total-credits.component.html',
   styleUrl: './total-credits.component.css'
 })
 export class TotalCreditsComponent {
   selectedList: string = "dailyCredits";
+  creditos: any;
+  constructor() {
+    
+    console.log('Recibido en el padre para imprimirrr:', this.creditos);
+  }
+  
 }
