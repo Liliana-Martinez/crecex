@@ -4,11 +4,12 @@
 <app-form-credit  [cliente]="cliente" [modulo]="'additional'" (response)="guardarDatosParaImprimir($event)"></app-form-credit> 
 
 <div class="actions-container">
-  <app-save-button [label]="'Guardar'" ></app-save-button>
   <app-print-button (onPrint)="imprimir()"></app-print-button>
   <app-print *ngIf="mostrarImpresion" [datos]="datosParaImprimir"></app-print>
 </div>
 </div>
+
+
 
 
 
