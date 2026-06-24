@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { StatisticsService } from '../../../../core/services/statistics.service';
 import dayjs from 'dayjs';
 import { CommonModule } from '@angular/common';
-
 export interface DailyReport {
   creditNumber: number;
   creditAmount: number;
@@ -24,7 +23,8 @@ export interface DailyReport {
 export class DailyReportCreditsListComponent {
   dataDailyRep = new MatTableDataSource<any>();
   dailyListCol: string[] = ['idCredit', 'creditAmount', 'date', 'promoter', 'client', 'creditWeeks'];
-
+  //Manda a total-credits
+  @Output() creditosEmit = new EventEmitter<any[]>();
   constructor (private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
@@ -45,6 +45,10 @@ export class DailyReportCreditsListComponent {
       }));
 
       this.dataDailyRep.data = formattedData;
+      //Envia a total credist
+      console.log('ENVIANDO AL PADRE PARA IMPRIMIR DIA:', formattedData);
+
+      this.creditosEmit.emit(formattedData);
       console.log('Créditos del día (formateados):', formattedData);
     },
       error: (err) => {

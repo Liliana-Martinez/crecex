@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component,EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { StatisticsService } from '../../../../core/services/statistics.service';
 import dayjs from 'dayjs';
@@ -13,6 +13,8 @@ import dayjs from 'dayjs';
 })
 export class MonthlyReportCreditsListComponent {
   dataMonthlyRep = new MatTableDataSource<any>();
+  //Manda a total-credits
+    @Output() creditosEmit = new EventEmitter<any[]>();
   monthlyListCol: string[] = ['idCredit', 'creditAmount', 'date', 'promoter', 'client', 'creditWeeks']; 
 
   constructor (private statisticsService: StatisticsService) {}
@@ -33,6 +35,9 @@ export class MonthlyReportCreditsListComponent {
           creditWeeks: credit.creditWeeks
         }));
         this.dataMonthlyRep.data = formattedData;
+        //Envia a total credist
+        console.log('ENVIANDO AL PADRE IMPRIMIR MES:', formattedData);
+        this.creditosEmit.emit(formattedData);
         console.log('Créditos del mes:', formattedData);
       },
       error: (err) => {
