@@ -12,7 +12,7 @@ import { PrintComponent } from '../../componentss/print/print.component';
   selector: 'app-additional',
   imports: [FormCreditComponent, 
             TableComponent, 
-            CommonModule, 
+            CommonModule,
             SearchBarComponent, 
             PrintButtonComponent, 
             PrintComponent],
