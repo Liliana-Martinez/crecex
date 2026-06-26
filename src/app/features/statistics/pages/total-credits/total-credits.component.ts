@@ -33,6 +33,44 @@ export class TotalCreditsComponent {
 
     this.creditos = data;
   }
+  getDescripcionReporte(): string {
+  const hoy = new Date();
+
+  switch (this.selectedList) {
+
+    case 'dailyCredits':
+      return `Fecha: ${hoy.toLocaleDateString('es-MX')}`;
+
+    case 'weeklyCredits': {
+      const inicio = new Date(hoy);
+      const fin = new Date(hoy);
+
+      // Día de la semana (domingo=0, lunes=1, ..., sábado=6)
+      const dia = hoy.getDay();
+
+      // Calcular el sábado de la semana
+      const diasDesdeSabado = (dia + 1) % 7;
+      inicio.setDate(hoy.getDate() - diasDesdeSabado);
+
+      // El viernes siguiente
+      fin.setDate(inicio.getDate() + 6);
+
+      return `Del ${inicio.toLocaleDateString('es-MX')} al ${fin.toLocaleDateString('es-MX')}`;
+    }
+
+    case 'monthlyCredits': {
+      const mes = hoy.toLocaleDateString('es-MX', {
+        month: 'long',
+        year: 'numeric'
+      });
+
+      return mes.charAt(0).toUpperCase() + mes.slice(1);
+    }
+
+    default:
+      return '';
+  }
+}
  imprimirPDF() {
   if (!this.creditos || this.creditos.length === 0) {
     console.warn('No hay datos para imprimir');
@@ -49,7 +87,7 @@ export class TotalCreditsComponent {
     //Subttuloo
     doc.setFontSize(10);
     doc.setTextColor(90, 90, 90);
-    doc.text(`Tipo de reporte: ${this.selectedList}`, pageWidth / 2, 22, { align: 'center' });
+    doc.text(this.getDescripcionReporte(), pageWidth / 2, 22, { align: 'center' });
     const columnas = [
       'N°',
       'ID Crédito',
