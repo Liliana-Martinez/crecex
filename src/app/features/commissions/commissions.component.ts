@@ -6,6 +6,8 @@ import { CommissionsService } from '../../core/services/commissions.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaveButtonComponent } from "../../shared/componentes/save-button/save-button.component";
 import { PrintButtonComponent } from '../../shared/componentes/print-button/print-button.component';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export interface commissionsData {
   collectionRate: number;  // Comisión
@@ -74,6 +76,11 @@ addExtraCommission(){
   this.value = 0;
 }
 
+imprimirComisiones(){
+  const doc = new jsPDF();
+  const registro = this.dataCommissions.data[0];
+  doc.save('Comisiones.pdf');
+}
 
 }
 
