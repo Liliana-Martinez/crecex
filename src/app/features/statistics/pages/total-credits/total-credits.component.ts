@@ -5,7 +5,6 @@ import { DailyReportCreditsListComponent } from '../../components/daily-report-c
 import { WeeklyReportCreditsListComponent } from '../../components/weekly-report-credits-list/weekly-report-credits-list.component';
 import { MonthlyReportCreditsListComponent } from '../../components/monthly-report-credits-list/monthly-report-credits-list.component';
 import { PrintButtonComponent } from '../../../../shared/componentes/print-button/print-button.component';
-import { PrintComponent } from '../../../credits/componentss/print/print.component';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 @Component({
@@ -15,8 +14,7 @@ import autoTable from 'jspdf-autotable';
     DailyReportCreditsListComponent,
     WeeklyReportCreditsListComponent,
     MonthlyReportCreditsListComponent,
-    PrintButtonComponent,
-    PrintComponent],
+    PrintButtonComponent,],
   templateUrl: './total-credits.component.html',
   styleUrl: './total-credits.component.css'
 })

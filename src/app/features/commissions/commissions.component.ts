@@ -49,7 +49,7 @@ export class CommissionsComponent {
     // Mapeamos los datos del back a lo que espera la tabla
     const mapped: commissionsData = {
       collectionExpenses: resp.resultado.collectionExpenses, // Gastos de cobranza
-      collectionRate: resp.resultado.collectionRate, // Comisión %
+      collectionRate: resp.resultado.collectionRate.collectionRate, // Comisión %
       numberCredits: resp.resultado.numberCredits,   // No. de créditos
       extras: resp.resultado.extras,                 // Extras
       totalAmount: resp.resultado.totalAmount        // Total general
