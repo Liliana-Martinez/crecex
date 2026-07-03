@@ -31,7 +31,8 @@ export class WeeklyReportCreditsListComponent {
           date: dayjs(credit.fecha).format('DD/MM/YYYY'),
           promoter: credit.promoter,
           client: credit.client,
-          creditWeeks: credit.creditWeeks
+          creditWeeks: credit.creditWeeks,
+          typeCredit: credit.typeCredit
         }));
         this.dataWeeklyRep.data = formattedData;
         //Envia a total credist

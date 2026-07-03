@@ -22,7 +22,6 @@ export class TotalCreditsComponent {
 
   selectedList: string = "dailyCredits";
   creditos: any[] = [];
-
   constructor() {}
 
   recibirCreditos(data: any[]) {
@@ -33,38 +32,28 @@ export class TotalCreditsComponent {
   }
   getDescripcionReporte(): string {
   const hoy = new Date();
-
   switch (this.selectedList) {
-
     case 'dailyCredits':
       return `Fecha: ${hoy.toLocaleDateString('es-MX')}`;
-
     case 'weeklyCredits': {
       const inicio = new Date(hoy);
       const fin = new Date(hoy);
-
       // Día de la semana (domingo=0, lunes=1, ..., sábado=6)
       const dia = hoy.getDay();
-
       // Calcular el sábado de la semana
       const diasDesdeSabado = (dia + 1) % 7;
       inicio.setDate(hoy.getDate() - diasDesdeSabado);
-
       // El viernes siguiente
       fin.setDate(inicio.getDate() + 6);
-
       return `Del ${inicio.toLocaleDateString('es-MX')} al ${fin.toLocaleDateString('es-MX')}`;
     }
-
     case 'monthlyCredits': {
       const mes = hoy.toLocaleDateString('es-MX', {
         month: 'long',
         year: 'numeric'
       });
-
       return mes.charAt(0).toUpperCase() + mes.slice(1);
     }
-
     default:
       return '';
   }
@@ -74,43 +63,47 @@ export class TotalCreditsComponent {
     console.warn('No hay datos para imprimir');
     return;
   }
+
   const doc = new jsPDF('l', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
+
   const generarPDF = () => {
 
-    // ✔ TÍTULO
+    // Título
     doc.setFontSize(14);
     doc.setTextColor(30, 90, 160);
     doc.text('REPORTE DE CRÉDITOS', pageWidth / 2, 15, { align: 'center' });
-    //Subttuloo
+
+    // Subtítulo
     doc.setFontSize(10);
     doc.setTextColor(90, 90, 90);
     doc.text(this.getDescripcionReporte(), pageWidth / 2, 22, { align: 'center' });
+
     const columnas = [
       'N°',
       'ID Crédito',
       'Cliente',
       'Monto',
-      'Abono Semanal',
+      'Tipo Crédito',
       'Fecha',
       'Promotor',
       'Semanas',
       'Papelería Completa',
       'Faltante'
     ];
+
     let totalMonto = 0;
-    let totalAbono = 0;
+
     const filas = this.creditos.map((c, index) => {
       const monto = Number(c.creditAmount) || 0;
-      const abono = Number(c.abonoSemanal) || 0;
       totalMonto += monto;
-      totalAbono += abono;
+
       return [
         index + 1,
         c.idCredit,
         c.client,
-        monto,
-        abono,
+        `$${monto.toLocaleString('es-MX')}`,
+        c.typeCredit, // <-- Tipo de crédito
         c.date,
         c.promoter,
         c.creditWeeks,
@@ -118,6 +111,7 @@ export class TotalCreditsComponent {
         ''
       ];
     });
+
     autoTable(doc, {
       head: [columnas],
       body: filas,
@@ -142,28 +136,28 @@ export class TotalCreditsComponent {
       columnStyles: {
         0: { halign: 'center', cellWidth: 10 },
         1: { halign: 'center', cellWidth: 18 },
-        2: { halign: 'left', cellWidth: 40 },
-        3: { halign: 'right', cellWidth: 20 },
-        4: { halign: 'right', cellWidth: 25 },
-        5: { halign: 'center', cellWidth: 22 },
-        6: { halign: 'left', cellWidth: 25 },
+        2: { halign: 'left', cellWidth: 55 },
+        3: { halign: 'right', cellWidth: 22 },
+        4: { halign: 'center', cellWidth: 28 },
+        5: { halign: 'center', cellWidth: 24 },
+        6: { halign: 'left', cellWidth: 28 },
         7: { halign: 'center', cellWidth: 18 },
         8: { halign: 'center', cellWidth: 35 },
-        9: { halign: 'center', cellWidth: 45 }
-      },
-      didParseCell: (data: any) => {
-        if (data.column.index === 9) {
-          data.cell.styles.textColor = [255, 255, 255];
-          data.cell.styles.fontStyle = 'bold';
-        }
+        9: { halign: 'center', cellWidth: 35 }
       },
       margin: { top: 30 }
     });
+
     const finalY = (doc as any).lastAutoTable.finalY + 10;
+
     doc.setFontSize(11);
     doc.setTextColor(30, 90, 160);
-    doc.text(`Total Monto: $${totalMonto}`, 14, finalY);
-    doc.text(`Total Abono Semanal: $${totalAbono}`, 14, finalY + 6);
+    doc.text(
+      `Total Monto: $${totalMonto.toLocaleString('es-MX')}`,
+      14,
+      finalY
+    );
+
     doc.save('reporte-creditos.pdf');
   };
 
@@ -174,6 +168,7 @@ export class TotalCreditsComponent {
     doc.addImage(img, 'JPEG', 10, 3, 45, 28);
     generarPDF();
   };
+
   img.onerror = () => {
     console.warn('No se pudo cargar el logo');
     generarPDF();

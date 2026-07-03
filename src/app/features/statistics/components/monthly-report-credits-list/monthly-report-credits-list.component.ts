@@ -32,7 +32,8 @@ export class MonthlyReportCreditsListComponent {
           date: dayjs(credit.date).format('DD/MM/YYYY'),
           promoter: credit.promoter,
           client: credit.client,
-          creditWeeks: credit.creditWeeks
+          creditWeeks: credit.creditWeeks,
+          typeCredit: credit.typeCredit
         }));
         this.dataMonthlyRep.data = formattedData;
         //Envia a total credist

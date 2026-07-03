@@ -41,7 +41,8 @@ export class DailyReportCreditsListComponent {
         date: dayjs(credit.date).format('DD/MM/YYYY'),
         promoter: credit.promoter,
         client: credit.client,
-        creditWeeks: credit.creditWeeks
+        creditWeeks: credit.creditWeeks,
+        typeCredit: credit.typeCredit
       }));
 
       this.dataDailyRep.data = formattedData;
