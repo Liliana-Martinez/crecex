@@ -63,41 +63,23 @@ export class TotalCreditsComponent {
     console.warn('No hay datos para imprimir');
     return;
   }
-
   const doc = new jsPDF('l', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
-
   const generarPDF = () => {
-
     // Título
     doc.setFontSize(14);
     doc.setTextColor(30, 90, 160);
     doc.text('REPORTE DE CRÉDITOS', pageWidth / 2, 15, { align: 'center' });
-
     // Subtítulo
     doc.setFontSize(10);
     doc.setTextColor(90, 90, 90);
     doc.text(this.getDescripcionReporte(), pageWidth / 2, 22, { align: 'center' });
-
-    const columnas = [
-      'N°',
-      'ID Crédito',
-      'Cliente',
-      'Monto',
-      'Tipo Crédito',
-      'Fecha',
-      'Promotor',
-      'Semanas',
-      'Papelería Completa',
-      'Faltante'
-    ];
-
+    const columnas = [ 'N°', 'ID Crédito', 'Cliente', 'Monto', 'Tipo Crédito', 'Fecha', 'Promotor', 'Semanas',
+      'Papelería Completa', 'Faltante' ];
     let totalMonto = 0;
-
     const filas = this.creditos.map((c, index) => {
       const monto = Number(c.creditAmount) || 0;
       totalMonto += monto;
-
       return [
         index + 1,
         c.idCredit,
@@ -111,7 +93,6 @@ export class TotalCreditsComponent {
         ''
       ];
     });
-
     autoTable(doc, {
       head: [columnas],
       body: filas,
@@ -147,9 +128,7 @@ export class TotalCreditsComponent {
       },
       margin: { top: 30 }
     });
-
     const finalY = (doc as any).lastAutoTable.finalY + 10;
-
     doc.setFontSize(11);
     doc.setTextColor(30, 90, 160);
     doc.text(
@@ -157,18 +136,14 @@ export class TotalCreditsComponent {
       14,
       finalY
     );
-
     doc.save('reporte-creditos.pdf');
   };
-
   const img = new Image();
   img.src = '/logo2.jpeg';
-
   img.onload = () => {
     doc.addImage(img, 'JPEG', 10, 3, 45, 28);
     generarPDF();
   };
-
   img.onerror = () => {
     console.warn('No se pudo cargar el logo');
     generarPDF();

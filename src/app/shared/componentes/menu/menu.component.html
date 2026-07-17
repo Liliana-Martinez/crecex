@@ -67,5 +67,16 @@
             <i class="fa-solid fa-user-slash"></i>
             Buró de Crédito</a>
         </li>
+        <li class="dropdown" [class.open]="activeMenu === 'administration'">
+          <a routerLink="administration">
+            <i class="fa-solid fa-chart-line"></i>
+            Administración
+            <i class="fa-solid fa-chevron-down arrow"></i>
+          </a>
+          <ul class="dropdown-menu" *ngIf="activeMenu === 'administration'">
+            <li routerLinkActive="active"><a routerLink="/app/administration/manage-credits">Creditos</a></li>
+            <li routerLinkActive="active"><a routerLink="/app/administration/manage-payments">Pagos</a></li>>
+          </ul>
+        </li>
     </ul>
 </nav>

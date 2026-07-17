@@ -89,14 +89,17 @@ export class CommissionsComponent {
   const doc = new jsPDF();
   const registro = this.dataCommissions.data[0];
   const hoy = new Date();
-  const fecha = `${String(hoy.getDate()).padStart(2,'0')}-${String(hoy.getMonth()+1).padStart(2,'0')}-${hoy.getFullYear()}`;
-  const nombrePromotora = this.promoter.replace(/\s+/g,'_');
+  const fecha = `${String(hoy.getDate()).padStart(2, '0')}-${String(
+    hoy.getMonth() + 1
+  ).padStart(2, '0')}-${hoy.getFullYear()}`;
+  const nombrePromotora = this.promoter.replace(/\s+/g, '_');
   const comisionTotal =
     Number(registro.collectionRate) +
     Number(registro.collectionExpenses) +
     Number(registro.extras) +
     Number(registro.numberCredits);
-  // Titulo
+
+  // Tituloooo
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
   doc.text('REPORTE DE COMISIONES', 105, 18, { align: 'center' });
@@ -105,7 +108,8 @@ export class CommissionsComponent {
   doc.setFontSize(11);
   doc.setFont('helvetica', 'normal');
   doc.text(`Fecha: ${fecha}`, 105, 34, { align: 'center' });
-//cUADROS
+
+  //dibujarlos recuadros
   const dibujarCuadro = (
     x: number,
     y: number,
@@ -120,53 +124,68 @@ export class CommissionsComponent {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
     doc.setTextColor(255);
-    doc.text(titulo, x + 27.5, y + 5.5, { align: 'center' });
-
+    doc.text(titulo, x + 27.5, y + 5.5, {
+      align: 'center'
+    });
     if (mostrarValor) {
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(0);
       doc.setFontSize(15);
-      doc.text(valor, x + 27.5, y + 18, { align: 'center' });
+      doc.text(valor, x + 27.5, y + 18, {
+        align: 'center'
+      });
     }
-
   };
-  //cOPIA SIN DATOS
-  let y = 45;
-  dibujarCuadro(10, y, "DEBE ENTREGAR", "", false);
-  dibujarCuadro(75, y, "ENTREGÓ", "", false);
-  dibujarCuadro(140, y, "PORCENTAJE", "", false);
-  y += 32;
-  dibujarCuadro(10, y, "COMISIÓN %", "", false);
-  dibujarCuadro(75, y, "COMISIÓN", "", false);
-  dibujarCuadro(140, y, "MULTAS", "", false);
-  y += 32;
-  dibujarCuadro(10, y, "EXTRAS", "", false);
-  dibujarCuadro(75, y, "CRÉDITOS", "", false);
-  dibujarCuadro(140, y, "COMISIÓN TOTAL", "", false);
-  //eSPACION ENTRE UNO Y OTRO 
-  y += 38;
-  y += 10;
 
-  //CON LOS DATOS
+  // cuadros sin informacio
+  let y = 45;
+
+  dibujarCuadro(10, y, "N° CLIENTES", "", false);
+  dibujarCuadro(75, y, "DEBE ENTREGAR", "", false);
+  dibujarCuadro(140, y, "MULTAS", "", false);
+
+  y += 32;
+
+  dibujarCuadro(10, y, "N° CLIENTES AD", "", false);
+  dibujarCuadro(75, y, "ADELANTOS/DEPÓSITOS", "", false);
+  dibujarCuadro(140, y, "ATRASO", "", false);
+
+  y += 32;
+
+  dibujarCuadro(10, y, "ADELANTOS", "", false);
+  dibujarCuadro(75, y, "AD DEPOSITADO", "", false);
+  dibujarCuadro(140, y, "TOTAL A ENTREGAR", "", false);
+
+  // Separación entre la copia en blanco y la información
+  y += 42;
+
+  // cuadros con informacion
+
   dibujarCuadro(10, y, "DEBE ENTREGAR", `$ ${this.totalExpected.toFixed(2)}`);
   dibujarCuadro(75, y, "ENTREGÓ", `$ ${this.totalCollected.toFixed(2)}`);
   dibujarCuadro(140, y, "PORCENTAJE", `${this.collectionPercentage}%`);
+
   y += 32;
+
   dibujarCuadro(10, y, "COMISIÓN %", `${this.commissionPercentage}%`);
   dibujarCuadro(75, y, "COMISIÓN", `$ ${registro.collectionRate.toFixed(2)}`);
   dibujarCuadro(140, y, "MULTAS", `$ ${registro.collectionExpenses.toFixed(2)}`);
+
   y += 32;
   dibujarCuadro(10, y, "EXTRAS", `$ ${registro.extras.toFixed(2)}`);
   dibujarCuadro(75, y, "CRÉDITOS", `${registro.numberCredits}`);
-  // COMISIÓN TOTAL
+  //suma de la comision total
   doc.setDrawColor(0);
   doc.roundedRect(140, y, 55, 26, 2, 2);
   doc.setFillColor(30, 55, 100);
   doc.rect(140, y, 55, 8, 'F');
-  doc.setTextColor(255);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
-  doc.text("COMISIÓN TOTAL", 167.5, y + 5.5, { align: 'center' });
+  doc.setTextColor(255);
+  doc.text("COMISIÓN TOTAL", 167.5, y + 5.5, {
+    align: 'center' 
+  });
+
   doc.setTextColor(0, 120, 0);
   doc.setFontSize(16);
   doc.text(`$ ${comisionTotal.toFixed(2)}`, 167.5, y + 18, {
