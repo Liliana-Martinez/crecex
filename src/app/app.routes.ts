@@ -41,34 +41,33 @@ export const routes: Routes = [
         path: 'home', 
         component: HomeComponent,
         canActivate: [roleGuard],
-        data: {expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']} 
+        data: {expectedRoles: ['promotoras', 'tienda', 'supervisora1', 'supervisora2', 'supervisora3', 'administracion1', 'administracion2', 'gerencia1', 'gerencia2']} 
       }, // Aquí se cargará dentro del <router-outlet>
       { 
         path: 'clients-guarantors', 
         component: ClientsGuarantorsComponent,
         canActivateChild: [roleChildGuard],
         children: [
-          //{ path: '', redirectTo: 'add', pathMatch: 'full' },
           { 
             path: '', 
             pathMatch: 'full', 
             component: RedirectByRoleComponent,
-            data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador'] }
+            data: { expectedRoles: ['promotoras', 'tienda', 'supervisora1', 'supervisora2', 'supervisora3', 'administracion1', 'administracion2', 'gerencia1', 'gerencia2'] }
           },
           { 
             path: 'add', 
             component: AddComponent,
-            data: { expectedRoles: ['usuario3', 'administrador']} 
+            data: { expectedRoles: ['administracion1', 'administracion2', 'gerencia1', 'gerencia2']} 
           },
           { 
             path: 'consult', 
             component: ConsultComponent,  
-            data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']} 
+            data: { expectedRoles: ['promotoras', 'tienda', 'supervisora1', 'supervisora2', 'supervisora3', 'administracion1', 'administracion2', 'gerencia1', 'gerencia2']} 
           },
           { 
             path: 'modify', 
             component: ModifyComponent, 
-            data: { expectedRoles: ['administrador']} 
+            data: { expectedRoles: ['administracion1', 'administracion2', 'gerencia1', 'gerencia2']} 
           },
         ]
       },
@@ -77,21 +76,25 @@ export const routes: Routes = [
         component: CreditsComponent,
         canActivateChild: [roleChildGuard],
         children: [
-          { path: '', redirectTo: 'new', pathMatch: 'full' },
+          { path: '', //redirectTo: 'new', 
+            pathMatch: 'full',
+            component: RedirectByRoleComponent,
+            data: { expectedRoles:['administracion1', 'gerencia1', 'gerencia2']} 
+          },
           { 
             path: 'new', 
             component: NewComponent, 
-            data: { expectedRoles: ['administrador']}
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']}
           },
           { 
             path: 'renew', 
             component: RenewComponent,
-            data: { expectedRoles: ['administrador', 'usuario1']} 
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} 
           },
           { 
             path: 'additional', 
             component: AdditionalComponent,
-            data: { expectedRoles: ['administrador']} 
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} 
           },
         ]
       },
@@ -99,55 +102,65 @@ export const routes: Routes = [
         path: 'payments', 
         component: PaymentsComponent,
         canActivate: [roleGuard], 
-        data: { expectedRoles: ['usuario2', 'usuario3', 'administrador']}
+        data: { expectedRoles: ['administracion1', 'administracion2', 'gerencia1', 'gerencia2']}
       }, 
       { 
         path: 'collectors', 
         component: CollectorsComponent,
         canActivate: [roleGuard], 
-        data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']}
+        data: { expectedRoles: ['supervisora1', 'supervisora2', 'supervisora3', 'administracion1', 'administracion2', 'gerencia1', 'gerencia2']}
       },
       { 
         path: 'commissions', 
         component: CommissionsComponent,
         canActivate: [roleGuard], 
-        data: { expectedRoles: ['administrador']}
+        data: { expectedRoles: ['administracion1', 'administracion2', 'gerencia1', 'gerencia2'] }
       },
       { 
         path: 'statistics', 
         component: StatisticsComponent,
         canActivateChild: [roleChildGuard],
         children:[
-          { path:'', redirectTo: 'cash', pathMatch: 'full' },
+          { 
+            path:'', 
+            pathMatch: 'full',
+            component: RedirectByRoleComponent,
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} },
           { 
             path:'cash', 
             component: CashComponent, 
-            data: { expectedRoles: ['administrador']}
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']}
           },
           { 
             path:'total-credits', 
             component: TotalCreditsComponent,
-            data: { expectedRoles: ['administrador']}
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']}
           },
           { 
             path:'total-payments', 
             component: TotalPaymentsComponent, 
-            data: { expectedRoles: ['administrador']} 
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} 
           },
         ]
       },
       {
         path: 'zones',
         component: ZonesComponent,
+        canActivateChild: [roleChildGuard],
         children:[
-          { path:'', redirectTo: 'add', pathMatch: 'full' },
+          { path:'', 
+            pathMatch: 'full',
+            component: RedirectByRoleComponent, 
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} },
           { 
             path:'add', 
-            component: AddZoneComponent
+            component: AddZoneComponent,
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2'] }
           },
           {
             path: 'modify',
-            component: ModifyZoneComponent
+            component: ModifyZoneComponent,
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2'] }
           }
 
         ]
@@ -156,7 +169,7 @@ export const routes: Routes = [
         path: 'credit-bureau', 
         component: CreditBureauComponent,
         canActivate: [roleGuard], 
-        data: { expectedRoles: ['usuario1', 'usuario2', 'usuario3', 'administrador']}
+        data: { expectedRoles: ['promotoras', 'tienda', 'supervisora1', 'supervisora2', 'supervisora3', 'administracion1', 'gerencia1', 'gerencia2']}
       },
     ]
   }

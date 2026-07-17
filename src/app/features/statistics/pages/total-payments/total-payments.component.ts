@@ -22,11 +22,7 @@ export class TotalPaymentsComponent {
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
-    this.buildPaymentSummaryTable();
-  }
-
-  private buildPaymentSummaryTable(): void {
-
+    this.getPaymentSummary();
   }
   
   onReportTypeChange(value: string): void {

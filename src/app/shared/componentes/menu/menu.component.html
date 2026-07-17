@@ -1,69 +1,69 @@
 <nav class="container-menu">
     <ul class="menu">
         <li class="dropdown">
-          <a routerLink="clients-guarantors">
+          <a routerLink="/app/clients-guarantors">
             <i class="fa-solid fa-users"></i>
             Clientes y Avales
             <i class="fa-solid fa-chevron-down arrow"></i>
           </a>
           <ul class="dropdown-menu" *ngIf="activeMenu === 'clients'">
-            <li routerLinkActive="active"><a routerLink="/app/clients-guarantors/add">Agregar</a></li>
-            <li routerLinkActive="active"><a routerLink="/app/clients-guarantors/consult">Consultar</a></li>
-            <li routerLinkActive="active"><a routerLink="/app/clients-guarantors/modify">Modificar</a></li>
+            <li><a routerLink="/app/clients-guarantors/add" routerLinkActive="active">Agregar</a></li>
+            <li><a routerLink="/app/clients-guarantors/consult" routerLinkActive="active">Consultar</a></li>
+            <li><a routerLink="/app/clients-guarantors/modify" routerLinkActive="active">Modificar</a></li>
           </ul>
         </li>
-        <li class="dropdown" [class.open]="activeMenu === 'credits'">
-          <a routerLink="credits">
+        <li class="dropdown">
+          <a routerLink="/app/credits">
             <i class="fa-solid fa-file-invoice-dollar"></i>
             Venta
             <i class="fa-solid fa-chevron-down arrow"></i>
           </a>
           <ul class="dropdown-menu" *ngIf="activeMenu === 'credits'">
-            <li routerLinkActive="active"><a routerLink="/app/credits/new"><b>Nueva</b></a></li>
-            <li routerLinkActive="active"><a routerLink="/app/credits/renew"><b>Renovar</b></a></li>
-            <li routerLinkActive="active"><a routerLink="/app/credits/additional"><b>Adicional</b></a></li>
+            <li><a routerLink="/app/credits/new" routerLinkActive="active"><b>Nueva</b></a></li>
+            <li><a routerLink="/app/credits/renew" routerLinkActive="active"><b>Renovar</b></a></li>
+            <li><a routerLink="/app/credits/additional" routerLinkActive="active"><b>Adicional</b></a></li>
           </ul>
         </li>
-        <li routerLinkActive="active">
-          <a routerLink="payments">
+        <li>
+          <a routerLink="/app/payments" routerLinkActive="active">
             <i class="fa-solid fa-location-dot"></i>
             Pago por zona</a>
         </li>
-        <li routerLinkActive="active">
-          <a routerLink="collectors">
+        <li>
+          <a routerLink="/app/collectors" routerLinkActive="active">
             <i class="fa-solid fa-file-lines"></i>
               Recopiladores</a> 
         </li>
-        <li routerLinkActive="active">
-          <a routerLink="commissions">
+        <li routerLinkActive="active" routerLinkActive="active">
+          <a routerLink="/app/commissions">
             <i class="fa-solid fa-dollar-sign"></i>
             Comisiones</a>
         </li>
-        <li class="dropdown" [class.open]="activeMenu === 'statistics'">
-          <a routerLink="statistics">
+        <li class="dropdown">
+          <a routerLink="/app/statistics">
             <i class="fa-solid fa-chart-line"></i>
             Estadísticas
             <i class="fa-solid fa-chevron-down arrow"></i>
           </a>
           <ul class="dropdown-menu" *ngIf="activeMenu === 'statistics'">
-            <li routerLinkActive="active"><a routerLink="/app/statistics/cash">Caja</a></li>
-            <li routerLinkActive="active"><a routerLink="/app/statistics/total-credits">Creditos totales</a></li>
-            <li routerLinkActive="active"><a routerLink="/app/statistics/total-payments">Pagos totales</a></li>
+            <li><a routerLink="/app/statistics/cash" routerLinkActive="active">Caja</a></li>
+            <li><a routerLink="/app/statistics/total-credits" routerLinkActive="active">Creditos totales</a></li>
+            <li><a routerLink="/app/statistics/total-payments" routerLinkActive="active">Pagos totales</a></li>
           </ul>
         </li>
         <li class="dropdown">
-          <a routerLink="zones">
+          <a routerLink="/app/zones">
             <i class="fa-solid fa-location-arrow"></i>
             Zonas
             <i class="fa-solid fa-chevron-down arrow"></i>
           </a>
           <ul class="dropdown-menu" *ngIf="activeMenu === 'zones'">
-            <li routerLinkActive="active"><a routerLink="/app/zones/add">Agregar zona de trabajo</a></li>
-            <li routerLinkActive="active"><a routerLink="/app/zones/modify">Modificar zona</a></li>
+            <li><a routerLink="/app/zones/add" routerLinkActive="active">Agregar zona de trabajo</a></li>
+            <li><a routerLink="/app/zones/modify" routerLinkActive="active">Modificar zona</a></li>
           </ul>
         </li>
-        <li routerLinkActive="active">
-          <a routerLink="credit-bureau">
+        <li>
+          <a routerLink="credit-bureau" routerLinkActive="/app/active">
             <i class="fa-solid fa-user-slash"></i>
             Buró de Crédito</a>
         </li>

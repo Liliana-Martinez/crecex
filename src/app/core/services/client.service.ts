@@ -14,8 +14,8 @@ export class ClientService {
 
   constructor(private http: HttpClient) { }
 
-  addClient(credentials: Client): Observable<AddClientResponse> {
-    return this.http.post<AddClientResponse>(API_ROUTES.CLIENTS_GUARANTORS.CREATE.CLIENT, credentials);
+  addClient(client: Client): Observable<AddClientResponse> {
+    return this.http.post<AddClientResponse>(API_ROUTES.CLIENTS_GUARANTORS.CREATE.CLIENT, client);
   }
 
   updateClient(dataToSend: any): Observable<any> {
