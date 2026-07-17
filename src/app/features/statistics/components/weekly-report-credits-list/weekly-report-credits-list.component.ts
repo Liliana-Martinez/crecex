@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component,EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { StatisticsService } from '../../../../core/services/statistics.service';
 import dayjs from 'dayjs';
@@ -14,7 +14,8 @@ export class WeeklyReportCreditsListComponent {
   
   dataWeeklyRep = new MatTableDataSource<any>();
   weeklyListCol: string[] = ['idCredit', 'creditAmount', 'date', 'promoter', 'client', 'creditWeeks'];
-
+  //Manda a total-credits
+  @Output() creditosEmit = new EventEmitter<any[]>();
   constructor (private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
@@ -30,9 +31,13 @@ export class WeeklyReportCreditsListComponent {
           date: dayjs(credit.fecha).format('DD/MM/YYYY'),
           promoter: credit.promoter,
           client: credit.client,
-          creditWeeks: credit.creditWeeks
+          creditWeeks: credit.creditWeeks,
+          typeCredit: credit.typeCredit
         }));
         this.dataWeeklyRep.data = formattedData;
+        //Envia a total credist
+      console.log(' ENVIANDO AL PADRE PARA IMPRIMIR SEMANA:', formattedData);
+      this.creditosEmit.emit(formattedData);
         console.log('Creditos de la semana: ', formattedData);
       },
       error: (err) => {

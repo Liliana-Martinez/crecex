@@ -7,16 +7,15 @@ import { PrintButtonComponent } from "../../../../shared/componentes/print-butto
 import { CreditsService } from '../../../../core/services/credits.service';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { PrintComponent } from '../../componentss/print/print.component';
-import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 
 @Component({
   selector: 'app-additional',
   imports: [FormCreditComponent, 
             TableComponent, 
-            CommonModule, 
+            CommonModule,
             SearchBarComponent, 
             PrintButtonComponent, 
-            PrintComponent, SaveButtonComponent],
+            PrintComponent],
   templateUrl: './additional.component.html',
   styleUrl: './additional.component.css'
 })
