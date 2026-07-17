@@ -13,20 +13,36 @@ export class RedirectByRoleComponent implements OnInit {
 
     ngOnInit(): void {
         const role = this.authService.getUserType();
+        console.log('Usuario dentro del sistema: ', role);
 
         // Las siguientes son las rutas a las que redirige aut. despues de home
         switch(role) {
-            case 'usuario1':
-                this.router.navigate(['app/clients-guarantors/consult']);
+            case 'promotoras':
+                this.router.navigate(['/app/clients-guarantors/consult']);
                 break;
-            case 'usuario2':
-                this.router.navigate(['app/clients-guarantors/consult']);
+            case 'tienda':
+                this.router.navigate(['/app/clients-guarantors/consult']);
                 break;
-            case 'usuario3':
-                this.router.navigate(['app/clients-guarantors/add']);
+            case 'supervisora1':
+                this.router.navigate(['/app/clients-guarantors/consult'])
                 break;
-            case 'administrador':
-                this.router.navigate(['app/clients-guarantors/add']);
+            case 'supervisora2':
+                this.router.navigate(['/app/clients-guarantors/consult']);
+                break;
+            case 'supervisora3':
+                this.router.navigate(['/app/clients-guarantors/consult'])
+                break;
+            case 'administracion1':
+                this.router.navigate(['/app/clients-guarantors/add'])
+                break;
+            case 'administracion2':
+                this.router.navigate(['/app/clients-guarantors/add']);
+                break;
+            case 'gerencia1':
+                this.router.navigate(['/app/clients-guarantors/add']);
+                break;
+            case 'gerencia2':
+                this.router.navigate(['/app/clients-guarantors/add']);
                 break;
             default:
                 this.router.navigate(['app/home']);

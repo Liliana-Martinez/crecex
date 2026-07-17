@@ -76,7 +76,9 @@ export class GuarantorFormComponent implements OnInit {
       clientId: this.clientService.getClientId()
     };
     
-    this.guarantorService.addGuarantor(guarantorData).subscribe({
+    console.log('Datos del aval: ', guarantorData);
+
+    /*this.guarantorService.addGuarantor(guarantorData).subscribe({
       next: (response) => {
         //Mostrar el modal de exito
         this.successMessage = 'Se agregó correctamente el aval y sus garantías.';
@@ -90,7 +92,7 @@ export class GuarantorFormComponent implements OnInit {
         this.errorMessage = 'No se pudo agregar el aval del cliente.'
         this.showErrorModal = true;
       }
-    });
+    });*/
   }
 
   //Cerrar el modal  de exito

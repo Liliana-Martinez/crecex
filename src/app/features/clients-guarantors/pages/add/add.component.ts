@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClientFormComponent } from '../../components/client-form/client-form.component';
 import { FormsModule } from '@angular/forms';
 import { GuarantorFormComponent } from '../../components/guarantor-form/guarantor-form.component';
@@ -10,6 +10,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './add.component.html',
   styleUrl: './add.component.css'
 })
-export class AddComponent {
+export class AddComponent implements OnInit {
   selectedForm: string = 'client';
+
+  ngOnInit(): void {
+    console.log('DENTRO DEL COMPONENTE ADD');
+  }
 }

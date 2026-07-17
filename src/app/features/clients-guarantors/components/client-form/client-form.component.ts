@@ -10,6 +10,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ZoneService } from '../../../../core/services/zone.service';
+import { FORM_VALIDATORS } from '../../constants/form-validators';
 
 @Component({
   selector: 'app-client-form',
@@ -46,50 +47,49 @@ export class ClientFormComponent implements OnInit, OnChanges {
   constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
   ngOnInit(): void {
-    //Inicializar formulario
-    this.clientForm = new FormGroup({
-      name: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      paternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      maternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
-      address: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
-      colonia: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      city: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      phone: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
-      classification: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Da-d]$/)] :[]),
-      zone: new FormControl('', this.option === 'create' ? [Validators.required] :[]),
-      points: new FormControl({ value : this.option === 'create' ? 0 : '', disabled: this.option === 'create'}, []), //****** */
-      zoneId: new FormControl(''),
-      jobName: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-      workAddress: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
-      workPhone: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] :[]),
-      referenceName: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-      referenceAddress: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] :[]),
-      referencePhone: new FormControl('', this.option === 'create' ?[Validators.required, Validators.pattern(/^\d{10}$/)] :[]), 
-
-      /**Formulario anidado, es decir garantiasForm dentro de ClientForm */
-      collateral: new FormGroup({
-        firstCollateral: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-        secondCollateral: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[]),
-        thirdCollateral: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] :[])
-      })
-    });
-
+    
+    this.initForm();
     this.getZones();
     this.filteredZones$ = this.clientForm.get('zone')!.valueChanges.pipe(
       startWith(''),
       map(value => value ? this.filterZones(value) : this.listZones)
     );
-    console.log("option en el formulario de clientes: ", this.option);
   }
 
+  initForm(): void {
+    this.clientForm = new FormGroup({
+      name: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      paternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      maternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
+      address: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
+      colonia: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      city: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      phone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
+      classification: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.CLASSIFICATION :[]),
+      zone: new FormControl('', this.option === 'create' ? [Validators.required] :[]),
+      points: new FormControl({ value : this.option === 'create' ? 0 : '', disabled: this.option === 'create'}, []), //****** */
+      zoneId: new FormControl(''),
+      jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
+      workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
+      workPhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE :[]),
+      referenceName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
+      referenceAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
+      referencePhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE :[]), 
+
+      /**Formulario anidado, es decir garantiasForm dentro de ClientForm */
+      collateral: new FormGroup({
+        firstCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
+        secondCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
+        thirdCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[])
+      })
+    });
+  }
 
   addClient() {
     const zoneCode = this.clientForm.get('zone')?.value;
     this.onZoneSelected(zoneCode); //Se envía ejemplo A-3
     
-    console.log('¿Formulario aval válido?: ', this.clientForm.valid);
-    console.log('Errores: ', this.clientForm.errors);
     console.log('Valor del formulario: ', this.clientForm.value);
 
     if (this.clientForm.invalid) {
@@ -128,12 +128,17 @@ export class ClientFormComponent implements OnInit, OnChanges {
     });
   }
 
-  //Obtener la lista de las zonas
+  //Petición pbtener la lista de las zonas
   private getZones() {
     this.zonaService.getZones().subscribe((zones: Zone[]) => {
       this.listZones = zones;
     });
-    this.filteredZones$ = of(this.listZones);
+  }
+
+  //Devolver las zonas que coincidan con lo que ingresa el usuario
+  private filterZones(value: string): Zone[] {
+    const filterValue = value.toLowerCase();
+    return this.listZones.filter(z => z.codigoZona.toLowerCase().includes(filterValue));
   }
 
   //Asignar id dependiendo el codigo de la zona
@@ -146,11 +151,6 @@ export class ClientFormComponent implements OnInit, OnChanges {
     }
   }
 
-  //Buscar la zona
-  private filterZones(value: string): Zone[] {
-    const filterValue = value.toLowerCase();
-    return this.listZones.filter(z => z.codigoZona.toLowerCase().includes(filterValue));
-  }
 
   //Cerrar el modal  de exito
   closeSuccessModal(): void {
@@ -162,9 +162,10 @@ export class ClientFormComponent implements OnInit, OnChanges {
     this.showErrorModal = false;
   }
 
-  //Codigo para modificar en el submenu de clientes-avales
+  //Codigo para modificar en el submenu de clientes-avales, segun yo esto es para rellenar los inputs con los datos del back para actualizar lo necesario
 private setClientValues(): void {
     if (this.clientForm && this.clientData && this.option === 'update') {
+      console.log('DEntro de setClientValues');
       const data = this.clientData.clientData; //Variable de aqui, lo del back
       this.clientForm.patchValue({
         name: data.name,
@@ -202,6 +203,7 @@ private setClientValues(): void {
     }
   }
 
+  //Esto es para que se muestre en el modal lo que se va actualizar
   public fieldMap: Record<string, string | Record<string, string>> = {
     name: 'Nombre',
     paternalLn: 'Apellido paterno',

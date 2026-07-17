@@ -16,9 +16,9 @@
 <app-search-bar [modulo]="modulo" [selectedOption]="selectedForm" (clienteEncontrado)="onClienteEncontrado($event)"></app-search-bar>
 
 
-<app-client-form *ngIf="selectedForm === 'client'"></app-client-form>
-<app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'"></app-guarantor-form>
-<app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'"></app-guarantor-form>
+<app-client-form *ngIf="selectedForm === 'client'" [option]="'update'"></app-client-form>
+<app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'" [option]="'update'"></app-guarantor-form>
+<app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'" [option]="'update'"></app-guarantor-form>
 
 
 

@@ -9,16 +9,17 @@ export interface Client {
     phone: string;
     classification: string;
     zone: number;
-    nameJob: string;
-    addressJob: string;
-    phoneJob: string;
-    nameReference: string;
-    addressReference: string;
-    phoneReference: string;
-    garantias: {
-        garantiaUno: string;
-        garantiaDos: string;
-        garantiaTres: string;
+    jobName: string;
+    workAddress: string;
+    workPhone: string;
+    referenceName: string;
+    referenceAddress: string;
+    referencePhone: string;
+    collateral: {
+        firstCollateral: string;
+        secondCollateral: string;
+        thirdCollateral: string;
     };
 }
-type ModifiedClientData = Partial<Client>;
+
+//type ModifiedClientData = Partial<Client>;
