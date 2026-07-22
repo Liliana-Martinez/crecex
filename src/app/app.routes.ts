@@ -29,7 +29,9 @@ import { RedirectByRoleComponent } from './auth/redirect-by-role';
 import { ZonesComponent } from './features/zones/zones.component';
 import { AddZoneComponent } from './features/zones/pages/add-zone/add-zone.component';
 import { ModifyZoneComponent } from './features/zones/pages/modify-zone/modify-zone.component';
-
+import { AdministrationComponent} from './features/administration/administration.component';
+import { ManageCreditsComponent } from './features/administration/pages/manage-credits/manage-credits.component';
+import { ManagePaymentsComponent } from './features/administration/pages/manage-payments/manage-payments.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -170,6 +172,24 @@ export const routes: Routes = [
         component: CreditBureauComponent,
         canActivate: [roleGuard], 
         data: { expectedRoles: ['promotoras', 'tienda', 'supervisora1', 'supervisora2', 'supervisora3', 'administracion1', 'gerencia1', 'gerencia2']}
+      },
+      { 
+        path: 'administration', 
+        component: AdministrationComponent,
+        canActivateChild: [roleChildGuard],
+        children:[
+          { path:'', redirectTo: 'manage-credits', pathMatch: 'full' },
+          { 
+            path:'manage-credits', 
+            component: ManageCreditsComponent, 
+            data: { expectedRoles: ['administrador']}
+          },
+          { 
+            path:'manage-payments', 
+            component: ManagePaymentsComponent,
+            data: { expectedRoles: ['administrador']}
+          }
+        ]
       },
     ]
   }

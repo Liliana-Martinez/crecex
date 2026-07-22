@@ -33,7 +33,9 @@ export class MenuComponent {
           this.activeMenu = 'statistics';
         } else if (url.startsWith('/app/zones')){
           this.activeMenu = 'zones';
-        } else {
+        } else if (url.startsWith('/app/administration')){
+          this.activeMenu = 'administration';
+        }else {
           this.activeMenu = null;
         }
         console.log('Menu activo: ', this.activeMenu);
