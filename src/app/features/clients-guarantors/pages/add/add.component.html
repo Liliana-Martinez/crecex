@@ -14,7 +14,7 @@
 </div>
  
 
-<app-client-form *ngIf="selectedForm === 'client'" [option]="'create'"></app-client-form>
-<app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'" [option]="'create'"></app-guarantor-form>
-<app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'" [option]="'create'"></app-guarantor-form>
+<app-client-form *ngIf="selectedForm === 'client'" [option]="'create'" (clientCreated)="onClientCreated($event)"></app-client-form>
+<app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'" [option]="'create'" [clientId]="clientId"></app-guarantor-form>
+<app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'" [option]="'create'" [clientId]="clientId"></app-guarantor-form>
 

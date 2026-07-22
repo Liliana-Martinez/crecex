@@ -1,11 +1,11 @@
 <div class="container-form">
-    <form [formGroup]="clientForm" (ngSubmit)="option === 'create' ? addClient() : updateClient()">
+    <form [formGroup]="clientForm" (ngSubmit)="option === 'create' ? createClient() : updateClient()">
         <div class="form-section">
             <h4>Datos personales del cliente</h4>
             <div class="row">
                 <div class="data">
                     <label>Nombre</label>
-                    <input type="text" formControlName="name" required>
+                    <input type="text" formControlName="name">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('name')?.invalid && clientForm.get('name')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un nombre válido</span>
@@ -13,7 +13,7 @@
                 </div>
                 <div class="data">
                     <label>Apellido paterno</label>
-                    <input type="text" formControlName="paternalLn" required>
+                    <input type="text" formControlName="paternalLn">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('paternalLn')?.invalid && clientForm.get('paternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="data">
                     <label>Apellido materno</label>
-                    <input type="text" formControlName="maternalLn" required>
+                    <input type="text" formControlName="maternalLn">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('maternalLn')?.invalid && clientForm.get('maternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="data">
                     <label>Edad</label>
-                    <input type="number" formControlName="age" min="18" max="60" required>
+                    <input type="number" formControlName="age" min="18" max="60">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('age')?.invalid && clientForm.get('age')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una edad válida</span>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="data">
                     <label>Domicilio</label>
-                    <input type="text" formControlName="address" required>
+                    <input type="text" formControlName="address">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('address')?.invalid && clientForm.get('address')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un domicilio válido</span>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="data">
                     <label>Colonia</label>
-                    <input type="text" formControlName="colonia" required>
+                    <input type="text" formControlName="colonia">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('colonia')?.invalid && clientForm.get('colonia')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una colonia válida</span>
@@ -57,7 +57,7 @@
             <div class="row">
                 <div class="data">
                     <label>Ciudad</label>
-                    <input type="text" formControlName="city" required>
+                    <input type="text" formControlName="city">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('city')?.invalid && clientForm.get('city')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una ciudad válida</span>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="data">
                     <label>Telefóno</label>
-                    <input type="tel" formControlName="phone" required>
+                    <input type="tel" formControlName="phone">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('phone')?.invalid && clientForm.get('phone')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un teléfono válido</span>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="data">
                     <label>Clasificación</label>
-                    <input type="text" formControlName="classification" required>
+                    <input type="text" formControlName="classification">
                     <div class="error-message" *ngIf="option === 'create' && clientForm.get('classification')?.invalid && clientForm.get('classification')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una clasificación válida</span>
@@ -102,7 +102,7 @@
         <div class="row">
             <div class="data">
                 <label>Nombre</label>
-                <input type="text" formControlName="jobName" required>
+                <input type="text" formControlName="jobName">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('jobName')?.invalid && clientForm.get('jobName')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un nombre de trabajo válido</span>
@@ -110,7 +110,7 @@
             </div>
             <div class="data">
                 <label>Domicilio</label>
-                <input type="text" formControlName="workAddress" required>
+                <input type="text" formControlName="workAddress">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('workAddress')?.invalid && clientForm.get('workAddress')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un domicilio válido</span>
@@ -118,7 +118,7 @@
             </div>
             <div class="data">
                 <label>Telefóno</label>
-                <input type="tel" formControlName="workPhone" required>
+                <input type="tel" formControlName="workPhone">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('workPhone')?.invalid && clientForm.get('workPhone')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un teléfono válido</span>
@@ -132,7 +132,7 @@
         <div class="row">
             <div class="data">
                 <label>Nombre completo</label>
-                <input type="text" formControlName="referenceName" required>
+                <input type="text" formControlName="referenceName">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('referenceName')?.invalid && clientForm.get('referenceName')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un nombre válido</span>
@@ -140,7 +140,7 @@
             </div>
             <div class="data">
                 <label>Domicilio</label>
-                <input type="text" formControlName="referenceAddress" required>
+                <input type="text" formControlName="referenceAddress">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('referenceAddress')?.invalid && clientForm.get('referenceAddress')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un domicilio válido</span>
@@ -148,7 +148,7 @@
             </div>
             <div class="data">
                 <label>Telefóno</label>
-                <input type="tel" formControlName="referencePhone" required>
+                <input type="tel" formControlName="referencePhone">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('referencePhone')?.invalid && clientForm.get('referencePhone')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un teléfono válido</span>
@@ -162,7 +162,7 @@
         <div formGroupName="collateral" class="row">
             <div class="data">
                 <label>Garantia 1</label>
-                <input type="text" formControlName="firstCollateral" required>
+                <input type="text" formControlName="firstCollateral">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.firstCollateral')?.invalid && clientForm.get('collateral.firstCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
@@ -170,7 +170,7 @@
             </div>
             <div class="data">
                 <label>Garantia 2</label>
-                <input type="text" formControlName="secondCollateral" required>
+                <input type="text" formControlName="secondCollateral">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.secondCollateral')?.invalid && clientForm.get('collateral.secondCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
@@ -178,7 +178,7 @@
             </div>
             <div class="data">
                 <label>Garantia 3</label>
-                <input type="text" formControlName="thirdCollateral" required>
+                <input type="text" formControlName="thirdCollateral">
                 <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.thirdCollateral')?.invalid && clientForm.get('collateral.thirdCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>

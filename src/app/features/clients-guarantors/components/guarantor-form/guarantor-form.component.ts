@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { GuarantorService } from '../../../../core/services/guarantor.service';
 import { Guarantor } from '../../../../models/guarantor';
 import { ClientService } from '../../../../core/services/client.service';
+import { FORM_VALIDATORS } from '../../constants/form-validators';
 
 @Component({
   selector: 'app-guarantor-form',
@@ -24,6 +25,7 @@ export class GuarantorFormComponent implements OnInit {
   @Input() option: 'create' | 'update' = 'create';
   @Input() clientData?: any;
   @Input() selectedOption: string = '';
+  @Input() clientId?: number;
 
   dataToSend: any = {};
   modifiedFields = new Map<string, any>();
@@ -39,46 +41,59 @@ export class GuarantorFormComponent implements OnInit {
   constructor(private guarantorService: GuarantorService, private clientService: ClientService){}
 
   ngOnInit(): void {
-    //Inicializar formulario
-    this.guarantorForm = new FormGroup({
-      name: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      paternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      maternalLn: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
-      address: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
-      colonia: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      city: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      phone: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
-      nameJob: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-      addressJob: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-z0-9\s.,#\-°]+$/)] : []),
-      phoneJob: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^\d{10}$/)] : []),
-      /**Formulario "anidado" para las garantias */
-      garantias: new FormGroup({
-        garantiaUno: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-        garantiaDos: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : []),
-        garantiaTres: new FormControl('', this.option === 'create' ? [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/)] : [])
-      })
-    });
-
-    console.log("option en avales: ", this.option);
+    this.initForm();
   }
 
-  addGuarantor() {
-    console.log('Se dio clic a guardar');
+  initForm() {
+    //Inicializar formulario
+    this.guarantorForm = new FormGroup({
+      name: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      paternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      maternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
+      address: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
+      colonia: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      city: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      phone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
+      jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+      workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
+      workPhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
+      /**Formulario "anidado" para las garantias */
+      collateral: new FormGroup({
+        firstCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+        secondCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
+        thirdCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : [])
+      })
+    });
+    console.log('FORMULARIO DEL AVAL');
+    console.log('ClientId recibido: ', this.clientId);
+  }
+
+  createGuarantor() {
+    console.log('FUNCION PARA AGREGAR AL AVAL');
     if(this.guarantorForm.invalid) {
       this.errorMessage = 'Debe completar todos los campos.';
       this.showErrorModal = true;
       return;
     }
-
-    const guarantorData: Guarantor = {
-      ...this.guarantorForm.value,
-      clientId: this.clientService.getClientId()
-    };
     
-    console.log('Datos del aval: ', guarantorData);
+    /*if (this.clientId === undefined) {
+      this.errorMessage = 'No hay cliente para este aval.';
+      this.showErrorModal = true;
+      return;
+    }*/
 
-    /*this.guarantorService.addGuarantor(guarantorData).subscribe({
+    //Desestructurar los datos
+    const { collateral, ...personalData } = this.guarantorForm.value;
+    personalData.clientId = this.clientId;
+    const guarantorData: Guarantor = {
+      personalData,
+      collateral
+    }
+
+    console.log('Datos del al back del front: ', guarantorData);
+
+    this.guarantorService.addGuarantor(guarantorData).subscribe({
       next: (response) => {
         //Mostrar el modal de exito
         this.successMessage = 'Se agregó correctamente el aval y sus garantías.';
@@ -88,20 +103,11 @@ export class GuarantorFormComponent implements OnInit {
         this.guarantorForm.reset();
       },
       error: (err) => {
-        //console.log('Error al agregar el aval principal del cliente.', err);
+        console.log('Error al agregar el aval principal del cliente.', err);
         this.errorMessage = 'No se pudo agregar el aval del cliente.'
         this.showErrorModal = true;
       }
-    });*/
-  }
-
-  //Cerrar el modal  de exito
-  closeSuccessModal(): void {
-    this.showSuccessModal = false;
-  }
-
-  closeErrorModal(): void {
-    this.showErrorModal = false;
+    });
   }
 
 private setGuarantorValues(): void {
@@ -256,7 +262,15 @@ getKeyValueObject(obj: any): { [key: string]: any } {
   return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
 }
 
+//Cerrar el modal  de exito
+  closeSuccessModal(): void {
+    this.showSuccessModal = false;
+  }
 
+  closeErrorModal(): void {
+    this.showErrorModal = false;
+  }
+  
   confirmUpdate(): void {
   this.guarantorService.updateGuarantor(this.dataToSend).subscribe({
     next: () => {

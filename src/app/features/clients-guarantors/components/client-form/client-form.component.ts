@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule,Validators } from '@angular/forms';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 import { ClientService } from '../../../../core/services/client.service';
@@ -33,6 +33,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
   @Input() option: 'create' | 'update' = 'create';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
+  @Output() clientCreated = new EventEmitter<number>();
   
   dataToSend: any = {};
   modifiedFields = new Map<string, any>();
@@ -47,7 +48,6 @@ export class ClientFormComponent implements OnInit, OnChanges {
   constructor(private clientService: ClientService, private zonaService: ZoneService) {}
 
   ngOnInit(): void {
-    
     this.initForm();
     this.getZones();
     this.filteredZones$ = this.clientForm.get('zone')!.valueChanges.pipe(
@@ -86,11 +86,9 @@ export class ClientFormComponent implements OnInit, OnChanges {
     });
   }
 
-  addClient() {
+  createClient() {
     const zoneCode = this.clientForm.get('zone')?.value;
     this.onZoneSelected(zoneCode); //Se envía ejemplo A-3
-    
-    console.log('Valor del formulario: ', this.clientForm.value);
 
     if (this.clientForm.invalid) {
       this.errorMessage = 'Debe completar todos los campos.';
@@ -98,13 +96,21 @@ export class ClientFormComponent implements OnInit, OnChanges {
       return;
     }
 
-    const clientData: Client = this.clientForm.value;
+    //Desestructura lo del formulario en datos personales y garantias
+    const { collateral, zone, ...personalData } = this.clientForm.value;
+    const clientData: Client = {
+      personalData,
+      collateral
+    };
+
+    console.log('Datos del cliente a guardar en objeto: ', clientData);
+
     this.clientService.addClient(clientData).subscribe({
       next: (response) => {
         console.log('Respuesta del backend', response);
         //Guardar el id del cliente para agregar sus avales
         const clientId = response.clientId;
-        this.clientService.setClientId(clientId);
+        this.clientCreated.emit(clientId);
         
         //Mostrar el modal de exito
         this.successMessage = 'Se agrego correctamente el cliente y sus garantias.';

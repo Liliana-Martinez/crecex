@@ -18,9 +18,6 @@ export interface commissionsData {
 @Component({
   selector: 'app-commissions',
   standalone: true,
-<<<<<<< HEAD
-  imports: [ReactiveFormsModule, SearchBarZoneComponent, MatTableModule, FormsModule, SaveButtonComponent],
-=======
   imports: [
     ReactiveFormsModule,
     SearchBarZoneComponent,
@@ -29,7 +26,6 @@ export interface commissionsData {
     SaveButtonComponent,
     PrintButtonComponent
   ],
->>>>>>> e9b7e8b06db12e35add03df1de84279b88477d34
   templateUrl: './commissions.component.html',
   styleUrl: './commissions.component.css'
 })

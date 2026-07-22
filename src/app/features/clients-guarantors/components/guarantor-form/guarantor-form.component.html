@@ -1,11 +1,11 @@
 <div class="container-form">
-    <form [formGroup]="guarantorForm" (ngSubmit)="option === 'create' ? addGuarantor() : updateGuarantor()">
+    <form [formGroup]="guarantorForm" (ngSubmit)="option === 'create' ? createGuarantor() : updateGuarantor()">
         <div class="form-section">
             <h4>Datos personales del aval</h4>
             <div class="row">
                 <div class="data">
                     <label>Nombre</label>
-                    <input type="text" formControlName="name" required>
+                    <input type="text" formControlName="name">
                     <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('name')?.invalid && guarantorForm.get('name')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un nombre válido</span>
@@ -13,14 +13,15 @@
                 </div>
                 <div class="data">
                     <label>Apellido paterno</label>
-                    <input type="text" formControlName="paternalLn" required> <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('paternalLn')?.invalid && guarantorForm.get('paternalLn')?.touched">
+                    <input type="text" formControlName="paternalLn"> 
+                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('paternalLn')?.invalid && guarantorForm.get('paternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
                     </div><!--paternalLn=paternalLastName -->
                 </div>
                 <div class="data">
                     <label>Apellido materno</label>
-                    <input type="text" formControlName="maternalLn" required> 
+                    <input type="text" formControlName="maternalLn"> 
                     <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('maternalLn')?.invalid && guarantorForm.get('maternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
@@ -30,7 +31,7 @@
             <div class="row">
                 <div class="data">
                     <label>Edad</label>
-                    <input type="number" formControlName="age" min="18" max="60" required>
+                    <input type="number" formControlName="age" min="18" max="60">
                     <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('age')?.invalid && guarantorForm.get('age')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una edad válida</span>
@@ -38,7 +39,7 @@
                 </div>
                 <div class="data">
                     <label>Domicilio</label>
-                    <input type="text" formControlName="address" required>
+                    <input type="text" formControlName="address">
                     <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('address')?.invalid && guarantorForm.get('address')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un domicilio válido</span>
@@ -46,7 +47,7 @@
                 </div>
                 <div class="data">
                     <label>Colonia</label>
-                    <input type="text" formControlName="colonia" required>
+                    <input type="text" formControlName="colonia">
                     <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('colonia')?.invalid && guarantorForm.get('colonia')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una colonia válida</span>
@@ -56,7 +57,7 @@
             <div class="row">
                 <div class="data">
                     <label>Ciudad</label>
-                    <input type="text" formControlName="city" required>
+                    <input type="text" formControlName="city">
                     <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('city')?.invalid && guarantorForm.get('city')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una ciudad válida</span>
@@ -64,7 +65,7 @@
                 </div>
                 <div class="data">
                     <label>Telefóno</label>
-                    <input type="tel" formControlName="phone" required>
+                    <input type="tel" formControlName="phone">
                     <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('phone')?.invalid && guarantorForm.get('phone')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un teléfono válido</span>
@@ -78,24 +79,24 @@
         <div class="row">
             <div class="data">
                 <label>Nombre</label>
-                <input type="text" formControlName="nameJob" required>
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('nameJob')?.invalid && guarantorForm.get('nameJob')?.touched">
+                <input type="text" formControlName="jobName">
+                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('jobName')?.invalid && guarantorForm.get('jobName')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un nombre de trabajo válido</span>
                 </div>
             </div>
             <div class="data">
                 <label>Domicilio</label>
-                <input type="text" formControlName="addressJob" required>
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('addressJob')?.invalid && guarantorForm.get('addressJob')?.touched">
+                <input type="text" formControlName="workAddress">
+                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('workAddress')?.invalid && guarantorForm.get('workAddress')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un domicilio válido</span>
                 </div>
             </div>
             <div class="data">
                 <label>Telefóno</label>
-                <input type="tel" formControlName="phoneJob" required>
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('phoneJob')?.invalid && guarantorForm.get('phoneJob')?.touched">
+                <input type="tel" formControlName="workPhone">
+                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('workPhone')?.invalid && guarantorForm.get('workPhone')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un teléfono válido</span>
                 </div>
@@ -105,27 +106,27 @@
         
         <div class="form-section">
             <h4>Garantias</h4>
-        <div formGroupName="garantias" class="row" >
+        <div formGroupName="collateral" class="row" >
             <div class="data">
                 <label>Garantia 1</label>
-                <input type="text" formControlName="garantiaUno" required>
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('garantias.garantiaUno')?.invalid && guarantorForm.get('garantias.garantiaUno')?.touched">
+                <input type="text" formControlName="firstCollateral">
+                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('collateral.firstCollateral')?.invalid && guarantorForm.get('collateral.firstCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
             </div>
             <div class="data">
                 <label>Garantia 2</label>
-                <input type="text" formControlName="garantiaDos" required>
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('garantias.garantiaDos')?.invalid && guarantorForm.get('garantias.garantiaDos')?.touched">
+                <input type="text" formControlName="secondCollateral">
+                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('collateral.secondCollateral')?.invalid && guarantorForm.get('collateral.secondCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
             </div>
             <div class="data">
                 <label>Garantia 3</label>
-                <input type="text" formControlName="garantiaTres" required>
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('garantias.garantiaTres')?.invalid && guarantorForm.get('garantias.garantiaTres')?.touched">
+                <input type="text" formControlName="thirdCollateral">
+                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('collateral.thirdCollateral')?.invalid && guarantorForm.get('collateral.thirdCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>

@@ -12,7 +12,7 @@ export class GuarantorService {
   constructor(private http: HttpClient) { }
 
   addGuarantor(credentials: Guarantor): Observable<Guarantor> {
-    return this.http.post<Guarantor>(API_ROUTES.CLIENTS_GUARANTORS.UPDATE.GUARANTOR, credentials);
+    return this.http.post<Guarantor>(API_ROUTES.CLIENTS_GUARANTORS.CREATE.GUARANTOR, credentials);
   }
 
   updateGuarantor(dataToSend: any): Observable<any>{

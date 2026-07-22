@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ClientFormComponent } from '../../components/client-form/client-form.component';
 import { FormsModule } from '@angular/forms';
 import { GuarantorFormComponent } from '../../components/guarantor-form/guarantor-form.component';
@@ -10,10 +10,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './add.component.html',
   styleUrl: './add.component.css'
 })
-export class AddComponent implements OnInit {
+export class AddComponent {
   selectedForm: string = 'client';
+  clientId?: number;
 
-  ngOnInit(): void {
-    console.log('DENTRO DEL COMPONENTE ADD');
+  onClientCreated(clientId: number): void {
+    this.clientId = clientId;
+    console.log('Id del aval en ADDCOMPONENT para mandar al aval: ', this.clientId);
   }
 }
