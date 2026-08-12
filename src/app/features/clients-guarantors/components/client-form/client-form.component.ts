@@ -182,12 +182,9 @@ export class ClientFormComponent implements OnInit, OnChanges {
   //Codigo para modificar en el submenu de clientes-avales, segun yo esto es para rellenar los inputs con los datos del back para actualizar lo necesario
 private setClientValues(): void {
 
-  console.log('clientData recibido:', this.clientData);
-  console.log('option recibido:', this.option);
     if (this.clientForm && this.clientData && this.option === 'update') {
       
       const data = this.clientData.clientData; //Variable de aqui, lo del back
-      console.log('data: ', data);
 
       this.clientForm.patchValue({
         name: data.name,
@@ -292,6 +289,7 @@ updateClient(): void {
   }
 
   console.log('Datos modificados en este punto: ', this.modifiedFields);
+
   if (this.modifiedFields.size === 0) {
     console.log('No se realizaron cambios.');
     this.errorMessage = 'No se realizaron cambios.'
@@ -307,6 +305,8 @@ updateClient(): void {
     id: id,
     ...modifiedFieldsObject
   };
+
+  console.log('Datos para el back que se van a modificar: ', this.dataToSend);
 
   this.showConfirmation = true;
 }

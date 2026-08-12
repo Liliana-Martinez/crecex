@@ -109,6 +109,77 @@ form h4 {
     box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 35px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  max-width: 400px;
+}
+
+.modal-content p{
+    margin-top:15px;
+    line-height:1.5;
+    color:#444;
+}
+
+.modal-icon{
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.modal-icon.error{
+    color:#d32f2f;
+}
+
+.modal-icon.success{
+    color:#2e7d32;
+}
+
+.modal-content button{
+    margin-top:25px;
+    padding:12px 35px;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:.2s;
+}
+
+.modal-content button:hover{
+    transform:translateY(-1px);
+}
+
+.modal-button.success {
+    background:#1b5e20
+}
+
+.modal-button.success:hover {
+    background:#2e7d32;
+}
+
+.modal-button.error {
+    background:#d32f2f
+}
+
+.modal-button.error:hover {
+    background: #b71c1c;
+}
+
 @media screen and (max-width: 768px) {
     .row {
         flex-direction: column; /* Apila los elementos en columna */
