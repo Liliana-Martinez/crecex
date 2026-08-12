@@ -80,8 +80,15 @@ export const routes: Routes = [
         children: [
           { path: '', //redirectTo: 'new', 
             pathMatch: 'full',
+<<<<<<< HEAD
             component: NewComponent,//RedirectByRoleComponent,
             data: { expectedRoles:['administracion1', 'gerencia1', 'gerencia2']} 
+=======
+            component: RedirectByRoleComponent,
+            data: { expectedRoles:['administracion1', 'gerencia1', 'gerencia2'],
+              defaultRoute: 'new'
+            } 
+>>>>>>> 77c788c41e36fcf8d179f2ba233343395e806587
           },
           { 
             path: 'new', 
@@ -127,7 +134,9 @@ export const routes: Routes = [
             path:'', 
             pathMatch: 'full',
             component: RedirectByRoleComponent,
-            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} },
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2'],
+              defaultRoute: 'cash'
+            } },
           { 
             path:'cash', 
             component: CashComponent, 
@@ -153,7 +162,9 @@ export const routes: Routes = [
           { path:'', 
             pathMatch: 'full',
             component: RedirectByRoleComponent, 
-            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} },
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2'],
+                    defaultRoute: 'add'
+            } },
           { 
             path:'add', 
             component: AddZoneComponent,

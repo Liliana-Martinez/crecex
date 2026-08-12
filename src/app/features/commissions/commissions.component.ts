@@ -18,7 +18,10 @@ export interface commissionsData {
 @Component({
   selector: 'app-commissions',
   standalone: true,
+<<<<<<< HEAD
 
+=======
+>>>>>>> 77c788c41e36fcf8d179f2ba233343395e806587
   imports: [
     ReactiveFormsModule,
     SearchBarZoneComponent,

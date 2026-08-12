@@ -1,16 +1,22 @@
 <div *ngIf="showSuccessModal" class="modal-overlay">
   <div class="modal-content">
-    <h3 style="color: green;">✅ ¡Éxito!</h3>
+    <div class="modal-icon success">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <h3> ¡Éxito! </h3>
     <p>{{ successMessage }}</p>
-    <button (click)="closeSuccessModal()">Cerrar</button>
+    <button class="modal-button success" (click)="closeSuccessModal()">Cerrar</button>
   </div>
 </div>
 
 <div *ngIf="showErrorModal" class="modal-overlay">
   <div class="modal-content">
-    <h3 style="color: red;">❌ Error</h3>
+    <div class="modal-icon error">
+        <i class="fa-solid fa-circle-xmark"></i>
+    </div>
+    <h3> ¡Error! </h3>
     <p>{{ errorMessage }}</p>
-    <button (click)="closeErrorModal()">Cerrar</button>
+    <button class="modal-button error" (click)="closeErrorModal()">Cerrar</button>
   </div>
 </div>
 
@@ -66,6 +72,7 @@
     (save)="abrirConfirmacion()">
 </app-save-button>
 </form>
+
 <div class="modal-backdrop" *ngIf="modalVisible" style="position: fixed;top: 0; left: 0; right: 0;
             bottom: 0;background: rgba(0,0,0,0.6);display: flex;justify-content: center;align-items: 
             center;z-index: 1000;">

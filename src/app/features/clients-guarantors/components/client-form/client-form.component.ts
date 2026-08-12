@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule,Validators } from '@angular/forms';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 import { ClientService } from '../../../../core/services/client.service';
@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ZoneService } from '../../../../core/services/zone.service';
 import { FORM_VALIDATORS } from '../../constants/form-validators';
+import { NormalizationService } from '../../../../core/services/normalization.service';
 
 @Component({
   selector: 'app-client-form',
@@ -33,6 +34,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
   @Input() option: 'create' | 'update' = 'create';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
+  @Output() clientCreated = new EventEmitter<number>();
   
   dataToSend: any = {};
   modifiedFields = new Map<string, any>();
@@ -44,15 +46,17 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   showConfirmation = false;
 
-  constructor(private clientService: ClientService, private zonaService: ZoneService) {}
+  constructor(
+    private clientService: ClientService, 
+    private zonaService: ZoneService,
+    private normalizationService: NormalizationService) {}
 
   ngOnInit(): void {
-    
     this.initForm();
     this.getZones();
     this.filteredZones$ = this.clientForm.get('zone')!.valueChanges.pipe(
       startWith(''),
-      map(value => value ? this.filterZones(value) : this.listZones)
+      map(value => value ? this.filterZones(value ?? '') : this.listZones)
     );
   }
 
@@ -68,7 +72,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
       phone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
       classification: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.CLASSIFICATION :[]),
       zone: new FormControl('', this.option === 'create' ? [Validators.required] :[]),
-      points: new FormControl({ value : this.option === 'create' ? 0 : '', disabled: this.option === 'create'}, []), //****** */
+      points: new FormControl({ value : this.option === 'create' ? 34 : '', disabled: this.option === 'create'}, []), //****** */
       zoneId: new FormControl(''),
       jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
       workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
@@ -86,28 +90,46 @@ export class ClientFormComponent implements OnInit, OnChanges {
     });
   }
 
-  addClient() {
-    const zoneCode = this.clientForm.get('zone')?.value;
-    this.onZoneSelected(zoneCode); //Se envía ejemplo A-3
-    
-    console.log('Valor del formulario: ', this.clientForm.value);
-
+  createClient() {
     if (this.clientForm.invalid) {
-      this.errorMessage = 'Debe completar todos los campos.';
+      this.clientForm.markAllAsTouched();
+      this.errorMessage = 'Debe completar todos los campos';
       this.showErrorModal = true;
       return;
     }
 
-    const clientData: Client = this.clientForm.value;
+    const zoneCode = this.clientForm.get('zone')?.value;
+    const selectedZone = this.getZoneByCode(zoneCode);
+    if (!selectedZone) {
+      this.errorMessage = 'Debe seleccionar una zona válida.';
+      this.showErrorModal = true;
+      return;
+    }
+  
+    //Desestructura lo del formulario en datos personales y garantias
+    const { collateral, zone, ...personalData } = this.clientForm.value;
+    personalData.zoneId = selectedZone.id;
+
+    const normalizePersonalData = this.normalizationService.normalizePersonalData(personalData);
+
+    const normalizeCollateral = this.normalizationService.normalizeCollateral(collateral);
+
+    const clientData: Client = {
+      personalData: normalizePersonalData,
+      collateral: normalizeCollateral
+    };
+
+    console.log('Clientes para el back: ', clientData);
+
     this.clientService.addClient(clientData).subscribe({
       next: (response) => {
         console.log('Respuesta del backend', response);
         //Guardar el id del cliente para agregar sus avales
         const clientId = response.clientId;
-        this.clientService.setClientId(clientId);
+        this.clientCreated.emit(clientId);
         
         //Mostrar el modal de exito
-        this.successMessage = 'Se agrego correctamente el cliente y sus garantias.';
+        this.successMessage = 'Se agrego correctamente el cliente y sus garantias';
         this.showSuccessModal = true;
 
         //Limpiar el formulario
@@ -116,12 +138,11 @@ export class ClientFormComponent implements OnInit, OnChanges {
         });
       },
       error: (err) => {
-        //console.error('Error al agregar el cliente.', err);
-        if (err.status === 409 && err.error && err.error.message === 'El cliente ya existe.') {
-          this.errorMessage = 'El cliente ya existe.';
+        if (err.status === 409) {
+          this.errorMessage = err.error.message;
           this.showErrorModal = true;
         } else {
-          this.errorMessage = 'No se pudo agregar el cliente.';
+          this.errorMessage = err.error.message;
           this.showErrorModal =  true;
         }
       }
@@ -137,20 +158,16 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   //Devolver las zonas que coincidan con lo que ingresa el usuario
   private filterZones(value: string): Zone[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = (value ?? '').toLowerCase();
     return this.listZones.filter(z => z.codigoZona.toLowerCase().includes(filterValue));
   }
 
   //Asignar id dependiendo el codigo de la zona
-  onZoneSelected(zoneCode: string) { //Recibe A-3
-    const selectedZone = this.listZones.find(z => {
-      return z.codigoZona.toLowerCase() === zoneCode.toLowerCase(); 
-    }); //Si funciona se supone que selectedZone = 3-A
-    if(selectedZone) {
-      this.clientForm.get('zoneId')?.setValue(selectedZone.id);
-    }
+  getZoneByCode(zoneCode: string) { //Recibe A-3
+    return this.listZones.find(zone =>
+      zone.codigoZona.toLowerCase() === (zoneCode ?? '').toLowerCase() 
+    ); //Si funciona se supone que selectedZone = 3-A 
   }
-
 
   //Cerrar el modal  de exito
   closeSuccessModal(): void {
@@ -164,9 +181,11 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   //Codigo para modificar en el submenu de clientes-avales, segun yo esto es para rellenar los inputs con los datos del back para actualizar lo necesario
 private setClientValues(): void {
+
     if (this.clientForm && this.clientData && this.option === 'update') {
-      console.log('DEntro de setClientValues');
+      
       const data = this.clientData.clientData; //Variable de aqui, lo del back
+
       this.clientForm.patchValue({
         name: data.name,
         paternalLn: data.paternalLn,
@@ -230,6 +249,7 @@ private setClientValues(): void {
 };
 
 updateClient(): void {
+  console.log('clientData DENTRO DE Update: ', this.clientData);
   const currentValues = this.clientForm.getRawValue();
 
   if (!this.clientData || !this.clientData.idCliente) {
@@ -269,6 +289,7 @@ updateClient(): void {
   }
 
   console.log('Datos modificados en este punto: ', this.modifiedFields);
+
   if (this.modifiedFields.size === 0) {
     console.log('No se realizaron cambios.');
     this.errorMessage = 'No se realizaron cambios.'
@@ -284,6 +305,8 @@ updateClient(): void {
     id: id,
     ...modifiedFieldsObject
   };
+
+  console.log('Datos para el back que se van a modificar: ', this.dataToSend);
 
   this.showConfirmation = true;
 }
