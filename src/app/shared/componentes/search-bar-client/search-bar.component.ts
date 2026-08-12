@@ -51,7 +51,7 @@ export class SearchBarComponent {
       },
       error: (err) => {
         if (err.status === 404) {
-          this.errorMessage = 'Cliente no encontrado.';
+          this.errorMessage = 'Cliente no encontrado';
         } else {
           this.errorMessage = err.error?.message || 'Ocurrio un error inesperado';
         }

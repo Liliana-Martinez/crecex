@@ -58,7 +58,6 @@ export class GuarantorFormComponent implements OnInit {
       jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
       workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
       workPhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
-      /**Formulario "anidado" para las garantias */
       collateral: new FormGroup({
         firstCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
         secondCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
@@ -70,18 +69,18 @@ export class GuarantorFormComponent implements OnInit {
   }
 
   createGuarantor() {
-    console.log('FUNCION PARA AGREGAR AL AVAL');
     if(this.guarantorForm.invalid) {
       this.errorMessage = 'Debe completar todos los campos.';
       this.showErrorModal = true;
       return;
     }
     
-    /*if (this.clientId === undefined) {
-      this.errorMessage = 'No hay cliente para este aval.';
+    if (this.clientId === undefined) {
+      this.errorMessage = 'Tiene que agregar un cliente';
       this.showErrorModal = true;
       return;
-    }*/
+    } 
+   //PENDIENTEEEEEEEEEE
 
     //Desestructurar los datos
     const { collateral, ...personalData } = this.guarantorForm.value;
@@ -95,6 +94,7 @@ export class GuarantorFormComponent implements OnInit {
 
     this.guarantorService.addGuarantor(guarantorData).subscribe({
       next: (response) => {
+        console.log('Respuesta del back:', response);
         //Mostrar el modal de exito
         this.successMessage = 'Se agregó correctamente el aval y sus garantías.';
         this.showSuccessModal = true;

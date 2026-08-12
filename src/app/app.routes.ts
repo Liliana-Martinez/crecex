@@ -81,7 +81,9 @@ export const routes: Routes = [
           { path: '', //redirectTo: 'new', 
             pathMatch: 'full',
             component: RedirectByRoleComponent,
-            data: { expectedRoles:['administracion1', 'gerencia1', 'gerencia2']} 
+            data: { expectedRoles:['administracion1', 'gerencia1', 'gerencia2'],
+              defaultRoute: 'new'
+            } 
           },
           { 
             path: 'new', 
@@ -127,7 +129,9 @@ export const routes: Routes = [
             path:'', 
             pathMatch: 'full',
             component: RedirectByRoleComponent,
-            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} },
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2'],
+              defaultRoute: 'cash'
+            } },
           { 
             path:'cash', 
             component: CashComponent, 
@@ -153,7 +157,9 @@ export const routes: Routes = [
           { path:'', 
             pathMatch: 'full',
             component: RedirectByRoleComponent, 
-            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2']} },
+            data: { expectedRoles: ['administracion1', 'gerencia1', 'gerencia2'],
+                    defaultRoute: 'add'
+            } },
           { 
             path:'add', 
             component: AddZoneComponent,
