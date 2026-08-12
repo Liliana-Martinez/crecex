@@ -1,1 +1,70 @@
-<p>manage-credits works!</p>
+<app-search-bar
+  [modulo]="modulo"
+  (clienteEncontrado)="cargarCredito($event)">
+</app-search-bar>
+
+<div class="container-table">
+  <table mat-table [dataSource]="dataManageCredits" class="mat-elevation-z8">
+
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.nombre }}
+      </td>
+    </ng-container>
+
+    <!-- Monto -->
+    <ng-container matColumnDef="monto">
+      <th mat-header-cell *matHeaderCellDef>Monto</th>
+      <td mat-cell *matCellDef="let element">
+        <input
+          class="table-input"
+          type="number"
+          [(ngModel)]="element.monto">
+      </td>
+    </ng-container>
+
+    <!-- Abono semanal -->
+    <ng-container matColumnDef="abonoSemanal">
+      <th mat-header-cell *matHeaderCellDef>Abono Semanal</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.abonoSemanal | currency:'MXN':'symbol':'1.2-2' }}
+      </td>
+    </ng-container>
+
+    <!-- Semanas -->
+    <ng-container matColumnDef="semanas">
+      <th mat-header-cell *matHeaderCellDef>Semanas</th>
+      <td mat-cell *matCellDef="let element">
+        <input
+          class="table-input"
+          type="number"
+          [(ngModel)]="element.semanas">
+      </td>
+    </ng-container>
+
+    <!-- Fecha de entrega -->
+    <ng-container matColumnDef="fechaEntrega">
+      <th mat-header-cell *matHeaderCellDef>Fecha Entrega</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.fechaEntrega | date:'dd/MM/yyyy' }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="collectorCol"></tr>
+    <tr mat-row *matRowDef="let row; columns: collectorCol;"></tr>
+
+  </table>
+</div>
+
+<div class="container-button">
+  <app-save-button (save)="guardarCambios()"></app-save-button>
+
+  <button
+    mat-button
+    class="cancel-button"
+    (click)="cancelCredit()">
+    Cancelar
+  </button>
+</div>

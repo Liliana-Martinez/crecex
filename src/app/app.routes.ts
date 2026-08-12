@@ -80,7 +80,7 @@ export const routes: Routes = [
         children: [
           { path: '', //redirectTo: 'new', 
             pathMatch: 'full',
-            component: RedirectByRoleComponent,
+            component: NewComponent,//RedirectByRoleComponent,
             data: { expectedRoles:['administracion1', 'gerencia1', 'gerencia2']} 
           },
           { 
@@ -182,12 +182,12 @@ export const routes: Routes = [
           { 
             path:'manage-credits', 
             component: ManageCreditsComponent, 
-            data: { expectedRoles: ['administrador']}
+            data: { expectedRoles: ['administracion1']}
           },
           { 
             path:'manage-payments', 
             component: ManagePaymentsComponent,
-            data: { expectedRoles: ['administrador']}
+            data: { expectedRoles: ['administracion1']}
           }
         ]
       },

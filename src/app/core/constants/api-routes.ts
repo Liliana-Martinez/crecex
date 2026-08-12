@@ -57,5 +57,11 @@ export const API_ROUTES = {
     },
     SEARCHBARCLIENTE:{
         SEARCH : `${API_URL}/search/cliente` //Agregar dentro de cliente como SEARCH
+    },
+    ADMINISTRATION:{
+        UPDATE_CREDIT: `${API_URL}/administration/update-credit`,
+        CANCEL_CREDIT: `${API_URL}/administration/cancel-credit`,
+        UPDATE_PAYMENT: `${API_URL}/administration/update-payment`,
+        DELETE_PAYMENT: `${API_URL}/administration/delete-payment`
     }
 };

@@ -82,12 +82,10 @@ export class PrintComponent {
       doc.text(`${val2}`, 158, y);
       y += salto;
     };
-
     const deduccionTotal   = descuentoSemanas+ credito.atrasos + credito.recargos;
     const fechaPrimerPago = pagos?.fechaEsperada
     ? dayjs(pagos.fechaEsperada).format('DD/MM/YYYY'): 'N/A';
     imprimirPar('TIPO DE CREDITO', (credito?.tipoCredito ?? 'N/A').toUpperCase(), false,
-
             'MONTO', `$${(credito?.monto ?? 0).toLocaleString('en-US')}`, true);
     imprimirPar('ABONO SEMANAL ANTERIOR', `$${(abonoAnterior ?? 0).toLocaleString('en-US')}`, false,
             'SEMANAS RESTANTES', `${(semanasRestantes ?? 0).toLocaleString('en-US')}`, false);
@@ -109,7 +107,7 @@ export class PrintComponent {
   };
 
   const logo = new Image();
-  logo.src = '/logo.jpg';                                        
+  logo.src = '/logo2.jpeg';                                        
   logo.onload = () => {
     doc.addImage(logo, 'JPEG', 8, 1, 20, 20);
     renderContenido(-10);
