@@ -102,39 +102,78 @@ export class FormCreditComponent implements OnChanges {
   }
 
   confirmarEnvio(): void {
+
+    const valores = this.FormCredit.getRawValue();
+
     const formData = {
-      idCliente: this.idCliente,
-      ...this.FormCredit.value,
-      modulo: this.modulo
+        idCliente: this.idCliente,
+        ...valores,
+        modulo: this.modulo,
+        semanasRestantes: this.datosParaConfirmar?.semanasRestantes ?? 0,
+        descuentoSemanasPendientes:
+            this.datosParaConfirmar?.descuentoSemanasPendientes ?? 0
     };
 
-    console.log('Formulario enviado al backend:', formData);
+    console.log(
+        'Formulario enviado al backend:',
+        formData
+    );
 
-    this.creditsService.enviarFormulario(this.modulo, formData).subscribe({
-      next: (response) => {
-        console.log('Formulario enviado correctamente:', response);
-        this.FormCredit.get('abonoSemanal')?.setValue(response.abonoSemanal);
-        this.FormCredit.get('efectivo')?.setValue(response.efectivo);
+    this.creditsService.enviarFormulario(
+        this.modulo,
+        formData
+    ).subscribe({
 
-        this.modalVisible = false;
-        this.successMessage = 'Crédito creado satisfactoriamente';
-        this.showSuccessModal = true;
+        next: (response) => {
 
-        this.response.emit({
-          ...response,
-          nombreCliente: this.cliente?.cliente?.nombre ?? '',
-          credito: this.cliente?.credito ?? null,
-          pagos: this.cliente?.pagos ?? []
-        });
-      },
-      error: (error) => {
-        console.error('Error desde el Backend: ', error);
-        this.modalVisible = false;
-        this.errorMessage = error?.error?.message || 'Ocurrió un error inesperado';
-        this.showErrorModal = true;
-      }
+            console.log(
+                'Formulario enviado correctamente:',
+                response
+            );
+
+            this.FormCredit
+                .get('abonoSemanal')
+                ?.setValue(response.abonoSemanal);
+
+            this.FormCredit
+                .get('efectivo')
+                ?.setValue(response.efectivo);
+
+            this.modalVisible = false;
+
+            this.successMessage =
+                'Crédito creado satisfactoriamente';
+
+            this.showSuccessModal = true;
+
+            this.response.emit({
+                ...response,
+                nombreCliente:
+                    this.cliente?.cliente?.nombre ?? '',
+                credito:
+                    this.cliente?.credito ?? null,
+                pagos:
+                    this.cliente?.pagos ?? []
+            });
+        },
+
+        error: (error) => {
+
+            console.error(
+                'Error desde el Backend: ',
+                error
+            );
+
+            this.modalVisible = false;
+
+            this.errorMessage =
+                error?.error?.message ||
+                'Ocurrió un error inesperado';
+
+            this.showErrorModal = true;
+        }
     });
-  }
+}
   
   closeSuccessModal() {
     this.showSuccessModal = false;
