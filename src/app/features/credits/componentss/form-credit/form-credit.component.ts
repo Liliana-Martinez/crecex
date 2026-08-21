@@ -49,7 +49,6 @@ export class FormCreditComponent implements OnChanges {
       console.log('ID del cliente:', this.idCliente);
     }
   }
-
   abrirConfirmacion(): void {
     this.errorMessage = '';
     this.showErrorModal = false;
@@ -136,7 +135,7 @@ export class FormCreditComponent implements OnChanges {
       }
     });
   }
-
+  
   closeSuccessModal() {
     this.showSuccessModal = false;
   }
@@ -145,6 +144,4 @@ export class FormCreditComponent implements OnChanges {
     this.showErrorModal = false;
   }
 }
-
-
 
