@@ -14,14 +14,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './modify.component.css'
 })
 
-export class ModifyComponent implements OnInit {
+export class ModifyComponent {
   modulo: string = 'update';//Aqui era modify
   selectedForm: string = 'client';
   client?: any; //Es el cliente buscado
-  
-  ngOnInit(): void {
-    console.log('DENTRO DEL COMPONENTE MODIFY');
-  }
 
   onClienteEncontrado(client: any): void {
     this.client = client;
