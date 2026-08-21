@@ -54,7 +54,7 @@ closeErrorModal() {
     const doc = new jsPDF();
     const fecha = new Date().toLocaleDateString();
     const logo = new Image();
-    logo.src = '/logo.jpg';
+    logo.src = '/logo2.jpeg';
     logo.onload = () => {
     //Encabeazdo de PDF
     doc.addImage(logo, 'JPEG', 10, 10, 20, 20);

@@ -1,1 +1,88 @@
-<p>manage-payments works!</p>
+<app-search-bar
+  [modulo]="modulo"
+  (clienteEncontrado)="cargarPagos($event)">
+</app-search-bar>
+
+<div class="container-table">
+  <table mat-table [dataSource]="dataManagePayments" class="mat-elevation-z8">
+
+    <!-- Semana -->
+    <ng-container matColumnDef="numeroSemana">
+      <th mat-header-cell *matHeaderCellDef>Semana</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.numeroSemana }}
+      </td>
+    </ng-container>
+
+    <!-- Cantidad -->
+    <ng-container matColumnDef="cantidad">
+      <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.cantidad | currency:'':'':'1.2-2' }}
+      </td>
+    </ng-container>
+
+    <!-- Cantidad Pagada -->
+    <ng-container matColumnDef="cantidadPagada">
+      <th mat-header-cell *matHeaderCellDef>Cantidad Pagada</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.cantidadPagada | currency:'':'':'1.2-2' }}
+      </td>
+    </ng-container>
+
+    <!-- Fecha Esperada -->
+    <ng-container matColumnDef="fechaEsperada">
+      <th mat-header-cell *matHeaderCellDef>Fecha Esperada</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.fechaEsperada | date:'dd/MM/yyyy' }}
+      </td>
+    </ng-container>
+
+    <!-- Fecha Pagada -->
+    <ng-container matColumnDef="fechaPagada">
+      <th mat-header-cell *matHeaderCellDef>Fecha Pagada</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element.fechaPagada &&
+          element.fechaPagada !== '0000-00-00' &&
+          element.fechaPagada !== '0000-00-00T00:00:00.000Z'
+            ? (element.fechaPagada | date:'dd/MM/yyyy')
+            : ''
+        }}
+      </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+
+      <td mat-cell *matCellDef="let element">
+
+        <button
+          type="button"
+          class="action-btn edit"
+          (click)="editarPago(element)"
+          matTooltip="Editar pago">
+
+          <i class="fa-solid fa-pen-to-square"></i>
+
+        </button>
+
+        <button
+          type="button"
+          class="action-btn delete"
+          (click)="eliminarPago(element)"
+          matTooltip="Eliminar pago">
+
+          <i class="fa-solid fa-trash"></i>
+
+        </button>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="collectorCol"></tr>
+    <tr mat-row *matRowDef="let row; columns: collectorCol;"></tr>
+
+  </table>
+</div>

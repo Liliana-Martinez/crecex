@@ -188,12 +188,12 @@ export const routes: Routes = [
           { 
             path:'manage-credits', 
             component: ManageCreditsComponent, 
-            data: { expectedRoles: ['administrador']}
+            data: { expectedRoles: ['administracion1']}
           },
           { 
             path:'manage-payments', 
             component: ManagePaymentsComponent,
-            data: { expectedRoles: ['administrador']}
+            data: { expectedRoles: ['administracion1']}
           }
         ]
       },
