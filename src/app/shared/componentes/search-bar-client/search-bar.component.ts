@@ -21,7 +21,7 @@ import { BuscarCliente } from '../../../models/BuscarCliente';
 
 export class SearchBarComponent {
   @Input() modulo: string = '';
-  @Input() selectedOption: string = ''; //************ 
+  @Input() selectedForm: string = ''; //Guarda client, primaryGarantor o secondaryGuarantor 
   @Output() clienteEncontrado= new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
   fullName: string = '';  
   errorMessage: string = '';
@@ -39,7 +39,7 @@ export class SearchBarComponent {
     const datosCliente: BuscarCliente = {
       nombreCompleto: this.fullName, 
       modulo: this.modulo,
-      selectedOption: this.selectedOption
+      selectedOption: this.selectedForm
     };
 
     console.log('Datos que se van a enviar del buscador: ',datosCliente);

@@ -16,6 +16,5 @@ export class AddComponent {
 
   onClientCreated(clientId: number): void {
     this.clientId = clientId;
-    console.log('Id del aval en ADDCOMPONENT para mandar al aval: ', this.clientId);
   }
 }

@@ -29,7 +29,7 @@ import { NormalizationService } from '../../../../core/services/normalization.se
 export class ClientFormComponent implements OnInit, OnChanges {
   clientForm!: FormGroup;
   
-  originalClientFormData: any;
+  originalClientData: any;
   listZones: Zone[] = [];
   filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
   @Input() option: 'create' | 'update' = 'create';
@@ -179,8 +179,9 @@ export class ClientFormComponent implements OnInit, OnChanges {
     this.showErrorModal = false;
   }
 
-  //Codigo para modificar en el submenu de clientes-avales, segun yo esto es para rellenar los inputs con los datos del back para actualizar lo necesario
-private setClientValues(): void {
+  /*Código para la opción de modificar*/
+  //Cargar los datos en el formulario del cliente buscado
+  private loadClientDataIntoForm(): void {
 
     if (this.clientForm && this.clientData && this.option === 'update') {
       
@@ -211,19 +212,91 @@ private setClientValues(): void {
         }
       }
       );
-      this.originalClientFormData = JSON.parse(JSON.stringify(this.clientForm.getRawValue()));
-      console.log('Datos aplicados en el formulario: ', this.clientData);
+      this.originalClientData = JSON.parse(JSON.stringify(this.clientForm.getRawValue()));
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['clientData']) {
-      this.setClientValues();
+  //Detectar si se busco otro cliente
+  ngOnChanges(inputChanges: SimpleChanges): void {
+    if (inputChanges['clientData']) {
+      this.loadClientDataIntoForm();
     }
+  }
+
+  updateClient(): void {
+    const currentFormValues = this.clientForm.getRawValue();
+
+    if (!this.clientData || !this.clientData.idCliente) {
+      this.errorMessage = 'Primero debe buscar un cliente';
+      this.showErrorModal = true;
+      return;
+    }
+
+    const id = this.clientData.idCliente;
+    console.log('ID del cliente que se va a modificar:', id);
+
+    for (const property in currentFormValues) {
+      const currentValue = currentFormValues[property];
+      const originalValue = this.originalClientData[property];
+      const displayName = this.fieldDisplayNames[property];
+
+      if (typeof currentValue === 'object' && currentValue !== null) {
+        const modifiedNestedFields: any = {};
+        const nestedDisplayNames = typeof displayName === 'object' ? displayName : {};
+
+        let hasNestedChanges = false;
+
+        for (const nestedProperty in currentValue) {
+          if (currentValue[nestedProperty] !== originalValue[nestedProperty]) {
+            hasNestedChanges = true;
+            break;
+          }
+        }
+        
+        if (hasNestedChanges) {
+          console.log('dentro del if pa ver que garantia cambio');
+          for (const nestedProperty in currentValue) {
+            const nestedDisplayName = nestedDisplayNames[nestedProperty] || nestedProperty;
+            modifiedNestedFields[nestedDisplayName] = currentValue[nestedProperty];
+          }
+        }
+
+        if (Object.keys(modifiedNestedFields).length > 0) {
+          const displayProperty = typeof displayName === 'string' ? displayName : property;
+          this.modifiedFields.set(displayProperty, modifiedNestedFields);
+        }
+
+      } else if (currentValue !== originalValue) {
+        const displayProperty = typeof displayName === 'string' ? displayName : property;
+        this.modifiedFields.set(displayProperty, currentValue);
+      }
+    }
+
+    console.log('Datos modificados en este punto: ', this.modifiedFields);
+
+    if (this.modifiedFields.size === 0) {
+      console.log('No se realizaron cambios');
+      this.errorMessage = 'No se realizaron cambios'
+      this.showErrorModal = true;
+      this.clientForm.reset(); //Limpiar el formulario si dio clic en actualizar pero no se modifico ningun campo
+      return;
+    }
+
+    //Convertir el map a un objeto para poder enviar
+    const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
+
+    this.dataToSend = {
+      id: id,
+      ...modifiedFieldsObject
+    };
+
+    console.log('dataToSend: ', this.dataToSend);
+
+    this.showConfirmation = true;
   }
 
   //Esto es para que se muestre en el modal lo que se va actualizar
-  public fieldMap: Record<string, string | Record<string, string>> = {
+  fieldDisplayNames: Record<string, string | Record<string, string>> = {
     name: 'Nombre',
     paternalLn: 'Apellido paterno',
     maternalLn: 'Apellido materno',
@@ -246,98 +319,35 @@ private setClientValues(): void {
       secondCollateral: 'Garantía dos',
       thirdCollateral: 'Garantía tres',
     }
-};
-
-updateClient(): void {
-  console.log('clientData DENTRO DE Update: ', this.clientData);
-  const currentValues = this.clientForm.getRawValue();
-
-  if (!this.clientData || !this.clientData.idCliente) {
-    this.errorMessage = 'Primero debe buscar un cliente.';
-    this.showErrorModal = true;
-    return;
-  }
-
-  const id = this.clientData.idCliente;
-  console.log('ID del cliete que se va a modificar:', id);
-
-  for (const key in currentValues) {
-    const current = currentValues[key];
-    const original = this.originalClientFormData[key];
-    const mapValue = this.fieldMap[key];
-
-    if (typeof current === 'object' && current !== null) {
-      const nestedChanges: any = {};
-      const nestedFieldMap = typeof mapValue === 'object' ? mapValue : {};
-
-      for (const nestedKey in current) {
-        if (current[nestedKey] !== original[nestedKey]) {
-          const mappedNestedKey = nestedFieldMap[nestedKey] || nestedKey;
-          nestedChanges[mappedNestedKey] = current[nestedKey];
-        }
-      }
-
-      if (Object.keys(nestedChanges).length > 0) {
-        const mappedKey = typeof mapValue === 'string' ? mapValue : key;
-        this.modifiedFields.set(mappedKey, nestedChanges);
-      }
-
-    } else if (current !== original) {
-      const mappedKey = typeof mapValue === 'string' ? mapValue : key;
-      this.modifiedFields.set(mappedKey, current);
-    }
-  }
-
-  console.log('Datos modificados en este punto: ', this.modifiedFields);
-
-  if (this.modifiedFields.size === 0) {
-    console.log('No se realizaron cambios.');
-    this.errorMessage = 'No se realizaron cambios.'
-    this.showErrorModal = true;
-    this.clientForm.reset(); //Limpiar el formulario si dio clic en actualizar pero no se modifico ningun campo
-    return;
-  }
-
-  //Convertir el map a un objeto para poder enviar
-  const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
-
-  this.dataToSend = {
-    id: id,
-    ...modifiedFieldsObject
   };
 
-  console.log('Datos para el back que se van a modificar: ', this.dataToSend);
+  preserverOrder(a: any, b: any): number {
+    return 0;
+  }
 
-  this.showConfirmation = true;
-}
+  getPropertyValueObject(obj: any): { [key: string]: any } {
+    return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
+  }
 
-preserverOrder(a: any, b: any): number {
-  return 0;
-}
+  confirmUpdate(): void {
+    this.clientService.updateClient(this.dataToSend).subscribe({
+      next: () => {
+        console.log('Cliente actualizado exitosamente');
+        this.showConfirmation = false;
+        this.modifiedFields.clear();
+        this.dataToSend = {};
+        this.clientForm.reset();
+        this.successMessage = 'Cliente actualizado exitosamente.';
+        this.showSuccessModal = true;
+      },
+      error: (err) => {
+        console.error('Error al actualizar cliente:', err);
+        this.showConfirmation = false;
+      }
+    });
+  }
 
-getKeyValueObject(obj: any): { [key: string]: any } {
-  return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
-}
-
-confirmUpdate(): void {
-  this.clientService.updateClient(this.dataToSend).subscribe({
-    next: () => {
-      console.log('Cliente actualizado exitosamente');
-      this.showConfirmation = false;
-      this.modifiedFields.clear();
-      this.dataToSend = {};
-      this.clientForm.reset();
-      this.successMessage = 'Cliente actualizado exitosamente.';
-      this.showSuccessModal = true;
-    },
-    error: (err) => {
-      console.error('Error al actualizar cliente:', err);
-      this.showConfirmation = false;
-    }
-  });
-}
-
-cancelUpdate(): void {
-  this.showConfirmation = false;
-}
+  cancelUpdate(): void {
+    this.showConfirmation = false;
+  }
 }

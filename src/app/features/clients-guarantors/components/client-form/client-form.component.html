@@ -223,8 +223,8 @@
         <strong>{{ field.key }}:</strong>
         <ng-container *ngIf="typeof field.value === 'object'; else simpleValue">
           <ul>
-            <li *ngFor="let nested of getKeyValueObject(field.value) | keyvalue">
-              {{ nested.key }}: {{ nested.value }}
+            <li *ngFor="let propertyEntry of getPropertyValueObject(field.value) | keyvalue">
+              {{ propertyEntry.key }}: {{ propertyEntry.value }}
             </li>
           </ul>
         </ng-container>

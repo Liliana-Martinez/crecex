@@ -42,6 +42,7 @@ export class GuarantorFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    console.log('selectedOption: ', this.selectedOption)
   }
 
   initForm() {
@@ -115,7 +116,7 @@ private setGuarantorValues(): void {
     this.guarantorData = this.clientData.guarantorDataResult;
     const firstGuarantorData = this.guarantorData[0];
     const secondGuarantorData = this.guarantorData[1]; 
-      if (this.selectedOption === 'guarantorp') {
+      if (this.selectedOption === 'primaryGuarantor') {
         this.guarantorForm.patchValue({
           name: firstGuarantorData.nombre,
           paternalLn: firstGuarantorData.apellidoPaterno,
@@ -135,7 +136,7 @@ private setGuarantorValues(): void {
           }
 
         }); 
-      } else if (this.selectedOption === 'guarantors') {
+      } else if (this.selectedOption === 'secondaryGuarantor') {
         if (!secondGuarantorData) {
           this.errorMessage = 'El cliente no tiene aval secundario';
           this.showErrorModal = true;
@@ -201,9 +202,9 @@ updateGuarantor(): void {
     return;
   }
 
-  if (this.selectedOption === 'guarantorp') {
+  if (this.selectedOption === 'primaryGuarantor') {
     idAval = this.clientData.guarantorDataResult[0].idAval;
-  } else if (this.selectedOption === 'guarantors') {
+  } else if (this.selectedOption === 'secondaryGuarantor') {
     idAval = this.clientData.guarantorDataResult[1].idAval;
   }
 
