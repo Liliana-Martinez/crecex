@@ -1,14 +1,12 @@
-
-import { MatTableModule } from '@angular/material/table';
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,  ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { CreditsService } from '../../../../core/services/credits.service';
 import { CommonModule } from '@angular/common';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 @Component({
   selector: 'app-form-credit',
-  imports: [MatTableModule, FormsModule, ReactiveFormsModule, CommonModule, SaveButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, SaveButtonComponent],
   templateUrl: './form-credit.component.html',
   styleUrl: './form-credit.component.css' 
 })
@@ -38,6 +36,7 @@ export class FormCreditComponent implements OnChanges {
       horarioEntrega: ['mañana', Validators.required],
       atrasos: [null],
       recargos: [null],
+      primerPago: [null],
       abonoSemanal: [{ value: null, disabled: true }],
       efectivo: [{ value: null, disabled: true }]
     });
@@ -46,7 +45,6 @@ export class FormCreditComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['cliente'] && this.cliente) {
       this.idCliente = this.cliente.cliente.idCliente;
-      console.log('ID del cliente:', this.idCliente);
     }
   }
   abrirConfirmacion(): void {
@@ -114,22 +112,12 @@ export class FormCreditComponent implements OnChanges {
             this.datosParaConfirmar?.descuentoSemanasPendientes ?? 0
     };
 
-    console.log(
-        'Formulario enviado al backend:',
-        formData
-    );
-
     this.creditsService.enviarFormulario(
         this.modulo,
         formData
     ).subscribe({
 
         next: (response) => {
-
-            console.log(
-                'Formulario enviado correctamente:',
-                response
-            );
 
             this.FormCredit
                 .get('abonoSemanal')
@@ -148,6 +136,7 @@ export class FormCreditComponent implements OnChanges {
 
             this.response.emit({
                 ...response,
+                primerPago: valores.primerPago,
                 nombreCliente:
                     this.cliente?.cliente?.nombre ?? '',
                 credito:
@@ -159,13 +148,7 @@ export class FormCreditComponent implements OnChanges {
 
         error: (error) => {
 
-            console.error(
-                'Error desde el Backend: ',
-                error
-            );
-
             this.modalVisible = false;
-
             this.errorMessage =
                 error?.error?.message ||
                 'Ocurrió un error inesperado';
@@ -173,8 +156,7 @@ export class FormCreditComponent implements OnChanges {
             this.showErrorModal = true;
         }
     });
-}
-  
+  }
   closeSuccessModal() {
     this.showSuccessModal = false;
   }
