@@ -86,7 +86,9 @@ export class FormCreditComponent implements OnChanges {
 
     const efectivo = Math.round(monto - atrasos - recargos - descuentoSemanasPendientes);
     const factor = semanas === 12 ? 1.5 : 1.583;
-    const abonoSemanal = Math.round((monto * factor) / semanas);
+    const abonoSemanal = semanas === 12
+  ? Math.floor((monto * factor) / semanas)
+  : Math.ceil((monto * factor) / semanas);
 
     this.datosParaConfirmar = {
       ...valores,

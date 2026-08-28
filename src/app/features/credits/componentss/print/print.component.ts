@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import jsPDF from 'jspdf';
 import dayjs from 'dayjs';
 
@@ -10,13 +10,14 @@ import dayjs from 'dayjs';
 })
 export class PrintComponent {
   @Input() datos: any;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['datos'] && this.datos) {
       console.log('Datos en print:', this.datos);
-      
       this.imprimirCreditoFormato();
     }
   }
+ 
   imprimirCreditoFormato() {
   if (!this.datos) {
     console.warn('No hay datos de cliente para imprimir');
@@ -24,23 +25,21 @@ export class PrintComponent {
   }
 
   const c = this.datos;
-  const i = c.imprimir || c.imprimir;
+  const i = c.imprimir;
   const cliente = i.cliente || i.clientes;
   const credito = i.credito || i.creditos;
-  const pagos = i.pagos || {}; 
+  const pagos = i.pagos || {};
   const zona = i.zona || {};
   const semanasRestantes = c.semanasRestantes;
   const abonoAnterior = c.abonoAnterior;
   const descuentoSemanas = c.descuentoSemanas;
 
-  // Fecha capturada manualmente únicamente para impresión
   const primerPagoManual = c.primerPago;
 
-  // hoja oficio
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
-    format: [216, 330] 
+    format: [216, 330]
   });
 
   const colorResalte: [number, number, number] = [210, 255, 210];
@@ -50,7 +49,8 @@ export class PrintComponent {
     const fechaHoy = dayjs().format('DD/MM/YYYY');
     const fechaFormateada = dayjs(credito.fechaEntrega).format('YYYYMMDD');
     const ref = `${fechaFormateada}${cliente.id}${credito.id}`;
-    const nombreCompleto = `${cliente?.nombre}  ${cliente?.apellidoPaterno}  ${cliente?.apellidoMaterno}`.toUpperCase();
+    const nombreCompleto =
+      `${cliente?.nombre}  ${cliente?.apellidoPaterno}  ${cliente?.apellidoMaterno}`.toUpperCase();
 
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
@@ -125,7 +125,6 @@ export class PrintComponent {
       doc.setFontSize(fontSize);
       doc.setTextColor(0);
 
-      // Izquierda
       doc.setFont(
         'helvetica',
         resaltar1 ? 'bold' : 'normal'
@@ -154,7 +153,6 @@ export class PrintComponent {
         y
       );
 
-      // Derecha
       doc.setFont(
         'helvetica',
         resaltar2 ? 'bold' : 'normal'
@@ -191,8 +189,6 @@ export class PrintComponent {
       credito.atrasos +
       credito.recargos;
 
-    // Si existe una fecha manual, se usa únicamente para imprimir.
-    // Si no existe, se conserva la fecha del sistema.
     const fechaPrimerPago = primerPagoManual
       ? dayjs(primerPagoManual).format('DD/MM/YYYY')
       : pagos?.fechaEsperada
@@ -286,7 +282,7 @@ export class PrintComponent {
   };
 
   const logo = new Image();
-  logo.src = '/logo2.jpeg';                                        
+  logo.src = '/logo2.jpeg';
 
   logo.onload = () => {
 
@@ -310,7 +306,7 @@ export class PrintComponent {
       20
     );
 
-    renderContenido(160); 
+    renderContenido(160);
 
     doc.save(
       `${cliente?.nombre || 'cliente'}_Credito.pdf`
@@ -329,10 +325,9 @@ export class PrintComponent {
     doc.save(
       `${cliente?.nombre || 'cliente'}_Credito.pdf`
     );
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
   };
+  }
+
 }
-}
+
+
