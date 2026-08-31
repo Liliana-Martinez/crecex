@@ -217,6 +217,9 @@
 <!--Este modal es para confirmar los datos de actualización-->
 <div *ngIf="showConfirmation" class="modal-overlay">
   <div class="modal-content-confirmation">
+    <div class="modal-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
     <h3>¿Deseas actualizar los siguientes datos?</h3>
     <ul>
       <li *ngFor="let field of modifiedFields | keyvalue : preserverOrder">
@@ -234,8 +237,8 @@
       </li>
     </ul>
 
-    <button (click)="confirmUpdate()">Confirmar</button>
-    <button (click)="cancelUpdate()">Cancelar</button>
+    <button class="modal-button" (click)="confirmUpdate()">Confirmar</button>
+    <button class="modal-button" (click)="cancelUpdate()">Cancelar</button>
   </div>
 </div>
 

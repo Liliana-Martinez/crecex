@@ -72,7 +72,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
       phone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
       classification: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.CLASSIFICATION :[]),
       zone: new FormControl('', this.option === 'create' ? [Validators.required] :[]),
-      points: new FormControl({ value : this.option === 'create' ? 34 : '', disabled: this.option === 'create'}, []), //****** */
+      points: new FormControl({ value : this.option === 'create' ? 0 : '', disabled: this.option === 'create'}, []), //****** */
       zoneId: new FormControl(''),
       jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
       workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
@@ -219,12 +219,20 @@ export class ClientFormComponent implements OnInit, OnChanges {
   //Detectar si se busco otro cliente
   ngOnChanges(inputChanges: SimpleChanges): void {
     if (inputChanges['clientData']) {
-      this.loadClientDataIntoForm();
+      if (this.clientData) {
+        this.loadClientDataIntoForm();
+      } else {
+        this.clientForm.reset();
+        this.originalClientData = {};
+        this.modifiedFields.clear();
+        this.dataToSend= {};
+      }
     }
   }
 
   updateClient(): void {
     const currentFormValues = this.clientForm.getRawValue();
+    console.log('currentFormValues: ', currentFormValues);
 
     if (!this.clientData || !this.clientData.idCliente) {
       this.errorMessage = 'Primero debe buscar un cliente';
@@ -233,31 +241,21 @@ export class ClientFormComponent implements OnInit, OnChanges {
     }
 
     const id = this.clientData.idCliente;
-    console.log('ID del cliente que se va a modificar:', id);
+    //console.log('ID del cliente que se va a modificar:', id);
 
-    for (const property in currentFormValues) {
-      const currentValue = currentFormValues[property];
-      const originalValue = this.originalClientData[property];
-      const displayName = this.fieldDisplayNames[property];
+    for (const property in currentFormValues) { //property = name, paternalLn, maternalLn, age, address, colonia, city, phone, classification, zone, points, zoneId, jobName...collateral
+      const currentValue = currentFormValues[property];//lo que cambia en tiempo en el formulario currentValue = claudia, perez, medrano, 23, av.monte de piedad 34, camino real...{aretes, reloj, celular}
+      const originalValue = this.originalClientData[property];//Dato original que llego del back, sin ningun cambio
+      const displayName = this.fieldDisplayNames[property];//displayName=Nombre, apellido paterno, Apellido materno, Edad, Colonia... Garantias {Garantía uno...}
 
       if (typeof currentValue === 'object' && currentValue !== null) {
         const modifiedNestedFields: any = {};
         const nestedDisplayNames = typeof displayName === 'object' ? displayName : {};
 
-        let hasNestedChanges = false;
-
-        for (const nestedProperty in currentValue) {
+        for (const nestedProperty in currentValue) {//nestedProperty = firstCollateral, secondCollateral, thirdCollateral
           if (currentValue[nestedProperty] !== originalValue[nestedProperty]) {
-            hasNestedChanges = true;
-            break;
-          }
-        }
-        
-        if (hasNestedChanges) {
-          console.log('dentro del if pa ver que garantia cambio');
-          for (const nestedProperty in currentValue) {
-            const nestedDisplayName = nestedDisplayNames[nestedProperty] || nestedProperty;
-            modifiedNestedFields[nestedDisplayName] = currentValue[nestedProperty];
+            const nestedDisplayName = nestedDisplayNames[nestedProperty] || nestedProperty;//nestedDisplayName=Garantía uno, Garantía dos, Garantía tres
+            modifiedNestedFields[nestedDisplayName] = currentValue[nestedProperty];//Garantías que se cambiaron
           }
         }
 
@@ -272,25 +270,36 @@ export class ClientFormComponent implements OnInit, OnChanges {
       }
     }
 
-    console.log('Datos modificados en este punto: ', this.modifiedFields);
+    //console.log('Datos modificados en este punto: ', this.modifiedFields);
 
     if (this.modifiedFields.size === 0) {
       console.log('No se realizaron cambios');
       this.errorMessage = 'No se realizaron cambios'
       this.showErrorModal = true;
-      this.clientForm.reset(); //Limpiar el formulario si dio clic en actualizar pero no se modifico ningun campo
       return;
     }
 
     //Convertir el map a un objeto para poder enviar
     const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
+    const{
+      collateral: modifiedCollateral,
+      ...modifiedClientFields
+    } = modifiedFieldsObject;
 
     this.dataToSend = {
       id: id,
-      ...modifiedFieldsObject
+      ...modifiedClientFields
     };
 
     console.log('dataToSend: ', this.dataToSend);
+    if (modifiedCollateral) {
+      const currentCollateral = currentFormValues.collateral;
+      this.dataToSend.collateral = {
+        'Garantía uno': currentCollateral.firstCollateral,
+        'Garantía dos': currentCollateral.secondCollateral,
+        'Garantía tres': currentCollateral.thirdCollateral,
+      }
+    }
 
     this.showConfirmation = true;
   }
@@ -337,6 +346,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
         this.modifiedFields.clear();
         this.dataToSend = {};
         this.clientForm.reset();
+        this.originalClientData = {};
         this.successMessage = 'Cliente actualizado exitosamente.';
         this.showSuccessModal = true;
       },
@@ -349,5 +359,31 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   cancelUpdate(): void {
     this.showConfirmation = false;
+  }
+
+  //Detectar si el usuario edito para la confirmacion de no guardar cambios
+  hasUnsavedChanges(): boolean {
+
+    if (!this.originalClientData || Object.keys(this.originalClientData).length === 0) {
+      return false;
+    }
+
+    const currentFormValues = this.clientForm.getRawValue();
+
+    for (const property in currentFormValues) {
+      const currentValue  = currentFormValues[property];
+      const originalValue = this.originalClientData[property];
+
+      if (typeof currentValue === 'object' && currentValue !== null) {
+        for (const nestedProperty in currentValue) {
+          if  (currentValue[nestedProperty] !== originalValue?.[nestedProperty]) {
+            return true;
+          }
+        }
+      } else if (currentValue !== originalValue) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -13,12 +13,32 @@
         </div>
 </div>
 
-<app-search-bar [modulo]="modulo" [selectedForm]="selectedForm" (clienteEncontrado)="onClienteEncontrado($event)"></app-search-bar>
+<app-search-bar 
+    [modulo]="modulo" 
+    [selectedForm]="selectedForm" 
+    (clienteEncontrado)="onClienteEncontrado($event)"
+    (clientNotFound)="onClientNotFound()"></app-search-bar>
 
 
 <app-client-form *ngIf="selectedForm === 'client'" [option]="'update'" [clientData]="client"></app-client-form>
 <app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'" [option]="'update'" [clientData]="client"></app-guarantor-form>
 <app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'" [option]="'update'" [clientData]="client"></app-guarantor-form>
 
+<div *ngIf="showUnsavedChangesModal" class="modal-overlay">
+    <div class="modal-content-confirmation">
+        <div class="modal-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3>Hay cambios sin guardar</h3>
+        <p>
+            Tienes cambios sin guardar en el cliente actual.
+            Si continúas, estos cambios se perderán.
+        </p>
+
+        <p>¿Deseas continuar?</p>
+        <button (click)="cancelUnsavedChanges()" class="cancel">Cancelar</button>
+        <button (click)="discardUnsavedChanges()" class="discard-changes">Descartar cambios</button>
+    </div>
+</div>
 
 
