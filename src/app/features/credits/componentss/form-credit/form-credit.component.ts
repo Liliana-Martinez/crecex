@@ -1,14 +1,12 @@
-
-import { MatTableModule } from '@angular/material/table';
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,  ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClienteConDatos } from '../../../../models/ClienteConDatos';
 import { CreditsService } from '../../../../core/services/credits.service';
 import { CommonModule } from '@angular/common';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 @Component({
   selector: 'app-form-credit',
-  imports: [MatTableModule, FormsModule, ReactiveFormsModule, CommonModule, SaveButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, SaveButtonComponent],
   templateUrl: './form-credit.component.html',
   styleUrl: './form-credit.component.css' 
 })
@@ -38,6 +36,7 @@ export class FormCreditComponent implements OnChanges {
       horarioEntrega: ['mañana', Validators.required],
       atrasos: [null],
       recargos: [null],
+      primerPago: [null],
       abonoSemanal: [{ value: null, disabled: true }],
       efectivo: [{ value: null, disabled: true }]
     });
@@ -46,7 +45,6 @@ export class FormCreditComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['cliente'] && this.cliente) {
       this.idCliente = this.cliente.cliente.idCliente;
-      console.log('ID del cliente:', this.idCliente);
     }
   }
   abrirConfirmacion(): void {
@@ -88,7 +86,9 @@ export class FormCreditComponent implements OnChanges {
 
     const efectivo = Math.round(monto - atrasos - recargos - descuentoSemanasPendientes);
     const factor = semanas === 12 ? 1.5 : 1.583;
-    const abonoSemanal = Math.round((monto * factor) / semanas);
+    const abonoSemanal = semanas === 12
+  ? Math.floor((monto * factor) / semanas)
+  : Math.ceil((monto * factor) / semanas);
 
     this.datosParaConfirmar = {
       ...valores,
@@ -102,40 +102,63 @@ export class FormCreditComponent implements OnChanges {
   }
 
   confirmarEnvio(): void {
+
+    const valores = this.FormCredit.getRawValue();
+
     const formData = {
-      idCliente: this.idCliente,
-      ...this.FormCredit.value,
-      modulo: this.modulo
+        idCliente: this.idCliente,
+        ...valores,
+        modulo: this.modulo,
+        semanasRestantes: this.datosParaConfirmar?.semanasRestantes ?? 0,
+        descuentoSemanasPendientes:
+            this.datosParaConfirmar?.descuentoSemanasPendientes ?? 0
     };
 
-    console.log('Formulario enviado al backend:', formData);
+    this.creditsService.enviarFormulario(
+        this.modulo,
+        formData
+    ).subscribe({
 
-    this.creditsService.enviarFormulario(this.modulo, formData).subscribe({
-      next: (response) => {
-        console.log('Formulario enviado correctamente:', response);
-        this.FormCredit.get('abonoSemanal')?.setValue(response.abonoSemanal);
-        this.FormCredit.get('efectivo')?.setValue(response.efectivo);
+        next: (response) => {
 
-        this.modalVisible = false;
-        this.successMessage = 'Crédito creado satisfactoriamente';
-        this.showSuccessModal = true;
+            this.FormCredit
+                .get('abonoSemanal')
+                ?.setValue(response.abonoSemanal);
 
-        this.response.emit({
-          ...response,
-          nombreCliente: this.cliente?.cliente?.nombre ?? '',
-          credito: this.cliente?.credito ?? null,
-          pagos: this.cliente?.pagos ?? []
-        });
-      },
-      error: (error) => {
-        console.error('Error desde el Backend: ', error);
-        this.modalVisible = false;
-        this.errorMessage = error?.error?.message || 'Ocurrió un error inesperado';
-        this.showErrorModal = true;
-      }
+            this.FormCredit
+                .get('efectivo')
+                ?.setValue(response.efectivo);
+
+            this.modalVisible = false;
+
+            this.successMessage =
+                'Crédito creado satisfactoriamente';
+
+            this.showSuccessModal = true;
+
+            this.response.emit({
+                ...response,
+                primerPago: valores.primerPago,
+                nombreCliente:
+                    this.cliente?.cliente?.nombre ?? '',
+                credito:
+                    this.cliente?.credito ?? null,
+                pagos:
+                    this.cliente?.pagos ?? []
+            });
+        },
+
+        error: (error) => {
+
+            this.modalVisible = false;
+            this.errorMessage =
+                error?.error?.message ||
+                'Ocurrió un error inesperado';
+
+            this.showErrorModal = true;
+        }
     });
   }
-  
   closeSuccessModal() {
     this.showSuccessModal = false;
   }

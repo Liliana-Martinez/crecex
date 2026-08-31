@@ -1,46 +1,67 @@
-<app-search-bar [modulo]="modulo" (clienteEncontrado)="asignarDatos ($event)" ></app-search-bar>
+<app-search-bar [modulo]="modulo"(clienteEncontrado)="asignarDatos($event)"></app-search-bar>
 <div class="container-table">
   <table mat-table [dataSource]="dataCollector" class="mat-elevation-z8">
-    <!-- Nombre --> 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        Nombre
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.name }}
+      </td>
     </ng-container>
-    <!-- Direccion -->
-    <ng-container matColumnDef="address"> 
-      <th mat-header-cell *matHeaderCellDef> Dirección </th>
-      <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef>
+        Dirección
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.address }}
+      </td>
     </ng-container>
-    <!-- Telefono -->
     <ng-container matColumnDef="phone">
-      <th mat-header-cell *matHeaderCellDef> Telefóno </th>
-      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        Teléfono
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.phone }}
+      </td>
     </ng-container>
-    <!-- Aval principal --> 
     <ng-container matColumnDef="guarantorp">
-      <th mat-header-cell *matHeaderCellDef> Aval principal </th>
-      <td mat-cell *matCellDef="let element"> {{element.guarantorp}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        Aval principal
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.guarantorp }}
+      </td>
     </ng-container>
-    <!-- Aval secundario-->
     <ng-container matColumnDef="guarantors">
-      <th mat-header-cell *matHeaderCellDef> Aval secundario </th>
-      <td mat-cell *matCellDef="let element"> {{element.guarantors}} </td>
+      <th mat-header-cell *matHeaderCellDef>
+        Aval secundario
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.guarantors }}
+      </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="collectorCol"></tr>
     <tr mat-row *matRowDef="let row; columns: collectorCol;"></tr>
   </table>
 </div>
-<div class="container-button">
-  <div *ngIf="showErrorModal" class="modal-overlay">
+<div *ngIf="showErrorModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-icon error">
-        <i class="fa-solid fa-circle-xmark"></i>
+      <i class="fa-solid fa-circle-xmark"></i>
     </div>
-    <h3> ¡Error! </h3>
+    <h3>¡Error!</h3>
     <p>{{ errorMessage }}</p>
-    <button class="modal-button error" (click)="closeErrorModal()">Cerrar</button>
+    <button
+      class="modal-button error"
+      (click)="closeErrorModal()">
+      Cerrar
+    </button>
   </div>
 </div>
-
-  <app-print-button (onPrint)="imprimirCliente()" ></app-print-button>
+<div class="container-button">
+  <app-print-button
+    (onPrint)="imprimirCliente()">
+  </app-print-button>
 </div>
+
