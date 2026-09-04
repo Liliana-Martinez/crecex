@@ -95,6 +95,7 @@ form h4 {
 .modal-icon{
     font-size: 3rem;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .modal-icon.error{
@@ -139,6 +140,36 @@ form h4 {
 
 .modal-button.error:hover {
     background: #b71c1c;
+}
+
+.modified-fields {
+    list-style: none;
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.field-change {
+  margin-bottom: 10px;
+}
+
+.nested-fields {
+  margin-top: 6px;
+  margin-left: 20px;
+}
+
+.nested-field {
+  margin-bottom: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.modal-buttons button {
+  min-width: 140px;
 }
 
 @media screen and (max-width: 768px) {

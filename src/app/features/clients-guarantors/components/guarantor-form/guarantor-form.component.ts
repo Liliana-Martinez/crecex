@@ -20,11 +20,11 @@ import { FORM_VALIDATORS } from '../../constants/form-validators';
 export class GuarantorFormComponent implements OnInit {
 
   guarantorForm!: FormGroup;
-  originalGuarantorFormData: any;
+  originalGuarantorData: any;
   guarantorData?: any;
   @Input() option: 'create' | 'update' = 'create';
-  @Input() clientData?: any;
-  @Input() selectedOption: string = '';
+  @Input() clientGuarantors?: any; //Avales del cliente que devuelve el buscador
+  @Input() selectedForm: string = '';
   @Input() clientId?: number;
 
   dataToSend: any = {};
@@ -37,41 +37,40 @@ export class GuarantorFormComponent implements OnInit {
   errorMessage = '';
 
   showConfirmation = false;
+  isDisabled: boolean =  false;
 
   constructor(private guarantorService: GuarantorService, private clientService: ClientService){}
 
   ngOnInit(): void {
     this.initForm();
-    console.log('selectedOption: ', this.selectedOption)
   }
 
   initForm() {
     //Inicializar formulario
     this.guarantorForm = new FormGroup({
-      name: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      paternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      maternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
-      address: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
-      colonia: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      city: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      phone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
-      jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
-      workPhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
+      name: new FormControl('', FORM_VALIDATORS.NAME),
+      paternalLn: new FormControl('', FORM_VALIDATORS.NAME),
+      maternalLn: new FormControl('', FORM_VALIDATORS.NAME),
+      age: new FormControl('', [Validators.required, Validators.min(18), Validators.max(60)]),
+      address: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      colonia: new FormControl('', FORM_VALIDATORS.NAME),
+      city: new FormControl('', FORM_VALIDATORS.NAME),
+      phone: new FormControl('', FORM_VALIDATORS.PHONE),
+      jobName: new FormControl('', FORM_VALIDATORS.NAME),
+      workAddress: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      workPhone: new FormControl('', FORM_VALIDATORS.PHONE),
       collateral: new FormGroup({
-        firstCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-        secondCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-        thirdCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : [])
+        firstCollateral: new FormControl('', FORM_VALIDATORS.NAME),
+        secondCollateral: new FormControl('', FORM_VALIDATORS.NAME),
+        thirdCollateral: new FormControl('', FORM_VALIDATORS.NAME)
       })
     });
-    console.log('FORMULARIO DEL AVAL');
-    console.log('ClientId recibido: ', this.clientId);
+    console.log('ClientId recibido: ', this.clientId); //Se imprime en modificar
   }
 
   createGuarantor() {
     if(this.guarantorForm.invalid) {
-      this.errorMessage = 'Debe completar todos los campos.';
+      this.errorMessage = 'Debe completar todos los campos';
       this.showErrorModal = true;
       return;
     }
@@ -81,7 +80,6 @@ export class GuarantorFormComponent implements OnInit {
       this.showErrorModal = true;
       return;
     } 
-   //PENDIENTEEEEEEEEEE
 
     //Desestructurar los datos
     const { collateral, ...personalData } = this.guarantorForm.value;
@@ -91,13 +89,11 @@ export class GuarantorFormComponent implements OnInit {
       collateral
     }
 
-    console.log('Datos del al back del front: ', guarantorData);
-
     this.guarantorService.addGuarantor(guarantorData).subscribe({
       next: (response) => {
         console.log('Respuesta del back:', response);
         //Mostrar el modal de exito
-        this.successMessage = 'Se agregó correctamente el aval y sus garantías.';
+        this.successMessage = 'Se agregó correctamente el aval y sus garantías';
         this.showSuccessModal = true;
 
         //Limpiar el formulario
@@ -111,157 +107,184 @@ export class GuarantorFormComponent implements OnInit {
     });
   }
 
-private setGuarantorValues(): void {
-  if (this.guarantorForm && this.clientData && this.option === 'update') {
-    this.guarantorData = this.clientData.guarantorDataResult;
-    const firstGuarantorData = this.guarantorData[0];
-    const secondGuarantorData = this.guarantorData[1]; 
-      if (this.selectedOption === 'primaryGuarantor') {
-        this.guarantorForm.patchValue({
-          name: firstGuarantorData.nombre,
-          paternalLn: firstGuarantorData.apellidoPaterno,
-          maternalLn: firstGuarantorData.apellidoMaterno,
-          age: firstGuarantorData.edad,
-          address: firstGuarantorData.domicilio,
-          phone: firstGuarantorData.telefono,
-          nameJob: firstGuarantorData.trabajo,
-          addressJob: firstGuarantorData.domicilioTrabajo,
-          colonia: firstGuarantorData.colonia,
-          city: firstGuarantorData.ciudad,
-          phoneJob: firstGuarantorData.telefonoTrabajo,
-          garantias: {
-            garantiaUno: firstGuarantorData.garantias.garantiaUno,
-            garantiaDos: firstGuarantorData.garantias.garantiaDos,
-            garantiaTres: firstGuarantorData.garantias.garantiaTres
-          }
+  private loadGuarantorDataIntoForm(): void {
 
+    if (this.guarantorForm && this.clientGuarantors && this.option === 'update') {
+      this.guarantorData = this.clientGuarantors.guarantorData;
+
+      const primaryGuarantor = this.guarantorData[0];
+      const secondaryGuarantor = this.guarantorData[1];
+
+      if (this.selectedForm === 'primaryGuarantor') {
+        this.guarantorForm.patchValue({
+          name: primaryGuarantor.name,
+          paternalLn: primaryGuarantor.paternalLn,
+          maternalLn: primaryGuarantor.maternalLn,
+          age: primaryGuarantor.age,
+          address: primaryGuarantor.address,          
+          phone: primaryGuarantor.phone,
+          jobName: primaryGuarantor.jobName,
+          workAddress: primaryGuarantor.workAddress,
+          colonia: primaryGuarantor.colonia,
+          city: primaryGuarantor.city,
+          workPhone: primaryGuarantor.workPhone,
+          collateral: {
+            firstCollateral: primaryGuarantor.collateral.firstCollateral,
+            secondCollateral: primaryGuarantor.collateral.secondCollateral,
+            thirdCollateral: primaryGuarantor.collateral.thirdCollateral
+          }
         }); 
-      } else if (this.selectedOption === 'secondaryGuarantor') {
-        if (!secondGuarantorData) {
+      } else if (this.selectedForm === 'secondaryGuarantor') {
+        if (!secondaryGuarantor) {
           this.errorMessage = 'El cliente no tiene aval secundario';
           this.showErrorModal = true;
           return;
         }
         this.guarantorForm.patchValue({
-          name: secondGuarantorData.nombre,
-          paternalLn: secondGuarantorData.apellidoPaterno,
-          maternalLn: secondGuarantorData.apellidoMaterno,
-          age: secondGuarantorData.edad,
-          address: secondGuarantorData.domicilio,
-          phone: secondGuarantorData.telefono,
-          nameJob: secondGuarantorData.trabajo,
-          addressJob: secondGuarantorData.domicilioTrabajo,
-          colonia: secondGuarantorData.colonia,
-          city: secondGuarantorData.ciudad,
-          phoneJob: secondGuarantorData.telefonoTrabajo,
-          garantias: {
-            garantiaUno: secondGuarantorData.garantias.garantiaUno,
-            garantiaDos: secondGuarantorData.garantias.garantiaDos,
-            garantiaTres: secondGuarantorData.garantias.garantiaTres
+          name: secondaryGuarantor.name,
+          paternalLn: secondaryGuarantor.paternalLn,
+          maternalLn: secondaryGuarantor.maternalLn,
+          age: secondaryGuarantor.age,
+          address: secondaryGuarantor.address,
+          phone: secondaryGuarantor.phone,
+          jobName: secondaryGuarantor.jobName,
+          workAddress: secondaryGuarantor.workAddress,
+          colonia: secondaryGuarantor.colonia,
+          city: secondaryGuarantor.city,
+          workPhone: secondaryGuarantor.workPhone,
+          collateral: {
+            firstCollateral: secondaryGuarantor.collateral.firstCollateral,
+            secondCollateral: secondaryGuarantor.collateral.secondCollateral,              
+            thirdCollateral: secondaryGuarantor.collateral.thirdCollateral
           }
-
         });
       }
-      this.originalGuarantorFormData = JSON.parse(JSON.stringify(this.guarantorForm.getRawValue()));
-      console.log('Datos aplicados en el formulario del aval: ', firstGuarantorData);
-    }
+        this.originalGuarantorData = JSON.parse(JSON.stringify(this.guarantorForm.getRawValue()));
+      }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['clientData']) {
-      this.setGuarantorValues();
+  ngOnChanges(inputChanges: SimpleChanges): void {
+    if (inputChanges['clientGuarantors']) {
+      if (this.clientGuarantors) {
+        this.loadGuarantorDataIntoForm();
+      } else {
+        this.guarantorForm.reset();
+        this.originalGuarantorData = {};
+        this.modifiedFields.clear();
+        this.dataToSend= {};
+      }
     }
   }
    
-public fieldMap: Record<string, string | Record<string, string>> = {
-  name: 'Nombre',
-  paternalLn: 'Apellido paterno',
-  maternalLn: 'Apellido materno',
-  age: 'Edad',
-  address: 'Domicilio',
-  colonia: 'Colonia',
-  city: 'Ciudad',
-  phone: 'Teléfono',
-  nameJob: 'Trabajo',
-  addressJob: 'Domicilio del trabajo',
-  phoneJob: 'Teléfono del trabajo',
-  garantias: {
-    garantiaUno: 'Garantía uno',
-    garantiaDos: 'Garantía dos',
-    garantiaTres: 'Garantía tres',
-  }
-};
-
-updateGuarantor(): void {
-  const currentValues = this.guarantorForm.getRawValue();
-  let idAval: number = 0;
-
-  if (!this.clientData.guarantorDataResult) {
-    this.errorMessage = 'Primero debe buscar un cliente.';
-    this.showErrorModal = true;
-    return;
-  }
-
-  if (this.selectedOption === 'primaryGuarantor') {
-    idAval = this.clientData.guarantorDataResult[0].idAval;
-  } else if (this.selectedOption === 'secondaryGuarantor') {
-    idAval = this.clientData.guarantorDataResult[1].idAval;
-  }
-
-  for (const key in currentValues) {
-    const current = currentValues[key];
-    const original = this.originalGuarantorFormData[key];
-    const mapValue = this.fieldMap[key];
-
-    if  (typeof current === 'object' && current !== null) {
-      const nestedChanges: any = {};
-      const nestedFieldMap = typeof mapValue === 'object' ? mapValue : {};
-
-      for (const nestedKey in current) {
-        if (current[nestedKey] !== original[nestedKey]) {
-          const mappedNestedKey = nestedFieldMap[nestedKey] || nestedKey;
-          nestedChanges[mappedNestedKey] = current[nestedKey];
-        }
-      }
-
-      if (Object.keys(nestedChanges).length > 0) {
-        const mappedKey = typeof mapValue === 'string' ? mapValue : key;
-        this.modifiedFields.set(mappedKey, nestedChanges);
-      }
-    } else if (current !== original) {
-      const mappedKey = typeof mapValue === 'string' ? mapValue : key;  
-      this.modifiedFields.set(mappedKey, current);
+  fieldDisplayNames: Record<string, string | Record<string, string>> = {
+    name: 'Nombre',
+    paternalLn: 'Apellido paterno',
+    maternalLn: 'Apellido materno',
+    age: 'Edad',
+    address: 'Domicilio',
+    colonia: 'Colonia',
+    city: 'Ciudad',
+    phone: 'Teléfono',
+    jobName: 'Trabajo',
+    workAddress: 'Domicilio del trabajo',
+    workPhone: 'Teléfono del trabajo',
+    collateral: {
+      firstCollateral: 'Garantía uno',
+      secondCollateral: 'Garantía dos',
+      thirdCollateral: 'Garantía tres',
     }
-  }
-
-  if (this.modifiedFields.size === 0) {
-    console.log('No se realizaron cambios');
-    this.errorMessage = 'No se realizaron cambios';
-    this.showErrorModal = true;
-    return;
-  }
-
-  //Convertir el Map a un objeto para poder enviar
-  const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
-
-  this.dataToSend = {
-    id: idAval,
-    ...modifiedFieldsObject
   };
 
-  this.showConfirmation = true;
-  /*console.log('Confirmación activa:', this.showConfirmation);
-  console.log('Datos a enviar al back:', this.dataToSend);*/
- 
-}
+  updateGuarantor(): void {
+    const currentFormValues = this.guarantorForm.getRawValue();
+    let guarantorId: number = 0;
+    this.guarantorData = this.clientGuarantors.guarantorData;
 
-preserverOrder(a: any, b: any): number {
-  return 0;
-}
+    if (!this.guarantorData) {
+      this.errorMessage = 'Primero debe buscar un cliente';
+      this.showErrorModal = true;
+      return;
+    }
 
-getKeyValueObject(obj: any): { [key: string]: any } {
-  return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
-}
+    if (this.guarantorForm.invalid) {
+      this.guarantorForm.markAllAsTouched();
+      this.errorMessage = 'Hay campos con información inválida o vacía';
+      this.showErrorModal = true;
+      return;
+    }
+
+    if (this.selectedForm === 'primaryGuarantor') {
+      guarantorId = this.guarantorData[0].guarantorId;
+    } else if (this.selectedForm === 'secondaryGuarantor') {
+      guarantorId= this.guarantorData[1].guarantorId;
+    }
+
+    for (const property in currentFormValues) {
+      const currentValue = currentFormValues[property];
+      const originalValue = this.originalGuarantorData[property];
+      const displayName = this.fieldDisplayNames[property];
+
+      if  (typeof currentValue === 'object' && currentValue !== null) {
+        const modifiedNestedFields: any = {};
+        const nestedDisplayNames = typeof displayName === 'object' ? displayName : {};
+
+        for (const nestedProperty in currentValue) {
+          if (currentValue[nestedProperty] !== originalValue[nestedProperty]) {
+            const nestedDisplayName = nestedDisplayNames[nestedProperty] || nestedProperty;
+            modifiedNestedFields[nestedDisplayName] = currentValue[nestedProperty];
+          }
+        }
+
+        if (Object.keys(modifiedNestedFields).length > 0) {
+          const displayProperty = typeof displayName === 'string' ? displayName : property;
+          this.modifiedFields.set(displayProperty, modifiedNestedFields);
+        }
+      } else if (currentValue !== originalValue) {
+        const displayProperty = typeof displayName === 'string' ? displayName : property;  
+        this.modifiedFields.set(displayProperty, currentValue);
+      }
+    }
+
+    if (this.modifiedFields.size === 0) {
+      console.log('No se realizaron cambios');
+      this.errorMessage = 'No se realizaron cambios';
+      this.showErrorModal = true;
+      return;
+    }
+
+    //Convertir el Map a un objeto para poder enviar
+    const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
+
+    const {
+      collateral: modifiedCollateral,
+      ...modifiedClientFields
+    } = modifiedFieldsObject;
+
+    this.dataToSend = {
+      guarantorId: guarantorId,
+      ...modifiedClientFields
+    };
+    console.log('dataToSend: ', this.dataToSend);
+
+    if (modifiedCollateral) {
+      const currentCollateral = currentFormValues.collateral;
+      this.dataToSend.collateral ={
+        'Garantía uno': currentCollateral.firstCollateral,
+        'Garantía dos': currentCollateral.secondCollateral,
+        'Garantía tres': currentCollateral.thirdCollateral
+      }
+    }
+
+    this.showConfirmation = true;
+  }
+
+  preserveOrder(a: any, b: any): number {
+    return 0;
+  }
+
+  getPropertyValueObject(obj: any): { [key: string]: any } {
+    return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
+  }
 
 //Cerrar el modal  de exito
   closeSuccessModal(): void {
@@ -275,11 +298,11 @@ getKeyValueObject(obj: any): { [key: string]: any } {
   confirmUpdate(): void {
   this.guarantorService.updateGuarantor(this.dataToSend).subscribe({
     next: () => {
-      console.log('Aval actualizado exitosamente');
       this.showConfirmation = false;
       this.modifiedFields.clear();
       this.dataToSend = {};
       this.guarantorForm.reset();
+      this.originalGuarantorData = {};
       this.successMessage = 'Aval actualizado exitosamente';
       this.showSuccessModal = true;
     },
@@ -288,11 +311,34 @@ getKeyValueObject(obj: any): { [key: string]: any } {
       this.showConfirmation = false;
     }
   });
-}
+  }
 
-cancelUpdate(): void {
-  this.showConfirmation = false;
-}
+  cancelUpdate(): void {
+    this.showConfirmation = false;
+  }
 
+  hasUnsavedChanges(): boolean {
+    if (!this.originalGuarantorData || Object.keys(this.originalGuarantorData).length === 0){
+      return false;
+    }
 
+    const currentFormValues = this.guarantorForm.getRawValue();
+
+    for (const property in currentFormValues) {
+      const currentValue = currentFormValues[property];
+      const originalValue = this.originalGuarantorData[property];
+
+      if (typeof currentValue === 'object' && currentValue !== null) {
+        for (const nestedProperty in currentValue) {
+          if (currentValue[nestedProperty] !== originalValue?.[nestedProperty]) {
+            return true;
+          }
+        }
+      } else if (currentValue !== originalValue) {
+        console.log('Si chay cambios');
+        return true;
+      }
+    }
+    return false;
+  }
 }

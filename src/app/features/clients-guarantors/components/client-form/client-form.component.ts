@@ -62,30 +62,35 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   initForm(): void {
     this.clientForm = new FormGroup({
-      name: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      paternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      maternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
-      address: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
-      colonia: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      city: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      phone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
-      classification: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.CLASSIFICATION :[]),
-      zone: new FormControl('', this.option === 'create' ? [Validators.required] :[]),
-      points: new FormControl({ value : this.option === 'create' ? 0 : '', disabled: this.option === 'create'}, []), //****** */
+      name: new FormControl('', FORM_VALIDATORS.NAME),
+      paternalLn: new FormControl('', FORM_VALIDATORS.NAME),
+      maternalLn: new FormControl('', FORM_VALIDATORS.NAME),
+      age: new FormControl('', [Validators.required, Validators.min(18), Validators.max(60)]),
+      address: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      colonia: new FormControl('', FORM_VALIDATORS.NAME),
+      city: new FormControl('', FORM_VALIDATORS.NAME),
+      phone: new FormControl('', FORM_VALIDATORS.PHONE),
+      classification: new FormControl('', FORM_VALIDATORS.CLASSIFICATION),
+      zone: new FormControl('', [Validators.required]),
+      points: new FormControl(
+        { 
+          value : this.option === 'create' ? 0 : '', 
+          disabled: this.option === 'create'
+        },
+        this.option === 'update' ? [Validators.required] : []),
       zoneId: new FormControl(''),
-      jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-      workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
-      workPhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE :[]),
-      referenceName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-      referenceAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
-      referencePhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE :[]), 
+      jobName: new FormControl('', FORM_VALIDATORS.NAME),
+      workAddress: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      workPhone: new FormControl('', FORM_VALIDATORS.PHONE),
+      referenceName: new FormControl('', FORM_VALIDATORS.NAME),
+      referenceAddress: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      referencePhone: new FormControl('', FORM_VALIDATORS.PHONE), 
 
       /**Formulario anidado, es decir garantiasForm dentro de ClientForm */
       collateral: new FormGroup({
-        firstCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-        secondCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-        thirdCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[])
+        firstCollateral: new FormControl('', FORM_VALIDATORS.NAME),
+        secondCollateral: new FormControl('', FORM_VALIDATORS.NAME),
+        thirdCollateral: new FormControl('', FORM_VALIDATORS.NAME)
       })
     });
   }
@@ -231,11 +236,19 @@ export class ClientFormComponent implements OnInit, OnChanges {
   }
 
   updateClient(): void {
+
     const currentFormValues = this.clientForm.getRawValue();
     console.log('currentFormValues: ', currentFormValues);
 
     if (!this.clientData || !this.clientData.idCliente) {
       this.errorMessage = 'Primero debe buscar un cliente';
+      this.showErrorModal = true;
+      return;
+    }
+
+    if (this.clientForm.invalid) {
+      this.clientForm.markAllAsTouched();
+      this.errorMessage = 'Hay campos con información inválida o vacía';
       this.showErrorModal = true;
       return;
     }
@@ -330,7 +343,7 @@ export class ClientFormComponent implements OnInit, OnChanges {
     }
   };
 
-  preserverOrder(a: any, b: any): number {
+  preserveOrder(a: any, b: any): number {
     return 0;
   }
 
@@ -341,13 +354,12 @@ export class ClientFormComponent implements OnInit, OnChanges {
   confirmUpdate(): void {
     this.clientService.updateClient(this.dataToSend).subscribe({
       next: () => {
-        console.log('Cliente actualizado exitosamente');
         this.showConfirmation = false;
         this.modifiedFields.clear();
         this.dataToSend = {};
         this.clientForm.reset();
         this.originalClientData = {};
-        this.successMessage = 'Cliente actualizado exitosamente.';
+        this.successMessage = 'Cliente actualizado exitosamente';
         this.showSuccessModal = true;
       },
       error: (err) => {

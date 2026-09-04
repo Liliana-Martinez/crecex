@@ -45,6 +45,7 @@ export class CommissionsComponent {
   totalCollected: number = 0;
   collectionPercentage: number = 0;
   commissionPercentage: number = 0;
+
   constructor(private commissionsService: CommissionsService) {}
   ngOnInit(): void {
     this.extraCommissionForm = new FormGroup({
@@ -76,6 +77,7 @@ export class CommissionsComponent {
       this.dataCommissions.data = [mapped];
     });
   }
+  
   addExtraCommission() {
     const extra = Number(this.value);
     console.log('Valor del campo:', extra);
@@ -85,6 +87,7 @@ export class CommissionsComponent {
     this.dataCommissions.data = [registro];
     this.value = 0;
   }
+
   imprimirComisiones() {
   const doc = new jsPDF();
   const registro = this.dataCommissions.data[0];

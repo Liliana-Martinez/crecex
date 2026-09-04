@@ -25,10 +25,31 @@ export class ModifyComponent {
   @ViewChild(ClientFormComponent)
     clientFormComponent?: ClientFormComponent;
 
+  @ViewChild(GuarantorFormComponent)
+    primaryGuarantorForm?: GuarantorFormComponent;
+  
+  @ViewChild(GuarantorFormComponent)
+    secondaryGuarantorForm?: GuarantorFormComponent;
+
+  private hasUnsavedChanges(): boolean {
+    if (this.selectedForm === 'client') {
+      console.log('formulario del cliente');
+      return this.clientFormComponent?.hasUnsavedChanges() ?? false;
+    }
+    if (this.selectedForm === 'primaryGuarantor') {
+      console.log('formulario del aval principal');
+      return this.primaryGuarantorForm?.hasUnsavedChanges() ?? false;
+    }
+    if (this.selectedForm === 'secondaryGuarantor') {
+      console.log('formulario del aval secundario');
+      return this.secondaryGuarantorForm?.hasUnsavedChanges() ?? false;
+    }
+    return false;
+  }
+
   onClienteEncontrado(client: any): void {
 
-    const hasChanges = this.clientFormComponent?.hasUnsavedChanges();
-    console.log('hasChanges: ', hasChanges);
+    const hasChanges = this.hasUnsavedChanges();
 
     if (hasChanges) {
       this.pendingClient = client;
@@ -39,7 +60,7 @@ export class ModifyComponent {
   }
 
   onClientNotFound(): void{
-    const hasChanges = this.clientFormComponent?.hasUnsavedChanges();
+    const hasChanges = this.hasUnsavedChanges();
 
     if (hasChanges) {
       this.showUnsavedChangesModal = true;

@@ -1,3 +1,7 @@
+<!--AQUI EN MODIFICAR LA BUSQUEDA DE LOS AVALES SE HACE POR SU CLIENTE, SI NECESITO 
+CONOCER EL AVAL DEL CLIENTE CLAUDIA, EN EL BUSCADOR SE INGRESA EL NOMBRE CLAUDIA
+Y EN EL SELECT SE SELECCIONA LA OPCION DEL AVAL QUE SE DESEA CONOCER-->
+
 <div class="form-selector">
     <label for="formSelect" class="form-selector-label">
         Selecciona el formulario
@@ -17,12 +21,32 @@
     [modulo]="modulo" 
     [selectedForm]="selectedForm" 
     (clienteEncontrado)="onClienteEncontrado($event)"
-    (clientNotFound)="onClientNotFound()"></app-search-bar>
+    (clientNotFound)="onClientNotFound()">
+</app-search-bar>
 
 
-<app-client-form *ngIf="selectedForm === 'client'" [option]="'update'" [clientData]="client"></app-client-form>
-<app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'" [option]="'update'" [clientData]="client"></app-guarantor-form>
-<app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'" [option]="'update'" [clientData]="client"></app-guarantor-form>
+<app-client-form
+    #clientForm
+    *ngIf="selectedForm === 'client'" 
+    [option]="'update'" 
+    [clientData]="client">
+</app-client-form>
+
+<app-guarantor-form 
+    #primaryGuarantorForm
+    *ngIf="selectedForm === 'primaryGuarantor'" 
+    [option]="'update'" 
+    [selectedForm]="selectedForm" 
+    [clientGuarantors]="client">
+</app-guarantor-form>
+
+<app-guarantor-form 
+    #secondaryGuarantorForm
+    *ngIf="selectedForm === 'secondaryGuarantor'" 
+    [option]="'update'" 
+    [selectedForm]="selectedForm" 
+    [clientGuarantors]="client">
+</app-guarantor-form>
 
 <div *ngIf="showUnsavedChangesModal" class="modal-overlay">
     <div class="modal-content-confirmation">

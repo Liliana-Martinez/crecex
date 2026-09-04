@@ -6,7 +6,7 @@
                 <div class="data">
                     <label>Nombre</label>
                     <input type="text" formControlName="name">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('name')?.invalid && clientForm.get('name')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('name')?.invalid && clientForm.get('name')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un nombre válido</span>
                     </div>
@@ -14,7 +14,7 @@
                 <div class="data">
                     <label>Apellido paterno</label>
                     <input type="text" formControlName="paternalLn">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('paternalLn')?.invalid && clientForm.get('paternalLn')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('paternalLn')?.invalid && clientForm.get('paternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
                     </div><!--paternalLn=paternalLastName -->
@@ -22,7 +22,7 @@
                 <div class="data">
                     <label>Apellido materno</label>
                     <input type="text" formControlName="maternalLn">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('maternalLn')?.invalid && clientForm.get('maternalLn')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('maternalLn')?.invalid && clientForm.get('maternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
                     </div> <!--maternalLn=maternalLastName -->
@@ -32,7 +32,7 @@
                 <div class="data">
                     <label>Edad</label>
                     <input type="number" formControlName="age" min="18" max="60">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('age')?.invalid && clientForm.get('age')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('age')?.invalid && clientForm.get('age')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una edad válida</span>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="data">
                     <label>Domicilio</label>
                     <input type="text" formControlName="address">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('address')?.invalid && clientForm.get('address')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('address')?.invalid && clientForm.get('address')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un domicilio válido</span>
                     </div>
@@ -48,7 +48,7 @@
                 <div class="data">
                     <label>Colonia</label>
                     <input type="text" formControlName="colonia">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('colonia')?.invalid && clientForm.get('colonia')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('colonia')?.invalid && clientForm.get('colonia')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una colonia válida</span>
                     </div>
@@ -58,7 +58,7 @@
                 <div class="data">
                     <label>Ciudad</label>
                     <input type="text" formControlName="city">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('city')?.invalid && clientForm.get('city')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('city')?.invalid && clientForm.get('city')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una ciudad válida</span>
                     </div>
@@ -66,7 +66,7 @@
                 <div class="data">
                     <label>Telefóno</label>
                     <input type="tel" formControlName="phone">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('phone')?.invalid && clientForm.get('phone')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('phone')?.invalid && clientForm.get('phone')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un teléfono válido</span>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="data">
                     <label>Clasificación</label>
                     <input type="text" formControlName="classification">
-                    <div class="error-message" *ngIf="option === 'create' && clientForm.get('classification')?.invalid && clientForm.get('classification')?.touched">
+                    <div class="error-message" *ngIf="clientForm.get('classification')?.invalid && clientForm.get('classification')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una clasificación válida</span>
                     </div> 
@@ -93,6 +93,10 @@
                 <div class="data">
                     <label>Puntos</label>
                     <input type="number" formControlName="points">
+                    <div class="error-message" *ngIf="option === 'update' && clientForm.get('points')?.invalid && clientForm.get('points')?.touched">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Campo vacío</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,7 +107,7 @@
             <div class="data">
                 <label>Nombre</label>
                 <input type="text" formControlName="jobName">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('jobName')?.invalid && clientForm.get('jobName')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('jobName')?.invalid && clientForm.get('jobName')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un nombre de trabajo válido</span>
                 </div>
@@ -111,7 +115,7 @@
             <div class="data">
                 <label>Domicilio</label>
                 <input type="text" formControlName="workAddress">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('workAddress')?.invalid && clientForm.get('workAddress')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('workAddress')?.invalid && clientForm.get('workAddress')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un domicilio válido</span>
                 </div>
@@ -119,7 +123,7 @@
             <div class="data">
                 <label>Telefóno</label>
                 <input type="tel" formControlName="workPhone">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('workPhone')?.invalid && clientForm.get('workPhone')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('workPhone')?.invalid && clientForm.get('workPhone')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un teléfono válido</span>
                 </div>
@@ -133,7 +137,7 @@
             <div class="data">
                 <label>Nombre completo</label>
                 <input type="text" formControlName="referenceName">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('referenceName')?.invalid && clientForm.get('referenceName')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('referenceName')?.invalid && clientForm.get('referenceName')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un nombre válido</span>
                 </div>
@@ -141,7 +145,7 @@
             <div class="data">
                 <label>Domicilio</label>
                 <input type="text" formControlName="referenceAddress">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('referenceAddress')?.invalid && clientForm.get('referenceAddress')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('referenceAddress')?.invalid && clientForm.get('referenceAddress')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un domicilio válido</span>
                 </div>
@@ -149,7 +153,7 @@
             <div class="data">
                 <label>Telefóno</label>
                 <input type="tel" formControlName="referencePhone">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('referencePhone')?.invalid && clientForm.get('referencePhone')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('referencePhone')?.invalid && clientForm.get('referencePhone')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un teléfono válido</span>
                 </div>
@@ -163,7 +167,7 @@
             <div class="data">
                 <label>Garantia 1</label>
                 <input type="text" formControlName="firstCollateral">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.firstCollateral')?.invalid && clientForm.get('collateral.firstCollateral')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('collateral.firstCollateral')?.invalid && clientForm.get('collateral.firstCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
@@ -171,7 +175,7 @@
             <div class="data">
                 <label>Garantia 2</label>
                 <input type="text" formControlName="secondCollateral">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.secondCollateral')?.invalid && clientForm.get('collateral.secondCollateral')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('collateral.secondCollateral')?.invalid && clientForm.get('collateral.secondCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
@@ -179,7 +183,7 @@
             <div class="data">
                 <label>Garantia 3</label>
                 <input type="text" formControlName="thirdCollateral">
-                <div class="error-message" *ngIf="option === 'create' && clientForm.get('collateral.thirdCollateral')?.invalid && clientForm.get('collateral.thirdCollateral')?.touched">
+                <div class="error-message" *ngIf="clientForm.get('collateral.thirdCollateral')?.invalid && clientForm.get('collateral.thirdCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
@@ -221,24 +225,29 @@
         <i class="fa-solid fa-circle-check"></i>
     </div>
     <h3>¿Deseas actualizar los siguientes datos?</h3>
-    <ul>
-      <li *ngFor="let field of modifiedFields | keyvalue : preserverOrder">
-        <strong>{{ field.key }}:</strong>
-        <ng-container *ngIf="typeof field.value === 'object'; else simpleValue">
-          <ul>
-            <li *ngFor="let propertyEntry of getPropertyValueObject(field.value) | keyvalue">
-              {{ propertyEntry.key }}: {{ propertyEntry.value }}
-            </li>
-          </ul>
-        </ng-container>
-        <ng-template #simpleValue>
-          {{ field.value }}
-        </ng-template>
+    <ul class="modified-fields">
+      <li *ngFor="let field of modifiedFields | keyvalue : preserveOrder">
+        <div class="field-change">
+            <strong>{{ field.key === 'collateral' ? 'Garantías' : field.key }}:</strong>
+            <ng-container *ngIf="typeof field.value === 'object'; else simpleValue">
+                <div class="nested-fields">
+                    <div class="nested-field" *ngFor="let propertyEntry of getPropertyValueObject(field.value) | keyvalue : preserveOrder">
+                        <strong>{{ propertyEntry.key }}:</strong>
+                        {{ propertyEntry.value }}
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #simpleValue>
+                {{ field.value }}
+            </ng-template>
+        </div>
       </li>
     </ul>
 
-    <button class="modal-button" (click)="confirmUpdate()">Confirmar</button>
-    <button class="modal-button" (click)="cancelUpdate()">Cancelar</button>
+    <div class="modal-buttons">
+        <button class="modal-button" (click)="confirmUpdate()">Confirmar</button>
+        <button class="modal-button" (click)="cancelUpdate()">Cancelar</button>
+    </div>
   </div>
 </div>
 
