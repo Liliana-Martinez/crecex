@@ -15,11 +15,6 @@ import { CommonModule } from '@angular/common';
 })
 
 export class ModifyComponent {
-  modulo: string = 'update';//Aqui era modify
-  selectedForm: string = 'client';
-  client?: any; //Es el cliente buscado
-  pendingClient: any = null; 
-  showUnsavedChangesModal = false;
 
   //Este @ViewChild es para hacer una referencia al formulario y asi acceder a hasUnsavedChanges()
   @ViewChild(ClientFormComponent)
@@ -30,24 +25,30 @@ export class ModifyComponent {
   
   @ViewChild(GuarantorFormComponent)
     secondaryGuarantorForm?: GuarantorFormComponent;
+  
 
+  modulo: string = 'update';
+  selectedForm: string = 'client';
+  client?: any; //Es el cliente buscado
+  pendingClient: any = null;
+  pendingForm: string | null = null;
+  showUnsavedChangesModal = false;
+
+  //Detectar si hay cambios en los formularios, se accede a través de las referencias con viewChild
   private hasUnsavedChanges(): boolean {
     if (this.selectedForm === 'client') {
-      console.log('formulario del cliente');
       return this.clientFormComponent?.hasUnsavedChanges() ?? false;
     }
     if (this.selectedForm === 'primaryGuarantor') {
-      console.log('formulario del aval principal');
       return this.primaryGuarantorForm?.hasUnsavedChanges() ?? false;
     }
     if (this.selectedForm === 'secondaryGuarantor') {
-      console.log('formulario del aval secundario');
       return this.secondaryGuarantorForm?.hasUnsavedChanges() ?? false;
     }
     return false;
   }
 
-  onClienteEncontrado(client: any): void {
+  onClientFound(client: any): void {
 
     const hasChanges = this.hasUnsavedChanges();
 
@@ -69,23 +70,41 @@ export class ModifyComponent {
       return;
     }
     this.client = null;
-    console.log('this client: ', this.client);
+  }
+
+  onFormChange(newForm: string): void {
+
+    const hasChanges =this.hasUnsavedChanges();
+
+    if (hasChanges) {
+      this.pendingForm = newForm; //Guarda temporalemnte el otro aval al que queria editar
+      console.log('pendingForm: ', this.pendingForm);
+      this.showUnsavedChangesModal = true;
+      return;
+    }
+    this.selectedForm = newForm;
   }
 
   cancelUnsavedChanges(): void {
     this.pendingClient = null;
+    this.pendingForm = null;
     this.showUnsavedChangesModal = false;
   }
 
   discardUnsavedChanges(): void {
+
     this.showUnsavedChangesModal = false;
 
     if (this.pendingClient) {
       this.client = this.pendingClient;
+    } else if (this.pendingForm) {
+      this.selectedForm = this.pendingForm;
     } else {
       this.client = null;
     }
+
     this.pendingClient = null;
+    this.pendingForm = null;
   }
 }
 

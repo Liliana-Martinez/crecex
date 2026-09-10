@@ -8,10 +8,14 @@ Y EN EL SELECT SE SELECCIONA LA OPCION DEL AVAL QUE SE DESEA CONOCER-->
     </label>
 
         <div class="select-container">
-            <select id="formSelect" class="custom-select initial-focus" [(ngModel)]="selectedForm">
-                <option value="client">Datos del cliente</option>
-                <option value="primaryGuarantor">Datos del aval principal</option>
-                <option value="secondaryGuarantor">Datos del aval secundario</option>
+            <select 
+                id="formSelect" 
+                class="custom-select initial-focus" 
+                [(ngModel)]="selectedForm" 
+                (ngModelChange)="onFormChange($event)">
+                    <option value="client">Datos del cliente</option>
+                    <option value="primaryGuarantor">Datos del aval principal</option>
+                    <option value="secondaryGuarantor">Datos del aval secundario</option>
             </select>
             <i class="fa-solid fa-chevron-down select-icon"></i>
         </div>
@@ -20,7 +24,7 @@ Y EN EL SELECT SE SELECCIONA LA OPCION DEL AVAL QUE SE DESEA CONOCER-->
 <app-search-bar 
     [modulo]="modulo" 
     [selectedForm]="selectedForm" 
-    (clienteEncontrado)="onClienteEncontrado($event)"
+    (clienteEncontrado)="onClientFound($event)"
     (clientNotFound)="onClientNotFound()">
 </app-search-bar>
 

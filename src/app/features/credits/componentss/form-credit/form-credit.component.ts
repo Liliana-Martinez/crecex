@@ -12,20 +12,17 @@ import { SaveButtonComponent } from '../../../../shared/componentes/save-button/
 })
 
 export class FormCreditComponent implements OnChanges {
+
   @Input() cliente: ClienteConDatos | null = null;
   @Output() response = new EventEmitter<any>();
   @Input() modulo: 'new' | 'renew' | 'additional' = 'new';
 
   idCliente: number | null = null;
   FormCredit: FormGroup;
-
   modalVisible = false;
   datosParaConfirmar: any = null;
-
-  // Modales de mensajes
   showSuccessModal = false;
   successMessage = '';
-
   showErrorModal = false;
   errorMessage = '';
 

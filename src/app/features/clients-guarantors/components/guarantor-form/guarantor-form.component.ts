@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { SaveButtonComponent } from '../../../../shared/componentes/save-button/save-button.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -19,25 +19,21 @@ import { FORM_VALIDATORS } from '../../constants/form-validators';
 })
 export class GuarantorFormComponent implements OnInit {
 
-  guarantorForm!: FormGroup;
-  originalGuarantorData: any;
-  guarantorData?: any;
   @Input() option: 'create' | 'update' = 'create';
   @Input() clientGuarantors?: any; //Avales del cliente que devuelve el buscador
   @Input() selectedForm: string = '';
   @Input() clientId?: number;
 
+  guarantorForm!: FormGroup;
+  originalGuarantorData: any;
+  guarantorData?: any;
   dataToSend: any = {};
   modifiedFields = new Map<string, any>();
-
   showSuccessModal = false;
   successMessage = '';
-
   showErrorModal = false;
   errorMessage = '';
-
   showConfirmation = false;
-  isDisabled: boolean =  false;
 
   constructor(private guarantorService: GuarantorService, private clientService: ClientService){}
 
@@ -46,7 +42,6 @@ export class GuarantorFormComponent implements OnInit {
   }
 
   initForm() {
-    //Inicializar formulario
     this.guarantorForm = new FormGroup({
       name: new FormControl('', FORM_VALIDATORS.NAME),
       paternalLn: new FormControl('', FORM_VALIDATORS.NAME),
@@ -65,7 +60,6 @@ export class GuarantorFormComponent implements OnInit {
         thirdCollateral: new FormControl('', FORM_VALIDATORS.NAME)
       })
     });
-    console.log('ClientId recibido: ', this.clientId); //Se imprime en modificar
   }
 
   createGuarantor() {
@@ -91,23 +85,22 @@ export class GuarantorFormComponent implements OnInit {
 
     this.guarantorService.addGuarantor(guarantorData).subscribe({
       next: (response) => {
-        console.log('Respuesta del back:', response);
         //Mostrar el modal de exito
         this.successMessage = 'Se agregó correctamente el aval y sus garantías';
         this.showSuccessModal = true;
-
         //Limpiar el formulario
         this.guarantorForm.reset();
       },
       error: (err) => {
-        console.log('Error al agregar el aval principal del cliente.', err);
         this.errorMessage = 'No se pudo agregar el aval del cliente.'
         this.showErrorModal = true;
       }
     });
   }
 
-  private loadGuarantorDataIntoForm(): void {
+  /**Código para la opción de modificar aval */
+  //Cargar los datos en el formulario
+  loadGuarantorDataIntoForm(): void {
 
     if (this.guarantorForm && this.clientGuarantors && this.option === 'update') {
       this.guarantorData = this.clientGuarantors.guarantorData;
@@ -163,6 +156,7 @@ export class GuarantorFormComponent implements OnInit {
       }
   }
 
+  //Detectar otra en trada en el buscador
   ngOnChanges(inputChanges: SimpleChanges): void {
     if (inputChanges['clientGuarantors']) {
       if (this.clientGuarantors) {
@@ -176,6 +170,7 @@ export class GuarantorFormComponent implements OnInit {
     }
   }
    
+  //Nombres para mostrar en el modal de confirmación
   fieldDisplayNames: Record<string, string | Record<string, string>> = {
     name: 'Nombre',
     paternalLn: 'Apellido paterno',
@@ -264,7 +259,6 @@ export class GuarantorFormComponent implements OnInit {
       guarantorId: guarantorId,
       ...modifiedClientFields
     };
-    console.log('dataToSend: ', this.dataToSend);
 
     if (modifiedCollateral) {
       const currentCollateral = currentFormValues.collateral;
@@ -284,37 +278,6 @@ export class GuarantorFormComponent implements OnInit {
 
   getPropertyValueObject(obj: any): { [key: string]: any } {
     return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
-  }
-
-//Cerrar el modal  de exito
-  closeSuccessModal(): void {
-    this.showSuccessModal = false;
-  }
-
-  closeErrorModal(): void {
-    this.showErrorModal = false;
-  }
-  
-  confirmUpdate(): void {
-  this.guarantorService.updateGuarantor(this.dataToSend).subscribe({
-    next: () => {
-      this.showConfirmation = false;
-      this.modifiedFields.clear();
-      this.dataToSend = {};
-      this.guarantorForm.reset();
-      this.originalGuarantorData = {};
-      this.successMessage = 'Aval actualizado exitosamente';
-      this.showSuccessModal = true;
-    },
-    error: (err) => {
-      console.error('Error al actualizar el aval', err);
-      this.showConfirmation = false;
-    }
-  });
-  }
-
-  cancelUpdate(): void {
-    this.showConfirmation = false;
   }
 
   hasUnsavedChanges(): boolean {
@@ -340,5 +303,36 @@ export class GuarantorFormComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  confirmUpdate(): void {
+  this.guarantorService.updateGuarantor(this.dataToSend).subscribe({
+    next: () => {
+      this.showConfirmation = false;
+      this.modifiedFields.clear();
+      this.dataToSend = {};
+      this.guarantorForm.reset();
+      this.originalGuarantorData = {};
+      this.successMessage = 'Aval actualizado exitosamente';
+      this.showSuccessModal = true;
+    },
+    error: (err) => {
+      console.error('Error al actualizar el aval', err);
+      this.showConfirmation = false;
+    }
+  });
+  }
+
+  //Cerrar el modal  de exito
+  closeSuccessModal(): void {
+    this.showSuccessModal = false;
+  }
+
+  closeErrorModal(): void {
+    this.showErrorModal = false;
+  }
+
+  cancelUpdate(): void {
+    this.showConfirmation = false;
   }
 }
