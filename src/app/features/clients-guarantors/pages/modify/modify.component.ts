@@ -20,10 +20,10 @@ export class ModifyComponent {
   @ViewChild(ClientFormComponent)
     clientFormComponent?: ClientFormComponent;
 
-  @ViewChild(GuarantorFormComponent)
+  @ViewChild('primaryGuarantorForm')
     primaryGuarantorForm?: GuarantorFormComponent;
   
-  @ViewChild(GuarantorFormComponent)
+  @ViewChild('secondaryGuarantorForm')
     secondaryGuarantorForm?: GuarantorFormComponent;
   
 

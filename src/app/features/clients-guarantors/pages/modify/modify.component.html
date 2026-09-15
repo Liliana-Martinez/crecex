@@ -11,7 +11,7 @@ Y EN EL SELECT SE SELECCIONA LA OPCION DEL AVAL QUE SE DESEA CONOCER-->
             <select 
                 id="formSelect" 
                 class="custom-select initial-focus" 
-                [(ngModel)]="selectedForm" 
+                [ngModel]="selectedForm" 
                 (ngModelChange)="onFormChange($event)">
                     <option value="client">Datos del cliente</option>
                     <option value="primaryGuarantor">Datos del aval principal</option>

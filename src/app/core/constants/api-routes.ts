@@ -28,7 +28,8 @@ export const API_ROUTES = {
         GET_BY_NAME: `${API_URL}/collectors` //No genero error
     },
     COMMISSIONS: {
-        GET_BY_ZONE: `${API_URL}/commissions`
+        GET_BY_ZONE: `${API_URL}/commissions`,
+        CREATE_EXTRA: `${API_URL}/commissions` //////////////////////////////////////
     },
     STATISTICS: {
         CASH: { //Submodulo
