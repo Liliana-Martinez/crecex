@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../../core/services/payment.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable' 
-
+import autoTable from 'jspdf-autotable';
 @Component({
   selector: 'app-payments',
   imports: [SearchBarZoneComponent, SaveButtonComponent, PrintButtonComponent, 
@@ -144,82 +144,239 @@ export class PaymentsComponent {
     });
   }
   imprimirPDF() {
-    if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
-      this.errorMessage = 'Debes seleccionar una zona antes de imprimir.';
-      this.showErrorModal = true;
-      return;
+  if (
+    !this.zonaSeleccionada ||
+    !this.dataPayment ||
+    this.dataPayment.length === 0
+  ) {
+    this.errorMessage =
+      'Debes seleccionar una zona antes de imprimir.';
+    this.showErrorModal = true;
+    return;
+  }
+
+  const doc = new jsPDF(
+    'landscape',
+    'mm',
+    'legal'
+  );
+
+  const pageWidth =
+    doc.internal.pageSize.getWidth();
+
+  const margenX = 10;
+
+  const zona =
+    this.codigoZona || 'N/A';
+
+  const promotor =
+    this.promotor || 'N/A';
+
+  const semana =
+    this.fechaSiguienteSemana || 'N/A';
+
+  doc.setFont(
+    'helvetica',
+    'normal'
+  );
+
+  doc.setFontSize(10);
+
+  let maxNombreWidth = 0;
+
+  this.dataPayment.forEach(
+    (item: any) => {
+      const width =
+        doc.getTextWidth(
+          item.name || ''
+        );
+
+      if (
+        width > maxNombreWidth
+      ) {
+        maxNombreWidth = width;
+      }
     }
+  );
 
-    const doc = new jsPDF('landscape', 'mm', 'legal');
+  const anchoNombreLimitado =
+    Math.min(
+      maxNombreWidth + 8,
+      90
+    );
 
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
+  const columnasBase = [
+    { nombre: 'NUM', ancho: 7 },
+    { nombre: 'CLS', ancho: 9 },
+    { nombre: 'NOMBRE', ancho: anchoNombreLimitado },
+    { nombre: 'PUNTOS', ancho: 12 },
+    { nombre: 'N° CRED', ancho: 14 },
+    { nombre: 'CUMP.', ancho: 14 },
+    { nombre: 'ENTREGA', ancho: 16 },
+    { nombre: 'VENC.', ancho: 18 },
+    { nombre: 'SEM', ancho: 8 },
+    { nombre: 'MONTO', ancho: 15 },
+    { nombre: 'ABONO', ancho: 14 },
+    { nombre: 'ATR', ancho: 13 },
+    { nombre: 'AD', ancho: 13 },
+    { nombre: 'RECUPERADO', ancho: 20 },
+    { nombre: 'AD2', ancho: 15 },
+    { nombre: 'MULTAS', ancho: 15 }
+  ];
 
-    const margenX = 10;
-    const zona = this.codigoZona || 'N/A';
-    const promotor = this.promotor || 'N/A';
-    const semana = this.fechaSiguienteSemana || 'N/A';
+  const anchoBaseTotal =
+    columnasBase.reduce(
+      (acc, c) =>
+        acc + c.ancho,
+      0
+    );
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
+  const anchoDisponible =
+    pageWidth -
+    margenX * 2;
 
-    let maxNombreWidth = 0;
+  const escala =
+    anchoDisponible /
+    anchoBaseTotal;
 
-    this.dataPayment.forEach((item: any) => {
-      const width = doc.getTextWidth(item.name || '');
-      if (width > maxNombreWidth) maxNombreWidth = width;
-    });
-
-    const anchoNombreLimitado = Math.min(maxNombreWidth + 8, 90);
-
-    const columnasBase = [
-      { nombre: 'NUM', ancho: 7 },
-      { nombre: 'CLS', ancho: 9 },
-      { nombre: 'NOMBRE', ancho: anchoNombreLimitado },
-      { nombre: 'PUNTOS', ancho: 12 },
-      { nombre: 'N° CRED', ancho: 14 },
-      { nombre: 'CUMP.', ancho: 14 },
-      { nombre: 'ENTREGA', ancho: 16 },
-      { nombre: 'VENC.', ancho: 18 },
-      { nombre: 'SEM', ancho: 8 },
-      { nombre: 'MONTO', ancho: 15 },
-      { nombre: 'ABONO', ancho: 14 },
-      { nombre: 'ATR', ancho: 13 },
-      { nombre: 'AD', ancho: 13 },
-      { nombre: 'RECUPERADO', ancho: 20 },
-      { nombre: 'AD2', ancho: 15 },
-      { nombre: 'MULTAS', ancho: 15 }
-    ];
-
-    const anchoBaseTotal = columnasBase.reduce((acc, c) => acc + c.ancho, 0);
-    const anchoDisponible = pageWidth - (margenX * 2);
-    const escala = anchoDisponible / anchoBaseTotal;
-
-    const columnas = columnasBase.map(col => ({
+  const columnas =
+    columnasBase.map(col => ({
       nombre: col.nombre,
-      ancho: col.ancho * escala
+      ancho:
+        col.ancho * escala
     }));
 
-    const logo = new Image();
-    logo.src = '/logo.jpg';
+  // Logo
+  const logo = new Image();
+  logo.src = '/logo2.jpeg';
 
-    logo.onload = () => {
+  logo.onload = () => {
+    doc.addImage(
+      logo,
+      'JPEG',
+      margenX,
+      8,
+      28,
+      28
+    );
 
-      doc.addImage(logo, 'JPEG', margenX, 8, 28, 28);
+    doc.setFontSize(22);
 
-      doc.setFontSize(22);
-      doc.text('LISTA DE CLIENTES ACTIVOS', pageWidth / 2, 18, { align: 'center' });
+    doc.text(
+      'LISTA DE CLIENTES ACTIVOS',
+      pageWidth / 2,
+      18,
+      {
+        align: 'center'
+      }
+    );
 
-      doc.setFontSize(12);
-      doc.text(
-        `Zona: ${zona} | Promotor: ${promotor} | Semana: ${semana}`,
-        pageWidth / 2,
-        40,
-        { align: 'center' }
-      );
+    doc.setFontSize(12);
 
-      doc.save(`REPORTE_${promotor}_${zona}_${semana}.pdf`);
-    };
+    doc.text(
+      `Zona: ${zona} | Promotor: ${promotor} | Semana: ${semana}`,
+      pageWidth / 2,
+      40,
+      {
+        align: 'center'
+      }
+    );
+
+    autoTable(doc, {
+      startY: 45,
+
+      head: [
+        columnas.map(
+          col => col.nombre
+        )
+      ],
+
+      body:
+        this.dataPayment.map(
+          (item: any) => [
+            item.clients ?? '',
+            item.classification ?? '',
+            item.name ?? '',
+            item.puntos ?? '',
+            item.loans ?? '',
+            item.compliance ?? '',
+            item.deliveryDate ?? '',
+            item.dueDate ?? '',
+            item.week ?? '',
+            item.monto ?? '',
+            item.weeklyAmount ?? '',
+            item.latePayment ?? '',
+            item.earlyPayment ?? '',
+            item.payment ?? '',
+            item.adeudo ?? '',
+            item.lateFees ?? ''
+          ]
+        ),
+
+      columnStyles:
+        columnas.reduce(
+          (
+            acc: any,
+            col,
+            index
+          ) => {
+            acc[index] = {
+              cellWidth:
+                col.ancho
+            };
+
+            return acc;
+          },
+          {}
+        ),
+
+      styles: {
+        fontSize: 7,
+        cellPadding: 2
+      },
+
+      headStyles: {
+        fontSize: 7
+      }
+    });
+
+    doc.save(
+      `REPORTE_${promotor}_${zona}_${semana}.pdf`
+    );
+  };
+
+  logo.onerror = () => {
+    console.error(
+      'No se pudo cargar /logo2.jpeg'
+    );
+
+    // Generamos el PDF aunque falle el logo
+    doc.setFontSize(22);
+
+    doc.text(
+      'LISTA DE CLIENTES ACTIVOS',
+      pageWidth / 2,
+      18,
+      {
+        align: 'center'
+      }
+    );
+
+    doc.setFontSize(12);
+
+    doc.text(
+      `Zona: ${zona} | Promotor: ${promotor} | Semana: ${semana}`,
+      pageWidth / 2,
+      30,
+      {
+        align: 'center'
+      }
+    );
+
+    doc.save(
+      `REPORTE_${promotor}_${zona}_${semana}.pdf`
+    );
+  };
   }
    
 }

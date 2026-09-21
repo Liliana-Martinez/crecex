@@ -18,6 +18,5 @@ onSave() {
 ngOnChanges() {
   console.log('Label recibido en SaveButtonComponent:', this.label);
 }
-
 }
  
