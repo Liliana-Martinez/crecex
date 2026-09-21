@@ -27,23 +27,21 @@ import { NormalizationService } from '../../../../core/services/normalization.se
 })
 
 export class ClientFormComponent implements OnInit, OnChanges {
-  clientForm!: FormGroup;
   
-  originalClientData: any;
-  listZones: Zone[] = [];
-  filteredZones$: Observable<Zone[]> = of([]);// = new Observable();
   @Input() option: 'create' | 'update' = 'create';
   @Input() clientData?: any; //Datos que se recibiran para llenar el formulario en modificar, era tipo Client
   @Output() clientCreated = new EventEmitter<number>();
-  
-  dataToSend: any = {};
-  modifiedFields = new Map<string, any>();
-  showSuccessModal = false; //Variable para relacionar el modal
-  successMessage = ''; //Variable para relacionar el modal
 
+  filteredZones$: Observable<Zone[]> = of([]);
+  modifiedFields = new Map<string, any>();
+  clientForm!: FormGroup;
+  originalClientData: any;
+  listZones: Zone[] = [];
+  dataToSend: any = {};
+  showSuccessModal = false; 
+  successMessage = ''; 
   showErrorModal = false;
   errorMessage: string = '';
-
   showConfirmation = false;
 
   constructor(
@@ -62,30 +60,34 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   initForm(): void {
     this.clientForm = new FormGroup({
-      name: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      paternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      maternalLn: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      age: new FormControl('', this.option === 'create' ? [Validators.required, Validators.min(18), Validators.max(60)] : []),
-      address: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS : []),
-      colonia: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      city: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME : []),
-      phone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE : []),
-      classification: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.CLASSIFICATION :[]),
-      zone: new FormControl('', this.option === 'create' ? [Validators.required] :[]),
-      points: new FormControl({ value : this.option === 'create' ? 34 : '', disabled: this.option === 'create'}, []), //****** */
+      name: new FormControl('', FORM_VALIDATORS.NAME),
+      paternalLn: new FormControl('', FORM_VALIDATORS.NAME),
+      maternalLn: new FormControl('', FORM_VALIDATORS.NAME),
+      age: new FormControl('', [Validators.required, Validators.min(18), Validators.max(60)]),
+      address: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      colonia: new FormControl('', FORM_VALIDATORS.NAME),
+      city: new FormControl('', FORM_VALIDATORS.NAME),
+      phone: new FormControl('', FORM_VALIDATORS.PHONE),
+      classification: new FormControl('', FORM_VALIDATORS.CLASSIFICATION),
+      zone: new FormControl('', [Validators.required]),
+      points: new FormControl(
+        { 
+          value : this.option === 'create' ? 0 : '', 
+          disabled: this.option === 'create'
+        },
+        this.option === 'update' ? [Validators.required] : []),
       zoneId: new FormControl(''),
-      jobName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-      workAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
-      workPhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE :[]),
-      referenceName: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-      referenceAddress: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.ADDRESS :[]),
-      referencePhone: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.PHONE :[]), 
-
-      /**Formulario anidado, es decir garantiasForm dentro de ClientForm */
+      jobName: new FormControl('', FORM_VALIDATORS.NAME),
+      workAddress: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      workPhone: new FormControl('', FORM_VALIDATORS.PHONE),
+      referenceName: new FormControl('', FORM_VALIDATORS.NAME),
+      referenceAddress: new FormControl('', FORM_VALIDATORS.ADDRESS),
+      referencePhone: new FormControl('', FORM_VALIDATORS.PHONE), 
+      /*Formulario anidado*/
       collateral: new FormGroup({
-        firstCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-        secondCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[]),
-        thirdCollateral: new FormControl('', this.option === 'create' ? FORM_VALIDATORS.NAME :[])
+        firstCollateral: new FormControl('', FORM_VALIDATORS.NAME),
+        secondCollateral: new FormControl('', FORM_VALIDATORS.NAME),
+        thirdCollateral: new FormControl('', FORM_VALIDATORS.NAME)
       })
     });
   }
@@ -119,11 +121,8 @@ export class ClientFormComponent implements OnInit, OnChanges {
       collateral: normalizeCollateral
     };
 
-    console.log('Clientes para el back: ', clientData);
-
     this.clientService.addClient(clientData).subscribe({
       next: (response) => {
-        console.log('Respuesta del backend', response);
         //Guardar el id del cliente para agregar sus avales
         const clientId = response.clientId;
         this.clientCreated.emit(clientId);
@@ -149,8 +148,8 @@ export class ClientFormComponent implements OnInit, OnChanges {
     });
   }
 
-  //Petición pbtener la lista de las zonas
-  private getZones() {
+  //Petición para obtener la lista de las zonas
+  getZones() {
     this.zonaService.getZones().subscribe((zones: Zone[]) => {
       this.listZones = zones;
     });
@@ -167,16 +166,6 @@ export class ClientFormComponent implements OnInit, OnChanges {
     return this.listZones.find(zone =>
       zone.codigoZona.toLowerCase() === (zoneCode ?? '').toLowerCase() 
     ); //Si funciona se supone que selectedZone = 3-A 
-  }
-
-  //Cerrar el modal  de exito
-  closeSuccessModal(): void {
-    this.showSuccessModal = false;
-  }
-
-  //Cerrar el modal  de fallo
-  closeErrorModal(): void {
-    this.showErrorModal = false;
   }
 
   /*Código para la opción de modificar*/
@@ -219,12 +208,21 @@ export class ClientFormComponent implements OnInit, OnChanges {
   //Detectar si se busco otro cliente
   ngOnChanges(inputChanges: SimpleChanges): void {
     if (inputChanges['clientData']) {
-      this.loadClientDataIntoForm();
+      if (this.clientData) {
+        this.loadClientDataIntoForm();
+      } else {
+        this.clientForm.reset();
+        this.originalClientData = {};
+        this.modifiedFields.clear();
+        this.dataToSend = {};
+      }
     }
   }
 
   updateClient(): void {
+
     const currentFormValues = this.clientForm.getRawValue();
+    console.log('currentFormValues: ', currentFormValues);
 
     if (!this.clientData || !this.clientData.idCliente) {
       this.errorMessage = 'Primero debe buscar un cliente';
@@ -232,10 +230,16 @@ export class ClientFormComponent implements OnInit, OnChanges {
       return;
     }
 
-    const id = this.clientData.idCliente;
-    console.log('ID del cliente que se va a modificar:', id);
+    if (this.clientForm.invalid) {
+      this.clientForm.markAllAsTouched();
+      this.errorMessage = 'Hay campos con información inválida o vacía';
+      this.showErrorModal = true;
+      return;
+    }
 
-    for (const property in currentFormValues) {
+    const id = this.clientData.idCliente;
+
+    for (const property in currentFormValues) { 
       const currentValue = currentFormValues[property];
       const originalValue = this.originalClientData[property];
       const displayName = this.fieldDisplayNames[property];
@@ -244,18 +248,8 @@ export class ClientFormComponent implements OnInit, OnChanges {
         const modifiedNestedFields: any = {};
         const nestedDisplayNames = typeof displayName === 'object' ? displayName : {};
 
-        let hasNestedChanges = false;
-
         for (const nestedProperty in currentValue) {
           if (currentValue[nestedProperty] !== originalValue[nestedProperty]) {
-            hasNestedChanges = true;
-            break;
-          }
-        }
-        
-        if (hasNestedChanges) {
-          console.log('dentro del if pa ver que garantia cambio');
-          for (const nestedProperty in currentValue) {
             const nestedDisplayName = nestedDisplayNames[nestedProperty] || nestedProperty;
             modifiedNestedFields[nestedDisplayName] = currentValue[nestedProperty];
           }
@@ -272,25 +266,33 @@ export class ClientFormComponent implements OnInit, OnChanges {
       }
     }
 
-    console.log('Datos modificados en este punto: ', this.modifiedFields);
-
     if (this.modifiedFields.size === 0) {
       console.log('No se realizaron cambios');
       this.errorMessage = 'No se realizaron cambios'
       this.showErrorModal = true;
-      this.clientForm.reset(); //Limpiar el formulario si dio clic en actualizar pero no se modifico ningun campo
       return;
     }
 
     //Convertir el map a un objeto para poder enviar
     const modifiedFieldsObject = Object.fromEntries(this.modifiedFields);
+    const{
+      collateral: modifiedCollateral,
+      ...modifiedClientFields
+    } = modifiedFieldsObject;
 
     this.dataToSend = {
       id: id,
-      ...modifiedFieldsObject
+      ...modifiedClientFields
     };
 
-    console.log('dataToSend: ', this.dataToSend);
+    if (modifiedCollateral) {
+      const currentCollateral = currentFormValues.collateral;
+      this.dataToSend.collateral = {
+        'Garantía uno': currentCollateral.firstCollateral,
+        'Garantía dos': currentCollateral.secondCollateral,
+        'Garantía tres': currentCollateral.thirdCollateral,
+      }
+    }
 
     this.showConfirmation = true;
   }
@@ -321,23 +323,51 @@ export class ClientFormComponent implements OnInit, OnChanges {
     }
   };
 
-  preserverOrder(a: any, b: any): number {
+  //Para mostrar en el modal segun como edito el usuario
+  preserveOrder(a: any, b: any): number {
     return 0;
   }
 
+  //Para las garantias y mostrar en el modal
   getPropertyValueObject(obj: any): { [key: string]: any } {
     return obj && typeof obj === 'object' && !Array.isArray(obj) ? obj : {};
+  }
+
+  //Detectar si el usuario edito para la confirmacion de no guardar cambios
+  hasUnsavedChanges(): boolean {
+
+    if (!this.originalClientData || Object.keys(this.originalClientData).length === 0) {
+      return false;
+    }
+
+    const currentFormValues = this.clientForm.getRawValue();
+
+    for (const property in currentFormValues) {
+      const currentValue  = currentFormValues[property];
+      const originalValue = this.originalClientData[property];
+
+      if (typeof currentValue === 'object' && currentValue !== null) {
+        for (const nestedProperty in currentValue) {
+          if  (currentValue[nestedProperty] !== originalValue?.[nestedProperty]) {
+            return true;
+          }
+        }
+      } else if (currentValue !== originalValue) {
+        return true;
+      }
+    }
+    return false;
   }
 
   confirmUpdate(): void {
     this.clientService.updateClient(this.dataToSend).subscribe({
       next: () => {
-        console.log('Cliente actualizado exitosamente');
         this.showConfirmation = false;
         this.modifiedFields.clear();
         this.dataToSend = {};
         this.clientForm.reset();
-        this.successMessage = 'Cliente actualizado exitosamente.';
+        this.originalClientData = {};
+        this.successMessage = 'Cliente actualizado exitosamente';
         this.showSuccessModal = true;
       },
       error: (err) => {
@@ -349,5 +379,15 @@ export class ClientFormComponent implements OnInit, OnChanges {
 
   cancelUpdate(): void {
     this.showConfirmation = false;
+  }
+
+  //Cerrar el modal  de exito
+  closeSuccessModal(): void {
+    this.showSuccessModal = false;
+  }
+
+  //Cerrar el modal  de fallo
+  closeErrorModal(): void {
+    this.showErrorModal = false;
   }
 }

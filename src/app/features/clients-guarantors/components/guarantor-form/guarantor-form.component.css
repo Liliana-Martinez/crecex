@@ -75,7 +75,8 @@ form h4 {
   z-index: 1000;
 }
 
-.modal-content {
+.modal-content,
+.modal-content-confirmation {
   background: white;
   padding: 35px;
   border-radius: 10px;
@@ -84,7 +85,8 @@ form h4 {
   max-width: 400px;
 }
 
-.modal-content p{
+.modal-content p,
+.modal-content-confirmation {
     margin-top:15px;
     line-height:1.5;
     color:#444;
@@ -93,17 +95,20 @@ form h4 {
 .modal-icon{
     font-size: 3rem;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .modal-icon.error{
     color:#d32f2f;
 }
 
+.modal-icon,
 .modal-icon.success{
     color:#2e7d32;
 }
 
-.modal-content button{
+.modal-content button,
+.modal-content-confirmation button {
     margin-top:25px;
     padding:12px 35px;
     border:none;
@@ -115,11 +120,13 @@ form h4 {
     transition:.2s;
 }
 
-.modal-content button:hover{
+.modal-content button:hover
+.modal-content-confirmation button:hover {
     transform:translateY(-1px);
 }
 
-.modal-button.success {
+.modal-button.success,
+.modal-content-confirmation button {
     background:#1b5e20
 }
 
@@ -135,9 +142,37 @@ form h4 {
     background: #b71c1c;
 }
 
+.modified-fields {
+    list-style: none;
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.field-change {
+  margin-bottom: 10px;
+}
+
+.nested-fields {
+  margin-top: 6px;
+  margin-left: 20px;
+}
+
+.nested-field {
+  margin-bottom: 5px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.modal-buttons button {
+  min-width: 140px;
+}
 
 @media screen and (max-width: 768px) {
-
     .row {
         flex-direction: column;
         gap: 16px;

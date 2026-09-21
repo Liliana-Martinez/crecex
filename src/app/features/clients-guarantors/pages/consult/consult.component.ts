@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 
 export class ConsultComponent {
+
   modulo: string = 'consult';
   client: any = null;
   creditNumber: number = 0;
@@ -26,19 +27,13 @@ export class ConsultComponent {
   currentCreditCol: string[] = ['creditNum', 'name', 'amount', 'weeks', 'date', 'weeklyAmount', 'paymentWeek', 'status'];
   creditHistoryCol: string[] = ['creditNumHistory', 'amountHistory', 'dateHistory', 'numWeeksHistory', 'statusHistory'];
 
-  //Método para escuchar el nombre emitido
-  onClienteEncontrado(response: any): void {
+  //Escuchar el nombre emitido
+  onClientFound(response: any): void {
     this.client = response.client;
     this.creditNumber = response.totalCredits;
     this.currentWeek = response.currentWeek;
     this.currentCredit = response.currentCredit;
     this.creditHistory = response.creditHistory;
-    
-    console.log('Cliente buscado: ', this.client);
-    console.log('Numero de creditos: ', this.creditNumber);
-    console.log('Semana actual: ', this.currentWeek);
-    console.log('Credito actual: ', this.currentCredit);
-    console.log('Historial crediticio: ', this.creditHistory);
 
     //Armar el objeto para la tabla "Credito Actual"
     if (this.currentCredit && this.currentCredit.length > 0) {
@@ -71,12 +66,7 @@ export class ConsultComponent {
       this.dataCreditHistory.data = [];
     }
   }
-  onClienteNoEncontrado(): void {
-    this.client = null;
-    this.creditNumber = 0;
-    this.dataCurrentCredit.data = [];
-    this.dataCreditHistory.data = [];
-  }
+
 }
 
 

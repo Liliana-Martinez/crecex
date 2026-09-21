@@ -23,6 +23,7 @@ export class SearchBarComponent {
   @Input() modulo: string = '';
   @Input() selectedForm: string = ''; //Guarda client, primaryGarantor o secondaryGuarantor 
   @Output() clienteEncontrado= new EventEmitter<any>(); //Dentro de <> estaba ClienteConDatos
+  @Output() clientNotFound = new EventEmitter<void>();
   fullName: string = '';  
   errorMessage: string = '';
   
@@ -37,7 +38,7 @@ export class SearchBarComponent {
     }   
       
     const datosCliente: BuscarCliente = {
-      nombreCompleto: this.fullName, 
+      nombreCompleto: this.fullName.trim(), 
       modulo: this.modulo,
       selectedOption: this.selectedForm
     };
@@ -52,6 +53,7 @@ export class SearchBarComponent {
       error: (err) => {
         if (err.status === 404) {
           this.errorMessage = 'Cliente no encontrado';
+          this.clientNotFound.emit();
         } else {
           this.errorMessage = err.error?.message || 'Ocurrio un error inesperado';
         }

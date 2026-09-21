@@ -6,7 +6,7 @@
                 <div class="data">
                     <label>Nombre</label>
                     <input type="text" formControlName="name">
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('name')?.invalid && guarantorForm.get('name')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('name')?.invalid && guarantorForm.get('name')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un nombre válido</span>
                     </div>
@@ -14,7 +14,7 @@
                 <div class="data">
                     <label>Apellido paterno</label>
                     <input type="text" formControlName="paternalLn"> 
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('paternalLn')?.invalid && guarantorForm.get('paternalLn')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('paternalLn')?.invalid && guarantorForm.get('paternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
                     </div><!--paternalLn=paternalLastName -->
@@ -22,7 +22,7 @@
                 <div class="data">
                     <label>Apellido materno</label>
                     <input type="text" formControlName="maternalLn"> 
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('maternalLn')?.invalid && guarantorForm.get('maternalLn')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('maternalLn')?.invalid && guarantorForm.get('maternalLn')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un apellido válido</span>
                     </div> <!--maternalLn=maternalLastName -->
@@ -32,7 +32,7 @@
                 <div class="data">
                     <label>Edad</label>
                     <input type="number" formControlName="age" min="18" max="60">
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('age')?.invalid && guarantorForm.get('age')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('age')?.invalid && guarantorForm.get('age')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una edad válida</span>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="data">
                     <label>Domicilio</label>
                     <input type="text" formControlName="address">
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('address')?.invalid && guarantorForm.get('address')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('address')?.invalid && guarantorForm.get('address')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un domicilio válido</span>
                     </div>
@@ -48,7 +48,7 @@
                 <div class="data">
                     <label>Colonia</label>
                     <input type="text" formControlName="colonia">
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('colonia')?.invalid && guarantorForm.get('colonia')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('colonia')?.invalid && guarantorForm.get('colonia')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una colonia válida</span>
                     </div>
@@ -58,7 +58,7 @@
                 <div class="data">
                     <label>Ciudad</label>
                     <input type="text" formControlName="city">
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('city')?.invalid && guarantorForm.get('city')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('city')?.invalid && guarantorForm.get('city')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa una ciudad válida</span>
                     </div>
@@ -66,7 +66,7 @@
                 <div class="data">
                     <label>Telefóno</label>
                     <input type="tel" formControlName="phone">
-                    <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('phone')?.invalid && guarantorForm.get('phone')?.touched">
+                    <div class="error-message" *ngIf="guarantorForm.get('phone')?.invalid && guarantorForm.get('phone')?.touched">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <span>Ingresa un teléfono válido</span>
                     </div>
@@ -80,7 +80,7 @@
             <div class="data">
                 <label>Nombre</label>
                 <input type="text" formControlName="jobName">
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('jobName')?.invalid && guarantorForm.get('jobName')?.touched">
+                <div class="error-message" *ngIf="guarantorForm.get('jobName')?.invalid && guarantorForm.get('jobName')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un nombre de trabajo válido</span>
                 </div>
@@ -88,7 +88,7 @@
             <div class="data">
                 <label>Domicilio</label>
                 <input type="text" formControlName="workAddress">
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('workAddress')?.invalid && guarantorForm.get('workAddress')?.touched">
+                <div class="error-message" *ngIf="guarantorForm.get('workAddress')?.invalid && guarantorForm.get('workAddress')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un domicilio válido</span>
                 </div>
@@ -96,7 +96,7 @@
             <div class="data">
                 <label>Telefóno</label>
                 <input type="tel" formControlName="workPhone">
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('workPhone')?.invalid && guarantorForm.get('workPhone')?.touched">
+                <div class="error-message" *ngIf="guarantorForm.get('workPhone')?.invalid && guarantorForm.get('workPhone')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa un teléfono válido</span>
                 </div>
@@ -110,7 +110,7 @@
             <div class="data">
                 <label>Garantia 1</label>
                 <input type="text" formControlName="firstCollateral">
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('collateral.firstCollateral')?.invalid && guarantorForm.get('collateral.firstCollateral')?.touched">
+                <div class="error-message" *ngIf="guarantorForm.get('collateral.firstCollateral')?.invalid && guarantorForm.get('collateral.firstCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
@@ -118,7 +118,7 @@
             <div class="data">
                 <label>Garantia 2</label>
                 <input type="text" formControlName="secondCollateral">
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('collateral.secondCollateral')?.invalid && guarantorForm.get('collateral.secondCollateral')?.touched">
+                <div class="error-message" *ngIf="guarantorForm.get('collateral.secondCollateral')?.invalid && guarantorForm.get('collateral.secondCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
@@ -126,7 +126,7 @@
             <div class="data">
                 <label>Garantia 3</label>
                 <input type="text" formControlName="thirdCollateral">
-                <div class="error-message" *ngIf="option === 'create' && guarantorForm.get('collateral.thirdCollateral')?.invalid && guarantorForm.get('collateral.thirdCollateral')?.touched">
+                <div class="error-message" *ngIf="guarantorForm.get('collateral.thirdCollateral')?.invalid && guarantorForm.get('collateral.thirdCollateral')?.touched">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span>Ingresa una garantía válida</span>
                 </div>
@@ -164,25 +164,33 @@
 <!--Este modal es para confirmar los datos de actualización-->
 <div *ngIf="showConfirmation" class="modal-overlay">
   <div class="modal-content-confirmation">
+    <div class="modal-icon">
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
     <h3>¿Deseas actualizar los siguientes datos?</h3>
-    <ul>
-      <li *ngFor="let field of modifiedFields | keyvalue : preserverOrder">
-        <strong>{{ field.key }}:</strong>
-        <ng-container *ngIf="typeof field.value === 'object'; else simpleValue">
-          <ul>
-            <li *ngFor="let nested of getKeyValueObject(field.value) | keyvalue">
-              {{ nested.key }}: {{ nested.value }}
-            </li>
-          </ul>
-        </ng-container>
-        <ng-template #simpleValue>
-          {{ field.value }}
-        </ng-template>
+    <ul class="modified-fields">
+      <li *ngFor="let field of modifiedFields | keyvalue : preserveOrder">
+        <div class="field-change">
+            <strong>{{ field.key === 'collateral' ? 'Garantías' : field.key }}:</strong>
+            <ng-container *ngIf="typeof field.value === 'object'; else simpleValue">
+                <div class="nested-fields">
+                    <div class="nested-field" *ngFor="let propertyEntry of getPropertyValueObject(field.value) | keyvalue : preserveOrder">
+                        <strong>{{ propertyEntry.key }}:</strong>
+                        {{ propertyEntry.value }}
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #simpleValue>
+                {{ field.value }}
+            </ng-template>
+        </div>
       </li>
     </ul>
 
-    <button (click)="confirmUpdate()">Confirmar</button>
-    <button (click)="cancelUpdate()">Cancelar</button>
+    <div class="modal-buttons">
+        <button class="modal-button" (click)="confirmUpdate()">Confirmar</button>
+        <button class="modal-button" (click)="cancelUpdate()">Cancelar</button>
+    </div>
   </div>
 </div>
 

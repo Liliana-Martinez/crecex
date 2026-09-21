@@ -14,4 +14,10 @@ export class CommissionsService {
     return this.http.get(`${API_ROUTES.COMMISSIONS.GET_BY_ZONE}?idZona=${idZona}`);
   }
 
+  //Agregar el egreso de comisiones en caja
+  saveExtra(payload: { total: number; description: string; }): Observable<any> {
+    return this.http.post<any>(`${API_ROUTES.COMMISSIONS.CREATE_EXTRA}`, payload);
+  }
+
+
 }

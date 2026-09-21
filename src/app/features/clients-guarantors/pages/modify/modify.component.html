@@ -1,24 +1,72 @@
+<!--AQUI EN MODIFICAR LA BUSQUEDA DE LOS AVALES SE HACE POR SU CLIENTE, SI NECESITO 
+CONOCER EL AVAL DEL CLIENTE CLAUDIA, EN EL BUSCADOR SE INGRESA EL NOMBRE CLAUDIA
+Y EN EL SELECT SE SELECCIONA LA OPCION DEL AVAL QUE SE DESEA CONOCER-->
+
 <div class="form-selector">
     <label for="formSelect" class="form-selector-label">
         Selecciona el formulario
     </label>
 
         <div class="select-container">
-            <select id="formSelect" class="custom-select initial-focus" [(ngModel)]="selectedForm">
-                <option value="client">Datos del cliente</option>
-                <option value="primaryGuarantor">Datos del aval principal</option>
-                <option value="secondaryGuarantor">Datos del aval secundario</option>
+            <select 
+                id="formSelect" 
+                class="custom-select initial-focus" 
+                [ngModel]="selectedForm" 
+                (ngModelChange)="onFormChange($event)">
+                    <option value="client">Datos del cliente</option>
+                    <option value="primaryGuarantor">Datos del aval principal</option>
+                    <option value="secondaryGuarantor">Datos del aval secundario</option>
             </select>
             <i class="fa-solid fa-chevron-down select-icon"></i>
         </div>
 </div>
 
-<app-search-bar [modulo]="modulo" [selectedForm]="selectedForm" (clienteEncontrado)="onClienteEncontrado($event)"></app-search-bar>
+<app-search-bar 
+    [modulo]="modulo" 
+    [selectedForm]="selectedForm" 
+    (clienteEncontrado)="onClientFound($event)"
+    (clientNotFound)="onClientNotFound()">
+</app-search-bar>
 
 
-<app-client-form *ngIf="selectedForm === 'client'" [option]="'update'" [clientData]="client"></app-client-form>
-<app-guarantor-form *ngIf="selectedForm === 'primaryGuarantor'" [option]="'update'" [clientData]="client"></app-guarantor-form>
-<app-guarantor-form *ngIf="selectedForm === 'secondaryGuarantor'" [option]="'update'" [clientData]="client"></app-guarantor-form>
+<app-client-form
+    #clientForm
+    *ngIf="selectedForm === 'client'" 
+    [option]="'update'" 
+    [clientData]="client">
+</app-client-form>
 
+<app-guarantor-form 
+    #primaryGuarantorForm
+    *ngIf="selectedForm === 'primaryGuarantor'" 
+    [option]="'update'" 
+    [selectedForm]="selectedForm" 
+    [clientGuarantors]="client">
+</app-guarantor-form>
+
+<app-guarantor-form 
+    #secondaryGuarantorForm
+    *ngIf="selectedForm === 'secondaryGuarantor'" 
+    [option]="'update'" 
+    [selectedForm]="selectedForm" 
+    [clientGuarantors]="client">
+</app-guarantor-form>
+
+<div *ngIf="showUnsavedChangesModal" class="modal-overlay">
+    <div class="modal-content-confirmation">
+        <div class="modal-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3>Hay cambios sin guardar</h3>
+        <p>
+            Tienes cambios sin guardar en el cliente actual.
+            Si continúas, estos cambios se perderán.
+        </p>
+
+        <p>¿Deseas continuar?</p>
+        <button (click)="cancelUnsavedChanges()" class="cancel">Cancelar</button>
+        <button (click)="discardUnsavedChanges()" class="discard-changes">Descartar cambios</button>
+    </div>
+</div>
 
 
