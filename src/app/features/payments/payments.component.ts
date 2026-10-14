@@ -69,7 +69,7 @@ export class PaymentsComponent {
     this.idZona = zona.id;
     this.zoneService.zoneData(this.idZona).subscribe({
       next: (response) => {
-        console.log('🔵 RESPUESTA:', response);
+        console.log('🔵 RESPUESTA:', response); 
         this.codigoZona = response.codigoZona;
         this.promotor = response.promotor;
         this.fechaSiguienteSemana = response.fechaSiguienteSemana;
@@ -143,6 +143,7 @@ export class PaymentsComponent {
       }
     });
   }
+
   imprimirPDF() {
   if (
     !this.zonaSeleccionada ||
@@ -151,60 +152,28 @@ export class PaymentsComponent {
   ) {
     this.errorMessage =
       'Debes seleccionar una zona antes de imprimir.';
+
     this.showErrorModal = true;
     return;
   }
-
-  const doc = new jsPDF(
-    'landscape',
-    'mm',
-    'legal'
-  );
-
-  const pageWidth =
-    doc.internal.pageSize.getWidth();
-
+  const doc = new jsPDF('landscape','mm','legal');
+  const pageWidth =doc.internal.pageSize.getWidth();
   const margenX = 10;
-
-  const zona =
-    this.codigoZona || 'N/A';
-
-  const promotor =
-    this.promotor || 'N/A';
-
-  const semana =
-    this.fechaSiguienteSemana || 'N/A';
-
-  doc.setFont(
-    'helvetica',
-    'normal'
-  );
-
+  const zona =this.codigoZona || 'N/A';
+  const promotor =this.promotor || 'N/A';
+  const semana =this.fechaSiguienteSemana || 'N/A';
+  doc.setFont('helvetica','normal');
   doc.setFontSize(10);
-
   let maxNombreWidth = 0;
-
   this.dataPayment.forEach(
     (item: any) => {
-      const width =
-        doc.getTextWidth(
-          item.name || ''
-        );
-
-      if (
-        width > maxNombreWidth
-      ) {
+      const width =doc.getTextWidth(item.name || '');
+      if (width > maxNombreWidth) {
         maxNombreWidth = width;
       }
     }
   );
-
-  const anchoNombreLimitado =
-    Math.min(
-      maxNombreWidth + 8,
-      90
-    );
-
+  const anchoNombreLimitado =Math.min(maxNombreWidth + 8,90);
   const columnasBase = [
     { nombre: 'NUM', ancho: 7 },
     { nombre: 'CLS', ancho: 9 },
@@ -223,22 +192,9 @@ export class PaymentsComponent {
     { nombre: 'AD2', ancho: 15 },
     { nombre: 'MULTAS', ancho: 15 }
   ];
-
-  const anchoBaseTotal =
-    columnasBase.reduce(
-      (acc, c) =>
-        acc + c.ancho,
-      0
-    );
-
-  const anchoDisponible =
-    pageWidth -
-    margenX * 2;
-
-  const escala =
-    anchoDisponible /
-    anchoBaseTotal;
-
+  const anchoBaseTotal =columnasBase.reduce((acc, c) =>acc + c.ancho,0);
+  const anchoDisponible =pageWidth -margenX * 2;
+  const escala =anchoDisponible /anchoBaseTotal;
   const columnas =
     columnasBase.map(col => ({
       nombre: col.nombre,
@@ -246,22 +202,23 @@ export class PaymentsComponent {
         col.ancho * escala
     }));
 
-  // Logo
+  const totalSem =this.dataPayment.reduce(
+      (
+        total: number,
+        item: any
+      ) => {
+        return (
+          total +
+          (Number(item.weeklyAmount) || 0)
+        );
+      },
+      0
+    );
   const logo = new Image();
   logo.src = '/logo2.jpeg';
-
   logo.onload = () => {
-    doc.addImage(
-      logo,
-      'JPEG',
-      margenX,
-      8,
-      28,
-      28
-    );
-
+    doc.addImage(logo,'JPEG',margenX,8,28,28);
     doc.setFontSize(22);
-
     doc.text(
       'LISTA DE CLIENTES ACTIVOS',
       pageWidth / 2,
@@ -270,9 +227,7 @@ export class PaymentsComponent {
         align: 'center'
       }
     );
-
     doc.setFontSize(12);
-
     doc.text(
       `Zona: ${zona} | Promotor: ${promotor} | Semana: ${semana}`,
       pageWidth / 2,
@@ -281,18 +236,99 @@ export class PaymentsComponent {
         align: 'center'
       }
     );
-
     autoTable(doc, {
       startY: 45,
+      head: [columnas.map(col => col.nombre)],
 
-      head: [
-        columnas.map(
-          col => col.nombre
-        )
+      body: [
+        ...this.dataPayment.map(
+          (item: any) => [
+            item.clients ?? '',
+            item.classification ?? '',
+            item.name ?? '',
+            item.puntos ?? '',
+            item.loans ?? '',
+            item.compliance ?? '',
+            item.deliveryDate ?? '',
+            item.dueDate ?? '',
+            item.week ?? '',
+            item.monto ?? '',
+            item.weeklyAmount ?? '',
+            item.latePayment ?? '',
+            item.earlyPayment ?? '',
+            item.payment ?? '',
+            '',
+            ''
+          ]
+        ),
+        // fILA DDEL TOTAL
+        ['','','','','','','','','','TOTAL:',totalSem,'','','','','']
       ],
 
-      body:
-        this.dataPayment.map(
+      columnStyles:
+        columnas.reduce(
+          (acc: any,col,index) => {
+            acc[index] = {cellWidth:col.ancho};
+            return acc;
+          },
+          {}
+        ),
+      styles: {fontSize: 7,cellPadding: 2},
+      headStyles: {fontSize: 7},
+      didParseCell: ( data: any) => {
+        // Solamente cuerpo
+        if (data.section !== 'body') {
+          return;
+        }
+
+        const ultimaFila =
+          this.dataPayment.length;
+        if (data.row.index ===ultimaFila) {
+          data.cell.styles.fontStyle =
+            'bold';
+          return;
+        }
+
+        //rOJO EN LOS ATRASOS
+        if (data.column.index === 11) {
+          const valor =
+            Number(data.cell.raw) || 0;
+          if (valor > 0) {
+            data.cell.styles.textColor =[255, 0, 0];
+            data.cell.styles.fontStyle ='bold';
+          }
+        }
+
+        // vERDE EN LOS AD
+        if (data.column.index === 12) {
+          const valor =Number(data.cell.raw) || 0;
+          if (valor > 0) {
+            data.cell.styles.textColor =[0, 128, 0];
+            data.cell.styles.fontStyle ='bold';
+          }
+        }
+      }
+    });
+    doc.save(`REPORTE_${promotor}_${zona}_${semana}.pdf`);
+  };
+  logo.onerror = () => {
+    console.error('No se pudo cargar /logo2.jpeg');
+    doc.setFontSize(22);
+    doc.text('LISTA DE CLIENTES ACTIVOS',pageWidth / 2,18,{align: 'center'});
+    doc.setFontSize(12);
+    doc.text(
+      `Zona: ${zona} | Promotor: ${promotor} | Semana: ${semana}`,
+      pageWidth / 2,
+      30,
+      {
+        align: 'center'
+      }
+    );
+    autoTable(doc, {
+      startY: 35,
+      head: [columnas.map(col => col.nombre)],
+      body: [
+        ...this.dataPayment.map(
           (item: any) => [
             item.clients ?? '',
             item.classification ?? '',
@@ -312,73 +348,55 @@ export class PaymentsComponent {
             item.lateFees ?? ''
           ]
         ),
+        ['','','TOTAL','','','','','',totalSem,'','', '','','','','']
+      ],
 
       columnStyles:
         columnas.reduce(
-          (
-            acc: any,
-            col,
-            index
-          ) => {
-            acc[index] = {
-              cellWidth:
-                col.ancho
-            };
-
+          (acc: any,col,index) => {
+            acc[index] = {cellWidth:col.ancho};
             return acc;
           },
           {}
         ),
+      styles: {fontSize: 7,cellPadding: 2},
+      headStyles: {fontSize: 7},
+      didParseCell: (
+        data: any
+      ) => {
+        if (data.section !== 'body') {
+          return;
+        }
+        const ultimaFila =
+          this.dataPayment.length;
 
-      styles: {
-        fontSize: 7,
-        cellPadding: 2
-      },
-
-      headStyles: {
-        fontSize: 7
+        if (data.row.index ===ultimaFila) {
+          data.cell.styles.fontStyle =
+            'bold';
+          return;
+        }
+        if (data.column.index === 11) {
+          const valor =Number(data.cell.raw) || 0;
+          if (
+            valor > 0
+          ) {
+            data.cell.styles.textColor =[255, 0, 0];
+            data.cell.styles.fontStyle ='bold';
+          }
+        }
+        if (data.column.index === 12) {
+          const valor =
+            Number(data.cell.raw) || 0;
+          if (valor > 0) {
+            data.cell.styles.textColor =[0, 128, 0];
+            data.cell.styles.fontStyle ='bold';
+          }
+        }
       }
     });
-
-    doc.save(
-      `REPORTE_${promotor}_${zona}_${semana}.pdf`
-    );
-  };
-
-  logo.onerror = () => {
-    console.error(
-      'No se pudo cargar /logo2.jpeg'
-    );
-
-    // Generamos el PDF aunque falle el logo
-    doc.setFontSize(22);
-
-    doc.text(
-      'LISTA DE CLIENTES ACTIVOS',
-      pageWidth / 2,
-      18,
-      {
-        align: 'center'
-      }
-    );
-
-    doc.setFontSize(12);
-
-    doc.text(
-      `Zona: ${zona} | Promotor: ${promotor} | Semana: ${semana}`,
-      pageWidth / 2,
-      30,
-      {
-        align: 'center'
-      }
-    );
-
-    doc.save(
-      `REPORTE_${promotor}_${zona}_${semana}.pdf`
-    );
+    doc.save(`REPORTE_${promotor}_${zona}_${semana}.pdf`);
   };
   }
-   
 }
 
 
