@@ -192,4 +192,15 @@ tr:hover td {
 
     color: #1f2937;
 }
+.modal-icon.success {
+  color: #28a745;
+}
 
+.modal-button.success {
+  background-color: #28a745;
+  color: white;
+}
+
+.modal-button.success:hover {
+  background-color: #218838;
+}

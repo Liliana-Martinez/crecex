@@ -49,6 +49,8 @@ export class PaymentsComponent {
   total: number = 0;
   cobrado: number = 0;
   porcentajeCobranza: string = '0%';
+  showSuccessModal = false;
+  successMessage = '';
   getClass(field: string, value: number): string {
     if (field === 'earlyPayment' && value > 0) return 'celda-verde';
     if (field === 'latePayment' && value > 0) return 'celda-roja';
@@ -63,6 +65,9 @@ export class PaymentsComponent {
   }
   closeErrorModal() {
     this.showErrorModal = false;
+  }
+  closeSuccessModal(): void {
+  this.showSuccessModal = false;
   }
   usarZona(zona: Zone) {
     this.zonaSeleccionada = zona;
@@ -120,29 +125,52 @@ export class PaymentsComponent {
       }
     });
   }
-  guardarPagos() {
-    if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
-      this.errorMessage = 'Debes seleccionar una zona antes de guardar.';
-      this.showErrorModal = true;
-      return;
-    }
-    const pagosAEnviar = this.dataPayment.map((item: any) => ({
-      idCredito: item.idCredito,
-      lateFees: item.lateFees,
-      payment: item.payment,
-      paymentType: item.paymentType
-    }));
-    this.paymentService.enviarPagos(pagosAEnviar).subscribe({
-      next: () => {
-        if (this.zonaSeleccionada) {
-          this.usarZona(this.zonaSeleccionada);
-        }
-      },
-      error: (err) => {
-        console.error('Error al enviar pagos:', err);
-      }
-    });
+  
+  
+
+guardarPagos() {
+  if (!this.zonaSeleccionada || !this.dataPayment || this.dataPayment.length === 0) {
+    this.errorMessage = 'Debes seleccionar una zona antes de guardar.';
+    this.showErrorModal = true;
+    return;
   }
+
+  const pagosAEnviar = this.dataPayment.map((item: any) => ({
+    idCredito: item.idCredito,
+    lateFees: item.lateFees,
+    payment: item.payment,
+    paymentType: item.paymentType
+  }));
+
+  this.paymentService.enviarPagos(pagosAEnviar).subscribe({
+    next: (response: any) => {
+
+      console.log('RESPUESTA DEL SERVIDOR:', response);
+
+      // Guardado correcto
+      this.successMessage =
+        response?.message || 'Datos guardados correctamente.';
+
+      this.showSuccessModal = true;
+
+      // Recargar los datos de la zona
+      if (this.zonaSeleccionada) {
+        this.usarZona(this.zonaSeleccionada);
+      }
+    },
+
+    error: (err) => {
+      console.error('Error al enviar pagos:', err);
+
+      this.errorMessage = 'Error al guardar los pagos.';
+      this.showErrorModal = true;
+    }
+  });
+}
+
+
+
+
 
   imprimirPDF() {
   if (
