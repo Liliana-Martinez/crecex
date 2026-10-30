@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -5,7 +6,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SearchBarComponent } from '../../../../shared/componentes/search-bar-client/search-bar.component';
-
+import { AdministrationService } from '../../../../core/services/administration.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-manage-payments',
   standalone: true,
@@ -34,41 +36,39 @@ export class ManagePaymentsComponent {
     'acciones'
   ];
 
+  constructor(
+    private administrationService: AdministrationService
+  ) {}
+
   cargarPagos(response: any): void {
-
     console.log('Respuesta:', response);
-
     this.dataManagePayments.data = response?.pagos || [];
-
-  }
-
-  editarPago(pago: any): void {
-
-    console.log('Editar pago');
-    console.log(pago);
-
-    // Posteriormente:
-    // 1. Abrir modal
-    // 2. Cargar información del pago
-    // 3. Editar
-    // 4. Enviar cambios al backend
-
   }
 
   eliminarPago(pago: any): void {
-
     console.log('Eliminar pago');
     console.log(pago);
-
-    // Posteriormente:
-    // 1. Mostrar confirmación
-    // 2. Eliminar en backend
-    // 3. Actualizar la tabla
-
   }
-  ejecutarProceso(proceso: string): void {
-
-  console.log('Ejecutando proceso:', proceso);
-
+ ejecutarProceso(proceso: string): void {
+  const procesos: Record<string, () => Observable<any>> = {
+    atrasos: () => this.administrationService.ejecutarAtrasos(),
+    adelantos: () => this.administrationService.ejecutarAdelantos(),
+    falla: () => this.administrationService.ejecutarFalla()
+  };
+  const ejecutar = procesos[proceso];
+  if (!ejecutar) {
+    console.error('Proceso no válido:', proceso);
+    return;
+  }
+  ejecutar().subscribe({
+    next: (response) => {
+      console.log('Respuesta del servidor:', response);
+      alert(response.message || 'Conexión con el servidor correcta');
+    },
+    error: (error) => {
+      console.error('Error al ejecutar el proceso:', error);
+      alert('Error al conectar con el servidor');
+    }
+  });
 }
 }

@@ -62,7 +62,11 @@ export const API_ROUTES = {
     ADMINISTRATION:{
         UPDATE_CREDIT: `${API_URL}/administration/update-credit`,
         CANCEL_CREDIT: `${API_URL}/administration/cancel-credit`,
-        UPDATE_PAYMENT: `${API_URL}/administration/update-payment`,
-        DELETE_PAYMENT: `${API_URL}/administration/delete-payment`
+        DELETE_PAYMENT: `${API_URL}/administration/delete-payment`,
+        PROCESS: {
+            ATRASOS: `${API_URL}/administration/process/atrasos`,
+            ADELANTOS: `${API_URL}/administration/process/adelantos`,
+            FALLA: `${API_URL}/administration/process/falla`
+        }
     }
 };
